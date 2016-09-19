@@ -1,9 +1,6 @@
 package ru.ivan.sqlcmd;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by Ivan on 16.09.2016.
@@ -55,12 +52,40 @@ public class Main {
         if (connection != null) {
             //System.out.println("You made it, take control your database now!");
 
-            String SQL="INSERT into users (id,name,password) values (2,'Stiven','Pupkin')";
+            //update
+            String SQL="INSERT into users (name,password) values ('Stiven','Pupkin')";
             Statement stmt=connection.createStatement();
-            stmt.executeUpdate(SQL);
+            update(SQL, stmt);
+
+            SQL="DELETE from users where id<4";
+            stmt=connection.createStatement();
+            update(SQL, stmt);
+
+            SQL="UPDATE users set name='ivan' where id<8";
+            PreparedStatement psmt=connection.prepareStatement(SQL);
+            update(SQL, stmt);
+
+            Statement st=connection.createStatement();
+            ResultSet rs=st.executeQuery("select * from users");
+            while (rs.next()) {
+                System.out.println("id - "+rs.getString("id"));
+                System.out.println("name - "+rs.getString("name"));
+                System.out.println("pass - "+rs.getString("password"));
+
+            }
+            rs.close();
+            st.close();
+
+            connection.close();
+            //select
+
         } else {
             System.out.println("Failed to make connection!");
         }
+    }
+
+    private static void update(String SQL, Statement stmt) throws SQLException {
+        stmt.executeUpdate(SQL);
     }
 
 
