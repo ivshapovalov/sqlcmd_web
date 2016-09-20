@@ -1,4 +1,4 @@
-package ru.ivan.sqlcmd;
+package ru.ivan.sqlcmd.model;
 
 import java.sql.*;
 
