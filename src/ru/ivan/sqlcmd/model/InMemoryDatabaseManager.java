@@ -59,4 +59,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
             }
         }
     }
+
+    @Override
+    public List<String> getTableColumns(String tableName) {
+        return null;
+    }
 }

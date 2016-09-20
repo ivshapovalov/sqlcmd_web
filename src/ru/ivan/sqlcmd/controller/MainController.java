@@ -1,10 +1,10 @@
 package ru.ivan.sqlcmd.controller;
 
+import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.InMemoryDatabaseManager;
-import ru.ivan.sqlcmd.model.JDBCDatabaseManager;
-import ru.ivan.sqlcmd.view.Console;
 import ru.ivan.sqlcmd.view.View;
+
+import java.util.List;
 
 /**
  * Created by Ivan on 20.09.2016.
@@ -31,7 +31,11 @@ public class MainController {
             if (command.equals("list")) {
                 doList();
             } else if (command.equals("help")) {
-                doHelp();
+                doHelp();     }
+            else if (command.startsWith("find")) {
+                doFind(command);
+            } else if (command.equals("exit")) {
+               System.exit(0);
             } else {
                 view.write("Такая команда отсутствует");
             }
@@ -40,10 +44,50 @@ public class MainController {
 
     }
 
+    private void doFind(String command) {
+        String[] data=command.split("[|]");
+        String table=data[1];
+        List<DataSet> tableData=manager.getTableData(table);
+        List<String> tableHeaders=manager.getTableColumns(table);
+        printHeader(tableHeaders);
+        printTable(tableData);
+
+    }
+
+    private void printTable(List<DataSet> tableData) {
+        for (DataSet row:tableData
+             ) {
+            printRow(row);
+        }
+
+
+    }
+
+    private void printRow(DataSet row) {
+        List<Object> values=row.getValues();
+        String string="";
+        for (Object column:values
+                ) {
+            string+=column+"\t"+"|";
+        }
+        view.write(string);
+    }
+
+    private void printHeader(List<String> tableHeaders) {
+        String header="";
+        for (String column:tableHeaders
+                ) {
+            header+=column+"\t"+"|";
+        }
+        view.write(header);
+    }
+
     private void doHelp() {
         view.write("Существующие команды:");
         view.write("list    -   вывод имен всех таблиц базы");
         view.write("help    -   вывод списка всех команд");
+        view.write("exit    -   выход из программы");
+        view.write("find|table    -   вывод содержимого таблицы table ");
 
     }
 

@@ -111,6 +111,31 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
 
     @Override
+    public List<String> getTableColumns(String tableName) {
+
+        List<String> result = new ArrayList<>();
+        Statement st = null;
+        try {
+            st = connection.createStatement();
+
+            ResultSet rs = st.executeQuery("select column_name from information_schema.columns where " +
+                    "table_name=" + tableName+"");
+//            ResultSetMetaData rsmd = rs.getMetaData();
+//            int columnCount = rsmd.getColumnCount();
+            while (rs.next()) {
+                  result.add(rs.getString("column_name"));
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+
+
+    }
+
+    @Override
     public void connect(String database, String user, String password) {
         try {
             Class.forName("org.postgresql.Driver");
