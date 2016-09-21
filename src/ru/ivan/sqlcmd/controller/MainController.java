@@ -2,6 +2,7 @@ package ru.ivan.sqlcmd.controller;
 
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Exit;
+import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
@@ -22,7 +23,7 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
         this.view = view;
-        this.commands= Arrays.asList(new Exit(view));
+        this.commands= Arrays.asList(new Exit(view),new Help(view));
     }
 
     public void main(String[] args) {
@@ -36,8 +37,8 @@ public class MainController {
             String command = readCommand();
             if (command.equals("list")) {
                 doList();
-            } else if (command.equals("help")) {
-                doHelp();     }
+            } else if (commands.get(1).canProcess(command)) {
+                commands.get(1).process(command); }
             else if (command.startsWith("find")) {
                 doFind(command);
             } else if (commands.get(0).canProcess(command)) {
@@ -88,14 +89,7 @@ public class MainController {
         view.write(header);
     }
 
-    private void doHelp() {
-        view.write("Существующие команды:");
-        view.write("list    -   вывод имен всех таблиц базы");
-        view.write("help    -   вывод списка всех команд");
-        view.write("exit    -   выход из программы");
-        view.write("find|table    -   вывод содержимого таблицы table ");
 
-    }
 
     private void doList() {
         view.write(manager.getTablesNames().toString());

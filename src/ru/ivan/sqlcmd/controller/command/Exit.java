@@ -15,7 +15,7 @@ public class Exit implements Command {
 
     @Override
     public boolean canProcess(String command) {
-        return "exit".equals(command);
+        return command.equals("exit");
     }
 
     @Override
