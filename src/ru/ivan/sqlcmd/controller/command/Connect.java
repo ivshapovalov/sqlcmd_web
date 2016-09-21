@@ -8,6 +8,7 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class Connect implements Command {
 
+    private static String COMMAND_SAMPLE="connect|sqlcmd|postgres|postgres";
     private DatabaseManager manager;
     private View view;
 
@@ -27,8 +28,9 @@ public class Connect implements Command {
             try {
                 String[] data = command.split("[|]");
 
-                if (data.length != 4) {
-                    throw new IllegalArgumentException("Количество параметров - " + data.length + ". Ожидается - 4");
+                if (data.length != parametersLength()) {
+                    throw new IllegalArgumentException(String.format("Количество параметров разделенных символом '|' - %s. Ожидается - %s",
+                            data.length,parametersLength()));
                 }
                 String database = data[1];
                 String user = data[2];
@@ -38,6 +40,10 @@ public class Connect implements Command {
             } catch (Exception e) {
                 printError(e);
             }
+    }
+
+    private int parametersLength() {
+        return COMMAND_SAMPLE.split("[|]").length;
     }
 
 

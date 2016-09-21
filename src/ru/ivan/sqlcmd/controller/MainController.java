@@ -32,6 +32,15 @@ public class MainController {
 
 
     public void run() {
+
+        try {
+            doWork();
+        } catch (ExitException e) {
+            //do nothing
+        }
+    }
+
+    private void doWork() {
         view.write("Привет, юзер");
 
         view.write("Введи имя базы данных, имя пользователя и пароль в формате" +
@@ -48,7 +57,6 @@ public class MainController {
             }
             view.write("Введите команду или help для помощи");
         }
-
     }
 
 }
