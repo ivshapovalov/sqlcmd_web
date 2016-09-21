@@ -1,9 +1,13 @@
 package ru.ivan.sqlcmd.controller;
 
+import ru.ivan.sqlcmd.controller.command.Command;
+import ru.ivan.sqlcmd.controller.command.Exit;
 import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,10 +17,12 @@ public class MainController {
 
     private final View view;
     private final DatabaseManager manager;
+    private final List<Command> commands;
 
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
         this.view = view;
+        this.commands= Arrays.asList(new Exit(view));
     }
 
     public void main(String[] args) {
@@ -34,10 +40,10 @@ public class MainController {
                 doHelp();     }
             else if (command.startsWith("find")) {
                 doFind(command);
-            } else if (command.equals("exit")) {
-               System.exit(0);
+            } else if (commands.get(0).canProcess(command)) {
+               commands.get(0).process(command);
             } else {
-                view.write("Такая команда отсутствует");
+                view.write("Такая команда отсутствует="+command);
             }
 
         }
