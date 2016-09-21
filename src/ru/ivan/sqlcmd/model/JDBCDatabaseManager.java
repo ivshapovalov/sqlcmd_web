@@ -17,7 +17,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     public static void main(String[] args) {
 
-        String database = "jdbc:postgresql://127.0.0.1:5432/sqlcmd";
+        String database = "sqlcmd";
         String user = "postgres";
         String password = "postgres";
         JDBCDatabaseManager JDBCDatabaseManager = new JDBCDatabaseManager();
@@ -119,9 +119,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
             st = connection.createStatement();
 
             ResultSet rs = st.executeQuery("select column_name from information_schema.columns where " +
-                    "table_name=" + tableName+"");
-//            ResultSetMetaData rsmd = rs.getMetaData();
-//            int columnCount = rsmd.getColumnCount();
+                    "table_schema='public' and table_name='" + tableName+"'");
+
             while (rs.next()) {
                   result.add(rs.getString("column_name"));
             }

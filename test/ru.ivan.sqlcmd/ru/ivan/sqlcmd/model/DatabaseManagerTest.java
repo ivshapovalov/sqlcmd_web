@@ -20,7 +20,7 @@ public abstract class DatabaseManagerTest {
     @Before
     public void setup() {
         manager = getDatabaseManager();
-        String database = "jdbc:postgresql://127.0.0.1:5432/sqlcmd";
+        String database = "sqlcmd";
         String user = "postgres";
         String password = "postgres";
         manager.connect(database, user, password);
@@ -79,5 +79,16 @@ public abstract class DatabaseManagerTest {
         DataSet user = users.get(0);
         assertEquals("[id, name, password]", user.getNames().toString());
         assertEquals("[13, Ivan, 000]", user.getValues().toString());
+    }@Test
+    public void testGetColumnNames() {
+        //given
+        manager.clear("users");
+
+        //when
+        List<String> columnNames = manager.getTableColumns("users");
+
+        //then
+        assertEquals("[id, name, password]", columnNames.toString());
+
     }
 }

@@ -7,7 +7,7 @@ public class InMemoryDatabaseManagerTest extends DatabaseManagerTest {
 
     @Override
     public DatabaseManager getDatabaseManager() {
-        return  new JDBCDatabaseManager();
+        return  new InMemoryDatabaseManager();
     }
 
  }

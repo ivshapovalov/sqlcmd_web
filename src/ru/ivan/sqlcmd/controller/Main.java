@@ -9,7 +9,8 @@ import ru.ivan.sqlcmd.view.Console;
 public class Main {
 
     public static void main(String[] args) {
-        MainController controller=new MainController(new Console(),new JDBCDatabaseManager());
+        MainController controller=new
+                MainController(new Console(),new JDBCDatabaseManager());
         controller.run();
     }
 }
