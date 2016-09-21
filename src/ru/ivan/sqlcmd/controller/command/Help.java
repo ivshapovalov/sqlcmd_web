@@ -21,6 +21,7 @@ public class Help implements Command {
     @Override
     public void process(String command) {
         view.write("Существующие команды:");
+        view.write("connect|database|user|password    -   подключение к базе данных");
         view.write("list    -   вывод имен всех таблиц базы");
         view.write("help    -   вывод списка всех команд");
         view.write("exit    -   выход из программы");

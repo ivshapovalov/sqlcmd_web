@@ -68,4 +68,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         columns.add("password");
         return columns ;
     }
+
+    @Override
+    public boolean isConnected() {
+        return true;
+    }
 }

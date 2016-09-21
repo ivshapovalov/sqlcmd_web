@@ -11,6 +11,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
 
+    @Override
+    public boolean isConnected() {
+        return connection!=null;
+    }
+
     public Connection getConnection() {
         return connection;
     }
