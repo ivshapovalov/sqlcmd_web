@@ -3,13 +3,13 @@ package ru.ivan.sqlcmd.controller;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Exit;
 import ru.ivan.sqlcmd.controller.command.Help;
+import ru.ivan.sqlcmd.controller.command.List;
 import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
 
 /**
  * Created by Ivan on 20.09.2016.
@@ -18,12 +18,12 @@ public class MainController {
 
     private final View view;
     private final DatabaseManager manager;
-    private final List<Command> commands;
+    private final java.util.List<Command> commands;
 
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
         this.view = view;
-        this.commands= Arrays.asList(new Exit(view),new Help(view));
+        this.commands = Arrays.asList(new Exit(view), new Help(view), new List(manager, view));
     }
 
     public void main(String[] args) {
@@ -35,16 +35,16 @@ public class MainController {
 
         while (true) {
             String command = readCommand();
-            if (command.equals("list")) {
-                doList();
+            if (commands.get(2).canProcess(command)) {
+                commands.get(2).process(command);
             } else if (commands.get(1).canProcess(command)) {
-                commands.get(1).process(command); }
-            else if (command.startsWith("find")) {
+                commands.get(1).process(command);
+            } else if (command.startsWith("find")) {
                 doFind(command);
             } else if (commands.get(0).canProcess(command)) {
-               commands.get(0).process(command);
+                commands.get(0).process(command);
             } else {
-                view.write("Такая команда отсутствует="+command);
+                view.write("Такая команда отсутствует=" + command);
             }
 
         }
@@ -52,18 +52,18 @@ public class MainController {
     }
 
     private void doFind(String command) {
-        String[] data=command.split("[|]");
-        String table=data[1];
-        List<DataSet> tableData=manager.getTableData(table);
-        List<String> tableHeaders=manager.getTableColumns(table);
+        String[] data = command.split("[|]");
+        String table = data[1];
+        java.util.List tableData = manager.getTableData(table);
+        java.util.List tableHeaders = manager.getTableColumns(table);
         printHeader(tableHeaders);
         printTable(tableData);
 
     }
 
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row:tableData
-             ) {
+    private void printTable(java.util.List<DataSet> tableData) {
+        for (DataSet row : tableData
+                ) {
             printRow(row);
         }
 
@@ -71,29 +71,24 @@ public class MainController {
     }
 
     private void printRow(DataSet row) {
-        List<Object> values=row.getValues();
-        String string="";
-        for (Object column:values
+        java.util.List values = row.getValues();
+        String string = "";
+        for (Object column : values
                 ) {
-            string+=column+"\t"+"|";
+            string += column + "\t" + "|";
         }
         view.write(string);
     }
 
-    private void printHeader(List<String> tableHeaders) {
-        String header="";
-        for (String column:tableHeaders
+    private void printHeader(java.util.List<String> tableHeaders) {
+        String header = "";
+        for (String column : tableHeaders
                 ) {
-            header+=column+"\t"+"|";
+            header += column + "\t" + "|";
         }
         view.write(header);
     }
 
-
-
-    private void doList() {
-        view.write(manager.getTablesNames().toString());
-    }
 
     private String readCommand() {
         view.write("Введите команду или help для помощи");
@@ -107,7 +102,7 @@ public class MainController {
                     " database|user|password");
             try {
                 String string = view.read();
-                string="sqlcmd|postgres|postgres";
+                string = "sqlcmd|postgres|postgres";
                 String[] data = string.split("[|]");
                 if (data.length != 3) {
                     throw new IllegalArgumentException("Количество параметров - " + data.length + ". Ожидается - 3");
