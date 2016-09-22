@@ -8,11 +8,6 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        // connect to db
-
-
-        //System.out.println("-------- PostgreSQL "
-          //     + "JDBC Connection Testing ------------");
 
         try {
 
@@ -39,7 +34,7 @@ public class Main {
 
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://127.0.0.1:5432/sqlcmd", "postgres",
-                    "899004");
+                    "postgres");
 
         } catch (SQLException e) {
 
@@ -57,25 +52,26 @@ public class Main {
             Statement stmt=connection.createStatement();
             update(SQL, stmt);
 
-            SQL="DELETE from users where id<4";
-            stmt=connection.createStatement();
-            update(SQL, stmt);
+//            SQL="DELETE from users where id<4";
+//            stmt=connection.createStatement();
+//            update(SQL, stmt);
+//
+//            SQL="UPDATE users set name='ivan' where id<8";
+//            PreparedStatement psmt=connection.prepareStatement(SQL);
+//            update(SQL, stmt);
+//
+//            Statement st=connection.createStatement();
+//            ResultSet rs=st.executeQuery("select * from users");
+//            while (rs.next()) {
+//                System.out.println("id - "+rs.getString("id"));
+//                System.out.println("name - "+rs.getString("name"));
+//                System.out.println("pass - "+rs.getString("password"));
+//
+//            }
+//            rs.close();
+//            st.close();
 
-            SQL="UPDATE users set name='ivan' where id<8";
-            PreparedStatement psmt=connection.prepareStatement(SQL);
-            update(SQL, stmt);
-
-            Statement st=connection.createStatement();
-            ResultSet rs=st.executeQuery("select * from users");
-            while (rs.next()) {
-                System.out.println("id - "+rs.getString("id"));
-                System.out.println("name - "+rs.getString("name"));
-                System.out.println("pass - "+rs.getString("password"));
-
-            }
-            rs.close();
-            st.close();
-
+            stmt.close();
             connection.close();
             //select
 

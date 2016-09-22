@@ -22,6 +22,8 @@ public class Help implements Command {
     public void process(String command) {
         view.write("Существующие команды:");
         view.write("connect|database|user|password    -   подключение к базе данных");
+        view.write("clear|table    -   очистка таблицы table от данных"); //TODO переспросить юзера вдруг случайно
+        view.write("create|table|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблиц table");
         view.write("list    -   вывод имен всех таблиц базы");
         view.write("help    -   вывод списка всех команд");
         view.write("exit    -   выход из программы");

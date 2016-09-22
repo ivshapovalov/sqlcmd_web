@@ -1,10 +1,12 @@
 package ru.ivan.sqlcmd.integration;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.ivan.sqlcmd.controller.Main;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -28,6 +30,15 @@ public class IntegrationTest {
         System.setOut(new PrintStream(out));
     }
 
+    @Before
+    public void clearIn(){
+        try {
+            in.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testHelp(){
         //given
@@ -42,6 +53,8 @@ public class IntegrationTest {
                 "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
                 "Существующие команды:\r\n" +
                 "connect|database|user|password    -   подключение к базе данных\r\n" +
+                "clear|table    -   очистка таблицы table от данных\r\n" +
+                "create|table|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблиц table\r\n"+
                 "list    -   вывод имен всех таблиц базы\r\n" +
                 "help    -   вывод списка всех команд\r\n" +
                 "exit    -   выход из программы\r\n" +
@@ -54,7 +67,9 @@ public class IntegrationTest {
 
     public String getData() {
         try {
-            return new String(out.toByteArray(),"UTF-8");
+            String result= new String(out.toByteArray(),"UTF-8");
+            out.reset();
+            return result;
         } catch (UnsupportedEncodingException e) {
             return "";
         }
@@ -115,6 +130,70 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testFindAfterConnect(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("find|users");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "id\t|name\t|password\t|\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
+    public void testConnectAfterConnect(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
+    public void testConnectWithError(){
+        //given
+        in.add("connect|sqlcmd|");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Неудача по причине: Количество параметров разделенных символом '|' - 2. Ожидается - 4\r\n" +
+                "Повтори попытку\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
     public void testUnsopportedWithoutConnect(){
         //given
         in.add("unsupported");
@@ -134,7 +213,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUnsopportedWithConnect(){
+    public void testUnsopportedAfterConnect(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("unsupported");
@@ -149,6 +228,45 @@ public class IntegrationTest {
                 "Подключение успешно\r\n" +
                 "Введите команду или help для помощи\r\n" +
                 "Такая команда отсутствует - unsupported\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
+    public void testFindAfterConnectWithData(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("clear|users");
+        in.add("create|users|id|13|name|Stiven|password|*****");
+        in.add("create|users|id|14|name|Eva|password|+++++");
+        in.add("find|users");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "Таблица clear была успешно очищена\r\n"+
+                "Введите команду или help для помощи\r\n" +
+                "В таблице 'users' успешно создана запись DataSet{" +
+                "names: [id, name, password] , " +
+                "values: [13, Stiven, *****]" +
+                "}\r\n"+
+                "Введите команду или help для помощи\r\n" +
+                "В таблице 'users' успешно создана запись DataSet{" +
+                "names: [id, name, password] , " +
+                "values: [14, Eva, +++++]" +
+                "}\r\n"+
+                "Введите команду или help для помощи\r\n" +
+                "id\t|name\t|password\t|\r\n" +
+                "13\t|Stiven\t|*****\t|\r\n" +
+                "14\t|Eva\t|+++++\t|\r\n" +
                 "Введите команду или help для помощи\r\n" +
                 "До скорой встречи!\r\n",getData());
 

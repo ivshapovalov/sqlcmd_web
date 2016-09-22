@@ -22,46 +22,46 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     public static void main(String[] args) {
 
-        String database = "sqlcmd";
-        String user = "postgres";
-        String password = "postgres";
-        JDBCDatabaseManager JDBCDatabaseManager = new JDBCDatabaseManager();
-        JDBCDatabaseManager.connect(database, user, password);
-
-        Connection connection = JDBCDatabaseManager.getConnection();
-
-        if (connection != null) {
-            //System.out.println("You made it, take control your database now!");
-
-//            //update
-//            String SQL = "INSERT into users (name,password) values ('Stiven','Pupkin')";
-//            Statement stmt = connection.createStatement();
-//            update(SQL, stmt);
+//        String database = "sqlcmd";
+//        String user = "postgres";
+//        String password = "postgres";
+//        JDBCDatabaseManager JDBCDatabaseManager = new JDBCDatabaseManager();
+//        JDBCDatabaseManager.connect(database, user, password);
 //
-//            SQL = "DELETE from users where id<4";
-//            stmt = connection.createStatement();
-//            update(SQL, stmt);
+//        Connection connection = JDBCDatabaseManager.getConnection();
 //
-//            SQL = "UPDATE users set name='ivan' where id<8";
-//            PreparedStatement psmt = connection.prepareStatement(SQL);
-//            update(SQL, stmt);
-
-            JDBCDatabaseManager.clear("users");
-            DataSet input = new DataSet();
-            input.put("name", "Stiven");
-            input.put("password", "pass");
-            input.put("id", 13);
-            JDBCDatabaseManager.create("users", input);
-
-            List<String> tables = JDBCDatabaseManager.getTablesNames();
-
-            String tableName = "users";
-            List<DataSet> result = JDBCDatabaseManager.getTableData(tableName);
-            System.out.println(result.toString());
-
-        } else {
-            System.out.println("Failed to make connection!");
-        }
+//        if (connection != null) {
+//            //System.out.println("You made it, take control your database now!");
+//
+////            //update
+////            String SQL = "INSERT into users (name,password) values ('Stiven','Pupkin')";
+////            Statement stmt = connection.createStatement();
+////            update(SQL, stmt);
+////
+////            SQL = "DELETE from users where id<4";
+////            stmt = connection.createStatement();
+////            update(SQL, stmt);
+////
+////            SQL = "UPDATE users set name='ivan' where id<8";
+////            PreparedStatement psmt = connection.prepareStatement(SQL);
+////            update(SQL, stmt);
+//
+//            JDBCDatabaseManager.clear("users");
+//            DataSet input = new DataSet();
+//            input.put("name", "Stiven");
+//            input.put("password", "pass");
+//            input.put("id", 13);
+//            JDBCDatabaseManager.create("users", input);
+//
+//            List<String> tables = JDBCDatabaseManager.getTablesNames();
+//
+//            String tableName = "users";
+//            List<DataSet> result = JDBCDatabaseManager.getTableData(tableName);
+//            System.out.println(result.toString());
+//
+//        } else {
+//            System.out.println("Failed to make connection!");
+//        }
     }
 
     @Override

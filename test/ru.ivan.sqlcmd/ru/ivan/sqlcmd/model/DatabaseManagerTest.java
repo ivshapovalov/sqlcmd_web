@@ -35,6 +35,18 @@ public abstract class DatabaseManagerTest {
     }
 
     @Test
+    public void testGetColumnNames() {
+//        //given
+//        manager.clear("users");
+//
+//        //when
+//        List<String> columnNames = manager.getTableColumns("users");
+//
+//        //then
+//        assertEquals("[id, name, password]", columnNames.toString());
+    }
+
+    @Test
     public void testGetTableData() {
 
         //given
@@ -80,17 +92,9 @@ public abstract class DatabaseManagerTest {
         DataSet user = users.get(0);
         assertEquals("[id, name, password]", user.getNames().toString());
         assertEquals("[13, Ivan, 000]", user.getValues().toString());
-    }@Test
-    public void testGetColumnNames() {
-        //given
-        manager.clear("users");
-
-        //when
-        List<String> columnNames = manager.getTableColumns("users");
-
-        //then
-        assertEquals("[id, name, password]", columnNames.toString());
     }
+
+
 
     @Test
     public void isConnected(){
