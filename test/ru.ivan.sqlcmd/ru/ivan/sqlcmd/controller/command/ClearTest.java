@@ -45,6 +45,31 @@ public class ClearTest {
 
 
     @Test
+    public void testClearTableWithParametersLessThen2() {
+        //when
+        try {
+            command.process("clear");
+            fail ();
+        } catch (IllegalArgumentException e) {
+            //then
+            assertEquals("Формат команды clear|table, а ты ввел clear",e.getMessage());
+
+        }
+    }
+    @Test
+    public void testClearTableWithParametersMoreThen2() {
+        //when
+        try {
+            command.process("clear|users|qwe");
+            fail ();
+        } catch (IllegalArgumentException e) {
+            //then
+            assertEquals("Формат команды clear|table, а ты ввел clear|users|qwe",e.getMessage());
+
+        }
+    }
+
+    @Test
     public void testCanProcessClearWithParametersString() {
         //given
 
