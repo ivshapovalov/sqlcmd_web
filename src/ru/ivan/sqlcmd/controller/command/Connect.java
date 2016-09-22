@@ -25,7 +25,6 @@ public class Connect implements Command {
     @Override
     public void process(String command) {
 
-            try {
                 String[] data = command.split("[|]");
 
                 if (data.length != parametersLength()) {
@@ -37,9 +36,6 @@ public class Connect implements Command {
                 String password = data[3];
                 manager.connect(database, user, password);
                 view.write("Подключение успешно");
-            } catch (Exception e) {
-                printError(e);
-            }
     }
 
     private int parametersLength() {
@@ -47,12 +43,5 @@ public class Connect implements Command {
     }
 
 
-    private void printError(Exception e) {
-        String message = e.getMessage();
-        if (e.getCause() != null) {
-            message = message + " " + e.getCause().getMessage();
-        }
-        view.write("Неудача по причине: " + message);
-        view.write("Повтори попытку");
-    }
+
 }

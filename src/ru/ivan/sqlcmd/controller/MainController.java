@@ -21,13 +21,13 @@ public class MainController {
         this.manager = manager;
         this.view = view;
         this.commands = Arrays.asList(
-                new Connect(manager,view),
+                new Connect(manager, view),
                 new Help(view),
                 new Exit(view),
-               new IsConnected(manager,view),
-                new Create(manager,view),
+                new IsConnected(manager, view),
+                new Create(manager, view),
                 new List(manager, view),
-                new Clear(manager,view),
+                new Clear(manager, view),
                 new Find(manager, view),
                 new Unsupported(view));
     }
@@ -38,7 +38,7 @@ public class MainController {
         try {
             doWork();
         } catch (ExitException e) {
-            //do nothing
+            //new Exit(view).process(null);
         }
     }
 
@@ -49,16 +49,38 @@ public class MainController {
                 " database|user|password");
         while (true) {
             String input = view.read();
-            for (Command command:commands
-                 ) {
-                if (command.canProcess(input)) {
-                    command.process(input);
+
+            for (Command command : commands
+                    ) {
+
+                try {
+                    if (command.canProcess(input)) {
+                        command.process(input);
+                        break;
+                    }
+                } catch (ExitException e) {
+
+                        throw e;
+
+
+                } catch (Exception e) {
+                    printError(e);
                     break;
                 }
+
 
             }
             view.write("Введите команду или help для помощи");
         }
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        if (e.getCause() != null) {
+            message = message + " " + e.getCause().getMessage();
+        }
+        view.write("Неудача по причине: " + message);
+        view.write("Повтори попытку");
     }
 
 }

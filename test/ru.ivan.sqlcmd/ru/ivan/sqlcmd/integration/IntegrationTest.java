@@ -109,7 +109,27 @@ public class IntegrationTest {
 
 
     }
+    @Test
+    public void testListAfterConnect(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("list");
+        in.add("exit");
 
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "[users]\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
     @Test
     public void testFindWithoutConnect(){
         //given
@@ -252,7 +272,7 @@ public class IntegrationTest {
                 "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
                 "Подключение успешно\r\n" +
                 "Введите команду или help для помощи\r\n" +
-                "Таблица clear была успешно очищена\r\n"+
+                "Таблица users была успешно очищена\r\n"+
                 "Введите команду или help для помощи\r\n" +
                 "В таблице 'users' успешно создана запись DataSet{" +
                 "names: [id, name, password] , " +
@@ -267,6 +287,77 @@ public class IntegrationTest {
                 "id\t|name\t|password\t|\r\n" +
                 "13\t|Stiven\t|*****\t|\r\n" +
                 "14\t|Eva\t|+++++\t|\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+    @Test
+    public void testClearAfterConnectWithIllegalNumberOfArguments(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("clear|users|asfaf");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "Неудача по причине: Формат команды clear|table, а ты ввел clear|users|asfaf\r\n"+
+                "Повтори попытку\r\n"+
+                     "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
+    public void testClearAfterConnectWithIllegalTableName(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("clear|user");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "Неудача по причине: Таблица user не существует\r\n"+
+                "Повтори попытку\r\n"+
+                "Введите команду или help для помощи\r\n" +
+                "До скорой встречи!\r\n",getData());
+
+
+    }
+
+    @Test
+    public void testCreateAfterConnectWithIllegalData(){
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("clear|users");
+        in.add("create|users|id|name|Stiven|password|*****");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, юзер\r\n" +
+                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
+                "Подключение успешно\r\n" +
+                "Введите команду или help для помощи\r\n" +
+                "Таблица users была успешно очищена\r\n"+
+                "Введите команду или help для помощи\r\n" +
+                "Неудача по причине: Должно быть четное количество параметров в формате create|table|column1|value1|column2|value2|...|columnN|valueN\r\n"+
+                "Повтори попытку\r\n"+
                 "Введите команду или help для помощи\r\n" +
                 "До скорой встречи!\r\n",getData());
 

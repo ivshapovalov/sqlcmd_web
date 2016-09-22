@@ -27,6 +27,7 @@ public class Create implements Command {
         if (data.length%2==1) {
             throw new IllegalArgumentException("Должно быть четное количество параметров " +
                     "в формате create|table|column1|value1|column2|value2|...|columnN|valueN");
+
         }
         String table=data[1];
         DataSet dataSet=new DataSet();
