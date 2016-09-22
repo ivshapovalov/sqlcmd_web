@@ -22,17 +22,19 @@ public class FindTest {
 
     private DatabaseManager manager;
     private View view;
+    private Command command;
 
     @Before
     public void setup() {
         manager=Mockito.mock(DatabaseManager.class);
         view=Mockito.mock(View.class);
+        command =new Find(manager,view);
     }
 
     @Test
     public void testPrintTableData() {
         //given
-        Command command =new Find(manager,view);
+
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(Arrays.asList("id","name","password"));
 
@@ -53,18 +55,22 @@ public class FindTest {
         command.process("find|users");
 
         //then
+        String expected =
+                "[id\t|name\t|password\t|," +
+                " 12\t|Eva\t|*****\t|," +
+                " 16\t|Steve\t|+++++\t|]";
+        shouldPrint(expected);
+    }
+
+    private void shouldPrint(String expected) {
         ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
         Mockito.verify(view,atLeastOnce()).write(captor.capture());
-
-        assertEquals("[id\t|name\t|password\t|," +
-                " 12\t|Eva\t|*****\t|," +
-                " 16\t|Steve\t|+++++\t|]",captor.getAllValues().toString());
+        assertEquals(expected,captor.getAllValues().toString());
     }
 
     @Test
     public void testCanProcessFindWithParametersString() {
         //given
-        Command command =new Find(manager,view);
 
         //whrn
         Boolean canProcess=command.canProcess("find|users");
@@ -75,8 +81,6 @@ public class FindTest {
     @Test
     public void testCanProcessFindWithoutParametersString() {
         //given
-        Command command =new Find(manager,view);
-
         //whrn
         Boolean canProcess=command.canProcess("find");
 
@@ -88,7 +92,6 @@ public class FindTest {
     @Test
     public void testCanProcessFindWithIllegalParametersString() {
         //given
-        Command command =new Find(manager,view);
 
         //whrn
         Boolean canProcess=command.canProcess("qwe|users");
@@ -99,7 +102,6 @@ public class FindTest {
     @Test
     public void testPrintEmptyTableData() {
         //given
-        Command command =new Find(manager,view);
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(Arrays.asList("id","name","password"));
 
@@ -110,10 +112,9 @@ public class FindTest {
         command.process("find|users");
 
         //then
-        ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
-        Mockito.verify(view,atLeastOnce()).write(captor.capture());
-
-        assertEquals("[id\t|name\t|password\t|]",captor.getAllValues().toString());
+        String expected =
+                "[id\t|name\t|password\t|]";
+        shouldPrint(expected);
     }
 
 }

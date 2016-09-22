@@ -316,29 +316,6 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testClearAfterConnectWithIllegalTableName(){
-        //given
-        in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|user");
-        in.add("exit");
-
-        //when
-        Main.main(new String[0]);
-
-        //then
-        assertEquals("Привет, юзер\r\n" +
-                "Введи имя базы данных, имя пользователя и пароль в формате database|user|password\r\n" +
-                "Подключение успешно\r\n" +
-                "Введите команду или help для помощи\r\n" +
-                "Неудача по причине: Таблица user не существует\r\n"+
-                "Повтори попытку\r\n"+
-                "Введите команду или help для помощи\r\n" +
-                "До скорой встречи!\r\n",getData());
-
-
-    }
-
-    @Test
     public void testCreateAfterConnectWithIllegalData(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
