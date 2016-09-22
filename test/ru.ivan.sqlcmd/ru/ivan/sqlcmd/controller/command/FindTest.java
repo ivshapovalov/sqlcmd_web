@@ -61,4 +61,59 @@ public class FindTest {
                 " 16\t|Steve\t|+++++\t|]",captor.getAllValues().toString());
     }
 
+    @Test
+    public void testCanProcessFindWithParametersString() {
+        //given
+        Command command =new Find(manager,view);
+
+        //whrn
+        Boolean canProcess=command.canProcess("find|users");
+
+        assertTrue(canProcess);
+    }
+
+    @Test
+    public void testCanProcessFindWithoutParametersString() {
+        //given
+        Command command =new Find(manager,view);
+
+        //whrn
+        Boolean canProcess=command.canProcess("find");
+
+        assertFalse(canProcess);
+    }
+
+
+
+    @Test
+    public void testCanProcessFindWithIllegalParametersString() {
+        //given
+        Command command =new Find(manager,view);
+
+        //whrn
+        Boolean canProcess=command.canProcess("qwe|users");
+
+        assertFalse(canProcess);
+    }
+
+    @Test
+    public void testPrintEmptyTableData() {
+        //given
+        Command command =new Find(manager,view);
+        Mockito.when(manager.getTableColumns("users"))
+                .thenReturn(Arrays.asList("id","name","password"));
+
+        List<DataSet> data=new ArrayList<>();
+        Mockito.when(manager.getTableData("users"))
+                .thenReturn(data);
+        //when
+        command.process("find|users");
+
+        //then
+        ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
+        Mockito.verify(view,atLeastOnce()).write(captor.capture());
+
+        assertEquals("[id\t|name\t|password\t|]",captor.getAllValues().toString());
+    }
+
 }
