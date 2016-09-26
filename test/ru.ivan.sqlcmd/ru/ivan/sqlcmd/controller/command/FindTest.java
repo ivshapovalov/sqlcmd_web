@@ -36,7 +36,7 @@ public class FindTest {
         //given
 
         Mockito.when(manager.getTableColumns("users"))
-                .thenReturn(Arrays.asList("id","name","password"));
+                .thenReturn(new HashSet<>(Arrays.asList("id","name","password")));
 
         DataSet user1=new DataSet();
         user1.put("id",12);
@@ -48,7 +48,8 @@ public class FindTest {
         user2.put("name","Steve");
         user2.put("password","+++++");
 
-        List<DataSet> data=Arrays.asList(user1,user2);
+        Set<DataSet> data=new HashSet<>(Arrays.asList(user1,user2));;
+
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
         //when
@@ -57,8 +58,9 @@ public class FindTest {
         //then
         String expected =
                 "[id\t|name\t|password\t|," +
-                " 12\t|Eva\t|*****\t|," +
-                " 16\t|Steve\t|+++++\t|]";
+                " 16\t|Steve\t|+++++\t|," +
+                " 12\t|Eva\t|*****\t|" +
+                "]";
         shouldPrint(expected);
     }
 
@@ -103,9 +105,9 @@ public class FindTest {
     public void testPrintEmptyTableData() {
         //given
         Mockito.when(manager.getTableColumns("users"))
-                .thenReturn(Arrays.asList("id","name","password"));
+                .thenReturn(new HashSet<>(Arrays.asList("id","name","password")));
 
-        List<DataSet> data=new ArrayList<>();
+        Set<DataSet> data=new HashSet<>();
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
         //when

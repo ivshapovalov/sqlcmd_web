@@ -1,8 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Ivan on 16.09.2016.
@@ -65,8 +64,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
-        List<DataSet> result = new ArrayList<>();
+    public Set<DataSet> getTableData(String tableName) {
+        Set<DataSet> result = new HashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();
@@ -94,8 +93,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTablesNames() {
-        List<String> tables = new ArrayList();
+    public Set<String> getTablesNames() {
+        Set<String> tables = new HashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();
@@ -116,9 +115,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public List<String> getTableColumns(String tableName) {
+    public Set<String> getTableColumns(String tableName) {
 
-        List<String> result = new ArrayList<>();
+        Set<String> result = new HashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();

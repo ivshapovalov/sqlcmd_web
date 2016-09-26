@@ -5,7 +5,9 @@ import org.junit.Test;
 import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +32,7 @@ public abstract class DatabaseManagerTest {
 
     @Test
     public void testGetAllTablesNames() {
-        List<String> tables = manager.getTablesNames();
+        Set<String> tables = manager.getTablesNames();
         assertEquals("[users]", tables.toString());
     }
 
@@ -60,9 +62,14 @@ public abstract class DatabaseManagerTest {
         manager.create("users", input);
 
         //then
-        List<DataSet> users = manager.getTableData("users");
+        Set<DataSet> users = manager.getTableData("users");
         assertEquals(1, users.size());
-        DataSet user = users.get(0);
+        Iterator iterator = users.iterator();
+        DataSet user=new DataSet();
+        if (iterator.hasNext()) {
+
+            user = (DataSet)iterator.next();
+        }
         assertEquals("[id, name, password]", user.getNames().toString());
         assertEquals("[13, Stiven, pass]", user.getValues().toString());
     }
@@ -87,17 +94,21 @@ public abstract class DatabaseManagerTest {
         manager.update("users", 13, output);
 
         //then
-        List<DataSet> users = manager.getTableData("users");
+        Set<DataSet> users = manager.getTableData("users");
         assertEquals(1, users.size());
-        DataSet user = users.get(0);
+        Iterator iterator = users.iterator();
+        DataSet user=new DataSet();
+        if (iterator.hasNext()) {
+
+            user = (DataSet)iterator.next();
+        }
         assertEquals("[id, name, password]", user.getNames().toString());
         assertEquals("[13, Ivan, 000]", user.getValues().toString());
     }
 
 
-
     @Test
-    public void isConnected(){
+    public void isConnected() {
         assertTrue(manager.isConnected());
     }
 

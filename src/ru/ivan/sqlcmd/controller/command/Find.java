@@ -4,6 +4,8 @@ import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
+import java.util.Set;
+
 /**
  * Created by Ivan on 21.09.2016.
  */
@@ -26,13 +28,13 @@ public class Find implements Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         String table = data[1];
-        java.util.List tableData = manager.getTableData(table);
-        java.util.List tableHeaders = manager.getTableColumns(table);
+        Set<DataSet> tableData = manager.getTableData(table);
+        Set<String> tableHeaders = manager.getTableColumns(table);
         printHeader(tableHeaders);
         printTable(tableData);
     }
 
-    private void printTable(java.util.List<DataSet> tableData) {
+    private void printTable(Set<DataSet> tableData) {
         for (DataSet row : tableData
                 ) {
             printRow(row);
@@ -48,7 +50,7 @@ public class Find implements Command {
         view.write(string);
     }
 
-    private void printHeader(java.util.List<String> tableHeaders) {
+    private void printHeader(Set<String> tableHeaders) {
         String header = "";
         for (String column : tableHeaders
                 ) {

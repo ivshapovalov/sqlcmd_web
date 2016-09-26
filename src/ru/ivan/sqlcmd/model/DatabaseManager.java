@@ -1,14 +1,15 @@
 package ru.ivan.sqlcmd.model;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ivan on 20.09.2016.
  */
 public interface DatabaseManager {
-    List<DataSet> getTableData(String tableName);
+    Set<DataSet> getTableData(String tableName);
 
-    List<String> getTablesNames();
+    Set<String> getTablesNames();
 
     void connect(String database, String user, String password);
 
@@ -18,7 +19,7 @@ public interface DatabaseManager {
 
     void update(String tableName, int id, DataSet input);
 
-    List<String> getTableColumns(String tableName);
+    Set<String> getTableColumns(String tableName);
 
     boolean isConnected();
 }

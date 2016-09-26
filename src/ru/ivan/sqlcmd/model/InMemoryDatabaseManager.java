@@ -1,7 +1,6 @@
 package ru.ivan.sqlcmd.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Ivan on 20.09.2016.
@@ -10,9 +9,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     private List<DataSet> data=new ArrayList<>();
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
+    public Set<DataSet> getTableData(String tableName) {
         if (validate(tableName));
-        List<DataSet> b = new ArrayList<>();
+        Set<DataSet> b = new HashSet<>();
         b.addAll(data);
         return b;
     }
@@ -25,8 +24,8 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTablesNames() {
-        List<String> list=new ArrayList<>();
+    public Set<String> getTablesNames() {
+        Set<String> list=new HashSet<>();
         list.add("users");
         return list;
     }
@@ -61,8 +60,8 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTableColumns(String tableName) {
-        List<String> columns=new ArrayList<>();
+    public Set<String> getTableColumns(String tableName) {
+        Set<String> columns=new HashSet<>();
         columns.add("id");
         columns.add("name");
         columns.add("password");
