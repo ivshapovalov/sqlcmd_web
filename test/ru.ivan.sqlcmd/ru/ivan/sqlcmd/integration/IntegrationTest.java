@@ -55,7 +55,7 @@ public class IntegrationTest {
                 "connect|database|user|password    -   подключение к базе данных\r\n" +
                 "clear|table    -   очистка таблицы table от данных\r\n" +
                 "create|table|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблиц table\r\n"+
-                "list    -   вывод имен всех таблиц базы\r\n" +
+                "tables    -   вывод имен всех таблиц базы\r\n" +
                 "help    -   вывод списка всех команд\r\n" +
                 "exit    -   выход из программы\r\n" +
                 "find|table    -   вывод содержимого таблицы table \r\n" +
@@ -113,7 +113,7 @@ public class IntegrationTest {
     public void testListAfterConnect(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("list");
+        in.add("tables");
         in.add("exit");
 
         //when

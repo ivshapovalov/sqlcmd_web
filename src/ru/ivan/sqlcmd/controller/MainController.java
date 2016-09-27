@@ -1,7 +1,6 @@
 package ru.ivan.sqlcmd.controller;
 
 import ru.ivan.sqlcmd.controller.command.*;
-import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
@@ -26,7 +25,7 @@ public class MainController {
                 new Exit(view),
                 new IsConnected(manager, view),
                 new Create(manager, view),
-                new List(manager, view),
+                new Tables(manager, view),
                 new Clear(manager, view),
                 new Find(manager, view),
                 new Unsupported(view));

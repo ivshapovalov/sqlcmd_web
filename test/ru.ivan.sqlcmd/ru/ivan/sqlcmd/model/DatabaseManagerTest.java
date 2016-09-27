@@ -48,7 +48,7 @@ public abstract class DatabaseManagerTest {
 //        manager.clear("users");
 //
 //        //when
-//        List<String> columnNames = manager.getTableColumns("users");
+//        Tables<String> columnNames = manager.getTableColumns("users");
 //
 //        //then
 //        assertEquals("[id, name, password]", columnNames.toString());

@@ -8,12 +8,12 @@ import java.util.Set;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class List implements Command {
+public class Tables implements Command {
 
     private final DatabaseManager manager;
     private View view;
 
-    public List(DatabaseManager manager, View view) {
+    public Tables(DatabaseManager manager, View view) {
         this.manager=manager;
 
         this.view=view;
@@ -21,7 +21,7 @@ public class List implements Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.equals("list");
+        return command.equals("tables");
     }
 
     @Override
