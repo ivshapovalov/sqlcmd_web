@@ -2,8 +2,6 @@ package ru.ivan.sqlcmd.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.ivan.sqlcmd.model.DataSet;
-import ru.ivan.sqlcmd.model.DatabaseManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +52,7 @@ public abstract class DatabaseManagerTest {
         //given
         manager.clear("users");
 
-        DataSet input = new DataSet();
+        DataSet input = new DataSetImpl();
         input.put("id", 13);
         input.put("name", "Stiven");
         input.put("password", "pass");
@@ -62,10 +60,10 @@ public abstract class DatabaseManagerTest {
         manager.create("users", input);
 
         //then
-        Set<DataSet> users = manager.getTableData("users");
+        List<DataSet> users = manager.getTableData("users");
         assertEquals(1, users.size());
         Iterator iterator = users.iterator();
-        DataSet user=new DataSet();
+        DataSet user=new DataSetImpl();
         if (iterator.hasNext()) {
 
             user = (DataSet)iterator.next();
@@ -80,7 +78,7 @@ public abstract class DatabaseManagerTest {
         //given
         manager.clear("users");
 
-        DataSet input = new DataSet();
+        DataSet input = new DataSetImpl();
         input.put("id", 13);
         input.put("name", "Stiven");
         input.put("password", "pass");
@@ -88,16 +86,16 @@ public abstract class DatabaseManagerTest {
         manager.create("users", input);
 
         //when
-        DataSet output = new DataSet();
+        DataSetImpl output = new DataSetImpl();
         output.put("name", "Ivan");
         output.put("password", "000");
         manager.update("users", 13, output);
 
         //then
-        Set<DataSet> users = manager.getTableData("users");
+        List<DataSet> users = manager.getTableData("users");
         assertEquals(1, users.size());
         Iterator iterator = users.iterator();
-        DataSet user=new DataSet();
+        DataSet user=new DataSetImpl();
         if (iterator.hasNext()) {
 
             user = (DataSet)iterator.next();

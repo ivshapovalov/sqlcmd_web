@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by Ivan on 20.09.2016.
  */
 public interface DatabaseManager {
-    Set<DataSet> getTableData(String tableName);
+    List<DataSet> getTableData(String tableName);
 
     Set<String> getTablesNames();
 

@@ -28,13 +28,13 @@ public class Find implements Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         String table = data[1];
-        Set<DataSet> tableData = manager.getTableData(table);
+        java.util.List<DataSet> tableData = manager.getTableData(table);
         Set<String> tableHeaders = manager.getTableColumns(table);
         printHeader(tableHeaders);
         printTable(tableData);
     }
 
-    private void printTable(Set<DataSet> tableData) {
+    private void printTable(java.util.List<DataSet> tableData) {
         for (DataSet row : tableData
                 ) {
             printRow(row);

@@ -64,8 +64,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public Set<DataSet> getTableData(String tableName) {
-        Set<DataSet> result = new LinkedHashSet<>();
+    public List<DataSet> getTableData(String tableName) {
+        List<DataSet> result = new ArrayList<>();
         Statement st = null;
         try {
             st = connection.createStatement();
@@ -75,7 +75,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             int columnCount = rsmd.getColumnCount();
 
             while (rs.next()) {
-                DataSet dataSet = new DataSet();
+                DataSet dataSet = new DataSetImpl();
 
                 for (int i = 1; i <= columnCount; i++) {
                     dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
@@ -210,22 +210,30 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, int id, DataSet input) {
-        try {
+    public void update(String tableName, int id, DataSet newValue) {
+        String tableNames = getNameFormated(newValue, "%s = ?,");
 
-            String condition = "";
-            for (int i = 0; i < input.getNames().size(); i++) {
-                condition += input.getNames().get(i) + "='" + input.getValues().get(i) + "',";
+        String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            for (Object value : newValue.getValues()) {
+                ps.setObject(index, value);
+                index++;
             }
-            condition = condition.substring(0, condition.length() - 1);
-            String SQL = "UPDATE " + tableName + " SET " + condition + " WHERE id='" + id + "'";
-            PreparedStatement stmt = connection.prepareStatement(SQL);
-            stmt.executeUpdate();
-            stmt.close();
+            ps.setInt(index, id);
 
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
+    private String getNameFormated(DataSet newValue, String format) {
+        String string = "";
+        for (String name : newValue.getNames()) {
+            string += String.format(format, name);
+        }
+        string = string.substring(0, string.length() - 1);
+        return string;
     }
 }

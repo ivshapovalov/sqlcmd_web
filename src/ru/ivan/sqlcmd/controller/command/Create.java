@@ -1,6 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DataSet;
+import ru.ivan.sqlcmd.model.DataSetImpl;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
@@ -30,7 +31,7 @@ public class Create implements Command {
 
         }
         String table=data[1];
-        DataSet dataSet=new DataSet();
+        DataSet dataSet=new DataSetImpl();
         for (int i = 1; i < data.length/2; i++) {
             String column=data[i*2];
             String value=data[i*2+1];

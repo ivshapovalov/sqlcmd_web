@@ -3,9 +3,9 @@ package ru.ivan.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mockito;
 import ru.ivan.sqlcmd.model.DataSet;
+import ru.ivan.sqlcmd.model.DataSetImpl;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
@@ -38,18 +38,17 @@ public class FindTest {
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        DataSet user1 = new DataSet();
+        DataSet user1 = new DataSetImpl();
         user1.put("id", 12);
         user1.put("name", "Eva");
         user1.put("password", "*****");
 
-        DataSet user2 = new DataSet();
+        DataSet user2 = new DataSetImpl();
         user2.put("id", 16);
         user2.put("name", "Steve");
         user2.put("password", "+++++");
 
-        Set<DataSet> data = new LinkedHashSet<>(Arrays.asList(user1, user2));
-        ;
+        List<DataSet> data = new ArrayList<>(Arrays.asList(user1, user2));
 
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
@@ -108,7 +107,7 @@ public class FindTest {
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        Set<DataSet> data = new LinkedHashSet<>();
+        List<DataSet> data = new ArrayList<>();
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
         //when

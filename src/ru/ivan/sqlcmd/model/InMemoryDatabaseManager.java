@@ -9,9 +9,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     private List<DataSet> data=new ArrayList<>();
 
     @Override
-    public Set<DataSet> getTableData(String tableName) {
+    public List<DataSet> getTableData(String tableName) {
         if (validate(tableName));
-        Set<DataSet> b = new LinkedHashSet<>();
+        List<DataSet> b = new ArrayList<>();
         b.addAll(data);
         return b;
     }
