@@ -6,54 +6,50 @@ import java.util.*;
  * Created by Ivan on 20.09.2016.
  */
 public class InMemoryDatabaseManager implements DatabaseManager {
-    private List<DataSet> data=new ArrayList<>();
+
+    private Map<String, List<DataSet>> tables = new LinkedHashMap<>();
 
     @Override
     public List<DataSet> getTableData(String tableName) {
-        if (validate(tableName));
-        List<DataSet> b = new ArrayList<>();
-        b.addAll(data);
-        return b;
-    }
-
-    private boolean validate(String tableName) {
-        if (!"users".equals(tableName)) {
-            throw new IllegalArgumentException();
-        }
-        return true;
+        return get(tableName);
     }
 
     @Override
-    public Set<String> getTablesNames() {
-        Set<String> list=new LinkedHashSet<>();
-        list.add("users");
-        return list;
+    public int getSize(String tableName) {
+        return get(tableName).size();
     }
 
     @Override
-    public void connect(String database, String user, String password) {
+    public Set<String> getTableNames() {
+        return tables.keySet();
+    }
 
+    @Override
+    public void connect(String database, String userName, String password) {
+        // do nothing
     }
 
     @Override
     public void clear(String tableName) {
-        if (validate(tableName));
-        data.clear();
+        get(tableName).clear();
+    }
 
+    private List<DataSet> get(String tableName) {
+        if (!tables.containsKey(tableName)) {
+            tables.put(tableName, new LinkedList<DataSet>());
+        }
+        return tables.get(tableName);
     }
 
     @Override
     public void create(String tableName, DataSet input) {
-        if (validate(tableName));
-        data.add(input);
+        get(tableName).add(input);
     }
 
     @Override
     public void update(String tableName, int id, DataSet newValue) {
-        if (validate(tableName));
-        for (DataSet dataSet:data
-             ) {
-            if(dataSet.get("id").equals(id)){
+        for (DataSet dataSet : get(tableName)) {
+            if (dataSet.get("id").equals(id)) {
                 dataSet.updateFrom(newValue);
             }
         }
@@ -61,11 +57,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        Set<String> columns=new LinkedHashSet<>();
-        columns.add("id");
-        columns.add("name");
-        columns.add("password");
-        return columns ;
+        return new LinkedHashSet<String>(Arrays.asList("name", "password", "id"));
     }
 
     @Override

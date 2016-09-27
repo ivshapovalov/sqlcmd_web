@@ -26,11 +26,19 @@ public abstract class DatabaseManagerTest {
         String password = "postgres";
         manager.connect(database, user, password);
         manager.clear("users");
+
     }
 
     @Test
     public void testGetAllTablesNames() {
-        Set<String> tables = manager.getTablesNames();
+
+        //given
+        manager.getTableData("users");
+
+        //when
+        Set<String> tables = manager.getTableNames();
+
+        //then
         assertEquals("[users]", tables.toString());
     }
 

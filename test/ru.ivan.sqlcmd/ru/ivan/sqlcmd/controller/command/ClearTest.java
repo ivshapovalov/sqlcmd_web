@@ -40,7 +40,7 @@ public class ClearTest {
         command.process("clear|users");
         //then
        verify(manager).clear("users");
-       verify(view).write("Таблица users была успешно очищена");
+       verify(view).write("Таблица users была успешно очищена.");
     }
 
 
@@ -52,7 +52,7 @@ public class ClearTest {
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды clear|table, а ты ввел clear",e.getMessage());
+            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear",e.getMessage());
 
         }
     }
@@ -64,7 +64,7 @@ public class ClearTest {
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды clear|table, а ты ввел clear|users|qwe",e.getMessage());
+            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear|users|qwe",e.getMessage());
 
         }
     }
