@@ -26,9 +26,9 @@ public class FindTest {
 
     @Before
     public void setup() {
-        manager=Mockito.mock(DatabaseManager.class);
-        view=Mockito.mock(View.class);
-        command =new Find(manager,view);
+        manager = Mockito.mock(DatabaseManager.class);
+        view = Mockito.mock(View.class);
+        command = new Find(manager, view);
     }
 
     @Test
@@ -36,19 +36,20 @@ public class FindTest {
         //given
 
         Mockito.when(manager.getTableColumns("users"))
-                .thenReturn(new HashSet<>(Arrays.asList("id","name","password")));
+                .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        DataSet user1=new DataSet();
-        user1.put("id",12);
-        user1.put("name","Eva");
-        user1.put("password","*****");
+        DataSet user1 = new DataSet();
+        user1.put("id", 12);
+        user1.put("name", "Eva");
+        user1.put("password", "*****");
 
-        DataSet user2=new DataSet();
-        user2.put("id",16);
-        user2.put("name","Steve");
-        user2.put("password","+++++");
+        DataSet user2 = new DataSet();
+        user2.put("id", 16);
+        user2.put("name", "Steve");
+        user2.put("password", "+++++");
 
-        Set<DataSet> data=new HashSet<>(Arrays.asList(user1,user2));;
+        Set<DataSet> data = new LinkedHashSet<>(Arrays.asList(user1, user2));
+        ;
 
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
@@ -58,16 +59,17 @@ public class FindTest {
         //then
         String expected =
                 "[id\t|name\t|password\t|," +
-                " 16\t|Steve\t|+++++\t|," +
-                " 12\t|Eva\t|*****\t|" +
-                "]";
+                        " 12\t|Eva\t|*****\t|," +
+                        " 16\t|Steve\t|+++++\t|" +
+
+                        "]";
         shouldPrint(expected);
     }
 
     private void shouldPrint(String expected) {
-        ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
-        Mockito.verify(view,atLeastOnce()).write(captor.capture());
-        assertEquals(expected,captor.getAllValues().toString());
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(view, atLeastOnce()).write(captor.capture());
+        assertEquals(expected, captor.getAllValues().toString());
     }
 
     @Test
@@ -75,7 +77,7 @@ public class FindTest {
         //given
 
         //whrn
-        Boolean canProcess=command.canProcess("find|users");
+        Boolean canProcess = command.canProcess("find|users");
 
         assertTrue(canProcess);
     }
@@ -84,11 +86,10 @@ public class FindTest {
     public void testCanProcessFindWithoutParametersString() {
         //given
         //whrn
-        Boolean canProcess=command.canProcess("find");
+        Boolean canProcess = command.canProcess("find");
 
         assertFalse(canProcess);
     }
-
 
 
     @Test
@@ -96,7 +97,7 @@ public class FindTest {
         //given
 
         //whrn
-        Boolean canProcess=command.canProcess("qwe|users");
+        Boolean canProcess = command.canProcess("qwe|users");
 
         assertFalse(canProcess);
     }
@@ -105,9 +106,9 @@ public class FindTest {
     public void testPrintEmptyTableData() {
         //given
         Mockito.when(manager.getTableColumns("users"))
-                .thenReturn(new HashSet<>(Arrays.asList("id","name","password")));
+                .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        Set<DataSet> data=new HashSet<>();
+        Set<DataSet> data = new LinkedHashSet<>();
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
         //when

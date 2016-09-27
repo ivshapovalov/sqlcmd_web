@@ -11,7 +11,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     @Override
     public Set<DataSet> getTableData(String tableName) {
         if (validate(tableName));
-        Set<DataSet> b = new HashSet<>();
+        Set<DataSet> b = new LinkedHashSet<>();
         b.addAll(data);
         return b;
     }
@@ -25,7 +25,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTablesNames() {
-        Set<String> list=new HashSet<>();
+        Set<String> list=new LinkedHashSet<>();
         list.add("users");
         return list;
     }
@@ -61,7 +61,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        Set<String> columns=new HashSet<>();
+        Set<String> columns=new LinkedHashSet<>();
         columns.add("id");
         columns.add("name");
         columns.add("password");

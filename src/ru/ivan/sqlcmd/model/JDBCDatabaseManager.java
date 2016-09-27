@@ -65,7 +65,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<DataSet> getTableData(String tableName) {
-        Set<DataSet> result = new HashSet<>();
+        Set<DataSet> result = new LinkedHashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();
@@ -94,7 +94,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTablesNames() {
-        Set<String> tables = new HashSet<>();
+        Set<String> tables = new LinkedHashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();
@@ -117,7 +117,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public Set<String> getTableColumns(String tableName) {
 
-        Set<String> result = new HashSet<>();
+        Set<String> result = new LinkedHashSet<>();
         Statement st = null;
         try {
             st = connection.createStatement();
