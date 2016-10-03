@@ -11,6 +11,20 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
     @Override
+    public void dropAllDatabases() {
+
+    }
+
+    @Override
+    public void dropAllTables() {
+//        try (Statement stmt = connection.createStatement()) {
+//            stmt.executeUpdate("DELETE FROM public." + tableName);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    @Override
     public void createDatabase(String databaseName) {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
@@ -130,7 +144,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void insert(String tableName, Map<String, Object> input) {
+    public void insertRow(String tableName, Map<String, Object> input) {
         String rowNames = getFormatedName(input, "\"%s\",");
         String values = getFormatedValues(input, "'%s',");
         String sql = createString("INSERT INTO ", tableName, " (", rowNames, ") ", "VALUES (", values, ")");
@@ -152,7 +166,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, int id, Map<String, Object> newValue) {
+    public void updateRow(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
         String sql = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
 

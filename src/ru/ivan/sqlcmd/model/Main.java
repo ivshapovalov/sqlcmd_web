@@ -47,18 +47,18 @@ public class Main {
         if (connection != null) {
             //System.out.println("You made it, take control your database now!");
 
-            //update
+            //updateRow
             String SQL="INSERT into users (name,password) values ('Stiven','Pupkin')";
             Statement stmt=connection.createStatement();
             update(SQL, stmt);
 
 //            SQL="DELETE from users where id<4";
 //            stmt=connection.createStatement();
-//            update(SQL, stmt);
+//            updateRow(SQL, stmt);
 //
 //            SQL="UPDATE users set name='ivan' where id<8";
 //            PreparedStatement psmt=connection.prepareStatement(SQL);
-//            update(SQL, stmt);
+//            updateRow(SQL, stmt);
 //
 //            Statement st=connection.createStatement();
 //            ResultSet rs=st.executeQuery("select * from users");

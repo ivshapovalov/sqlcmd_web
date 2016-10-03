@@ -21,11 +21,11 @@ public interface DatabaseManager {
 
     Set<String> getTableNames();
 
-    void insert(String tableName, Map<String, Object> input);
+    void insertRow(String tableName, Map<String, Object> input);
 
     boolean isConnected();
 
-    void update(String tableName, int id, Map<String, Object> newValue);
+    void updateRow(String tableName, int id, Map<String, Object> newValue);
 
     void createTable(String tableName);
 
@@ -34,4 +34,8 @@ public interface DatabaseManager {
     Set<String> getDatabasesNames();
 
     void dropDatabase(String databaseName);
+
+    void dropAllTables();
+
+    void dropAllDatabases();
 }

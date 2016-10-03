@@ -8,4 +8,9 @@ public interface Command {
     boolean canProcess (String command);
 
     void process (String command);
+
+    public abstract String description();
+
+    public abstract String format();
+
 }

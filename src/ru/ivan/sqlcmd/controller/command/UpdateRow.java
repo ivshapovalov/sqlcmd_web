@@ -7,28 +7,25 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class InsertRow implements Command {
+public class UpdateRow implements Command {
 
     private DatabaseManager manager;
     private View view;
 
-    public InsertRow(DatabaseManager manager, View view) {
+    public UpdateRow(DatabaseManager manager, View view) {
         this.manager=manager;
 
         this.view=view;
     }
-
     @Override
     public String description() {
-        return "insert row into the table";
+        return "update the entry in the table using the ID";
     }
 
     @Override
     public String format() {
-        return "insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN";
+        return "updateRow|tableName|ID";
     }
-
-
     @Override
     public boolean canProcess(String command) {
         return command.startsWith("insertRow|");
@@ -37,21 +34,22 @@ public class InsertRow implements Command {
     @Override
     public void process(String command) {
         String[] data=command.split("[|]");
-        if (data.length%2==1) {
-            throw new IllegalArgumentException("Должно быть четное количество параметров " +
-                    "в формате insertRow|table|column1|value1|column2|value2|...|columnN|valueN");
+        if (data.length%2==0) {
+            throw new IllegalArgumentException("Должно быть нечетное количество параметров " +
+                    "в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN");
 
         }
-        String table=data[1];
+        String tableName=data[1];
+        int id=Integer.parseInt(data[2]);
 
         Map<String, Object> tableData = new LinkedHashMap<>();
-        for (int i = 1; i < data.length/2; i++) {
-            String column=data[i*2];
-            String value=data[i*2+1];
+        for (int i = 1; i < data.length/2-1; i++) {
+            String column=data[i*2+1];
+            String value=data[i*2+2];
             tableData.put(column,value);
         }
         try {
-            manager.insertRow(table, tableData);
+            manager.updateRow(tableName, id,tableData);
         } catch (IllegalArgumentException e) {
             String originalMessage = e.getMessage();
             String newMessage="";
@@ -63,7 +61,7 @@ public class InsertRow implements Command {
             throw new IllegalArgumentException(newMessage);
         }
 
-        view.write(String.format("В таблице '%s' успешно создана запись %s",table,tableData ));
+        view.write(String.format("В таблице '%s' успешно создана запись %s",tableName,tableData ));
 
 
 

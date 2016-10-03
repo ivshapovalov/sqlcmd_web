@@ -66,7 +66,7 @@ public abstract class DatabaseManagerTest {
         input.put("name", "Stiven");
         input.put("password", "pass");
 
-        manager.insert(TABLE_NAME, input);
+        manager.insertRow(TABLE_NAME, input);
 
         //then
         List<Map<String,Object>> users = manager.getTableData(TABLE_NAME);
@@ -93,7 +93,7 @@ public abstract class DatabaseManagerTest {
         input.put("name", "Stiven");
         input.put("password", "pass");
 
-        manager.insert(TABLE_NAME, input);
+        manager.insertRow(TABLE_NAME, input);
 
         //when
         Map<String, Object> output = new LinkedHashMap<>();
@@ -101,7 +101,7 @@ public abstract class DatabaseManagerTest {
         output.put("name", "Ivan");
         output.put("password", "000");
 
-        manager.update(TABLE_NAME, 1, output);
+        manager.updateRow(TABLE_NAME, 1, output);
 
         //then
         Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
