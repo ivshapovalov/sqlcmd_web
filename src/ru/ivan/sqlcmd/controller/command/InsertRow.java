@@ -10,12 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class Create implements Command {
+public class InsertRow implements Command {
 
     private DatabaseManager manager;
     private View view;
 
-    public Create(DatabaseManager manager, View view) {
+    public InsertRow(DatabaseManager manager, View view) {
         this.manager=manager;
 
         this.view=view;
@@ -23,7 +23,7 @@ public class Create implements Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("create|");
+        return command.startsWith("insertRow|");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Create implements Command {
         String[] data=command.split("[|]");
         if (data.length%2==1) {
             throw new IllegalArgumentException("Должно быть четное количество параметров " +
-                    "в формате create|table|column1|value1|column2|value2|...|columnN|valueN");
+                    "в формате insertRow|table|column1|value1|column2|value2|...|columnN|valueN");
 
         }
         String table=data[1];

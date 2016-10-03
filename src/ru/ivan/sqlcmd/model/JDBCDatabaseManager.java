@@ -11,6 +11,45 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
     @Override
+    public void createDatabase(String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE " + databaseName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createTable(String tableName) {
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate("CREATE TABLE public." + tableName +"();");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Set<String> getDatabasesNames() {
+        Set<String> databases = new LinkedHashSet<String>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT datname as database_name FROM pg_database WHERE datistemplate = false;"))
+        {
+            while (rs.next()) {
+                databases.add(rs.getString("database_name"));
+            }
+            return databases;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return databases;
+        }
+    }
+
+    @Override
+    public void disconnect() {
+        connection=null;
+    }
+
+    @Override
     public List<Map<String, Object>> getTableData(String tableName) {
         List<Map<String, Object>> result = new LinkedList<>();
         try (Statement statement = connection.createStatement();
@@ -54,7 +93,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Please add jdbc jar to project.", e);
+            throw new RuntimeException("Пожалуйста добавьте jdbc.jar к проекту.", e);
         }
         try {
             if (connection != null) {
@@ -66,8 +105,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException(
-                    String.format("Cant get connection for model:%s user:%s",
-                            database, userName),
+                    String.format("Невозможно подключиться к базе данных :%s, user:%s, password:%s",
+                            database, userName,password),
                     e);
         }
     }

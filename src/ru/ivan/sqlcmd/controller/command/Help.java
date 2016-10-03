@@ -22,12 +22,17 @@ public class Help implements Command {
     public void process(String command) {
         view.write("Существующие команды:");
         view.write("connect|database|user|password    -   подключение к базе данных");
-        view.write("clear|table    -   очистка таблицы table от данных"); //TODO переспросить юзера вдруг случайно
-        view.write("create|table|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблиц table");
+        view.write("disconnect    -   отключение от базе данных");
+        view.write("createDatabase|databaseName    -   создание база данных databaseName");
+        view.write("clear|tableName    -   очистка таблицы tableName от данных"); //TODO переспросить юзера вдруг случайно
+        view.write("createTable|tableName    -   создание таблицы tableName");
+        view.write("insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблице tableName");
+        view.write("find|tableName    -   вывод содержимого таблицы tableName ");
+        view.write("databases    -   вывод имен всех баз данных");
         view.write("tables    -   вывод имен всех таблиц базы");
         view.write("help    -   вывод списка всех команд");
         view.write("exit    -   выход из программы");
-        view.write("find|table    -   вывод содержимого таблицы table ");
+
 
     }
 }

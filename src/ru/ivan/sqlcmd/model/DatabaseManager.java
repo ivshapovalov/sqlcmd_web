@@ -12,17 +12,11 @@ public interface DatabaseManager {
 
     void connect(String databaseName, String user, String password);
 
-//    void createDatabase(String databaseName);
-//
-//    void createTable(String query);
-//
-//    void disconnectFromDatabase();
-//
+    void createDatabase(String databaseName);
+
 //    void dropDatabase(String databaseName);
 //
 //    void dropTable(String tableName);
-
-    //Set<String> getDatabases();
 
     Set<String> getTableColumns(String tableName);
 
@@ -35,4 +29,10 @@ public interface DatabaseManager {
     boolean isConnected();
 
     void update(String tableName, int id, Map<String, Object> newValue);
+
+    void createTable(String tableName);
+
+    void disconnect();
+
+    Set<String> getDatabasesNames();
 }
