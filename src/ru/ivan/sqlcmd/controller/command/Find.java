@@ -2,8 +2,11 @@ package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.TableConstructor;
 import ru.ivan.sqlcmd.view.View;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -28,10 +31,12 @@ public class Find implements Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         String table = data[1];
-        java.util.List<DataSet> tableData = manager.getTableData(table);
+        List<Map<String, Object>> tableData = manager.getTableData(table);
         Set<String> tableHeaders = manager.getTableColumns(table);
-        printHeader(tableHeaders);
-        printTable(tableData);
+
+        TableConstructor constructor = new TableConstructor(
+                tableHeaders, tableData);
+        view.write(constructor.getTableString());
     }
 
     private void printTable(java.util.List<DataSet> tableData) {

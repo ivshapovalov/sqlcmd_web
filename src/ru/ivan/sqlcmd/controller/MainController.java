@@ -44,8 +44,8 @@ public class MainController {
     private void doWork() {
         view.write("Привет, юзер");
 
-        view.write("Введи имя базы данных, имя пользователя и пароль в формате" +
-                " database|user|password");
+        view.write("Введите команду или help для помощи");
+
         while (true) {
             String input = view.read();
 
@@ -69,6 +69,7 @@ public class MainController {
 
 
             }
+            view.write("\r\n");
             view.write("Введите команду или help для помощи");
         }
     }

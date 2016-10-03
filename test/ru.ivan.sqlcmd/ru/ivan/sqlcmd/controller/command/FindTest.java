@@ -38,17 +38,17 @@ public class FindTest {
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        DataSet user1 = new DataSetImpl();
+        Map<String, Object> user1 = new LinkedHashMap<>();
         user1.put("id", 12);
         user1.put("name", "Eva");
         user1.put("password", "*****");
 
-        DataSet user2 = new DataSetImpl();
+        Map<String, Object> user2 = new LinkedHashMap<>();
         user2.put("id", 16);
         user2.put("name", "Steve");
         user2.put("password", "+++++");
 
-        List<DataSet> data = new ArrayList<>(Arrays.asList(user1, user2));
+        List<Map<String, Object>> data = new LinkedList<>(Arrays.asList(user1, user2));
 
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
@@ -57,11 +57,13 @@ public class FindTest {
 
         //then
         String expected =
-                "[id\t|name\t|password\t|," +
-                        " 12\t|Eva\t|*****\t|," +
-                        " 16\t|Steve\t|+++++\t|" +
-
-                        "]";
+                "[+--+-----+--------+\n" +
+                        "|id|name |password|\n" +
+                        "+--+-----+--------+\n" +
+                        "|12|Eva  |*****   |\n" +
+                        "+--+-----+--------+\n" +
+                        "|16|Steve|+++++   |\n" +
+                        "+--+-----+--------+]";
         shouldPrint(expected);
     }
 
@@ -107,7 +109,7 @@ public class FindTest {
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
-        List<DataSet> data = new ArrayList<>();
+        List<Map<String, Object>> data = new LinkedList<>();
         Mockito.when(manager.getTableData("users"))
                 .thenReturn(data);
         //when
@@ -115,7 +117,9 @@ public class FindTest {
 
         //then
         String expected =
-                "[id\t|name\t|password\t|]";
+                "[+--+----+--------+\n" +
+                        "|id|name|password|\n" +
+                        "+--+----+--------+]";
         shouldPrint(expected);
     }
 

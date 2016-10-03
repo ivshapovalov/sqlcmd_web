@@ -3,9 +3,8 @@ package ru.ivan.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +13,9 @@ import static org.junit.Assert.assertTrue;
  * Created by Ivan on 19.09.2016.
  */
 public abstract class DatabaseManagerTest {
+    public static final String TABLE_NAME = "users";
     private DatabaseManager manager;
+
 
     public abstract DatabaseManager getDatabaseManager();
 
@@ -33,13 +34,13 @@ public abstract class DatabaseManagerTest {
     public void testGetAllTablesNames() {
 
         //given
-        manager.getTableData("users");
+        manager.getTableData(TABLE_NAME);
 
         //when
         Set<String> tables = manager.getTableNames();
 
         //then
-        assertEquals("[users]", tables.toString());
+        assertEquals("["+TABLE_NAME+"]", tables.toString());
     }
 
     @Test
@@ -58,59 +59,62 @@ public abstract class DatabaseManagerTest {
     public void testGetTableData() {
 
         //given
-        manager.clear("users");
+        manager.clear(TABLE_NAME);
 
-        DataSet input = new DataSetImpl();
-        input.put("id", 13);
+        Map<String, Object> input = new LinkedHashMap<>();
+        input.put("id", new BigDecimal(13));
         input.put("name", "Stiven");
         input.put("password", "pass");
 
-        manager.create("users", input);
+        manager.insert(TABLE_NAME, input);
 
         //then
-        List<DataSet> users = manager.getTableData("users");
+        List<Map<String,Object>> users = manager.getTableData(TABLE_NAME);
         assertEquals(1, users.size());
-        Iterator iterator = users.iterator();
-        DataSet user=new DataSetImpl();
-        if (iterator.hasNext()) {
 
-            user = (DataSet)iterator.next();
+        Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
+        for (int i = 0; i < input.entrySet().size() ; i++) {
+            Iterator iter1=input.entrySet().iterator();
+            Iterator iter2=user.entrySet().iterator();
+            Map.Entry<String,Object> entry1= (Map.Entry<String, Object>) iter1.next();
+            Map.Entry<String,Object> entry2= (Map.Entry<String, Object>) iter2.next();
+            assertEquals(entry1.getKey(), entry2.getKey());
+            assertEquals(entry1.getValue(), entry2.getValue());
         }
-        assertEquals("[id, name, password]", user.getNames().toString());
-        assertEquals("[13, Stiven, pass]", user.getValues().toString());
     }
+
+
 
     @Test
     public void testUpdateTableData() {
-
         //given
-        manager.clear("users");
-
-        DataSet input = new DataSetImpl();
-        input.put("id", 13);
+        Map<String, Object> input = new LinkedHashMap<>();
+        input.put("id", 1);
         input.put("name", "Stiven");
         input.put("password", "pass");
 
-        manager.create("users", input);
+        manager.insert(TABLE_NAME, input);
 
         //when
-        DataSetImpl output = new DataSetImpl();
+        Map<String, Object> output = new LinkedHashMap<>();
+        output.put("id", new BigDecimal(1));
         output.put("name", "Ivan");
         output.put("password", "000");
-        manager.update("users", 13, output);
+
+        manager.update(TABLE_NAME, 1, output);
 
         //then
-        List<DataSet> users = manager.getTableData("users");
-        assertEquals(1, users.size());
-        Iterator iterator = users.iterator();
-        DataSet user=new DataSetImpl();
-        if (iterator.hasNext()) {
-
-            user = (DataSet)iterator.next();
+        Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
+        for (int i = 0; i < output.entrySet().size() ; i++) {
+            Iterator iter1=output.entrySet().iterator();
+            Iterator iter2=user.entrySet().iterator();
+            Map.Entry<String,Object> entry1= (Map.Entry<String, Object>) iter1.next();
+            Map.Entry<String,Object> entry2= (Map.Entry<String, Object>) iter2.next();
+            assertEquals(entry1.getKey(), entry2.getKey());
+            assertEquals(entry1.getValue(), entry2.getValue());
         }
-        assertEquals("[id, name, password]", user.getNames().toString());
-        assertEquals("[13, Ivan, 000]", user.getValues().toString());
     }
+
 
 
     @Test

@@ -1,27 +1,38 @@
 package ru.ivan.sqlcmd.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by Ivan on 20.09.2016.
  */
 public interface DatabaseManager {
-    List<DataSet> getTableData(String tableName);
-
-    int getSize(String tableName);
-
-    Set<String> getTableNames();
-
-    void connect(String database, String userName, String password);
-
     void clear(String tableName);
 
-    void create(String tableName, DataSet input);
+    void connect(String databaseName, String user, String password);
 
-    void update(String tableName, int id, DataSet newValue);
+//    void createDatabase(String databaseName);
+//
+//    void createTable(String query);
+//
+//    void disconnectFromDatabase();
+//
+//    void dropDatabase(String databaseName);
+//
+//    void dropTable(String tableName);
+
+    //Set<String> getDatabases();
 
     Set<String> getTableColumns(String tableName);
 
+    List<Map<String, Object>> getTableData(String tableName);
+
+    Set<String> getTableNames();
+
+    void insert(String tableName, Map<String, Object> input);
+
     boolean isConnected();
+
+    void update(String tableName, int id, Map<String, Object> newValue);
 }

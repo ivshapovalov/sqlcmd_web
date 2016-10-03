@@ -11,38 +11,25 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
-        List<DataSet> result = new LinkedList<DataSet>();
-
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
+    public List<Map<String, Object>> getTableData(String tableName) {
+        List<Map<String, Object>> result = new LinkedList<>();
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName))
         {
             ResultSetMetaData rsmd = rs.getMetaData();
+
+
             while (rs.next()) {
-                DataSet dataSet = new DataSetImpl();
-                result.add(dataSet);
-                for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+                Map<String, Object> data = new LinkedHashMap<>();
+                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
+                    data.put(rsmd.getColumnName(index), rs.getObject(index));
                 }
+                result.add(data);
             }
             return result;
         } catch (SQLException e) {
             e.printStackTrace();
             return result;
-        }
-    }
-
-    @Override
-    public int getSize(String tableName) {
-        try (Statement stmt = connection.createStatement();
-             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName))
-        {
-            rsCount.next();
-            int size = rsCount.getInt(1);
-            return size;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
         }
     }
 
@@ -95,14 +82,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void create(String tableName, DataSet input) {
-        try (Statement stmt = connection.createStatement()) {
+    public void insert(String tableName, Map<String, Object> input) {
+        String rowNames = getFormatedName(input, "\"%s\",");
+        String values = getFormatedValues(input, "'%s',");
+        String sql = createString("INSERT INTO ", tableName, " (", rowNames, ") ", "VALUES (", values, ")");
 
-            String tableNames = getNameFormated(input, "%s,");
-            String values = getValuesFormated(input, "'%s',");
-
-            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
-                    "VALUES (" + values + ")");
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,19 +104,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, int id, DataSet newValue) {
-        String tableNames = getNameFormated(newValue, "%s = ?,");
+    public void update(String tableName, int id, Map<String, Object> newValue) {
+        String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
+        String sql = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
 
-        String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             int index = 1;
-            for (Object value : newValue.getValues()) {
+            for (Object value : newValue.values()) {
                 ps.setObject(index, value);
                 index++;
             }
-            ps.setInt(index, id);
-
+            ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,12 +142,30 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
-    private String getNameFormated(DataSet newValue, String format) {
+    private String createString(String... args) {
+        StringBuilder result = new StringBuilder();
+        for (String arg: args) {
+            result.append(arg);
+        }
+        return result.toString();
+    }
+
+    private String getFormatedName(Map<String, Object> newValue, String format) {
         String string = "";
-        for (String name : newValue.getNames()) {
+        for (String name : newValue.keySet()) {
             string += String.format(format, name);
         }
         string = string.substring(0, string.length() - 1);
         return string;
     }
+
+    private String getFormatedValues(Map<String, Object> input, String format) {
+        String values = "";
+        for (Object value : input.values()) {
+            values += String.format(format, value);
+        }
+        values = values.substring(0, values.length() - 1);
+        return values;
+    }
+
 }
