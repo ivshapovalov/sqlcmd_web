@@ -29,7 +29,6 @@ public class DropTable implements Command {
             throw new IllegalArgumentException("Формат команды 'dropTable|tableName', а ты ввел: " + command);
         }
         manager.dropTable(data[1]);
-
         view.write(String.format("Таблица %s была успешно очищена.", data[1]));
     }
 }

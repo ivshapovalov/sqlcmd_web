@@ -4,7 +4,7 @@ import ru.ivan.sqlcmd.controller.command.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.Arrays;
+import java.util.*;
 
 
 /**
@@ -15,11 +15,14 @@ public class MainController {
     private final View view;
     private final DatabaseManager manager;
     private final java.util.List<Command> commands;
+    private java.util.Map<String, String> history = new LinkedHashMap<>();
 
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
         this.view = view;
         this.commands = Arrays.asList(
+                new History(view, history),
+                //new DoFromHistory(manager,view,history),
                 new Connect(manager, view),
                 new CreateTable(manager, view),
                 new CreateDatabase(manager, view),
@@ -49,11 +52,28 @@ public class MainController {
     private void doWork() {
         view.write("Привет, юзер");
 
-        view.write("Введите команду или help для помощи");
+        //view.write("Введите команду или help для помощи");
 
         while (true) {
+            view.write("\n");
+            view.write("Введите команду или help для помощи");
             String input = view.read();
 
+            try {
+                int historyIndex = Integer.parseInt(input);
+                String newInput = history.get(String.valueOf(historyIndex));
+                if (newInput != null) {
+                    input = newInput;
+                    view.write(newInput);
+                } else {
+                    view.write("В истории команд данный индекс отсутствует.");
+                    continue;
+                }
+            } catch (Exception e) {
+
+            }
+
+            history.put(String.valueOf(history.size() + 1), input);
             for (Command command : commands
                     ) {
 
@@ -64,7 +84,7 @@ public class MainController {
                     }
                 } catch (ExitException e) {
 
-                        throw e;
+                    throw e;
 
 
                 } catch (Exception e) {
@@ -74,8 +94,7 @@ public class MainController {
 
 
             }
-            view.write("");
-            view.write("Введите команду или help для помощи");
+
         }
     }
 

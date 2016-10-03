@@ -24,7 +24,7 @@ public class Help implements Command {
         view.write("connect|database|user|password    -   подключение к базе данных");
         view.write("disconnect    -   отключение от базе данных");
         view.write("createDatabase|databaseName    -   создание база данных databaseName");
-        view.write("dropTable|tableName    -   очистка таблицы tableName от данных"); //TODO переспросить юзера вдруг случайно
+        view.write("dropTable|tableName    -   очистка таблицы tableName от данных");
         view.write("dropDatabase|databaseName    -   очистка базы данных databaseName от таблиц");
         view.write("createTable|tableName    -   создание таблицы tableName");
         view.write("insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблице tableName");
