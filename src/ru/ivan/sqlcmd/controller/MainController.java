@@ -24,14 +24,14 @@ public class MainController {
                 new CreateTable(manager, view),
                 new CreateDatabase(manager, view),
                 new Databases(manager, view),
-            //    new DropDatabase(manager, view),
+                new DropDatabase(manager, view),
                 new Help(view),
                 new Exit(view),
                 new IsConnected(manager, view),
                 new Disconnect(manager, view),
                 new InsertRow(manager, view),
                 new Tables(manager, view),
-                new Clear(manager, view),
+                new DropTable(manager, view),
                 new Find(manager, view),
                 new Unsupported(view));
     }

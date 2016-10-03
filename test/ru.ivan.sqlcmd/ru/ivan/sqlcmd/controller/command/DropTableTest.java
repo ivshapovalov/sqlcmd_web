@@ -2,24 +2,17 @@ package ru.ivan.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class ClearTest {
+public class DropTableTest {
 
     private DatabaseManager manager;
     private View view;
@@ -29,7 +22,7 @@ public class ClearTest {
     public void setup() {
         manager=Mockito.mock(DatabaseManager.class);
         view=Mockito.mock(View.class);
-        command =new Clear(manager,view);
+        command =new DropTable(manager,view);
     }
 
     @Test
@@ -37,9 +30,9 @@ public class ClearTest {
         //given
 
         //when
-        command.process("clear|users");
+        command.process("dropTable|users");
         //then
-       verify(manager).clear("users");
+       verify(manager).dropTable("users");
        verify(view).write("Таблица users была успешно очищена.");
     }
 
@@ -48,11 +41,11 @@ public class ClearTest {
     public void testClearTableWithParametersLessThen2() {
         //when
         try {
-            command.process("clear");
+            command.process("dropTable");
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear",e.getMessage());
+            assertEquals("Формат команды 'dropTable|tableName', а ты ввел: dropTable",e.getMessage());
 
         }
     }
@@ -60,11 +53,11 @@ public class ClearTest {
     public void testClearTableWithParametersMoreThen2() {
         //when
         try {
-            command.process("clear|users|qwe");
+            command.process("dropTable|users|qwe");
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear|users|qwe",e.getMessage());
+            assertEquals("Формат команды 'dropTable|tableName', а ты ввел: dropTable|users|qwe",e.getMessage());
 
         }
     }
@@ -74,7 +67,7 @@ public class ClearTest {
         //given
 
         //whrn
-        Boolean canProcess=command.canProcess("clear|users");
+        Boolean canProcess=command.canProcess("dropTable|users");
 
         assertTrue(canProcess);
     }
@@ -83,7 +76,7 @@ public class ClearTest {
     public void testCanProcessClearWithoutParametersString() {
         //given
         //whrn
-        Boolean canProcess=command.canProcess("clear");
+        Boolean canProcess=command.canProcess("dropTable");
 
         assertFalse(canProcess);
     }

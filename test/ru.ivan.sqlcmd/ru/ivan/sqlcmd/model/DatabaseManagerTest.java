@@ -26,7 +26,7 @@ public abstract class DatabaseManagerTest {
         String user = "postgres";
         String password = "postgres";
         manager.connect(database, user, password);
-        manager.clear("users");
+        manager.dropTable("users");
 
     }
 
@@ -46,7 +46,7 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testGetColumnNames() {
 //        //given
-//        manager.clear("users");
+//        manager.dropTable("users");
 //
 //        //when
 //        Tables<String> columnNames = manager.getTableColumns("users");
@@ -59,7 +59,7 @@ public abstract class DatabaseManagerTest {
     public void testGetTableData() {
 
         //given
-        manager.clear(TABLE_NAME);
+        manager.dropTable(TABLE_NAME);
 
         Map<String, Object> input = new LinkedHashMap<>();
         input.put("id", new BigDecimal(13));

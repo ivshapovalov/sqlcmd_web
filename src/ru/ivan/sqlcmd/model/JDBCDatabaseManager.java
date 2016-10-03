@@ -20,9 +20,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public void dropDatabase(String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName +";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void createTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE public." + tableName +"();");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName +"();");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,7 +121,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void clear(String tableName) {
+    public void dropTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM public." + tableName);
         } catch (SQLException e) {

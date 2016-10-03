@@ -53,7 +53,7 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\r\n" +
                 "Существующие команды:\r\n" +
                 "connect|database|user|password    -   подключение к базе данных\r\n" +
-                "clear|table    -   очистка таблицы table от данных\r\n" +
+                "dropTable|table    -   очистка таблицы table от данных\r\n" +
                 "create|table|column1|value1|column2|value2|...|columnN|valueN    -   создание записи в таблиц table\r\n"+
                 "tables    -   вывод имен всех таблиц базы\r\n" +
                 "help    -   вывод списка всех команд\r\n" +
@@ -286,7 +286,7 @@ public class IntegrationTest {
     public void testFindAfterConnectWithData(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|users");
+        in.add("dropTable|users");
         in.add("create|users|id|13|name|Stiven|password|*****");
         in.add("create|users|id|14|name|Eva|password|+++++");
         in.add("find|users");
@@ -332,7 +332,7 @@ public class IntegrationTest {
     public void testClearAfterConnectWithIllegalNumberOfArguments(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|users|asfaf");
+        in.add("dropTable|users|asfaf");
         in.add("exit");
 
         //when
@@ -345,7 +345,7 @@ public class IntegrationTest {
                 "\r\n"+
                 "\r\n"+
                 "Введите команду или help для помощи\r\n" +
-                "Неудача по причине: Формат команды 'clear|tableName', а ты ввел: clear|users|asfaf\r\n"+
+                "Неудача по причине: Формат команды 'dropTable|tableName', а ты ввел: dropTable|users|asfaf\r\n"+
                 "Повтори попытку\r\n"+
                 "\r\n"+
                 "\r\n"+
@@ -359,7 +359,7 @@ public class IntegrationTest {
     public void testCreateAfterConnectWithIllegalData(){
         //given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|users");
+        in.add("dropTable|users");
         in.add("create|users|id|name|Stiven|password|*****");
         in.add("exit");
 
