@@ -5,9 +5,22 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class Unsupported implements Command {
+public class Unsupported extends Command {
 
     private View view;
+
+    @Override
+    public String description() {
+        return "unsupported operation";
+    }
+
+    @Override
+    public String format() {
+        return "";
+    }
+
+    public Unsupported() {
+    }
 
     public Unsupported(View view) {
         this.view=view;

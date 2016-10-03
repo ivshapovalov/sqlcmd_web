@@ -22,20 +22,24 @@ public class MainController {
         this.view = view;
         this.commands = Arrays.asList(
                 new History(view, history),
-                //new DoFromHistory(manager,view,history),
                 new Connect(manager, view),
-                new CreateTable(manager, view),
+                new IsConnected(manager, view),
                 new CreateDatabase(manager, view),
+                new CreateTable(manager, view),
                 new Databases(manager, view),
                 new DropDatabase(manager, view),
+                new DropAllDatabases(manager, view),
+                new DropTable(manager, view),
+                new DropTable(manager, view),
+                new TruncateAllTables(manager, view),
+                new TruncateTable(manager, view),
                 new Help(view),
                 new Exit(view),
-                new IsConnected(manager, view),
                 new Disconnect(manager, view),
                 new InsertRow(manager, view),
+                new UpdateRow(manager, view),
+                new Rows(manager, view),
                 new Tables(manager, view),
-                new DropTable(manager, view),
-                new Find(manager, view),
                 new Unsupported(view));
     }
 

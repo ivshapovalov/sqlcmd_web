@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class UpdateRow implements Command {
+public class UpdateRow extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    public UpdateRow() {
+    }
 
     public UpdateRow(DatabaseManager manager, View view) {
         this.manager=manager;

@@ -12,19 +12,32 @@ import java.util.Set;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class Find implements Command {
+public class Rows extends Command {
 
-    private final DatabaseManager manager;
+    private DatabaseManager manager;
     private View view;
 
-    public Find(DatabaseManager manager, View view) {
+    @Override
+    public String description() {
+        return "list all rows in table";
+    }
+
+    @Override
+    public String format() {
+        return "rows|tableName";
+    }
+
+    public Rows() {
+    }
+
+    public Rows(DatabaseManager manager, View view) {
         this.manager=manager;
         this.view=view;
     }
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("find|");
+        return command.startsWith("rows|");
     }
 
     @Override
@@ -39,7 +52,7 @@ public class Find implements Command {
         view.write(constructor.getTableString());
     }
 
-    private void printTable(java.util.List<DataSet> tableData) {
+    private void printTable(List<DataSet> tableData) {
         for (DataSet row : tableData
                 ) {
             printRow(row);

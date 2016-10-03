@@ -6,10 +6,23 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class CreateDatabase implements Command {
+public class CreateDatabase extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "create new database";
+    }
+
+    @Override
+    public String format() {
+        return "createDatabase|databaseName";
+    }
+
+    public CreateDatabase() {
+    }
 
     public CreateDatabase(DatabaseManager manager, View view) {
         this.manager = manager;

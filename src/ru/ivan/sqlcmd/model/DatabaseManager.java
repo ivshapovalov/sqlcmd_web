@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public interface DatabaseManager {
 
-    void dropTable(String tableName);
+
 
     void connect(String databaseName, String user, String password);
 
@@ -38,4 +38,10 @@ public interface DatabaseManager {
     void dropAllTables();
 
     void dropAllDatabases();
+
+    void dropTable(String tableName);
+
+    void truncateTable(String tableName);
+
+    void truncateAllTables();
 }

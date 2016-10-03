@@ -33,7 +33,7 @@ public class DropTableTest {
         command.process("dropTable|users");
         //then
        verify(manager).dropTable("users");
-       verify(view).write("Таблица users была успешно очищена.");
+       verify(view).write("Таблица users была успешно удалена.");
     }
 
 

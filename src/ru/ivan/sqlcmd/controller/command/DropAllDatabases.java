@@ -6,10 +6,24 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class DropAllDatabases implements Command {
+public class DropAllDatabases extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "drop all databases";
+    }
+
+    @Override
+    public String format() {
+        return "dropAllDatabases";
+    }
+
+
+    public DropAllDatabases() {
+    }
 
     public DropAllDatabases(DatabaseManager manager, View view) {
         this.manager = manager;

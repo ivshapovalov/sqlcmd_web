@@ -7,10 +7,23 @@ import java.util.Map;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class History implements Command {
+public class History extends Command {
 
     private View view;
     Map<String, String> history;
+
+    @Override
+    public String description() {
+        return "list history of commands";
+    }
+
+    @Override
+    public String format() {
+        return "history";
+    }
+
+    public History() {
+    }
 
     public History(View view, Map<String, String> history) {
         this.view=view;

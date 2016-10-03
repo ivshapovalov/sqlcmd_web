@@ -6,10 +6,23 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class DropAllTables implements Command {
+public class DropAllTables extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "drop all tables";
+    }
+
+    @Override
+    public String format() {
+        return "dropAllTables";
+    }
+
+    public DropAllTables() {
+    }
 
     public DropAllTables(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -24,8 +37,7 @@ public class DropAllTables implements Command {
     @Override
     public void process(String command) {
 
-
         manager.dropAllTables();
-        view.write("Все таблицы были успешно очищены");
+        view.write("Все таблицы были успешно удалены");
     }
 }

@@ -6,10 +6,23 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class Disconnect implements Command {
+public class Disconnect extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "disconnect from current database";
+    }
+
+    @Override
+    public String format() {
+        return "disconnect";
+    }
+
+    public Disconnect() {
+    }
 
     public Disconnect(DatabaseManager manager, View view) {
         this.manager = manager;

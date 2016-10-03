@@ -5,9 +5,22 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class Exit implements Command {
+public class Exit extends Command {
 
     private View view;
+
+    @Override
+    public String description() {
+        return "exit from application";
+    }
+
+    @Override
+    public String format() {
+        return "exit";
+    }
+
+    public Exit() {
+    }
 
     public Exit(View view) {
         this.view=view;

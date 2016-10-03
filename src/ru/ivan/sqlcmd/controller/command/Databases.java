@@ -8,10 +8,23 @@ import java.util.Set;
 /**
  * Created by Ivan on 21.09.2016.
  */
-public class Databases implements Command {
+public class Databases extends Command {
 
-    private final DatabaseManager manager;
+    private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "list all databases";
+    }
+
+    @Override
+    public String format() {
+        return "databases";
+    }
+
+    public Databases() {
+    }
 
     public Databases(DatabaseManager manager, View view) {
         this.manager=manager;

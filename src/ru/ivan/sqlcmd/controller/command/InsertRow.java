@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class InsertRow implements Command {
+public class InsertRow extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    public InsertRow() {
+    }
 
     public InsertRow(DatabaseManager manager, View view) {
         this.manager=manager;

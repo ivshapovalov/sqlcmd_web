@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import ru.ivan.sqlcmd.model.DataSet;
-import ru.ivan.sqlcmd.model.DataSetImpl;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
@@ -18,7 +16,7 @@ import static org.mockito.Mockito.atLeastOnce;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class FindTest {
+public class RowsTest {
 
     private DatabaseManager manager;
     private View view;
@@ -28,7 +26,7 @@ public class FindTest {
     public void setup() {
         manager = Mockito.mock(DatabaseManager.class);
         view = Mockito.mock(View.class);
-        command = new Find(manager, view);
+        command = new Rows(manager, view);
     }
 
     @Test

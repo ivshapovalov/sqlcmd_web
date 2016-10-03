@@ -6,10 +6,23 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class CreateTable implements Command {
+public class CreateTable extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "create new table";
+    }
+
+    @Override
+    public String format() {
+        return "createTable|tableName";
+    }
+
+    public CreateTable() {
+    }
 
     public CreateTable(DatabaseManager manager, View view) {
         this.manager = manager;

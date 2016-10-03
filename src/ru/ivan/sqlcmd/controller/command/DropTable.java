@@ -6,10 +6,23 @@ import ru.ivan.sqlcmd.view.View;
 /**
  * Created by Ivan on 22.09.2016.
  */
-public class DropTable implements Command {
+public class DropTable extends Command {
 
     private DatabaseManager manager;
     private View view;
+
+    @Override
+    public String description() {
+        return "drop table ";
+    }
+
+    @Override
+    public String format() {
+        return "drop|tableName";
+    }
+
+    public DropTable() {
+    }
 
     public DropTable(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -29,6 +42,6 @@ public class DropTable implements Command {
             throw new IllegalArgumentException("Формат команды 'dropTable|tableName', а ты ввел: " + command);
         }
         manager.dropTable(data[1]);
-        view.write(String.format("Таблица %s была успешно очищена.", data[1]));
+        view.write(String.format("Таблица %s была успешно удалена.", data[1]));
     }
 }

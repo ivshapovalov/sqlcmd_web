@@ -12,16 +12,44 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void dropAllDatabases() {
+        try (Statement stmt = connection.createStatement()) {
+            Set<String> databases = getDatabasesNames();
+            for (String databaseName:databases
+                    ) {
+                stmt.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void dropAllTables() {
-//        try (Statement stmt = connection.createStatement()) {
-//            stmt.executeUpdate("DELETE FROM public." + tableName);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try (Statement stmt = connection.createStatement()) {
+            Set<String> tables = getTableNames();
+            for (String tableName:tables
+                    ) {
+                stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void truncateAllTables() {
+        try (Statement stmt = connection.createStatement()) {
+            Set<String> tables = getTableNames();
+            for (String tableName:tables
+                 ) {
+                stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,7 +165,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void dropTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM public." + tableName);
+            stmt.executeUpdate("DROP TABLE public." + tableName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void truncateTable(String tableName) {
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
         } catch (SQLException e) {
             e.printStackTrace();
         }
