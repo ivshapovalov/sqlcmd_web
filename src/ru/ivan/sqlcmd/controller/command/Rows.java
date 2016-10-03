@@ -14,9 +14,6 @@ import java.util.Set;
  */
 public class Rows extends Command {
 
-    private DatabaseManager manager;
-    private View view;
-
     @Override
     public String description() {
         return "list all rows in table";

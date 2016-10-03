@@ -8,9 +8,6 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class CreateTable extends Command {
 
-    private DatabaseManager manager;
-    private View view;
-
     @Override
     public String description() {
         return "create new table";

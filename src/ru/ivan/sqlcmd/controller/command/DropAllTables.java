@@ -7,10 +7,6 @@ import ru.ivan.sqlcmd.view.View;
  * Created by Ivan on 22.09.2016.
  */
 public class DropAllTables extends Command {
-
-    private DatabaseManager manager;
-    private View view;
-
     @Override
     public String description() {
         return "drop all tables";

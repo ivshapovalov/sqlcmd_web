@@ -205,9 +205,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void updateRow(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
-        String sql = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
+        String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
             for (Object value : newValue.values()) {
                 ps.setObject(index, value);

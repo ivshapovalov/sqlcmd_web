@@ -9,9 +9,6 @@ import java.util.Map;
 
 public class UpdateRow extends Command {
 
-    private DatabaseManager manager;
-    private View view;
-
     public UpdateRow() {
     }
 
@@ -31,7 +28,7 @@ public class UpdateRow extends Command {
     }
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("insertRow|");
+        return command.startsWith("updateRow|");
     }
 
     @Override
@@ -46,7 +43,7 @@ public class UpdateRow extends Command {
         int id=Integer.parseInt(data[2]);
 
         Map<String, Object> tableData = new LinkedHashMap<>();
-        for (int i = 1; i < data.length/2-1; i++) {
+        for (int i = 1; i <= data.length/2-1; i++) {
             String column=data[i*2+1];
             String value=data[i*2+2];
             tableData.put(column,value);
@@ -64,7 +61,7 @@ public class UpdateRow extends Command {
             throw new IllegalArgumentException(newMessage);
         }
 
-        view.write(String.format("В таблице '%s' успешно создана запись %s",tableName,tableData ));
+        view.write(String.format("В таблице '%s' успешно обновлена запись %s",tableName,tableData ));
 
 
 

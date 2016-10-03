@@ -8,9 +8,6 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class IsConnected extends Command {
 
-    private DatabaseManager manager;
-    private View view;
-
     @Override
     public String description() {
         return "";

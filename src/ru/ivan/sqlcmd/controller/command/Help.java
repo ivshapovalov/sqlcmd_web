@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class Help extends Command {
 
-    private View view;
     private List<Command> commands;
 
     @Override
@@ -30,7 +29,6 @@ public class Help extends Command {
         this.commands = new ArrayList<>(Arrays.asList(
                 new History(),
                 new Connect(),
-                new IsConnected(),
                 new CreateDatabase(),
                 new CreateTable(),
                 new Databases(),
@@ -46,8 +44,7 @@ public class Help extends Command {
                 new InsertRow(),
                 new UpdateRow(),
                 new Rows(),
-                new Tables(),
-                new Unsupported()));
+                new Tables()));
 
     }
 

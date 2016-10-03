@@ -9,8 +9,6 @@ import ru.ivan.sqlcmd.view.View;
 public class Connect extends Command {
 
     private static String COMMAND_SAMPLE="connect|sqlcmd|postgres|postgres";
-    private DatabaseManager manager;
-    private View view;
 
     @Override
     public String description() {
@@ -32,11 +30,12 @@ public class Connect extends Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("connect|");
+        return command.startsWith("c|");
     }
 
     @Override
     public void process(String command) {
+                command="connect|sqlcmd|postgres|postgres";
 
                 String[] data = command.split("[|]");
 

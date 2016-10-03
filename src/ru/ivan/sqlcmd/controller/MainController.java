@@ -21,6 +21,7 @@ public class MainController {
         this.manager = manager;
         this.view = view;
         this.commands = Arrays.asList(
+                new Help(view),
                 new History(view, history),
                 new Connect(manager, view),
                 new IsConnected(manager, view),
@@ -33,7 +34,6 @@ public class MainController {
                 new DropTable(manager, view),
                 new TruncateAllTables(manager, view),
                 new TruncateTable(manager, view),
-                new Help(view),
                 new Exit(view),
                 new Disconnect(manager, view),
                 new InsertRow(manager, view),

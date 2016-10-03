@@ -8,9 +8,6 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class TruncateTable extends Command {
 
-    private DatabaseManager manager;
-    private View view;
-
     public TruncateTable() {
     }
 

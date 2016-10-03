@@ -7,8 +7,6 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class Unsupported extends Command {
 
-    private View view;
-
     @Override
     public String description() {
         return "unsupported operation";

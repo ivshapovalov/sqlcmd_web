@@ -7,8 +7,6 @@ import ru.ivan.sqlcmd.view.View;
  */
 public class Exit extends Command {
 
-    private View view;
-
     @Override
     public String description() {
         return "exit from application";

@@ -9,7 +9,6 @@ import java.util.Map;
  */
 public class History extends Command {
 
-    private View view;
     Map<String, String> history;
 
     @Override
