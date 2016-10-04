@@ -53,10 +53,8 @@ public class MainController {
     private void doWork() {
         view.write("Привет, юзер");
 
-        //view.write("Введите команду или help для помощи");
-
         while (true) {
-            view.write("\n");
+            //view.write("\n");
             view.write("Введите команду или help для помощи");
             String input = view.read();
 
@@ -86,14 +84,10 @@ public class MainController {
                 } catch (ExitException e) {
 
                     throw e;
-
-
                 } catch (Exception e) {
                     printError(e);
                     break;
                 }
-
-
             }
 
         }

@@ -5,6 +5,9 @@ import ru.ivan.sqlcmd.view.View;
 
 public class TruncateTable extends Command {
 
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_RESET = "\u001B[0m";
+
     public TruncateTable() {
     }
 
@@ -21,13 +24,13 @@ public class TruncateTable extends Command {
 
     @Override
     public String format() {
-        return "truncate|tableName";
+        return "truncateTable|tableName";
     }
 
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("truncate|");
+        return command.startsWith("truncateTable|");
     }
 
     @Override
@@ -37,7 +40,18 @@ public class TruncateTable extends Command {
             throw new IllegalArgumentException("Формат команды 'truncateTable|tableName', а ты ввел: " + command);
         }
 
-        manager.truncateTable(data[1]);
-        view.write(String.format("Таблица %s была успешно очищена.", data[1]));
+        confirmAndTruncateTable(data[1]);
     }
+    private void confirmAndTruncateTable(String tableName) {
+        try {
+            view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, tableName));
+            if (view.read().equalsIgnoreCase("y")) {
+                manager.truncateTable(tableName);
+                view.write(String.format("Таблица %s была успешно очищена.", tableName));
+            }
+        } catch (Exception e) {
+            view.write(String.format("Ошибка удаления данных из таблицы '%s', по причине: %s", tableName, e.getMessage()));
+        }
+    }
+
 }

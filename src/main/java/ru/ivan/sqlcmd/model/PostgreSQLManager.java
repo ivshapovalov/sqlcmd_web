@@ -31,18 +31,54 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
+    @Override
+    public void connect(String database, String userName, String password) {
+
+        closeOpenedConnection(connection);
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(String.format("Невозможно подключиться к базе данных :%s, user:%s, password:%s",
+                    database, userName, password),
+                    e);
+        }
+    }
+
+
+    @Override
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            connection = null;
+        }
+    }
+
+    private void closeOpenedConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DatabaseManagerException("Не могу закрыть connection", e);
+            }
+        }
+    }
+
 
     @Override
     public Integer getTableSize(String tableName) {
-        Integer result=0;
+        Integer result = 0;
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select count(*) as count from  " + tableName)) {
             while (rs.next()) {
-                result=rs.getInt("count");
+                result = rs.getInt("count");
                 return result;
             }
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s",tableName), e);
+            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s", tableName), e);
 
         }
         return result;
@@ -82,7 +118,7 @@ public class PostgreSQLManager implements DatabaseManager {
             Set<String> tables = getTableNames();
             for (String tableName : tables
                     ) {
-                stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
+                stmt.executeUpdate("TRUNCATE TABLE IF EXISTS public." + tableName);
             }
 
         } catch (SQLException e) {
@@ -111,9 +147,11 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void createTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName + "();");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName+";");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Запрос к таблице %s не корректен",
+                    tableName),
+                    e);
         }
     }
 
@@ -132,10 +170,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    @Override
-    public void disconnect() {
-        connection = null;
-    }
 
     @Override
     public List<Map<String, Object>> getTableRows(String tableName) {
@@ -174,28 +208,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    @Override
-    public void connect(String database, String userName, String password) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Пожалуйста добавьте jdbc.jar к проекту.", e);
-        }
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/" + database, userName,
-                    password);
-        } catch (SQLException e) {
-            connection = null;
-            throw new RuntimeException(
-                    String.format("Невозможно подключиться к базе данных :%s, user:%s, password:%s",
-                            database, userName, password),
-                    e);
-        }
-    }
 
     @Override
     public void dropTable(String tableName) {
@@ -211,7 +223,9 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Таблицы %s не существует",
+                    tableName),
+                    e);
         }
     }
 
@@ -224,7 +238,9 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Таблицы %s не существует",
+                    tableName),
+                    e);
         }
     }
 
@@ -251,13 +267,15 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("В таблице %s не возможно обновить запись с id=%s",
+                    tableName,id),
+                    e);
         }
     }
 
     @Override
     public void deleteRow(String tableName, int id) {
-        String query = createString("DELETE  FROM ", tableName, " WHERE id = ",String.valueOf(id));
+        String query = createString("DELETE  FROM ", tableName, " WHERE id = ", String.valueOf(id));
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {

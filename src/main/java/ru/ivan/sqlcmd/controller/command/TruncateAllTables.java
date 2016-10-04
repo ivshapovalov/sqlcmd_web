@@ -4,6 +4,8 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class TruncateAllTables extends Command {
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_RESET = "\u001B[0m";
 
     public TruncateAllTables() {
     }
@@ -33,7 +35,18 @@ public class TruncateAllTables extends Command {
     @Override
     public void process(String command) {
 
-        manager.truncateAllTables();
-        view.write("Все таблицы были успешно очищены.");
+        confirmAndTruncateAllTables();
+    }
+
+    private void confirmAndTruncateAllTables() {
+        try {
+            view.write(ANSI_RED + "Удаляем данные из всех таблиц?. Y/N" + ANSI_RESET);
+            if (view.read().equalsIgnoreCase("y")) {
+                manager.truncateAllTables();
+                view.write("Все таблицы были успешно очищены.");
+            }
+        } catch (Exception e) {
+            view.write(String.format("Ошибка очистки всех таблиц по причине: %s", e.getMessage()));
+        }
     }
 }

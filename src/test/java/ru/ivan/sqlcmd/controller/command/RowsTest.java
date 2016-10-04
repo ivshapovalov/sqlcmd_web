@@ -51,7 +51,7 @@ public class RowsTest {
         Mockito.when(manager.getTableRows("users"))
                 .thenReturn(data);
         //when
-        command.process("find|users");
+        command.process("rows|users");
 
         //then
         String expected =
@@ -72,11 +72,11 @@ public class RowsTest {
     }
 
     @Test
-    public void testCanProcessFindWithParametersString() {
+    public void testCanProcessRowsWithParametersString() {
         //given
 
         //whrn
-        Boolean canProcess = command.canProcess("find|users");
+        Boolean canProcess = command.canProcess("rows|users");
 
         assertTrue(canProcess);
     }
@@ -85,7 +85,7 @@ public class RowsTest {
     public void testCanProcessFindWithoutParametersString() {
         //given
         //whrn
-        Boolean canProcess = command.canProcess("find");
+        Boolean canProcess = command.canProcess("rows");
 
         assertFalse(canProcess);
     }
@@ -111,7 +111,7 @@ public class RowsTest {
         Mockito.when(manager.getTableRows("users"))
                 .thenReturn(data);
         //when
-        command.process("find|users");
+        command.process("rows|users");
 
         //then
         String expected =

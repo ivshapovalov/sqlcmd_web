@@ -4,6 +4,8 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class DropDatabase extends Command {
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_RESET = "\u001B[0m";
 
     @Override
     public String description() {
@@ -35,9 +37,18 @@ public class DropDatabase extends Command {
         if (data.length != 2) {
             throw new IllegalArgumentException("Формат команды 'dropDatabase|databaseName', а ты ввел: " + command);
         }
+        confirmAndDropDatabase(data[1]);
+    }
 
-        manager.dropDatabase(data[1]);
-
-        view.write(String.format("База данных %s была успешно очищена.", data[1]));
+    private void confirmAndDropDatabase(String databaseName) {
+        try {
+            view.write(String.format(ANSI_RED + "Удаляем базу данных '%s'. Y/N?" + ANSI_RESET, databaseName));
+            if (view.read().equalsIgnoreCase("y")) {
+                manager.dropDatabase(databaseName);
+                view.write(String.format("База данных %s была успешно удалена.", databaseName));
+            }
+        } catch (Exception e) {
+            view.write(String.format("Ошибка удаления базы данных '%s', по причине: %s", databaseName, e.getMessage()));
+        }
     }
 }

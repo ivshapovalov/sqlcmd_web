@@ -46,28 +46,4 @@ public class Rows extends Command {
         view.write(constructor.getTableString());
     }
 
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row : tableData
-                ) {
-            printRow(row);
-        }
-    }
-    private void printRow(DataSet row) {
-        java.util.List values = row.getValues();
-        String string = "";
-        for (Object column : values
-                ) {
-            string += column + "\t" + "|";
-        }
-        view.write(string);
-    }
-
-    private void printHeader(Set<String> tableHeaders) {
-        String header = "";
-        for (String column : tableHeaders
-                ) {
-            header += column + "\t" + "|";
-        }
-        view.write(header);
-    }
 }

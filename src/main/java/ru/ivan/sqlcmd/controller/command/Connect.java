@@ -27,12 +27,12 @@ public class Connect extends Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("c|");
+        return command.startsWith("connect|");
     }
 
     @Override
     public void process(String command) {
-                command="connect|sqlcmd|postgres|postgres";
+                //command="connect|sqlcmd|postgres|postgres";
 
                 String[] data = command.split("[|]");
 
@@ -44,7 +44,7 @@ public class Connect extends Command {
                 String user = data[2];
                 String password = data[3];
                 manager.connect(database, user, password);
-                view.write("Подключение успешно");
+                view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
     }
 
     private int parametersLength() {
