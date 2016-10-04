@@ -45,29 +45,69 @@ public class PostgreSQLManagerTest {
     @After
     public void clear() {
         manager.dropTable(TABLE_NAME);
+        //manager.dropAllDatabases();
+    }
+
+
+    @Test
+    public void testCreateDatabase() {
+        //given
+
+        String databaseName1="testcreatedb1";
+        manager.dropDatabase(databaseName1);
+        String databaseName2="testcreatedb2";
+        manager.dropDatabase(databaseName2);
+        manager.createDatabase(databaseName1);
+        manager.createDatabase(databaseName2);
+
+        //when
+         Set<String> databases = manager.getDatabasesNames();
+
+        //then
+        if (!(databases.contains(databaseName1) || databases.contains(databaseName2))) {
+            fail();
+        }
+        manager.dropTable(databaseName1);
+        manager.dropTable(databaseName2);
+    }
+    @Test(expected = DatabaseManagerException.class)
+    public void testCreateDatabaseWithInvalidCommand() {
+        //given
+
+        String databaseName1="testcreatedb1";
+        manager.dropDatabase(databaseName1);
+        manager.createDatabase(databaseName1);
+        manager.createDatabase(databaseName1);
+
+        //when
+
+        //then
+
+        manager.dropTable(databaseName1);
+
     }
 
     @Test
-    public void testClear() {
+    public void testTruncate() {
         //given
         List<Map<String, Object>> expected = new ArrayList<>();
 
         Map<String, Object> newData = new LinkedHashMap<>();
-        newData.put("username", "Bob");
+        newData.put("username", "Kevin");
         newData.put("password", "*****");
         newData.put("id", 1);
         manager.insertRow(TABLE_NAME, newData);
 
         //when
         manager.truncateTable(TABLE_NAME);
-        List<Map<String, Object>> tests = manager.getTableRows(TABLE_NAME);
+        List<Map<String, Object>> actual = manager.getTableRows(TABLE_NAME);
 
         //then
-        junit.framework.Assert.assertEquals(expected, tests);
+        junit.framework.Assert.assertEquals(expected, actual);
     }
 
     @Test(expected = DatabaseManagerException.class)
-    public void testClearNotExistTable() {
+    public void testTruncateNotExistTable() {
         //when
         manager.truncateTable(NOT_EXIST_TABLE);
     }
@@ -134,6 +174,18 @@ public class PostgreSQLManagerTest {
             fail();
         }
     }
+    @Test(expected = DatabaseManagerException.class)
+    public void testDropDatabaseWithInvalidCommand() {
+        //given
+
+        String databaseName1="postgres";
+        manager.dropDatabase(databaseName1);
+
+        //when
+
+        //then
+
+    }
 
     @Test
     public void testDropTable() {
@@ -148,6 +200,18 @@ public class PostgreSQLManagerTest {
         //then
         Set<String> actual = manager.getTableNames();
         assertEquals(expected, actual);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testDropTableWithInvalidCommand() {
+        //given
+
+       manager.dropTable("%%%dfd");
+
+        //when
+
+        //then
+
     }
 
     @Test
@@ -183,6 +247,15 @@ public class PostgreSQLManagerTest {
         //then
         assertEquals(expected, actual);
     }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testDeleteFromNotExistTable() {
+        //given
+        //when
+        //then
+        manager.deleteRow(NOT_EXIST_TABLE, 1);
+    }
+
 
     @Test(expected = DatabaseManagerException.class)
     public void testInsertNotExistTable() {

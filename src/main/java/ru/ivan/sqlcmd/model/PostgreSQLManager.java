@@ -79,59 +79,73 @@ public class PostgreSQLManager implements DatabaseManager {
             }
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s", tableName), e);
-
         }
         return result;
     }
 
     @Override
     public void dropAllDatabases() {
-        try (Statement stmt = connection.createStatement()) {
+//        String problemDatabase = "";
+//        try (Statement stmt = connection.createStatement()) {
             Set<String> databases = getDatabasesNames();
-            for (String databaseName : databases
-                    ) {
-                stmt.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+            for (String databaseName : databases) {
+                if ("postgres".equals(databaseName.trim())) {
+                    continue;
+                }
+//                problemDatabase = databaseName;
+//                stmt.executeUpdate("DROP DATABASE " + databaseName);
+                dropDatabase(databaseName);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        } catch (SQLException e) {
+//            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", problemDatabase), e);
+//
+//        }
     }
 
     @Override
     public void dropAllTables() {
-        try (Statement stmt = connection.createStatement()) {
+        //String problemTable = "";
+        //try (Statement stmt = connection.createStatement()) {
             Set<String> tables = getTableNames();
             for (String tableName : tables
                     ) {
-                stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
+//                problemTable = tableName;
+//                stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
+                dropTable(tableName);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        } catch (SQLException e) {
+//            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", problemTable), e);
+//
+//        }
     }
 
     @Override
     public void truncateAllTables() {
-        try (Statement stmt = connection.createStatement()) {
+//        String problemTable = "";
+//        try (Statement stmt = connection.createStatement()) {
             Set<String> tables = getTableNames();
             for (String tableName : tables
                     ) {
-                stmt.executeUpdate("TRUNCATE TABLE IF EXISTS public." + tableName);
+//                problemTable = tableName;
+//                stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
+                truncateTable(tableName);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        } catch (SQLException e) {
+//            throw new DatabaseManagerException(String.format("Не возможно очистить таблицу %s", problemTable), e);
+//
+//        }
     }
 
     @Override
     public void createDatabase(String databaseName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE DATABASE " + databaseName);
+            statement.executeUpdate("CREATE DATABASE  " + databaseName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Не возможно создать таблицу %s", databaseName), e);
+
         }
     }
 
@@ -140,14 +154,15 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName + ";");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", databaseName), e);
+
         }
     }
 
     @Override
     public void createTable(String tableName) {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName+";");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName + ";");
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Запрос к таблице %s не корректен",
                     tableName),
@@ -165,8 +180,8 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return databases;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return databases;
+            throw new DatabaseManagerException("Не возможно получить список баз данных", e);
+
         }
     }
 
@@ -188,8 +203,8 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            //e.printStackTrace();
-            return result;
+            throw new DatabaseManagerException(String.format("Не возможно получить список строк таблицы %s", tableName), e);
+
         }
     }
 
@@ -203,8 +218,8 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return tables;
+            throw new DatabaseManagerException("Не возможно получить список всех таблиц", e);
+
         }
     }
 
@@ -214,7 +229,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", tableName), e);
         }
     }
 
@@ -223,7 +238,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Таблицы %s не существует",
+            throw new DatabaseManagerException(String.format("Невозможно удалить таблицу %s",
                     tableName),
                     e);
         }
@@ -238,19 +253,10 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Таблицы %s не существует",
+            throw new DatabaseManagerException(String.format("Невозможно вставить строку в таблицу %s",
                     tableName),
                     e);
         }
-    }
-
-    private String getValuesFormated(DataSet input, String format) {
-        String values = "";
-        for (Object value : input.getValues()) {
-            values += String.format(format, value);
-        }
-        values = values.substring(0, values.length() - 1);
-        return values;
     }
 
     @Override
@@ -268,7 +274,7 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("В таблице %s не возможно обновить запись с id=%s",
-                    tableName,id),
+                    tableName, id),
                     e);
         }
     }
@@ -279,7 +285,9 @@ public class PostgreSQLManager implements DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(String.format("В таблице %s невозможно удалить строку с id=%s",
+                    tableName, id),
+                    e);
         }
     }
 
@@ -293,8 +301,9 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            //e.printStackTrace();
-            return tables;
+            throw new DatabaseManagerException(String.format("Невозможно получить список колонок таблицы %s",
+                    tableName),
+                    e);
         }
     }
 
