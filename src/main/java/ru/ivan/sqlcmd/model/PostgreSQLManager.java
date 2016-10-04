@@ -87,15 +87,15 @@ public class PostgreSQLManager implements DatabaseManager {
     public void dropAllDatabases() {
 //        String problemDatabase = "";
 //        try (Statement stmt = connection.createStatement()) {
-            Set<String> databases = getDatabasesNames();
-            for (String databaseName : databases) {
-                if ("postgres".equals(databaseName.trim())) {
-                    continue;
-                }
+        Set<String> databases = getDatabasesNames();
+        for (String databaseName : databases) {
+            if ("postgres".equals(databaseName.trim())) {
+                continue;
+            }
 //                problemDatabase = databaseName;
 //                stmt.executeUpdate("DROP DATABASE " + databaseName);
-                dropDatabase(databaseName);
-            }
+            dropDatabase(databaseName);
+        }
 
 //        } catch (SQLException e) {
 //            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", problemDatabase), e);
@@ -107,13 +107,13 @@ public class PostgreSQLManager implements DatabaseManager {
     public void dropAllTables() {
         //String problemTable = "";
         //try (Statement stmt = connection.createStatement()) {
-            Set<String> tables = getTableNames();
-            for (String tableName : tables
-                    ) {
+        Set<String> tables = getTableNames();
+        for (String tableName : tables
+                ) {
 //                problemTable = tableName;
 //                stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
-                dropTable(tableName);
-            }
+            dropTable(tableName);
+        }
 
 //        } catch (SQLException e) {
 //            throw new DatabaseManagerException(String.format("Не возможно удалить таблицу %s", problemTable), e);
@@ -125,13 +125,13 @@ public class PostgreSQLManager implements DatabaseManager {
     public void truncateAllTables() {
 //        String problemTable = "";
 //        try (Statement stmt = connection.createStatement()) {
-            Set<String> tables = getTableNames();
-            for (String tableName : tables
-                    ) {
+        Set<String> tables = getTableNames();
+        for (String tableName : tables
+                ) {
 //                problemTable = tableName;
 //                stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
-                truncateTable(tableName);
-            }
+            truncateTable(tableName);
+        }
 
 //        } catch (SQLException e) {
 //            throw new DatabaseManagerException(String.format("Не возможно очистить таблицу %s", problemTable), e);
@@ -217,7 +217,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 tables.add(rs.getString("table_name"));
             }
             return tables;
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DatabaseManagerException("Не возможно получить список всех таблиц", e);
 
         }
@@ -285,9 +285,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("В таблице %s невозможно удалить строку с id=%s",
-                    tableName, id),
-                    e);
+            throw new DatabaseManagerException(String.format("В таблице %s невозможно удалить строку с id=%s", tableName, id), e);
         }
     }
 

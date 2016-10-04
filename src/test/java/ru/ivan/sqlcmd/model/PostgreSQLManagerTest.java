@@ -236,6 +236,19 @@ public class PostgreSQLManagerTest {
         assertEquals(expected, actual);
     }
 
+    @Test(expected = DatabaseManagerException.class)
+    public void testGetTableColumnsOfIllegalTable() {
+        //given
+
+
+        //when
+        Set<String> actual = manager.getTableColumns("'adfsf'");
+
+        //then
+
+
+    }
+
     @Test
     public void testGetTableNames() {
         //given
@@ -246,6 +259,36 @@ public class PostgreSQLManagerTest {
 
         //then
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetTableSize() {
+        //given
+        manager.truncateTable(TABLE_NAME);
+        Map<String, Object> newData = new LinkedHashMap<>();
+        newData.put("username", "Bob");
+        newData.put("password", "*****");
+        newData.put("id", 1);
+        manager.insertRow(TABLE_NAME, newData);
+
+        Integer expected = 1;
+
+        //when
+       Integer actual = manager.getTableSize(TABLE_NAME);
+
+        //then
+        assertEquals(expected, actual);
+        manager.dropTable(TABLE_NAME);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testGetTableSizeOfIllegalTable() {
+        //given
+        //when
+        Integer actual = manager.getTableSize(NOT_EXIST_TABLE);
+
+        //then
+
     }
 
     @Test(expected = DatabaseManagerException.class)
