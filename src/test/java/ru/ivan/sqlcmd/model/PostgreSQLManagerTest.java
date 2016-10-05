@@ -281,6 +281,20 @@ public class PostgreSQLManagerTest {
         manager.dropTable(TABLE_NAME);
     }
 
+    @Test
+    public void testGetTableSizeOfEmptyTable() {
+        //given
+        manager.truncateTable(TABLE_NAME);
+        Integer expected = 0;
+
+        //when
+        Integer actual = manager.getTableSize(TABLE_NAME);
+
+        //then
+        assertEquals(expected, actual);
+        //manager.dropTable(TABLE_NAME);
+    }
+
     @Test(expected = DatabaseManagerException.class)
     public void testGetTableSizeOfIllegalTable() {
         //given
