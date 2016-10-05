@@ -4,8 +4,6 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class DropDatabase extends Command {
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_RESET = "\u001B[0m";
 
     @Override
     public String description() {
@@ -42,7 +40,7 @@ public class DropDatabase extends Command {
 
     private void confirmAndDropDatabase(String databaseName) {
         try {
-            view.write(String.format(ANSI_RED + "Удаляем базу данных '%s'. Y/N?" + ANSI_RESET, databaseName));
+            view.write(String.format("Удаляем базу данных '%s'. Y/N?", databaseName));
             if (view.read().equalsIgnoreCase("y")) {
                 manager.dropDatabase(databaseName);
                 view.write(String.format("База данных %s была успешно удалена.", databaseName));

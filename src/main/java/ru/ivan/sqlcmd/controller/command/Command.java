@@ -15,11 +15,6 @@ public abstract class Command {
 
     public abstract String format();
 
-    public Command(DatabaseManager manager, View view) {
-        this.view = view;
-        this.manager = manager;
-    }
-
     public Command(View view) {
         this.view = view;
     }

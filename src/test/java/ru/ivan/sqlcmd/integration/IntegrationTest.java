@@ -8,11 +8,9 @@ import ru.ivan.sqlcmd.controller.Main;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-
 import static org.junit.Assert.assertEquals;
 
 public class IntegrationTest {
@@ -210,6 +208,8 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "До скорой встречи!\n", getData());
     }
+
+
 
     @Test
     public void testTablesAfterConnect() {
@@ -462,71 +462,7 @@ public class IntegrationTest {
                         "До скорой встречи!\n", getData());
     }
 
-    @Test
-    public void testTruncateAllTables() {
-        // given
-        in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("truncateTable|" + TABLE_NAME);
-        in.add("y");
-        in.add("insertRow|" + TABLE_NAME + "|id|1111|name|Peter|password|****");
-        in.add("rows|" + TABLE_NAME);
-        in.add("truncateTable|" + TABLE_NAME2);
-        in.add("y");
-        in.add("insertRow|" + TABLE_NAME2 + "|id|1111|name|Peter|password|****");
-        in.add("rows|" + TABLE_NAME2);
-        in.add("truncateAllTables");
-        in.add("y");
-        in.add("rows|" + TABLE_NAME);
-        in.add("rows|" + TABLE_NAME2);
-        in.add("disconnect");
-        in.add("exit");
 
-        // when
-        Main.main(new String[0]);
-
-        // then
-        assertEquals(
-                "Привет, юзер\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Удаляем данные с таблицы 'test'. Y/N\n" +
-                        "Таблица test была успешно очищена.\n" +
-                        "Введите команду или help для помощи\n" +
-                        "В таблице 'test' успешно создана запись {id=1111, name=Peter, password=****}\n" +
-                        "Введите команду или help для помощи\n" +
-                        "+----+-----+--------+\n" +
-                        "|id  |name |password|\n" +
-                        "+----+-----+--------+\n" +
-                        "|1111|Peter|****    |\n" +
-                        "+----+-----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Удаляем данные с таблицы 'qwe'. Y/N\n" +
-                        "Таблица qwe была успешно очищена.\n" +
-                        "Введите команду или help для помощи\n" +
-                        "В таблице 'qwe' успешно создана запись {id=1111, name=Peter, password=****}\n" +
-                        "Введите команду или help для помощи\n" +
-                        "+----+-----+--------+\n" +
-                        "|id  |name |password|\n" +
-                        "+----+-----+--------+\n" +
-                        "|1111|Peter|****    |\n" +
-                        "+----+-----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Удаляем данные из всех таблиц?. Y/N\n" +
-                        "Все таблицы были успешно очищены.\n" +
-                        "Введите команду или help для помощи\n" +
-                        "+--+----+--------+\n" +
-                        "|id|name|password|\n" +
-                        "+--+----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "+--+----+--------+\n" +
-                        "|id|name|password|\n" +
-                        "+--+----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Отключение успешно\n" +
-                        "Введите команду или help для помощи\n" +
-                        "До скорой встречи!\n", getData());
-    }
 
     @Test
     public void testConnectAfterConnect() {
@@ -1093,7 +1029,7 @@ public class IntegrationTest {
         in.add("truncateTable|" + TABLE_NAME);
         in.add("y");
         in.add("insertRow|" + TABLE_NAME + "|id|13|name|Stiven|password|*****");
-        in.add("deleteRow|" + TABLE_NAME + "|13|name|adf");
+        in.add("deleteRow|" + TABLE_NAME + "|13|adsf|asdfa");
         in.add("disconnect");
         in.add("exit");
 
@@ -1136,54 +1072,6 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Третий параметр ID не может быть преобразован к числовому!\n" +
                 "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
-    }
-
-
-    @Test
-    public void testTruncateWithError() {
-        // given
-        in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("truncateTable|sadfasd|fsf|fdsf");
-        in.add("disconnect");
-        in.add("exit");
-
-        // when
-        Main.main(new String[0]);
-
-        // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Формат команды 'truncateTable|tableName', а ты ввел: truncateTable|sadfasd|fsf|fdsf\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
-    }
-
-    @Test
-    public void testCreateWithErrors() {
-        // given
-        in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("create|" + TABLE_NAME + "|error");
-        in.add("disconnect");
-        in.add("exit");
-
-        // when
-        Main.main(new String[0]);
-
-        // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Такая команда отсутствует - create|test|error\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +

@@ -80,7 +80,7 @@ public class PostgreSQLManager implements DatabaseManager {
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Не возможно получить размер таблицы %s", tableName), e);
         }
-            return result;
+        return result;
 
     }
 
@@ -134,12 +134,13 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void createTable(String tableName) {
+    public void createTable(String query) {
+
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS public." + tableName + ";");
+            stmt.executeUpdate("CREATE TABLE public." + query );
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Запрос к таблице %s не корректен",
-                    tableName),
+            throw new DatabaseManagerException(String.format("Невозможно выполнить запрос  %s",
+                    query),
                     e);
         }
     }
@@ -225,13 +226,13 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            String message=String.format("Невозможно вставить строку в таблицу %s. ",
+            String message = String.format("Невозможно вставить строку в таблицу %s. ",
                     tableName);
-            String originalMessage=e.getMessage();
+            String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
-                message=message.concat(" Таблицы не существует");
-            } else   if (originalMessage.contains("столбец")) {
-                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                message = message.concat(" Таблицы не существует");
+            } else if (originalMessage.contains("столбец")) {
+                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
                         originalMessage.indexOf("\n")));
             }
             throw new DatabaseManagerException(message);
@@ -252,13 +253,13 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            String message=String.format("В таблице %s не возможно обновить запись с id=%s. ",
+            String message = String.format("В таблице %s не возможно обновить запись с id=%s. ",
                     tableName, id);
-            String originalMessage=e.getMessage();
+            String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
-                message=message.concat(" Таблицы не существует");
-            } else   if (originalMessage.contains("столбец")) {
-                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                message = message.concat(" Таблицы не существует");
+            } else if (originalMessage.contains("столбец")) {
+                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
                         originalMessage.indexOf("\n")));
             }
             throw new DatabaseManagerException(message);
@@ -271,16 +272,17 @@ public class PostgreSQLManager implements DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            String message=String.format("Невозможно удалить строку из таблицы %s. ",
+            String message = String.format("Невозможно удалить строку из таблицы %s. ",
                     tableName);
-            String originalMessage=e.getMessage();
+            String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
-                message=message.concat(" Таблицы не существует");
-            } else   if (originalMessage.contains("столбец")) {
-                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                message = message.concat(" Таблицы не существует");
+            } else if (originalMessage.contains("столбец")) {
+                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
                         originalMessage.indexOf("\n")));
             }
-            throw new DatabaseManagerException(message);        }
+            throw new DatabaseManagerException(message);
+        }
     }
 
     @Override

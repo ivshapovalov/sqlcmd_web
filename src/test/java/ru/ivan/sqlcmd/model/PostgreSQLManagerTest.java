@@ -44,8 +44,7 @@ public class PostgreSQLManagerTest {
     @After
     public void clear() {
         manager.dropTable(TABLE_NAME);
-        //manager.dropAllDatabases();
-    }
+     }
 
 
     @Test
@@ -66,8 +65,8 @@ public class PostgreSQLManagerTest {
         if (!(databases.contains(databaseName1) || databases.contains(databaseName2))) {
             fail();
         }
-        manager.dropTable(databaseName1);
-        manager.dropTable(databaseName2);
+        manager.dropDatabase(databaseName1);
+        manager.dropDatabase(databaseName2);
     }
     @Test(expected = DatabaseManagerException.class)
     public void testCreateDatabaseWithInvalidCommand() {

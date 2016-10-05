@@ -1,12 +1,9 @@
 package ru.ivan.sqlcmd.model;
 
 import org.junit.*;
-
 import java.util.*;
-
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
-
 
 public class PostgreSQLManagerForMultiCommandsTest {
     private final static String TABLE_NAME1 = "test1";
@@ -29,7 +26,6 @@ public class PostgreSQLManagerForMultiCommandsTest {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDatabase(DATABASE_NAME);
-        //manager.createDatabase(DATABASE_NAME);
 
     }
 
@@ -43,6 +39,8 @@ public class PostgreSQLManagerForMultiCommandsTest {
     @Before
     public void setup() {
         manager.connect("", DB_USER, DB_PASSWORD);
+        manager.dropTable(TABLE_NAME1);
+        manager.dropTable(TABLE_NAME2);
         manager.createTable(SQL_CREATE_TABLE1);
         manager.createTable(SQL_CREATE_TABLE2);
 
@@ -97,8 +95,6 @@ public class PostgreSQLManagerForMultiCommandsTest {
         if (databases.size() != 1 && databases.contains("postgres")) {
             fail();
         }
-
-
     }
 
     @Test
@@ -106,8 +102,10 @@ public class PostgreSQLManagerForMultiCommandsTest {
         //given
         Set<String> expected = new LinkedHashSet<>();
         String tableName1 = "table1";
+        String tableName2 = "table2";
+        manager.dropTable(tableName1);
+        manager.dropTable(tableName2);
         manager.createTable(tableName1 + "(id serial PRIMARY KEY)");
-        String tableName2 = "table1";
         manager.createTable(tableName2 + "(id serial PRIMARY KEY)");
 
         //when
