@@ -12,6 +12,9 @@ import ru.ivan.sqlcmd.model.PropertiesLoader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 public class IntegrationTestCreateDropTruncate {
@@ -173,72 +176,6 @@ public class IntegrationTestCreateDropTruncate {
         // when
         Main.main(new String[0]);
 
-        // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе '' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "База данных db_test была успешно удалена.\n" +
-                "Введите команду или help для помощи\n" +
-                "База данных db_test была успешно создана.\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'db_test' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "***Текущие базы данных***\n" +
-                "postgres\n" +
-                "sqlcmd\n" +
-                "db_test\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "Ошибка удаления базы данных 'db_test', по причине: Не возможно удалить таблицу db_test\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
-    }
-
-    @Test
-    public void testDropCurrentTable() {
-        // given
-
-
-        String testDB = "db_test";
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("dropDatabase|" + testDB);
-        in.add("y");
-        in.add("createDatabase|" + testDB);
-        in.add("connect|" + testDB + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("createTable|users(id integer)");
-
-
-        Thread t1=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String testDB = "db_test";
-                in.add("connect|" + testDB + "|" + DB_USER + "|" + DB_PASSWORD);
-                int count= 1;
-                while(!Thread.currentThread().isInterrupted()) {
-
-                    in.add("insertRow|users|id|"+count);
-
-                    count++;
-                }
-                in.add("disconnect");
-                in.add("exit");
-            }
-        });
-        t1.start();
-
-        in.add("dropTable|users");
-        in.add("y");
-        in.add("disconnect");
-        in.add("exit");
-
-        // when
-        Main.main(new String[0]);
-
-        t1.interrupt();
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
