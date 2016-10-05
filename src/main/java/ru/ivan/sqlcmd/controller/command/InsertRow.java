@@ -1,7 +1,10 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
+
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,7 +40,7 @@ public class InsertRow extends Command {
         String[] data=command.split("[|]");
         if (data.length%2==1) {
             throw new IllegalArgumentException("Должно быть четное количество параметров " +
-                    "в формате insertRow|table|column1|value1|column2|value2|...|columnN|valueN");
+                    "в формате insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN");
 
         }
         String table=data[1];
@@ -50,15 +53,8 @@ public class InsertRow extends Command {
         }
         try {
             manager.insertRow(table, tableData);
-        } catch (IllegalArgumentException e) {
-            String originalMessage = e.getMessage();
-            String newMessage="";
-            if (originalMessage.contains("отношение")) {
-                newMessage=originalMessage.replace("отношение","таблица");
-            } else if (originalMessage.contains("столбец")) {
-                newMessage=originalMessage.replace("столбец","поле");
-            }
-            throw new IllegalArgumentException(newMessage);
+        } catch (DatabaseManagerException e) {
+            throw e;
         }
 
         view.write(String.format("В таблице '%s' успешно создана запись %s",table,tableData ));

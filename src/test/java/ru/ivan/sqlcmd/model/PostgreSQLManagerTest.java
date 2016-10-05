@@ -1,6 +1,5 @@
 package ru.ivan.sqlcmd.model;
 
-import junit.framework.*;
 import org.junit.*;
 import org.junit.Test;
 import java.util.*;
@@ -12,7 +11,7 @@ import static org.junit.Assert.*;
 public class PostgreSQLManagerTest {
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
-    private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
+    private final static String SQL_CREATE_TABLE1 = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
     private static final PropertiesLoader pl = new PropertiesLoader();
@@ -39,7 +38,7 @@ public class PostgreSQLManagerTest {
     @Before
     public void setup() {
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
-        manager.createTable(SQL_CREATE_TABLE);
+        manager.createTable(SQL_CREATE_TABLE1);
     }
 
     @After
@@ -88,7 +87,7 @@ public class PostgreSQLManagerTest {
     }
 
     @Test
-    public void testTruncate() {
+    public void testTruncateTable() {
         //given
         List<Map<String, Object>> expected = new ArrayList<>();
 
@@ -103,7 +102,7 @@ public class PostgreSQLManagerTest {
         List<Map<String, Object>> actual = manager.getTableRows(TABLE_NAME);
 
         //then
-        junit.framework.Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test(expected = DatabaseManagerException.class)
@@ -112,7 +111,7 @@ public class PostgreSQLManagerTest {
         manager.truncateTable(NOT_EXIST_TABLE);
     }
 
-    @Test(expected = DatabaseManagerException.class)
+        @Test(expected = DatabaseManagerException.class)
     public void testConnectToNotExistDatabase() {
         //when
         try {

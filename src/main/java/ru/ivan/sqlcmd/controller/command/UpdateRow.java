@@ -1,6 +1,6 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.*;
 import ru.ivan.sqlcmd.view.View;
 
 import java.util.LinkedHashMap;
@@ -35,13 +35,18 @@ public class UpdateRow extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
-        if (data.length % 2 == 0) {
-            throw new IllegalArgumentException("Должно быть нечетное количество параметров " +
+        if (data.length % 2 == 0 || data.length == 1 || data.length == 3) {
+            throw new IllegalArgumentException("Должно быть четное количество параметров большее или равное 4 " +
                     "в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN");
 
         }
         String tableName = data[1];
-        int id = Integer.parseInt(data[2]);
+        int id;
+        try {
+             id= Integer.parseInt(data[2]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Третий параметр ID не может быть преобразован к числовому!");
+        }
 
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int i = 1; i <= data.length / 2 - 1; i++) {
@@ -51,15 +56,8 @@ public class UpdateRow extends Command {
         }
         try {
             manager.updateRow(tableName, id, tableData);
-        } catch (IllegalArgumentException e) {
-            String originalMessage = e.getMessage();
-            String newMessage = "";
-            if (originalMessage.contains("отношение")) {
-                newMessage = originalMessage.replace("отношение", "таблица");
-            } else if (originalMessage.contains("столбец")) {
-                newMessage = originalMessage.replace("столбец", "поле");
-            }
-            throw new IllegalArgumentException(newMessage);
+        } catch (DatabaseManagerException e) {
+            throw e;
         }
 
         view.write(String.format("В таблице '%s' успешно обновлена запись %s", tableName, tableData));

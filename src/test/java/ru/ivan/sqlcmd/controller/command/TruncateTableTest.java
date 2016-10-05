@@ -70,21 +70,6 @@ public class TruncateTableTest {
     }
 
     @Test
-    public void testTruncateTable() {
-//        //given
-//
-//        //when
-//        command.process("truncateTable|users");
-//
-//        //then
-//       verify(manager).truncateTable("users");
-//        verify(view)("y");
-//        verify(view).read();
-//       verify(view).write("Таблица users была успешно очищена.");
-    }
-
-
-    @Test
     public void testTruncateTableWithParametersLessThen2() {
         //when
         try {

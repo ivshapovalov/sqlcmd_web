@@ -225,9 +225,16 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Невозможно вставить строку в таблицу %s",
-                    tableName),
-                    e);
+            String message=String.format("Невозможно вставить строку в таблицу %s. ",
+                    tableName);
+            String originalMessage=e.getMessage();
+            if (originalMessage.contains("отношение")) {
+                message=message.concat(" Таблицы не существует");
+            } else   if (originalMessage.contains("столбец")) {
+                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                        originalMessage.indexOf("\n")));
+            }
+            throw new DatabaseManagerException(message);
         }
     }
 
@@ -245,9 +252,16 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("В таблице %s не возможно обновить запись с id=%s",
-                    tableName, id),
-                    e);
+            String message=String.format("В таблице %s не возможно обновить запись с id=%s. ",
+                    tableName, id);
+            String originalMessage=e.getMessage();
+            if (originalMessage.contains("отношение")) {
+                message=message.concat(" Таблицы не существует");
+            } else   if (originalMessage.contains("столбец")) {
+                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                        originalMessage.indexOf("\n")));
+            }
+            throw new DatabaseManagerException(message);
         }
     }
 
@@ -257,8 +271,16 @@ public class PostgreSQLManager implements DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("В таблице %s невозможно удалить строку с id=%s", tableName, id), e);
-        }
+            String message=String.format("Невозможно удалить строку из таблицы %s. ",
+                    tableName);
+            String originalMessage=e.getMessage();
+            if (originalMessage.contains("отношение")) {
+                message=message.concat(" Таблицы не существует");
+            } else   if (originalMessage.contains("столбец")) {
+                message=message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":")+3,
+                        originalMessage.indexOf("\n")));
+            }
+            throw new DatabaseManagerException(message);        }
     }
 
     @Override

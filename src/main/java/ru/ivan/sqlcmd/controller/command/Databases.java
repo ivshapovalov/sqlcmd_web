@@ -33,7 +33,7 @@ public class Databases extends Command {
 
     @Override
     public void process(String command) {
-        view.write("***Текущий базы данных***");
+        view.write("***Текущие базы данных***");
         for (String database : manager.getDatabasesNames()) {
             view.write(database);
         }

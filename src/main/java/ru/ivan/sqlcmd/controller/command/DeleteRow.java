@@ -1,6 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
 import java.util.LinkedHashMap;
@@ -39,19 +40,16 @@ public class DeleteRow extends Command {
             throw new IllegalArgumentException("Формат команды 'deleteRow|tableName|ID', а ты ввел: " + command);
         }
         String tableName = data[1];
-        int id = Integer.parseInt(data[2]);
-
+        int id;
+        try {
+            id= Integer.parseInt(data[2]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Третий параметр ID не может быть преобразован к числовому!");
+        }
         try {
             manager.deleteRow(tableName, id);
-        } catch (IllegalArgumentException e) {
-            String originalMessage = e.getMessage();
-            String newMessage = "";
-            if (originalMessage.contains("отношение")) {
-                newMessage = originalMessage.replace("отношение", "таблица");
-            } else if (originalMessage.contains("столбец")) {
-                newMessage = originalMessage.replace("столбец", "поле");
-            }
-            throw new IllegalArgumentException(newMessage);
+        } catch (DatabaseManagerException e) {
+            throw e;
         }
 
         view.write(String.format("В таблице '%s' успешно удалена запись c ID=%s", tableName, id));

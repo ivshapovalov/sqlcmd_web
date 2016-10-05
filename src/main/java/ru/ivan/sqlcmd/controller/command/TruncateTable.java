@@ -5,9 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class TruncateTable extends Command {
 
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_RESET = "\u001B[0m";
-
     public TruncateTable() {
     }
 
@@ -44,7 +41,7 @@ public class TruncateTable extends Command {
     }
     private void confirmAndTruncateTable(String tableName) {
         try {
-            view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, tableName));
+            view.write(String.format("Удаляем данные с таблицы '%s'. Y/N", tableName));
             if (view.read().equalsIgnoreCase("y")) {
                 manager.truncateTable(tableName);
                 view.write(String.format("Таблица %s была успешно очищена.", tableName));

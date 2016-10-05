@@ -37,6 +37,11 @@ public class Rows extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
+        if (data.length!=2) {
+            throw new IllegalArgumentException("Должно быть два параметра " +
+                    "в формате rows|tableName");
+
+        }
         String table = data[1];
         List<Map<String, Object>> tableData = manager.getTableRows(table);
         Set<String> tableHeaders = manager.getTableColumns(table);

@@ -31,6 +31,11 @@ public class Size extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
+        if (data.length!=2) {
+            throw new IllegalArgumentException("Должно быть два параметра " +
+                    "в формате size|tableName");
+
+        }
         String tableName = data[1];
 
         Integer size = manager.getTableSize(tableName);
