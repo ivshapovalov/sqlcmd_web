@@ -1046,7 +1046,7 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "В таблице 'test' успешно создана запись {id=13, name=Stiven, password=*****}\n" +
                 "Введите команду или help для помощи\n" +
-                "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|test|13|name|adf\n" +
+                "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|test|13|adsf|asdfa\n" +
                 "Повтори попытку\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +

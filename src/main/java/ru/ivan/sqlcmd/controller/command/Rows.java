@@ -1,6 +1,5 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DataSet;
 import ru.ivan.sqlcmd.model.TableConstructor;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
