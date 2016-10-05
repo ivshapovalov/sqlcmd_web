@@ -35,15 +35,10 @@ public class DropAllDatabases extends Command {
     }
 
     private void confirmAndDropAllDatabases() {
-
-        try {
             view.write("Удаляем все базы данных? Y/N");
             if (view.read().equalsIgnoreCase("y")) {
                 manager.dropAllDatabases();
                 view.write("Все базы данных были успешно удалены.");
             }
-        } catch (Exception e) {
-            view.write(String.format("Ошибка удаления всех баз данных по причине: %s", e.getMessage()));
-        }
     }
 }
