@@ -9,7 +9,7 @@ public class Tables extends Command {
 
     @Override
     public String description() {
-        return "list all tables";
+        return "список таблиц текущей базы данных";
     }
 
     public Tables() {
@@ -22,13 +22,12 @@ public class Tables extends Command {
 
     public Tables(DatabaseManager manager, View view) {
         this.manager=manager;
-
         this.view=view;
     }
 
     @Override
     public boolean canProcess(String command) {
-        return command.equals("tables");
+        return command.equals(format());
     }
 
     @Override

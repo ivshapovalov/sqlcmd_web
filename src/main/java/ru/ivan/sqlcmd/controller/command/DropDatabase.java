@@ -5,16 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class DropDatabase extends Command {
 
-    @Override
-    public String description() {
-        return "drop database";
-    }
-
-    @Override
-    public String format() {
-        return "dropDatabase|databaseName";
-    }
-
     public DropDatabase() {
     }
 
@@ -22,6 +12,16 @@ public class DropDatabase extends Command {
         this.manager = manager;
 
         this.view = view;
+    }
+
+    @Override
+    public String description() {
+        return "удаление базы данных";
+    }
+
+    @Override
+    public String format() {
+        return "dropDatabase|databaseName";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class DropDatabase extends Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'dropDatabase|databaseName', а ты ввел: " + command);
+            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
         }
         confirmAndDropDatabase(data[1]);
     }

@@ -44,7 +44,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-
     @Override
     public void disconnect() {
         if (connection != null) {
@@ -67,7 +66,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-
     @Override
     public Integer getTableSize(String tableName) {
         Integer result = 0;
@@ -81,7 +79,6 @@ public class PostgreSQLManager implements DatabaseManager {
             throw new DatabaseManagerException(String.format("Не возможно получить размер таблицы %s", tableName), e);
         }
         return result;
-
     }
 
     @Override
@@ -160,7 +157,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-
     @Override
     public List<Map<String, Object>> getTableRows(String tableName) {
         List<Map<String, Object>> result = new LinkedList<>();
@@ -177,7 +173,6 @@ public class PostgreSQLManager implements DatabaseManager {
             return result;
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Не возможно получить список строк таблицы %s", tableName), e);
-
         }
     }
 
@@ -192,10 +187,8 @@ public class PostgreSQLManager implements DatabaseManager {
             return tables;
         } catch (SQLException | NullPointerException e) {
             throw new DatabaseManagerException("Не возможно получить список всех таблиц", e);
-
         }
     }
-
 
     @Override
     public void dropTable(String tableName) {
@@ -331,5 +324,4 @@ public class PostgreSQLManager implements DatabaseManager {
         values = values.substring(0, values.length() - 1);
         return values;
     }
-
 }

@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
-
 public class TruncateTableTest {
 
     private View view;
@@ -78,7 +77,6 @@ public class TruncateTableTest {
         } catch (IllegalArgumentException e) {
             //then
             assertEquals("Формат команды 'truncateTable|tableName', а ты ввел: truncateTable",e.getMessage());
-
         }
     }
     @Test
@@ -90,7 +88,6 @@ public class TruncateTableTest {
         } catch (IllegalArgumentException e) {
             //then
             assertEquals("Формат команды 'truncateTable|tableName', а ты ввел: truncateTable|users|qwe",e.getMessage());
-
         }
     }
 
@@ -98,18 +95,20 @@ public class TruncateTableTest {
     public void testCanProcessTruncateWithParametersString() {
         //given
 
-        //whrn
+        //when
         Boolean canProcess=command.canProcess("truncateTable|users");
 
+        //then
         assertTrue(canProcess);
     }
 
     @Test
     public void testCanProcessTruncateWithoutParametersString() {
         //given
-        //whrn
+        //when
         Boolean canProcess=command.canProcess("truncateTable");
 
+        //then
         assertFalse(canProcess);
     }
 

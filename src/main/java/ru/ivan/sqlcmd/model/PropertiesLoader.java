@@ -22,7 +22,6 @@ public class PropertiesLoader {
         }
     }
 
-
     public String getServerName() {
         return properties.getProperty("database.server.name");
     }

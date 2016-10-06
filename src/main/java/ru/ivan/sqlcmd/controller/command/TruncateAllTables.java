@@ -16,7 +16,7 @@ public class TruncateAllTables extends Command {
 
     @Override
     public String description() {
-        return "delete all rows in all tables";
+        return "очистка всех таблиц";
     }
 
     @Override
@@ -27,7 +27,7 @@ public class TruncateAllTables extends Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("truncateAll");
+        return command.startsWith(format());
     }
 
     @Override

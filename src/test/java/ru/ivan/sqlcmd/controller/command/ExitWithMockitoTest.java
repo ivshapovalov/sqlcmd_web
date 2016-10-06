@@ -1,17 +1,12 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.controller.command.Command;
-import ru.ivan.sqlcmd.controller.command.Exit;
-import ru.ivan.sqlcmd.controller.command.ExitException;
 import org.junit.Test;
 import org.mockito.Mockito;
 import ru.ivan.sqlcmd.view.View;
 
 import static org.junit.Assert.*;
 
-
 public class ExitWithMockitoTest {
-
     private View view= Mockito.mock(View.class);
 
     @Test
@@ -19,9 +14,10 @@ public class ExitWithMockitoTest {
         //given
         Command command =new Exit(view);
 
-        //whrn
+        //when
         Boolean canProcess=command.canProcess("exit");
 
+        //then
         assertTrue(canProcess);
     }
 
@@ -30,9 +26,10 @@ public class ExitWithMockitoTest {
         //given
         Command command =new Exit(view);
 
-        //whrn
+        //when
         Boolean canProcess=command.canProcess("qwe");
 
+        //then
         assertFalse(canProcess);
     }
 
@@ -42,7 +39,7 @@ public class ExitWithMockitoTest {
         //given
         Command command =new Exit(view);
 
-        //whrn
+        //when
         try {
             command.process("exit");
             fail("Expected ExitException");
@@ -50,6 +47,7 @@ public class ExitWithMockitoTest {
 
         }
 
+        //then
         Mockito.verify(view).write("До скорой встречи!");
 
     }

@@ -7,6 +7,13 @@ public abstract class Command {
     protected DatabaseManager manager;
     protected View view;
 
+    public Command() {
+    }
+
+    public Command(View view) {
+        this.view = view;
+    }
+
     public abstract boolean canProcess(String command);
 
     public abstract void process(String command);
@@ -15,10 +22,7 @@ public abstract class Command {
 
     public abstract String format();
 
-    public Command(View view) {
-        this.view = view;
-    }
-
-    public Command() {
+    protected int parametersLength(String COMMAND_SAMPLE) {
+        return COMMAND_SAMPLE.split("[|]").length;
     }
 }

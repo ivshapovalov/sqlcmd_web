@@ -5,16 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class DropAllDatabases extends Command {
 
-    @Override
-    public String description() {
-        return "drop all databases";
-    }
-
-    @Override
-    public String format() {
-        return "dropAllDatabases";
-    }
-
     public DropAllDatabases() {
     }
 
@@ -24,21 +14,30 @@ public class DropAllDatabases extends Command {
     }
 
     @Override
+    public String description() {
+        return "удаление всех баз данных";
+    }
+
+    @Override
+    public String format() {
+        return "dropAllDatabases";
+    }
+
+    @Override
     public boolean canProcess(String command) {
-        return command.startsWith("dropAllDatabases");
+        return command.startsWith(format());
     }
 
     @Override
     public void process(String command) {
-
         confirmAndDropAllDatabases();
     }
 
     private void confirmAndDropAllDatabases() {
-            view.write("Удаляем все базы данных? Y/N");
-            if (view.read().equalsIgnoreCase("y")) {
-                manager.dropAllDatabases();
-                view.write("Все базы данных были успешно удалены.");
-            }
+        view.write("Удаляем все базы данных? Y/N");
+        if (view.read().equalsIgnoreCase("y")) {
+            manager.dropAllDatabases();
+            view.write("Все базы данных были успешно удалены.");
+        }
     }
 }

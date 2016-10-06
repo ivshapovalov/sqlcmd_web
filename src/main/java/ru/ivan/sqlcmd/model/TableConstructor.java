@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
-
 
 public class TableConstructor {
 

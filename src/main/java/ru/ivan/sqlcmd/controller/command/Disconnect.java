@@ -5,16 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class Disconnect extends Command {
 
-    @Override
-    public String description() {
-        return "disconnect from current database";
-    }
-
-    @Override
-    public String format() {
-        return "disconnect";
-    }
-
     public Disconnect() {
     }
 
@@ -24,8 +14,18 @@ public class Disconnect extends Command {
     }
 
     @Override
+    public String description() {
+        return "отключение от базы данных";
+    }
+
+    @Override
+    public String format() {
+        return "disconnect";
+    }
+
+    @Override
     public boolean canProcess(String command) {
-        return command.startsWith("disconnect");
+        return command.startsWith(format());
     }
 
     @Override

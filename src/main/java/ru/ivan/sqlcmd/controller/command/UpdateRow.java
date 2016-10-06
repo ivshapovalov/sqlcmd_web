@@ -19,7 +19,7 @@ public class UpdateRow extends Command {
 
     @Override
     public String description() {
-        return "update the entry in the table using the ID";
+        return "обновление строки с заданным ID в таблице";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UpdateRow extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
-        if (data.length % 2 == 0 || data.length == 1 || data.length == 3) {
+        if (data.length % 2 == 0 || data.length <=parametersLength(format())) {
             throw new IllegalArgumentException("Должно быть четное количество параметров большее или равное 4 " +
                     "в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN");
 

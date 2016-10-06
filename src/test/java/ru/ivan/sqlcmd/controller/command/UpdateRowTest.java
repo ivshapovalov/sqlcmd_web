@@ -12,7 +12,6 @@ import java.util.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
 
-
 public class UpdateRowTest {
 
     private DatabaseManager manager;
@@ -49,15 +48,17 @@ public class UpdateRowTest {
     public void testCanProcessUpdateRowWithParametersString() {
         //given
 
-        //whrn
+        //when
         Boolean canProcess = command.canProcess("updateRow|users|1|name|Ivan");
 
+        //then
         assertTrue(canProcess);
     }
 
     @Test
     public void testCanProcessUpdateRowWithoutParametersString() {
         //given
+
         //when
         Boolean canProcess = command.canProcess("updateRow");
 

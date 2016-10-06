@@ -5,22 +5,22 @@ import ru.ivan.sqlcmd.view.View;
 
 public class CreateDatabase extends Command {
 
-    @Override
-    public String description() {
-        return "create new database";
-    }
-
-    @Override
-    public String format() {
-        return "createDatabase|databaseName";
-    }
-
     public CreateDatabase() {
     }
 
     public CreateDatabase(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
+    }
+
+    @Override
+    public String description() {
+        return "создание новой базы данных";
+    }
+
+    @Override
+    public String format() {
+        return "createDatabase|databaseName";
     }
 
     @Override
@@ -31,8 +31,8 @@ public class CreateDatabase extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'createDatabase|databaseName', а ты ввел: " + command);
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
         }
         manager.createDatabase(data[1]);
 

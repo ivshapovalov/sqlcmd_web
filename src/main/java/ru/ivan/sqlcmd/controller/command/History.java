@@ -5,16 +5,7 @@ import java.util.Map;
 
 public class History extends Command {
     Map<String, String> history;
-
-    @Override
-    public String description() {
-        return "list history of commands";
-    }
-
-    @Override
-    public String format() {
-        return "history";
-    }
+    public static Integer HISTORY_CAPACITY=3;
 
     public History() {
     }
@@ -25,15 +16,25 @@ public class History extends Command {
     }
 
     @Override
+    public String description() {
+        return "список последних "+HISTORY_CAPACITY+" введенных команд";
+    }
+
+    @Override
+    public String format() {
+        return "history";
+    }
+
+    @Override
     public boolean canProcess(String command) {
-        return command.equals("history");
+        return command.equals(format());
     }
 
     @Override
     public void process(String command) {
         for (Map.Entry<String,String> entry:history.entrySet()
              ) {
-            view.write(entry.getKey()+"\t"+entry.getValue());
+            view.write(entry.getKey()+". "+entry.getValue());
         }
     }
 }

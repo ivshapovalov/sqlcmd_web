@@ -11,7 +11,7 @@ public class MainController {
     private final View view;
     private final DatabaseManager manager;
     private final java.util.List<Command> commands;
-    private java.util.Map<String, String> history = new LinkedHashMap<>();
+    private TreeMap<String, String> history = new TreeMap<>();
 
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
@@ -41,21 +41,19 @@ public class MainController {
                 new Unsupported(view));
     }
 
-
     public void run() {
 
         try {
             doWork();
         } catch (ExitException e) {
-            //new Exit(view).process(null);
+            //do nothing
         }
     }
 
     private void doWork() {
         view.write("Привет, юзер");
-
+        int historySize=0;
         while (true) {
-            //view.write("\n");
             view.write("Введите команду или help для помощи");
             String input = view.read();
 
@@ -69,11 +67,14 @@ public class MainController {
                     view.write("В истории команд данный индекс отсутствует.");
                     continue;
                 }
-            } catch (Exception e) {
-
+            } catch (NumberFormatException e) {
+                //ввели не число
             }
 
-            history.put(String.valueOf(history.size() + 1), input);
+            history.put(String.valueOf(++historySize), input);
+            if (history.size()>History.HISTORY_CAPACITY) {
+                history.pollFirstEntry();
+            }
             for (Command command : commands
                     ) {
 
@@ -90,7 +91,6 @@ public class MainController {
                     break;
                 }
             }
-
         }
     }
 
@@ -102,5 +102,4 @@ public class MainController {
         view.write("Неудача по причине: " + message);
         view.write("Повтори попытку");
     }
-
 }

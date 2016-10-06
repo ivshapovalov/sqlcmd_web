@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import static org.junit.Assert.assertEquals;
+import static ru.ivan.sqlcmd.controller.command.History.HISTORY_CAPACITY;
 
 public class IntegrationTest {
 
@@ -86,26 +87,26 @@ public class IntegrationTest {
                 "Привет, юзер\n" +
                         "Введите команду или help для помощи\n" +
                         "Existing program commands:\n" +
-                        "\t\thistory -- list history of commands\n" +
-                        "\t\tconnect|sqlcmd|postgres|postgres -- connects to database\n" +
-                        "\t\tcreateDatabase|databaseName -- create new database\n" +
-                        "\t\tcreateTable|tableName -- create new table\n" +
-                        "\t\tdatabases -- list all databases\n" +
-                        "\t\tdropTable|tableName -- drop table \n" +
-                        "\t\tdropAllTables -- drop all tables\n" +
-                        "\t\tdropDatabase|databaseName -- drop database\n" +
-                        "\t\tdropAllDatabases -- drop all databases\n" +
-                        "\t\ttruncateTable|tableName -- delete all rows in table\n" +
-                        "\t\ttruncateAll -- delete all rows in all tables\n" +
-                        "\t\tsize|tableName -- return size of the table\n" +
-                        "\t\thelp -- list all commands description\n" +
-                        "\t\texit -- exit from application\n" +
-                        "\t\tdisconnect -- disconnect from current database\n" +
-                        "\t\tinsertRow|tableName|column1|value1|column2|value2|...|columnN|valueN -- insert row into the table\n" +
-                        "\t\tupdateRow|tableName|ID -- update the entry in the table using the ID\n" +
-                        "\t\tdeleteRow|tableName|ID -- delete the entry in the table using the ID\n" +
-                        "\t\trows|tableName -- list all rows in table\n" +
-                        "\t\ttables -- list all tables\n" +
+                        "\t\tconnect|sqlcmd|postgres|postgres -- подключение к базе данных\n" +
+                        "\t\tcreateDatabase|databaseName -- создание новой базы данных\n" +
+                        "\t\tcreateTable|tableName -- создание новой таблицы\n" +
+                        "\t\tdatabases -- список баз данных\n" +
+                        "\t\tdeleteRow|tableName|ID -- удаление строки из таблицы с заданным ID\n" +
+                        "\t\tdisconnect -- отключение от базы данных\n" +
+                        "\t\tdropTable|tableName -- удаление таблицы\n" +
+                        "\t\tdropAllTables -- удаление всех таблиц\n" +
+                        "\t\tdropDatabase|databaseName -- удаление базы данных\n" +
+                        "\t\tdropAllDatabases -- удаление всех баз данных\n" +
+                        "\t\texit -- выход из приложения\n" +
+                        "\t\thelp -- список возможных команд с описанием\n" +
+                        "\t\thistory -- список последних 3 введенных команд\n" +
+                        "\t\tinsertRow|tableName|column1|value1|column2|value2|...|columnN|valueN -- вставка строки в таблицу\n" +
+                        "\t\trows|tableName -- список строк таблицы\n" +
+                        "\t\tsize|tableName -- размер таблицы\n" +
+                        "\t\ttables -- список таблиц текущей базы данных\n" +
+                        "\t\ttruncateAll -- очистка всех таблиц\n" +
+                        "\t\ttruncateTable|tableName -- очистка таблицы\n" +
+                        "\t\tupdateRow|tableName|ID -- обновление строки с заданным ID в таблице\n" +
                         "Введите команду или help для помощи\n" +
                         "До скорой встречи!\n", getData());
     }
@@ -643,6 +644,7 @@ public class IntegrationTest {
 
     @Test
     public void testHistory() {
+        HISTORY_CAPACITY=3;
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("truncateTable|" + TABLE_NAME);
@@ -665,10 +667,9 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "[qwe, test]\n" +
                 "Введите команду или help для помощи\n" +
-                "1\tconnect|sqlcmd|postgres|postgres\n" +
-                "2\ttruncateTable|test\n" +
-                "3\ttables\n" +
-                "4\thistory\n" +
+                "2. truncateTable|test\n" +
+                "3. tables\n" +
+                "4. history\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +

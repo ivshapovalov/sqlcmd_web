@@ -3,20 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.Set;
-
 public class Databases extends Command {
-
-    @Override
-    public String description() {
-        return "list all databases";
-    }
-
-    @Override
-    public String format() {
-        return "databases";
-    }
-
     public Databases() {
     }
 
@@ -27,8 +14,18 @@ public class Databases extends Command {
     }
 
     @Override
+    public String description() {
+        return "список баз данных";
+    }
+
+    @Override
+    public String format() {
+        return "databases";
+    }
+
+    @Override
     public boolean canProcess(String command) {
-        return command.equals("databases");
+        return command.equals(format());
     }
 
     @Override

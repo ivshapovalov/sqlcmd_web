@@ -9,22 +9,22 @@ import java.util.Set;
 
 public class CreateTable extends Command {
 
-    @Override
-    public String description() {
-        return "create new table";
-    }
-
-    @Override
-    public String format() {
-        return "createTable|tableName";
-    }
-
     public CreateTable() {
     }
 
     public CreateTable(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
+    }
+
+    @Override
+    public String description() {
+        return "создание новой таблицы";
+    }
+
+    @Override
+    public String format() {
+        return "createTable|tableName";
     }
 
     @Override
@@ -35,10 +35,9 @@ public class CreateTable extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length !=2 ) {
+        if (data.length !=parametersLength(format()) ) {
             throw new IllegalArgumentException("Формат команды 'createTable|tableName(column1,column2,..,columnN), а ты ввел: " + command);
         }
-
         manager.createTable(data[1]);
         view.write(String.format("Таблица %s была успешно создана.", data[1]));
     }

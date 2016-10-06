@@ -10,13 +10,12 @@ public class TruncateTable extends Command {
 
     public TruncateTable(DatabaseManager manager, View view) {
         this.manager = manager;
-
         this.view = view;
     }
 
     @Override
     public String description() {
-        return "delete all rows in table";
+        return "очистка таблицы";
     }
 
     @Override
@@ -33,8 +32,8 @@ public class TruncateTable extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'truncateTable|tableName', а ты ввел: " + command);
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
         }
 
         confirmAndTruncateTable(data[1]);

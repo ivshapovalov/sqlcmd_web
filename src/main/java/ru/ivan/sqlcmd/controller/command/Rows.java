@@ -10,22 +10,22 @@ import java.util.Set;
 
 public class Rows extends Command {
 
-    @Override
-    public String description() {
-        return "list all rows in table";
-    }
-
-    @Override
-    public String format() {
-        return "rows|tableName";
-    }
-
     public Rows() {
     }
 
     public Rows(DatabaseManager manager, View view) {
         this.manager=manager;
         this.view=view;
+    }
+
+    @Override
+    public String description() {
+        return "список строк таблицы";
+    }
+
+    @Override
+    public String format() {
+        return "rows|tableName";
     }
 
     @Override
@@ -36,9 +36,9 @@ public class Rows extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
-        if (data.length!=2) {
+        if (data.length!=parametersLength(format())) {
             throw new IllegalArgumentException("Должно быть два параметра " +
-                    "в формате rows|tableName");
+                    "в формате "+format());
 
         }
         String table = data[1];

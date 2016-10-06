@@ -5,16 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class DropTable extends Command {
 
-    @Override
-    public String description() {
-        return "drop table ";
-    }
-
-    @Override
-    public String format() {
-        return "dropTable|tableName";
-    }
-
     public DropTable() {
     }
 
@@ -25,6 +15,16 @@ public class DropTable extends Command {
     }
 
     @Override
+    public String description() {
+        return "удаление таблицы";
+    }
+
+    @Override
+    public String format() {
+        return "dropTable|tableName";
+    }
+
+    @Override
     public boolean canProcess(String command) {
         return command.startsWith("dropTable|");
     }
@@ -32,8 +32,8 @@ public class DropTable extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'dropTable|tableName', а ты ввел: " + command);
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
         }
         confirmAndDropTable(data[1]);
     }

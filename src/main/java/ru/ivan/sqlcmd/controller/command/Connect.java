@@ -5,18 +5,6 @@ import ru.ivan.sqlcmd.view.View;
 
 public class Connect extends Command {
 
-    private static String COMMAND_SAMPLE="connect|sqlcmd|postgres|postgres";
-
-    @Override
-    public String description() {
-        return "connects to database";
-    }
-
-    @Override
-    public String format() {
-        return "connect|sqlcmd|postgres|postgres";
-    }
-
     public Connect() {
     }
 
@@ -26,19 +14,27 @@ public class Connect extends Command {
     }
 
     @Override
+    public String description() {
+        return "подключение к базе данных";
+    }
+
+    @Override
+    public String format() {
+        return "connect|sqlcmd|postgres|postgres";
+    }
+
+    @Override
     public boolean canProcess(String command) {
         return command.startsWith("connect|");
     }
 
     @Override
     public void process(String command) {
-                //command="connect|sqlcmd|postgres|postgres";
-
                 String[] data = command.split("[|]");
 
-                if (data.length != parametersLength()) {
+                if (data.length != parametersLength(format())) {
                     throw new IllegalArgumentException(String.format("Количество параметров разделенных символом '|' - %s. Ожидается - %s",
-                            data.length,parametersLength()));
+                            data.length,parametersLength(format())));
                 }
                 String database = data[1];
                 String user = data[2];
@@ -46,9 +42,4 @@ public class Connect extends Command {
                 manager.connect(database, user, password);
                 view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
     }
-
-    private int parametersLength() {
-        return COMMAND_SAMPLE.split("[|]").length;
-    }
-
 }

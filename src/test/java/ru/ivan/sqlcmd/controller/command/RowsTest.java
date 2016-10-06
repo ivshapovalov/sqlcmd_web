@@ -1,7 +1,5 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.controller.command.Command;
-import ru.ivan.sqlcmd.controller.command.Rows;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -14,7 +12,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
-
 
 public class RowsTest {
 
@@ -32,7 +29,6 @@ public class RowsTest {
     @Test
     public void testPrintTableData() {
         //given
-
         Mockito.when(manager.getTableColumns("users"))
                 .thenReturn(new LinkedHashSet<>(Arrays.asList("id", "name", "password")));
 
@@ -75,18 +71,21 @@ public class RowsTest {
     public void testCanProcessRowsWithParametersString() {
         //given
 
-        //whrn
+        //when
         Boolean canProcess = command.canProcess("rows|users");
 
+        //then
         assertTrue(canProcess);
     }
 
     @Test
     public void testCanProcessFindWithoutParametersString() {
         //given
-        //whrn
+
+        //when
         Boolean canProcess = command.canProcess("rows");
 
+        //then
         assertFalse(canProcess);
     }
 
@@ -95,7 +94,7 @@ public class RowsTest {
     public void testCanProcessFindWithIllegalParametersString() {
         //given
 
-        //whrn
+        //when
         Boolean canProcess = command.canProcess("qwe|users");
 
         assertFalse(canProcess);

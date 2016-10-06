@@ -5,6 +5,14 @@ import ru.ivan.sqlcmd.view.View;
 
 public class IsConnected extends Command {
 
+    public IsConnected() {
+    }
+
+    public IsConnected(DatabaseManager manager, View view) {
+        this.manager = manager;
+        this.view=view;
+    }
+
     @Override
     public String description() {
         return "";
@@ -13,14 +21,6 @@ public class IsConnected extends Command {
     @Override
     public String format() {
         return "";
-    }
-
-    public IsConnected() {
-    }
-
-    public IsConnected(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view=view;
     }
 
     @Override

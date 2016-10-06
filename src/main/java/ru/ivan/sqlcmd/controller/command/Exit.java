@@ -4,21 +4,21 @@ import ru.ivan.sqlcmd.view.View;
 
 public class Exit extends Command {
 
-    @Override
-    public String description() {
-        return "exit from application";
-    }
-
-    @Override
-    public String format() {
-        return "exit";
-    }
-
     public Exit() {
     }
 
     public Exit(View view) {
         this.view=view;
+    }
+
+    @Override
+    public String description() {
+        return "выход из приложения";
+    }
+
+    @Override
+    public String format() {
+        return "exit";
     }
 
     @Override

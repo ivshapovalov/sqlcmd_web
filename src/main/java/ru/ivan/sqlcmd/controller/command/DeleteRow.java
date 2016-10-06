@@ -4,9 +4,6 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class DeleteRow extends Command {
 
     public DeleteRow() {
@@ -20,7 +17,7 @@ public class DeleteRow extends Command {
 
     @Override
     public String description() {
-        return "delete the entry in the table using the ID";
+        return "удаление строки из таблицы с заданным ID";
     }
 
     @Override
@@ -36,8 +33,8 @@ public class DeleteRow extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("[|]");
-        if (data.length != 3) {
-            throw new IllegalArgumentException("Формат команды 'deleteRow|tableName|ID', а ты ввел: " + command);
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
         }
         String tableName = data[1];
         int id;
@@ -51,7 +48,6 @@ public class DeleteRow extends Command {
         } catch (DatabaseManagerException e) {
             throw e;
         }
-
         view.write(String.format("В таблице '%s' успешно удалена запись c ID=%s", tableName, id));
     }
 }
