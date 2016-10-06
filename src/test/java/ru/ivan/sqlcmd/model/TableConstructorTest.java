@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.varia.NullAppender;
 import org.junit.Test;
 
 import java.util.*;
@@ -8,6 +10,9 @@ import static org.junit.Assert.assertEquals;
 
 public class TableConstructorTest {
 
+    static {
+        Logger.getRootLogger().addAppender(new NullAppender());
+    }
     @Test
     public void testTableConstructorWithOneParameters() {
 

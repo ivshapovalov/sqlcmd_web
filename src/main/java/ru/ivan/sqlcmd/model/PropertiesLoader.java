@@ -1,7 +1,5 @@
 package ru.ivan.sqlcmd.model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -9,40 +7,50 @@ import java.util.Properties;
 public class PropertiesLoader {
 
     private static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";
-    private Properties properties;
+    private static final String CONFIG_LOG4J_PROPERTIES = "config/log4j.properties";
+
+    private Properties appProperties;
 
     public PropertiesLoader() {
-        properties = new Properties();
+        appProperties = new Properties();
         try ( InputStream in= PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_SQLCMD_PROPERTIES)) {
-            properties.load(in);
+            appProperties.load(in);
         } catch (Exception e) {
             System.out.println("Error loading config "+CONFIG_SQLCMD_PROPERTIES);
             e.printStackTrace();
         }
+//        Properties logProperties = new Properties();
+//        try ( InputStream in= PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_LOG4J_PROPERTIES)) {
+//            logProperties.load(in);
+//        } catch (Exception e) {
+//            System.out.println("Error loading config "+CONFIG_LOG4J_PROPERTIES);
+//            e.printStackTrace();
+//        }
+
     }
 
     public String getServerName() {
-        return properties.getProperty("database.server.name");
+        return appProperties.getProperty("database.server.name");
     }
 
     public String getDatabaseName() {
-        return properties.getProperty("database.name");
+        return appProperties.getProperty("database.name");
     }
 
     public String getDatabasePort() {
-        return properties.getProperty("database.port");
+        return appProperties.getProperty("database.port");
     }
 
     public String getDriver() {
-        return properties.getProperty("database.jdbc.driver");
+        return appProperties.getProperty("database.jdbc.driver");
     }
 
     public String getUserName() {
-        return properties.getProperty("database.user.name");
+        return appProperties.getProperty("database.user.name");
     }
 
     public String getPassword() {
-        return properties.getProperty("database.user.password");
+        return appProperties.getProperty("database.user.password");
     }
 
 
