@@ -6,6 +6,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class PostgreSQLManagerForMultiCommandsTest {
+    private final static String DB_NAME ="dbtest";
     private final static String TABLE_NAME1 = "test1";
     private final static String TABLE_NAME2 = "test2";
     private final static String SQL_CREATE_TABLE1 = TABLE_NAME1 + " (id SERIAL PRIMARY KEY," +
@@ -17,20 +18,20 @@ public class PostgreSQLManagerForMultiCommandsTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DATABASE_NAME = pl.getDatabaseName();
+
     private static DatabaseManager manager;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DATABASE_NAME);
+        manager.dropDatabase(DB_NAME);
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DATABASE_NAME);
+        manager.dropDatabase(DB_NAME);
         manager.disconnect();
     }
 
@@ -46,9 +47,8 @@ public class PostgreSQLManagerForMultiCommandsTest {
 
     @After
     public void clear() {
-        manager.dropTable(TABLE_NAME1);
-        manager.dropTable(TABLE_NAME2);
-        manager.dropAllDatabases();
+        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.dropDatabase(DB_NAME);
         manager.disconnect();
     }
 
@@ -81,8 +81,10 @@ public class PostgreSQLManagerForMultiCommandsTest {
 
         //given
         String newDatabase1 = "dropdatabasetest1";
+        manager.dropDatabase(newDatabase1);
         manager.createDatabase(newDatabase1);
         String newDatabase2 = "dropdatabasetest2";
+        manager.dropDatabase(newDatabase2);
         manager.createDatabase(newDatabase2);
 
         //when

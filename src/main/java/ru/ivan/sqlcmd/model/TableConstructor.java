@@ -39,7 +39,13 @@ public class TableConstructor {
     private void buildRows() {
         for (Map<String, Object> row: tableData) {
             for (Object value: row.values()) {
-                table.addCell(value.toString());
+                String strValue="";
+                if (value!=null) {
+                    strValue = value.toString();
+                } else {
+                    strValue="";
+                }
+                table.addCell(strValue);
             }
         }
     }

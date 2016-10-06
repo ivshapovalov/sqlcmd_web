@@ -11,7 +11,7 @@ public class MainController {
     private final View view;
     private final DatabaseManager manager;
     private final java.util.List<Command> commands;
-    private TreeMap<String, String> history = new TreeMap<>();
+    private TreeMap<Integer, String> history = new TreeMap<>();
 
     public MainController(View view, DatabaseManager manager) {
         this.manager = manager;
@@ -59,7 +59,7 @@ public class MainController {
 
             try {
                 int historyIndex = Integer.parseInt(input);
-                String newInput = history.get(String.valueOf(historyIndex));
+                String newInput = history.get(historyIndex);
                 if (newInput != null) {
                     input = newInput;
                     view.write(newInput);
@@ -71,7 +71,7 @@ public class MainController {
                 //ввели не число
             }
 
-            history.put(String.valueOf(++historySize), input);
+            history.put(++historySize, input);
             if (history.size()>History.HISTORY_CAPACITY) {
                 history.pollFirstEntry();
             }

@@ -23,7 +23,8 @@ public class TruncateTableTest {
     private View view;
     private Command command;
 
-    private final static String TABLE_NAME = "test";
+    private final static String DB_NAME = "dbtest";
+    private final static String TABLE_NAME = "tabletest";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
@@ -37,16 +38,14 @@ public class TruncateTableTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
 
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-
+        manager.dropDatabase(DB_NAME);
         manager.createDatabase(DB_NAME);
-
         manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
         manager.disconnect();

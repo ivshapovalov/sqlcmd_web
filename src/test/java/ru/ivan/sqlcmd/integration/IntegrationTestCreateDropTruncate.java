@@ -16,13 +16,14 @@ import static org.junit.Assert.assertEquals;
 
 public class IntegrationTestCreateDropTruncate {
 
+    private final static String DB_NAME = "dbtest";
     private final static String TABLE_NAME1 = "test1";
     private final static String TABLE_NAME2 = "test2";
     private static DatabaseManager manager;
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
+
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
 
@@ -69,7 +70,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testCreateAndDropDatabase() {
         // given
-        String testDB = "db_test";
+        String testDB = "dbtest2";
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + testDB);
         in.add("y");
@@ -89,22 +90,22 @@ public class IntegrationTestCreateDropTruncate {
                 "Введите команду или help для помощи\n" +
                 "Подключение к базе '' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "База данных db_test была успешно удалена.\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "База данных dbtest2 была успешно удалена.\n" +
                 "Введите команду или help для помощи\n" +
-                "База данных db_test была успешно создана.\n" +
-                "Введите команду или help для помощи\n" +
-                "***Текущие базы данных***\n" +
-                "postgres\n" +
-                "sqlcmd\n" +
-                "db_test\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "База данных db_test была успешно удалена.\n" +
+                "База данных dbtest2 была успешно создана.\n" +
                 "Введите команду или help для помощи\n" +
                 "***Текущие базы данных***\n" +
                 "postgres\n" +
-                "sqlcmd\n" +
+                "dbtest\n" +
+                "dbtest2\n" +
+                "Введите команду или help для помощи\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "База данных dbtest2 была успешно удалена.\n" +
+                "Введите команду или help для помощи\n" +
+                "***Текущие базы данных***\n" +
+                "postgres\n" +
+                "dbtest\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +
@@ -114,7 +115,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testCreateAndDropAllDatabases() {
         // given
-        String testDB = "db_test";
+        String testDB = "dbtest2";
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + testDB);
         in.add("y");
@@ -134,15 +135,15 @@ public class IntegrationTestCreateDropTruncate {
                 "Введите команду или help для помощи\n" +
                 "Подключение к базе '' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "База данных db_test была успешно удалена.\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "База данных dbtest2 была успешно удалена.\n" +
                 "Введите команду или help для помощи\n" +
-                "База данных db_test была успешно создана.\n" +
+                "База данных dbtest2 была успешно создана.\n" +
                 "Введите команду или help для помощи\n" +
                 "***Текущие базы данных***\n" +
                 "postgres\n" +
-                "sqlcmd\n" +
-                "db_test\n" +
+                "dbtest\n" +
+                "dbtest2\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем все базы данных? Y/N\n" +
                 "Все базы данных были успешно удалены.\n" +
@@ -158,7 +159,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testDropCurrentDatabase() {
         // given
-        String testDB = "db_test";
+        String testDB = "dbtest2";
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + testDB);
         in.add("y");
@@ -178,20 +179,20 @@ public class IntegrationTestCreateDropTruncate {
                 "Введите команду или help для помощи\n" +
                 "Подключение к базе '' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "База данных db_test была успешно удалена.\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "База данных dbtest2 была успешно удалена.\n" +
                 "Введите команду или help для помощи\n" +
-                "База данных db_test была успешно создана.\n" +
+                "База данных dbtest2 была успешно создана.\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'db_test' прошло успешно!\n" +
+                "Подключение к базе 'dbtest2' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "***Текущие базы данных***\n" +
                 "postgres\n" +
-                "sqlcmd\n" +
-                "db_test\n" +
+                "dbtest\n" +
+                "dbtest2\n" +
                 "Введите команду или help для помощи\n" +
-                "Удаляем базу данных 'db_test'. Y/N?\n" +
-                "Ошибка удаления базы данных 'db_test', по причине: Не возможно удалить таблицу db_test\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "Ошибка удаления базы данных 'dbtest2', по причине: Не возможно удалить таблицу dbtest2\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +
@@ -231,7 +232,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals(
                 "Привет, юзер\n" +
                         "Введите команду или help для помощи\n" +
-                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                        "Подключение к базе 'dbtest' прошло успешно!\n" +
                         "Введите команду или help для помощи\n" +
                         "Удаляем таблицу 'test1'. Y/N?\n" +
                         "Таблица test1 была успешно удалена.\n" +
@@ -324,7 +325,7 @@ public class IntegrationTestCreateDropTruncate {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем таблицу 'test1'. Y/N?\n" +
                 "Таблица test1 была успешно удалена.\n" +

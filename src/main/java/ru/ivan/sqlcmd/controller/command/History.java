@@ -5,13 +5,13 @@ import ru.ivan.sqlcmd.view.View;
 import java.util.Map;
 
 public class History extends Command {
-    Map<String, String> history;
-    public static Integer HISTORY_CAPACITY = 3;
+    Map<Integer, String> history;
+    public static Integer HISTORY_CAPACITY = 10;
 
     public History() {
     }
 
-    public History(View view, Map<String, String> history) {
+    public History(View view, Map<Integer, String> history) {
         this.view = view;
         this.history = history;
     }
@@ -36,7 +36,7 @@ public class History extends Command {
 
         String[] data = command.split("[|]");
         if (data.length == 1) {
-            for (Map.Entry<String, String> entry : history.entrySet()
+            for (Map.Entry<Integer, String> entry : history.entrySet()
                     ) {
                 view.write(entry.getKey() + ". " + entry.getValue());
             }

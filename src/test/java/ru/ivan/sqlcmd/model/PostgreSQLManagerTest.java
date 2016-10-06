@@ -9,7 +9,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class PostgreSQLManagerTest {
-    private final static String TABLE_NAME = "test";
+    private final static String DB_NAME ="dbtest";
+    private final static String TABLE_NAME = "tabletest";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE1 = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
@@ -17,27 +18,26 @@ public class PostgreSQLManagerTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DATABASE_NAME = pl.getDatabaseName();
     private static DatabaseManager manager;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DATABASE_NAME);
-        manager.createDatabase(DATABASE_NAME);
+        manager.dropDatabase(DB_NAME);
+        manager.createDatabase(DB_NAME);
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DATABASE_NAME);
+        manager.dropDatabase(DB_NAME);
         manager.disconnect();
     }
 
     @Before
     public void setup() {
-        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE1);
     }
 
@@ -116,7 +116,7 @@ public class PostgreSQLManagerTest {
             fail();
         } catch (Exception e) {
             //then
-            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
             throw e;
         }
     }
@@ -125,11 +125,11 @@ public class PostgreSQLManagerTest {
     public void testConnectToDatabaseWhenIncorrectUserAndPassword() {
         //when
         try {
-            manager.connect(DATABASE_NAME, "notExistUser", "qwertyuiop");
+            manager.connect(DB_NAME, "notExistUser", "qwertyuiop");
             fail();
         } catch (Exception e) {
             //then
-            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
             throw e;
         }
     }
@@ -141,7 +141,7 @@ public class PostgreSQLManagerTest {
             manager.connect("", "notExistUser", "qwertyuiop");
         } catch (Exception e) {
             //then
-            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
             throw e;
         }
     }

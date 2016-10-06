@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.ivan.sqlcmd.controller.Main;
+import ru.ivan.sqlcmd.controller.command.History;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static ru.ivan.sqlcmd.controller.command.History.*;
 
 public class IntegrationTest {
+    private static final String DB_NAME ="dbtest";
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notexisttable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
@@ -29,7 +31,7 @@ public class IntegrationTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private static final String DB_USER = pl.getUserName();
     private static final String DB_PASSWORD = pl.getPassword();
-    private static final String DB_NAME = pl.getDatabaseName();
+
     private static DatabaseManager manager;
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
@@ -96,7 +98,7 @@ public class IntegrationTest {
                         "\t\tdropAllDatabases -- удаление всех баз данных\n" +
                         "\t\texit -- выход из приложения\n" +
                         "\t\thelp -- список возможных команд с описанием\n" +
-                        "\t\thistory -- список последних 3 введенных команд\n" +
+                        "\t\thistory -- список последних "+ History.HISTORY_CAPACITY+" введенных команд\n" +
                         "\t\tinsertRow|tableName|column1|value1|column2|value2|...|columnN|valueN -- вставка строки в таблицу\n" +
                         "\t\trows|tableName -- список строк таблицы\n" +
                         "\t\tsize|tableName -- размер таблицы\n" +
@@ -198,7 +200,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Такая команда отсутствует - unsupported\n" +
                 "Введите команду или help для помощи\n" +
@@ -223,7 +225,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "[qwe, test]\n" +
                 "Введите команду или help для помощи\n" +
@@ -249,7 +251,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -280,7 +282,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -312,7 +314,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -344,7 +346,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -373,7 +375,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Неудача по причине: Невозможно подключиться к базе данных :sqlcmd, user:postgres, password:postgresWRONG Ошибка при попытке подсоединения.\n" +
+                "Неудача по причине: Невозможно подключиться к базе данных :dbtest, user:postgres, password:postgresWRONG Ошибка при попытке подсоединения.\n" +
                 "Повтори попытку\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
@@ -402,7 +404,7 @@ public class IntegrationTest {
         assertEquals(
                 "Привет, юзер\n" +
                         "Введите команду или help для помощи\n" +
-                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                        "Подключение к базе 'dbtest' прошло успешно!\n" +
                         "Введите команду или help для помощи\n" +
                         "Удаляем данные с таблицы 'test'. Y/N\n" +
                         "Таблица test была успешно очищена.\n" +
@@ -445,7 +447,7 @@ public class IntegrationTest {
         assertEquals(
                 "Привет, юзер\n" +
                         "Введите команду или help для помощи\n" +
-                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                        "Подключение к базе 'dbtest' прошло успешно!\n" +
                         "Введите команду или help для помощи\n" +
                         "Удаляем данные с таблицы 'test'. Y/N\n" +
                         "Таблица test была успешно очищена.\n" +
@@ -480,7 +482,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "[qwe, test]\n" +
                 "Введите команду или help для помощи\n" +
@@ -535,7 +537,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -571,7 +573,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Невозможно вставить строку в таблицу notexisttable.  Таблицы не существует\n" +
                 "Повтори попытку\n" +
@@ -597,7 +599,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -626,7 +628,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -659,7 +661,7 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "Установлен размер хранимой истории введенных команд. Новый размер - 3 \n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -718,7 +720,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -755,7 +757,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: В таблице notexisttable не возможно обновить запись с id=14.  Таблицы не существует\n" +
                 "Повтори попытку\n" +
@@ -779,7 +781,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: В таблице test не возможно обновить запись с id=14. Столбец \"nam\" в таблице \"test\" не существует\n" +
                 "Повтори попытку\n" +
@@ -803,7 +805,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Должно быть четное количество параметров большее или равное 4 в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "Повтори попытку\n" +
@@ -827,7 +829,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Должно быть четное количество параметров большее или равное 4 в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "Повтори попытку\n" +
@@ -854,7 +856,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -883,7 +885,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Третий параметр ID не может быть преобразован к числовому!\n" +
                 "Повтори попытку\n" +
@@ -912,7 +914,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -952,7 +954,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -985,7 +987,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Невозможно удалить строку из таблицы notexisttable.  Таблицы не существует\n" +
                 "Повтори попытку\n" +
@@ -1009,7 +1011,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|\n" +
                 "Повтори попытку\n" +
@@ -1033,7 +1035,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|test\n" +
                 "Повтори попытку\n" +
@@ -1060,7 +1062,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
                 "Таблица test была успешно очищена.\n" +
@@ -1089,7 +1091,7 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                "Подключение к базе 'dbtest' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Неудача по причине: Третий параметр ID не может быть преобразован к числовому!\n" +
                 "Повтори попытку\n" +
