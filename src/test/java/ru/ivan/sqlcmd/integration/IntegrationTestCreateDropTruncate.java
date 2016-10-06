@@ -6,14 +6,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.ivan.sqlcmd.controller.Main;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -366,7 +363,7 @@ public class IntegrationTestCreateDropTruncate {
     }
 
     @Test
-    public void testDropDatabaseWithIllegalParameters() {
+    public void testDropDatabaseWithoutParameters() {
         // given
 
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
@@ -391,7 +388,7 @@ public class IntegrationTestCreateDropTruncate {
     }
 
     @Test
-    public void testDropTableWithIllegalParameters() {
+    public void testDropTableWithoutParameters() {
         // given
 
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);

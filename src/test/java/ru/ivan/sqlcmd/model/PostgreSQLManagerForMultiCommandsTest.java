@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 public class PostgreSQLManagerForMultiCommandsTest {
     private final static String TABLE_NAME1 = "test1";
     private final static String TABLE_NAME2 = "test2";
-    private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE1 = TABLE_NAME1 + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
@@ -26,7 +25,6 @@ public class PostgreSQLManagerForMultiCommandsTest {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDatabase(DATABASE_NAME);
-
     }
 
     @AfterClass
@@ -115,5 +113,4 @@ public class PostgreSQLManagerForMultiCommandsTest {
         Set<String> actual = manager.getTableNames();
         assertEquals(expected, actual);
     }
-
 }

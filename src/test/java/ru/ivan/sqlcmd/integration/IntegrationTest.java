@@ -12,13 +12,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import static org.junit.Assert.assertEquals;
-import static ru.ivan.sqlcmd.controller.command.History.HISTORY_CAPACITY;
+import static ru.ivan.sqlcmd.controller.command.History.*;
 
 public class IntegrationTest {
-
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notexisttable";
-
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
@@ -28,11 +26,11 @@ public class IntegrationTest {
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
 
-    private static DatabaseManager manager;
     private static final PropertiesLoader pl = new PropertiesLoader();
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
+    private static final String DB_USER = pl.getUserName();
+    private static final String DB_PASSWORD = pl.getPassword();
+    private static final String DB_NAME = pl.getDatabaseName();
+    private static DatabaseManager manager;
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
 
@@ -51,7 +49,6 @@ public class IntegrationTest {
         manager.createTable(SQL_CREATE_TABLE);
         manager.createTable(SQL_CREATE_TABLE2);
         manager.disconnect();
-
     }
 
     @AfterClass
@@ -379,7 +376,7 @@ public class IntegrationTest {
                 "Неудача по причине: Невозможно подключиться к базе данных :sqlcmd, user:postgres, password:postgresWRONG Ошибка при попытке подсоединения.\n" +
                 "Повтори попытку\n" +
                 "Введите команду или help для помощи\n" +
-                "Вы не можете пользоваться командой 'disconnect' пока не подлючитесь с помощью команды connect|database|user|password\n" +
+                "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +
                 "До скорой встречи!\n", getData());
     }
@@ -514,7 +511,7 @@ public class IntegrationTest {
                 "Неудача по причине: Количество параметров разделенных символом '|' - 2. Ожидается - 4\n" +
                 "Повтори попытку\n" +
                 "Введите команду или help для помощи\n" +
-                "Вы не можете пользоваться командой 'disconnect' пока не подлючитесь с помощью команды connect|database|user|password\n" +
+                "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +
                 "До скорой встречи!\n", getData());
     }
@@ -644,8 +641,8 @@ public class IntegrationTest {
 
     @Test
     public void testHistory() {
-        HISTORY_CAPACITY=3;
         // given
+        in.add("history|3");
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("truncateTable|" + TABLE_NAME);
         in.add("y");
@@ -660,6 +657,8 @@ public class IntegrationTest {
         // then
         assertEquals("Привет, юзер\n" +
                 "Введите команду или help для помощи\n" +
+                "Установлен размер хранимой истории введенных команд. Новый размер - 3 \n" +
+                "Введите команду или help для помощи\n" +
                 "Подключение к базе 'sqlcmd' прошло успешно!\n" +
                 "Введите команду или help для помощи\n" +
                 "Удаляем данные с таблицы 'test'. Y/N\n" +
@@ -667,14 +666,37 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "[qwe, test]\n" +
                 "Введите команду или help для помощи\n" +
-                "2. truncateTable|test\n" +
-                "3. tables\n" +
-                "4. history\n" +
+                "3. truncateTable|test\n" +
+                "4. tables\n" +
+                "5. history\n" +
                 "Введите команду или help для помощи\n" +
                 "Отключение успешно\n" +
                 "Введите команду или help для помощи\n" +
                 "До скорой встречи!\n", getData());
     }
+
+    @Test
+    public void testHistoryWithNotNumericCapacity() {
+        // given
+        in.add("history|gfh");
+        in.add("disconnect");
+        in.add("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Привет, юзер\n" +
+                "Введите команду или help для помощи\n" +
+                "Неудача по причине: Неверно указан размер хранимой истории!\n" +
+                "Повтори попытку\n" +
+                "Введите команду или help для помощи\n" +
+                "Отключение успешно\n" +
+                "Введите команду или help для помощи\n" +
+                "До скорой встречи!\n", getData());
+    }
+
+
 
     @Test
     public void testUpdateRowInTable() {
@@ -720,7 +742,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUpdateRowInIllegalTable() {
+    public void testUpdateRowInNotExistingTable() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("updateRow|" + NOT_EXIST_TABLE + "|14|name|Pupkin|password|+++++");
@@ -744,7 +766,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUpdateRowWithIllegalColumnInTable() {
+    public void testUpdateRowWithNotExistingColumnInTable() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("updateRow|" + TABLE_NAME + "|14|nam|Pupkin|password|+++++");
@@ -848,7 +870,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUpdateRowWithIllegalID() {
+    public void testUpdateRowWithNotNumericID() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("updateRow|" + TABLE_NAME + "|fgr|name|Ivan");
@@ -913,7 +935,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testDeleteIllegalRowInTable() {
+    public void testDeleteNotExistingRowInTable() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("truncateTable|" + TABLE_NAME);
@@ -950,7 +972,7 @@ public class IntegrationTest {
                 "До скорой встречи!\n", getData());
     }
     @Test
-    public void testDeleteRowInIllegalTable() {
+    public void testDeleteRowInNotExistingTable() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("deleteRow|" + NOT_EXIST_TABLE + "|13");
@@ -972,8 +994,6 @@ public class IntegrationTest {
                 "Введите команду или help для помощи\n" +
                 "До скорой встречи!\n", getData());
     }
-
-
 
     @Test
     public void testDeleteRowWithoutParameters() {
@@ -1056,7 +1076,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testDeleteRowWithIllegalID() {
+    public void testDeleteRowWithNotNumericID() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("deleteRow|" + TABLE_NAME + "|fgr");

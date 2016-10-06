@@ -1,23 +1,24 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.view.View;
+
 import java.util.Map;
 
 public class History extends Command {
     Map<String, String> history;
-    public static Integer HISTORY_CAPACITY=3;
+    public static Integer HISTORY_CAPACITY = 3;
 
     public History() {
     }
 
     public History(View view, Map<String, String> history) {
-        this.view=view;
-        this.history=history;
+        this.view = view;
+        this.history = history;
     }
 
     @Override
     public String description() {
-        return "список последних "+HISTORY_CAPACITY+" введенных команд";
+        return "список последних " + HISTORY_CAPACITY + " введенных команд";
     }
 
     @Override
@@ -27,14 +28,29 @@ public class History extends Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.equals(format());
+        return command.startsWith(format());
     }
 
     @Override
     public void process(String command) {
-        for (Map.Entry<String,String> entry:history.entrySet()
-             ) {
-            view.write(entry.getKey()+". "+entry.getValue());
+
+        String[] data = command.split("[|]");
+        if (data.length == 1) {
+            for (Map.Entry<String, String> entry : history.entrySet()
+                    ) {
+                view.write(entry.getKey() + ". " + entry.getValue());
+            }
+        } else {
+            int id;
+            try {
+                id= Integer.parseInt(data[1]);
+                HISTORY_CAPACITY=id;
+                view.write(String.format("Установлен размер хранимой истории введенных команд. Новый размер - %s ", id));
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Неверно указан размер хранимой истории!");
+            }
         }
+
+
     }
 }

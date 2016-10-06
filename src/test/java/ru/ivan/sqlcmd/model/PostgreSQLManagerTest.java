@@ -2,11 +2,11 @@ package ru.ivan.sqlcmd.model;
 
 import org.junit.*;
 import org.junit.Test;
+
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
-
 
 public class PostgreSQLManagerTest {
     private final static String TABLE_NAME = "test";
@@ -44,22 +44,21 @@ public class PostgreSQLManagerTest {
     @After
     public void clear() {
         manager.dropTable(TABLE_NAME);
-     }
+    }
 
 
     @Test
     public void testCreateDatabase() {
         //given
-
-        String databaseName1="testcreatedb1";
+        String databaseName1 = "testcreatedb1";
         manager.dropDatabase(databaseName1);
-        String databaseName2="testcreatedb2";
+        String databaseName2 = "testcreatedb2";
         manager.dropDatabase(databaseName2);
         manager.createDatabase(databaseName1);
         manager.createDatabase(databaseName2);
 
         //when
-         Set<String> databases = manager.getDatabasesNames();
+        Set<String> databases = manager.getDatabasesNames();
 
         //then
         if (!(databases.contains(databaseName1) || databases.contains(databaseName2))) {
@@ -68,11 +67,12 @@ public class PostgreSQLManagerTest {
         manager.dropDatabase(databaseName1);
         manager.dropDatabase(databaseName2);
     }
+
     @Test(expected = DatabaseManagerException.class)
     public void testCreateDatabaseWithInvalidCommand() {
         //given
 
-        String databaseName1="testcreatedb1";
+        String databaseName1 = "testcreatedb1";
         manager.dropDatabase(databaseName1);
         manager.createDatabase(databaseName1);
         manager.createDatabase(databaseName1);
@@ -80,9 +80,7 @@ public class PostgreSQLManagerTest {
         //when
 
         //then
-
         manager.dropTable(databaseName1);
-
     }
 
     @Test
@@ -110,7 +108,7 @@ public class PostgreSQLManagerTest {
         manager.truncateTable(NOT_EXIST_TABLE);
     }
 
-        @Test(expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testConnectToNotExistDatabase() {
         //when
         try {
@@ -172,11 +170,12 @@ public class PostgreSQLManagerTest {
             fail();
         }
     }
+
     @Test(expected = DatabaseManagerException.class)
     public void testDropDatabaseWithInvalidCommand() {
         //given
 
-        String databaseName1="postgres";
+        String databaseName1 = "postgres";
         manager.dropDatabase(databaseName1);
 
         //when
@@ -204,7 +203,7 @@ public class PostgreSQLManagerTest {
     public void testDropTableWithInvalidCommand() {
         //given
 
-       manager.dropTable("%%%dfd");
+        manager.dropTable("%%%dfd");
 
         //when
 
@@ -238,12 +237,10 @@ public class PostgreSQLManagerTest {
     public void testGetTableColumnsOfIllegalTable() {
         //given
 
-
         //when
         Set<String> actual = manager.getTableColumns("'adfsf'");
 
         //then
-
 
     }
 
@@ -272,7 +269,7 @@ public class PostgreSQLManagerTest {
         Integer expected = 1;
 
         //when
-       Integer actual = manager.getTableSize(TABLE_NAME);
+        Integer actual = manager.getTableSize(TABLE_NAME);
 
         //then
         assertEquals(expected, actual);
@@ -296,19 +293,20 @@ public class PostgreSQLManagerTest {
     @Test(expected = DatabaseManagerException.class)
     public void testGetTableSizeOfIllegalTable() {
         //given
+
         //when
         Integer actual = manager.getTableSize(NOT_EXIST_TABLE);
 
         //then
-
     }
 
     @Test(expected = DatabaseManagerException.class)
     public void testDeleteFromNotExistTable() {
         //given
         //when
-        //then
         manager.deleteRow(NOT_EXIST_TABLE, 1);
+        //then
+
     }
 
 
@@ -321,8 +319,9 @@ public class PostgreSQLManagerTest {
         newData.put("id", 1);
 
         //when
-        //then
         manager.insertRow(NOT_EXIST_TABLE, newData);
+        //then
+
     }
 
     @Test
