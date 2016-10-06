@@ -2,6 +2,7 @@ package ru.ivan.sqlcmd.controller.command;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.mockito.ArgumentCaptor;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.TruncateTable;
 import org.junit.Before;
@@ -14,51 +15,20 @@ import ru.ivan.sqlcmd.model.PropertiesLoader;
 import ru.ivan.sqlcmd.view.View;
 
 import java.io.ByteArrayOutputStream;
+import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class TruncateTableTest {
 
     private View view;
     private Command command;
-
-    private final static String DB_NAME = "dbtest";
-    private final static String TABLE_NAME = "tabletest";
-    private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
-            " name VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
-    private final static String DB_NAME2 = "test";
-    private final static String TABLE_NAME2 = "qwe";
-    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
-            " name VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
-
     private static DatabaseManager manager;
-    private static final PropertiesLoader pl = new PropertiesLoader();
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
 
 
-    @BeforeClass
-    public static void init() {
-        manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DB_NAME);
-        manager.createDatabase(DB_NAME);
-        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
-        manager.createTable(SQL_CREATE_TABLE);
-        manager.disconnect();
-
-    }
-
-    @AfterClass
-    public static void clearAfterAllTests() {
-
-        manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDatabase(DB_NAME);
-    }
 
     @Before
     public void setup() {
@@ -78,6 +48,20 @@ public class TruncateTableTest {
             assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable'",e.getMessage());
         }
     }
+    @Test
+    public void testTruncateTableWithParameters2() {
+        //given
+        Mockito.when(view.read()).thenReturn("y");
+
+        //when
+        command.process("truncateTable|users");
+
+        //then
+        String expected =
+                "[Do you wish to clear table 'users'. Y/N?, Table 'users' cleared successful]";
+        shouldPrint(expected);
+    }
+
     @Test
     public void testTruncateTableWithParametersMoreThen2() {
         //when
@@ -109,6 +93,12 @@ public class TruncateTableTest {
 
         //then
         assertFalse(canProcess);
+    }
+
+    private void shouldPrint(String expected) {
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(view, atLeastOnce()).write(captor.capture());
+        assertEquals(expected, captor.getAllValues().toString());
     }
 
 

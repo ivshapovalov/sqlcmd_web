@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.varia.NullAppender;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,6 +26,9 @@ public class RowsTest {
         manager = Mockito.mock(DatabaseManager.class);
         view = Mockito.mock(View.class);
         command = new Rows(manager, view);
+
+            Logger.getRootLogger().addAppender(new NullAppender());
+
     }
 
     @Test
