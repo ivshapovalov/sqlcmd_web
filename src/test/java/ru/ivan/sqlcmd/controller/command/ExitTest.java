@@ -44,7 +44,7 @@ public class ExitTest {
 
         }
         //then
-        assertEquals("До скорой встречи!\n",view.getContent());
+        assertEquals("Good bye!\n",view.getContent());
 
     }
 }

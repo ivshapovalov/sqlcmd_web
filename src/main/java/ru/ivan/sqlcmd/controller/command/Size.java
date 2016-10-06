@@ -5,6 +5,7 @@ import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
 public class Size extends Command {
+    private final static Integer INDEX_TABLE_NAME=1;
 
     public Size() {
     }
@@ -16,7 +17,7 @@ public class Size extends Command {
 
     @Override
     public String description() {
-        return "размер таблицы";
+        return "size of the table";
     }
 
     @Override
@@ -33,18 +34,18 @@ public class Size extends Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         if (data.length!=parametersLength(format())) {
-            throw new IllegalArgumentException("Должно быть два параметра " +
-                    "в формате "+format());
+            throw new IllegalArgumentException("Must be " +parametersLength(format())+" parameters "+
+                    "in format "+format());
 
         }
-        String tableName = data[1];
+        String tableName = data[INDEX_TABLE_NAME];
         Integer size=0;
         try {
            size = manager.getTableSize(tableName);
         } catch (DatabaseManagerException e) {
             throw e;
         }
-        view.write(tableName + " size is "+ size);
+        view.write(String.format("Table '%s' size is %s",tableName,size));
  }
 
 }

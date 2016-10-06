@@ -13,7 +13,7 @@ public class Exit extends Command {
 
     @Override
     public String description() {
-        return "выход из приложения";
+        return "exit from application";
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Exit extends Command {
 
     @Override
     public void process(String command) {
-        view.write("До скорой встречи!");
+        view.write("Good bye!");
         throw new ExitException();
     }
 }

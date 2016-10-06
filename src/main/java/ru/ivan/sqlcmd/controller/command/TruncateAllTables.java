@@ -16,7 +16,7 @@ public class TruncateAllTables extends Command {
 
     @Override
     public String description() {
-        return "очистка всех таблиц";
+        return "clear all tables";
     }
 
     @Override
@@ -38,13 +38,13 @@ public class TruncateAllTables extends Command {
 
     private void confirmAndTruncateAllTables() {
         try {
-            view.write("Удаляем данные из всех таблиц?. Y/N");
+            view.write("Do you wish to clear all tables?. Y/N");
             if (view.read().equalsIgnoreCase("y")) {
                 manager.truncateAllTables();
-                view.write("Все таблицы были успешно очищены.");
+                view.write("All tables cleared successfully");
             }
         } catch (Exception e) {
-            view.write(String.format("Ошибка очистки всех таблиц по причине: %s", e.getMessage()));
+            view.write(String.format("Error while deleting all tables. Cause: '%s'", e.getMessage()));
         }
     }
 }

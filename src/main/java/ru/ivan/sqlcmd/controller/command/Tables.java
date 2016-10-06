@@ -9,7 +9,7 @@ public class Tables extends Command {
 
     @Override
     public String description() {
-        return "список таблиц текущей базы данных";
+        return "list of tables in current database";
     }
 
     public Tables() {

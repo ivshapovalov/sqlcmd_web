@@ -27,6 +27,6 @@ public class Unsupported extends Command {
 
     @Override
     public void process(String command) {
-        view.write("Такая команда отсутствует - " + command);
+        view.write("This command does not exist - " + command);
     }
 }

@@ -117,46 +117,46 @@ public class IntegrationTestCreateDropTruncate {
 
         // Осторожно. Тест удаляет ВСЕ базы данных вообще.
 
-//        // given
-//        String testDB = "dbtest2";
-//        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
-//        in.add("dropDatabase|" + testDB);
-//        in.add("y");
-//        in.add("createDatabase|" + testDB);
-//        in.add("databases");
-//        in.add("dropAllDatabases");
-//        in.add("y");
-//        in.add("databases");
-//        in.add("disconnect");
-//        in.add("exit");
-//
-//        // when
-//        Main.main(new String[0]);
-//
-//        // then
-//        assertEquals("Привет, юзер\n" +
-//                "Введите команду или help для помощи\n" +
-//                "Подключение к базе '' прошло успешно!\n" +
-//                "Введите команду или help для помощи\n" +
-//                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
-//                "База данных dbtest2 была успешно удалена.\n" +
-//                "Введите команду или help для помощи\n" +
-//                "База данных dbtest2 была успешно создана.\n" +
-//                "Введите команду или help для помощи\n" +
-//                "***Текущие базы данных***\n" +
-//                "postgres\n" +
-//                "dbtest\n" +
-//                "dbtest2\n" +
-//                "Введите команду или help для помощи\n" +
-//                "Удаляем все базы данных? Y/N\n" +
-//                "Все базы данных были успешно удалены.\n" +
-//                "Введите команду или help для помощи\n" +
-//                "***Текущие базы данных***\n" +
-//                "postgres\n" +
-//                "Введите команду или help для помощи\n" +
-//                "Отключение успешно\n" +
-//                "Введите команду или help для помощи\n" +
-//                "До скорой встречи!\n", getData());
+        // given
+        String testDB = "dbtest2";
+        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("dropDatabase|" + testDB);
+        in.add("y");
+        in.add("createDatabase|" + testDB);
+        in.add("databases");
+        in.add("dropAllDatabases");
+        in.add("y");
+        in.add("databases");
+        in.add("disconnect");
+        in.add("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Привет, юзер\n" +
+                "Введите команду или help для помощи\n" +
+                "Подключение к базе '' прошло успешно!\n" +
+                "Введите команду или help для помощи\n" +
+                "Удаляем базу данных 'dbtest2'. Y/N?\n" +
+                "База данных dbtest2 была успешно удалена.\n" +
+                "Введите команду или help для помощи\n" +
+                "База данных dbtest2 была успешно создана.\n" +
+                "Введите команду или help для помощи\n" +
+                "***Текущие базы данных***\n" +
+                "postgres\n" +
+                "dbtest\n" +
+                "dbtest2\n" +
+                "Введите команду или help для помощи\n" +
+                "Удаляем все базы данных? Y/N\n" +
+                "Все базы данных были успешно удалены.\n" +
+                "Введите команду или help для помощи\n" +
+                "***Текущие базы данных***\n" +
+                "postgres\n" +
+                "Введите команду или help для помощи\n" +
+                "Отключение успешно\n" +
+                "Введите команду или help для помощи\n" +
+                "До скорой встречи!\n", getData());
     }
 
     @Test

@@ -4,6 +4,7 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class TruncateTable extends Command {
+    private final static Integer INDEX_TABLE_NAME=1;
 
     public TruncateTable() {
     }
@@ -15,7 +16,7 @@ public class TruncateTable extends Command {
 
     @Override
     public String description() {
-        return "очистка таблицы";
+        return "clear the table";
     }
 
     @Override
@@ -33,20 +34,20 @@ public class TruncateTable extends Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
+            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
         }
 
-        confirmAndTruncateTable(data[1]);
+        confirmAndTruncateTable(data[INDEX_TABLE_NAME]);
     }
     private void confirmAndTruncateTable(String tableName) {
         try {
-            view.write(String.format("Удаляем данные с таблицы '%s'. Y/N", tableName));
+            view.write(String.format("Do you wish to clear table '%s'. Y/N?", tableName));
             if (view.read().equalsIgnoreCase("y")) {
                 manager.truncateTable(tableName);
-                view.write(String.format("Таблица %s была успешно очищена.", tableName));
+                view.write(String.format("Table '%s' cleared successful", tableName));
             }
         } catch (Exception e) {
-            view.write(String.format("Ошибка удаления данных из таблицы '%s', по причине: %s", tableName, e.getMessage()));
+            view.write(String.format("Error while deleting table '%s'. Cause: '%s'", tableName, e.getMessage()));
         }
     }
 

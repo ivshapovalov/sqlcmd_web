@@ -4,6 +4,9 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class Connect extends Command {
+    private final static Integer INDEX_DATABASE_NAME=1;
+    private final static Integer INDEX_USER_NAME=2;
+    private final static Integer INDEX_PASSWORD=3;
 
     public Connect() {
     }
@@ -15,7 +18,7 @@ public class Connect extends Command {
 
     @Override
     public String description() {
-        return "подключение к базе данных";
+        return "connect to database";
     }
 
     @Override
@@ -30,16 +33,17 @@ public class Connect extends Command {
 
     @Override
     public void process(String command) {
+
                 String[] data = command.split("[|]");
 
                 if (data.length != parametersLength(format())) {
-                    throw new IllegalArgumentException(String.format("Количество параметров разделенных символом '|' - %s. Ожидается - %s",
+                    throw new IllegalArgumentException(String.format("Number of parameters, splitting by '|' - %s. Expected - %s",
                             data.length,parametersLength(format())));
                 }
-                String database = data[1];
-                String user = data[2];
-                String password = data[3];
+                String database = data[INDEX_DATABASE_NAME];
+                String user = data[INDEX_USER_NAME];
+                String password = data[INDEX_PASSWORD];
                 manager.connect(database, user, password);
-                view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
+                view.write(String.format("Connecting to database '%s' is successful", database));
     }
 }

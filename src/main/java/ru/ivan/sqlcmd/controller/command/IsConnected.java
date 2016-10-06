@@ -30,7 +30,7 @@ public class IsConnected extends Command {
 
     @Override
     public void process(String command) {
-        view.write(String.format("Вы не можете пользоваться командой '%s' пока не подлючитесь с помощью команды connect|database|user|password",command));
+        view.write(String.format("You can't use '%s'. First connect with the command 'connect|database|user|password'",command));
 
     }
 

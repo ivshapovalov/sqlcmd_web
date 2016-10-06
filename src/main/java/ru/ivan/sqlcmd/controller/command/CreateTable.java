@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class CreateTable extends Command {
+    private final static Integer INDEX_DATABASE_NAME=1;
 
     public CreateTable() {
     }
@@ -19,7 +20,7 @@ public class CreateTable extends Command {
 
     @Override
     public String description() {
-        return "создание новой таблицы";
+        return "create new table";
     }
 
     @Override
@@ -36,9 +37,9 @@ public class CreateTable extends Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length !=parametersLength(format()) ) {
-            throw new IllegalArgumentException("Формат команды 'createTable|tableName(column1,column2,..,columnN), а ты ввел: " + command);
+            throw new IllegalArgumentException("Expected command format 'createTable|tableName(column1,column2,..,columnN), but actual '" + command+"'");
         }
-        manager.createTable(data[1]);
-        view.write(String.format("Таблица %s была успешно создана.", data[1]));
+        manager.createTable(data[INDEX_DATABASE_NAME]);
+        view.write(String.format("Table '%s' created successfully", data[1]));
     }
 }

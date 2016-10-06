@@ -5,7 +5,8 @@ import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
 public class DeleteRow extends Command {
-
+    private final static Integer INDEX_TABLE_NAME=1;
+    private final static Integer INDEX_DELETING_ROW_ID=2;
     public DeleteRow() {
     }
 
@@ -17,7 +18,7 @@ public class DeleteRow extends Command {
 
     @Override
     public String description() {
-        return "удаление строки из таблицы с заданным ID";
+        return "delete from table row with specific ID ";
     }
 
     @Override
@@ -34,20 +35,20 @@ public class DeleteRow extends Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
+            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
         }
-        String tableName = data[1];
+        String tableName = data[INDEX_TABLE_NAME];
         int id;
         try {
-            id= Integer.parseInt(data[2]);
+            id= Integer.parseInt(data[INDEX_DELETING_ROW_ID]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Третий параметр ID не может быть преобразован к числовому!");
+            throw new IllegalArgumentException(String.valueOf(INDEX_DELETING_ROW_ID+1)+" parameter must be numeric!");
         }
         try {
             manager.deleteRow(tableName, id);
         } catch (DatabaseManagerException e) {
             throw e;
         }
-        view.write(String.format("В таблице '%s' успешно удалена запись c ID=%s", tableName, id));
+        view.write(String.format("Delete row '%s' from table '%s' successfully", id,tableName));
     }
 }

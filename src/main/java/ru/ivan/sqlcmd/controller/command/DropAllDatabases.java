@@ -15,7 +15,7 @@ public class DropAllDatabases extends Command {
 
     @Override
     public String description() {
-        return "удаление всех баз данных";
+        return "delete all databases";
     }
 
     @Override
@@ -34,10 +34,10 @@ public class DropAllDatabases extends Command {
     }
 
     private void confirmAndDropAllDatabases() {
-        view.write("Удаляем все базы данных? Y/N");
+        view.write("Do you wish to delete all databases? Y/N");
         if (view.read().equalsIgnoreCase("y")) {
             manager.dropAllDatabases();
-            view.write("Все базы данных были успешно удалены.");
+            view.write("All databases  deleted successfully");
         }
     }
 }

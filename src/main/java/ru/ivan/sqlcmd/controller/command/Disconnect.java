@@ -15,7 +15,7 @@ public class Disconnect extends Command {
 
     @Override
     public String description() {
-        return "отключение от базы данных";
+        return "disconnect from curent database";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Disconnect extends Command {
     @Override
     public void process(String command) {
         manager.disconnect();
-        view.write("Отключение успешно");
+        view.write("Disconnect successful");
     }
 
 }

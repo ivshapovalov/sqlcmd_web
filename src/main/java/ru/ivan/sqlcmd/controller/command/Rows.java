@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Rows extends Command {
-
+    private final static Integer INDEX_TABLE_NAME=1;
     public Rows() {
     }
 
@@ -20,7 +20,7 @@ public class Rows extends Command {
 
     @Override
     public String description() {
-        return "список строк таблицы";
+        return "list of rows in table";
     }
 
     @Override
@@ -37,11 +37,11 @@ public class Rows extends Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         if (data.length!=parametersLength(format())) {
-            throw new IllegalArgumentException("Должно быть два параметра " +
-                    "в формате "+format());
+            throw new IllegalArgumentException("Must be " +parametersLength(format())+" parameters"+
+                    " in format "+format());
 
         }
-        String table = data[1];
+        String table = data[INDEX_TABLE_NAME];
         List<Map<String, Object>> tableData = manager.getTableRows(table);
         Set<String> tableHeaders = manager.getTableColumns(table);
 

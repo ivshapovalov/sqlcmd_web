@@ -39,7 +39,7 @@ public class Help extends Command {
 
     @Override
     public String description() {
-        return "список возможных команд с описанием";
+        return "list of all commands with description";
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InsertRow extends Command {
+    private final static Integer INDEX_TABLE_NAME=1;
 
     public InsertRow() {
     }
@@ -19,7 +20,7 @@ public class InsertRow extends Command {
 
     @Override
     public String description() {
-        return "вставка строки в таблицу";
+        return "insert row in table";
     }
 
     @Override
@@ -36,14 +37,15 @@ public class InsertRow extends Command {
     public void process(String command) {
         String[] data=command.split("[|]");
         if (data.length%2==1) {
-            throw new IllegalArgumentException("Должно быть четное количество параметров " +
-                    "в формате "+format());
+            throw new IllegalArgumentException("Expect command parameters " +
+                    "в формате '"+format()+"'");
 
         }
-        String table=data[1];
+        String table=data[INDEX_TABLE_NAME];
+        int parametersCount=data.length/2-1;
 
         Map<String, Object> tableData = new LinkedHashMap<>();
-        for (int i = 1; i < data.length/2; i++) {
+        for (int i = 1; i <= parametersCount; i++) {
             String column=data[i*2];
             String value=data[i*2+1];
             tableData.put(column,value);
@@ -53,6 +55,6 @@ public class InsertRow extends Command {
         } catch (DatabaseManagerException e) {
             throw e;
         }
-        view.write(String.format("В таблице '%s' успешно создана запись %s",table,tableData ));
+        view.write(String.format("Insert row '%s' into table '%s' successfully",tableData,table ));
     }
 }

@@ -15,7 +15,7 @@ public class Databases extends Command {
 
     @Override
     public String description() {
-        return "список баз данных";
+        return "list of databases";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Databases extends Command {
 
     @Override
     public void process(String command) {
-        view.write("***Текущие базы данных***");
+        view.write("***Existing databases***");
         for (String database : manager.getDatabasesNames()) {
             view.write(database);
         }

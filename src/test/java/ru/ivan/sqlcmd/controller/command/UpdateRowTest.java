@@ -34,7 +34,7 @@ public class UpdateRowTest {
 
         //then
         String expected =
-                "[В таблице 'users' успешно обновлена запись {name=Ivan}]";
+                "[Update row '{name=Ivan}' in table 'users' successfully]";
         shouldPrint(expected);
     }
 

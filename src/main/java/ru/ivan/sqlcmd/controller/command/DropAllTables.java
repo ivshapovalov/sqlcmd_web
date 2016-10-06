@@ -15,7 +15,7 @@ public class DropAllTables extends Command {
 
     @Override
     public String description() {
-        return "удаление всех таблиц";
+        return "delete all tables of current database";
     }
 
     @Override
@@ -34,13 +34,14 @@ public class DropAllTables extends Command {
     }
 
     private void confirmAndDropAllTables() {
-        try {            view.write("Удаляем все таблицы? Y/N" );
+        try {
+            view.write("Do you wish to delete all tables? Y/N");
             if (view.read().equalsIgnoreCase("y")) {
                 manager.dropAllTables();
-                view.write("Все таблицы были успешно удалены.");
+                view.write("All tables deleted successfully");
             }
         } catch (Exception e) {
-            view.write(String.format("Ошибка удаления всех таблиц по причине: %s", e.getMessage()));
+            view.write(String.format("Error while deleting all tables. Cause: '%s'", e.getMessage()));
         }
     }
 }

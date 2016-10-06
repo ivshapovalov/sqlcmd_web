@@ -4,7 +4,7 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class DropDatabase extends Command {
-
+    private final static Integer INDEX_DATABASE_NAME=1;
     public DropDatabase() {
     }
 
@@ -16,7 +16,7 @@ public class DropDatabase extends Command {
 
     @Override
     public String description() {
-        return "удаление базы данных";
+        return "delete database";
     }
 
     @Override
@@ -32,21 +32,21 @@ public class DropDatabase extends Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды '"+format()+"', а ты ввел: " + command);
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
         }
-        confirmAndDropDatabase(data[1]);
+        confirmAndDropDatabase(data[INDEX_DATABASE_NAME]);
     }
 
     private void confirmAndDropDatabase(String databaseName) {
         try {
-            view.write(String.format("Удаляем базу данных '%s'. Y/N?", databaseName));
+            view.write(String.format("Do you wish to delete database '%s'. Y/N?", databaseName));
             if (view.read().equalsIgnoreCase("y")) {
                 manager.dropDatabase(databaseName);
-                view.write(String.format("База данных %s была успешно удалена.", databaseName));
+                view.write(String.format("Database '%s' deleted successful", databaseName));
             }
         } catch (Exception e) {
-            view.write(String.format("Ошибка удаления базы данных '%s', по причине: %s", databaseName, e.getMessage()));
+            view.write(String.format("Error while deleting database '%s'. Cause: '%s'", databaseName, e.getMessage()));
         }
     }
 }

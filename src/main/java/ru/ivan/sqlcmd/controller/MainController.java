@@ -51,10 +51,10 @@ public class MainController {
     }
 
     private void doWork() {
-        view.write("Привет, юзер");
+        view.write("Hello, user");
         int historySize=0;
         while (true) {
-            view.write("Введите команду или help для помощи");
+            view.write("Input command or 'help' for assistance");
             String input = view.read();
 
             try {
@@ -64,7 +64,7 @@ public class MainController {
                     input = newInput;
                     view.write(newInput);
                 } else {
-                    view.write("В истории команд данный индекс отсутствует.");
+                    view.write(String.format("Index '%s' does not exist in command history",historyIndex));
                     continue;
                 }
             } catch (NumberFormatException e) {
@@ -99,7 +99,7 @@ public class MainController {
         if (e.getCause() != null) {
             message = message + " " + e.getCause().getMessage();
         }
-        view.write("Неудача по причине: " + message);
-        view.write("Повтори попытку");
+        view.write("Failure cause: " + message);
+        view.write("Try again");
     }
 }

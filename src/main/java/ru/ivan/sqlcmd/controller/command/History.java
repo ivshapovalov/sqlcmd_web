@@ -7,6 +7,7 @@ import java.util.Map;
 public class History extends Command {
     Map<Integer, String> history;
     public static Integer HISTORY_CAPACITY = 10;
+    private final static Integer INDEX_NEW_CAPACITY=1;
 
     public History() {
     }
@@ -18,7 +19,7 @@ public class History extends Command {
 
     @Override
     public String description() {
-        return "список последних " + HISTORY_CAPACITY + " введенных команд";
+        return "list of lase " + HISTORY_CAPACITY + " inputed commands";
     }
 
     @Override
@@ -35,7 +36,7 @@ public class History extends Command {
     public void process(String command) {
 
         String[] data = command.split("[|]");
-        if (data.length == 1) {
+        if (data.length ==INDEX_NEW_CAPACITY) {
             for (Map.Entry<Integer, String> entry : history.entrySet()
                     ) {
                 view.write(entry.getKey() + ". " + entry.getValue());
@@ -43,11 +44,11 @@ public class History extends Command {
         } else {
             int id;
             try {
-                id= Integer.parseInt(data[1]);
-                HISTORY_CAPACITY=id;
-                view.write(String.format("Установлен размер хранимой истории введенных команд. Новый размер - %s ", id));
+                id= Integer.parseInt(data[INDEX_NEW_CAPACITY]);
+                History.HISTORY_CAPACITY=id;
+                view.write(String.format("Size of commands history set to '%s' ", id));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Неверно указан размер хранимой истории!");
+                throw new IllegalArgumentException(String.format("Size of commands history must be numeric, but actual '%s'",data[INDEX_NEW_CAPACITY]));
             }
         }
 

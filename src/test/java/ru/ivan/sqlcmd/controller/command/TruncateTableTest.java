@@ -75,7 +75,7 @@ public class TruncateTableTest {
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'truncateTable|tableName', а ты ввел: truncateTable",e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable'",e.getMessage());
         }
     }
     @Test
@@ -86,7 +86,7 @@ public class TruncateTableTest {
             fail ();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'truncateTable|tableName', а ты ввел: truncateTable|users|qwe",e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable|users|qwe'",e.getMessage());
         }
     }
 

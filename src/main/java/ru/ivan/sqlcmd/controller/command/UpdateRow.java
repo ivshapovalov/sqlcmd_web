@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class UpdateRow extends Command {
+    private final static Integer INDEX_TABLE_NAME=1;
+    private final static Integer INDEX_UPDATING_ROW_ID =2;
 
     public UpdateRow() {
     }
@@ -19,7 +21,7 @@ public class UpdateRow extends Command {
 
     @Override
     public String description() {
-        return "обновление строки с заданным ID в таблице";
+        return "update row with specific ID in table";
     }
 
     @Override
@@ -36,20 +38,20 @@ public class UpdateRow extends Command {
     public void process(String command) {
         String[] data = command.split("[|]");
         if (data.length % 2 == 0 || data.length <=parametersLength(format())) {
-            throw new IllegalArgumentException("Должно быть четное количество параметров большее или равное 4 " +
-                    "в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN");
+            throw new IllegalArgumentException("Must be not even parameters equal to or greater than 4 " +
+                    "in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN");
 
         }
-        String tableName = data[1];
+        String tableName = data[INDEX_TABLE_NAME];
         int id;
         try {
-             id= Integer.parseInt(data[2]);
+             id= Integer.parseInt(data[INDEX_UPDATING_ROW_ID]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Третий параметр ID не может быть преобразован к числовому!");
+            throw new IllegalArgumentException(String.valueOf(INDEX_UPDATING_ROW_ID+1)+" parameter must be numeric!");
         }
-
+        int parametersCount=data.length/2-1;
         Map<String, Object> tableData = new LinkedHashMap<>();
-        for (int i = 1; i <= data.length / 2 - 1; i++) {
+        for (int i = 1; i <= parametersCount; i++) {
             String column = data[i * 2 + 1];
             String value = data[i * 2 + 2];
             tableData.put(column, value);
@@ -60,6 +62,6 @@ public class UpdateRow extends Command {
             throw e;
         }
 
-        view.write(String.format("В таблице '%s' успешно обновлена запись %s", tableName, tableData));
+        view.write(String.format("Update row '%s' in table '%s' successfully", tableData,tableName));
     }
 }
