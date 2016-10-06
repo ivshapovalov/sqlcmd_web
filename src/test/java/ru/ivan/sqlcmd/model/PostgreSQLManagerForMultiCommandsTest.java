@@ -26,6 +26,7 @@ public class PostgreSQLManagerForMultiCommandsTest {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_NAME);
+        manager.createDatabase(DB_NAME);
     }
 
     @AfterClass
@@ -38,6 +39,9 @@ public class PostgreSQLManagerForMultiCommandsTest {
     @Before
     public void setup() {
         manager.connect("", DB_USER, DB_PASSWORD);
+        manager.dropDatabase(DB_NAME);
+        manager.createDatabase(DB_NAME);
+        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.dropTable(TABLE_NAME1);
         manager.dropTable(TABLE_NAME2);
         manager.createTable(SQL_CREATE_TABLE1);
@@ -79,22 +83,25 @@ public class PostgreSQLManagerForMultiCommandsTest {
     @Test
     public void testDropAllDatabases() {
 
-        //given
-        String newDatabase1 = "dropdatabasetest1";
-        manager.dropDatabase(newDatabase1);
-        manager.createDatabase(newDatabase1);
-        String newDatabase2 = "dropdatabasetest2";
-        manager.dropDatabase(newDatabase2);
-        manager.createDatabase(newDatabase2);
+        // Осторожно. Тест удаляет ВСЕ базы данных вообще.
 
-        //when
-        manager.dropAllDatabases();
-
-        //then
-        Set<String> databases = manager.getDatabasesNames();
-        if (databases.size() != 1 && databases.contains("postgres")) {
-            fail();
-        }
+//        manager.connect("", DB_USER, DB_PASSWORD);
+//        //given
+//        String newDatabase1 = "dropdatabasetest1";
+//        manager.dropDatabase(newDatabase1);
+//        manager.createDatabase(newDatabase1);
+//        String newDatabase2 = "dropdatabasetest2";
+//        manager.dropDatabase(newDatabase2);
+//        manager.createDatabase(newDatabase2);
+//
+//        //when
+//        manager.dropAllDatabases();
+//
+//        //then
+//        Set<String> databases = manager.getDatabasesNames();
+//        if (databases.size() != 1 && databases.contains("postgres")) {
+//            fail();
+//        }
     }
 
     @Test
