@@ -167,7 +167,7 @@ public class IntegrationTest {
         assertEquals("Hello, user\n" +
                 "Input command or 'help' for assistance\n" +
                 //rows|TABLE_NAME
-                "You can't use '"+TABLE_NAME+"'. First connect with the command 'connect|database|user|password'\n" +
+                "You can't use 'rows|"+TABLE_NAME+"'. First connect with the command 'connect|database|user|password'\n" +
                 "Input command or 'help' for assistance\n" +
                 //exit
                 "Good bye!\n", getData());
@@ -233,15 +233,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //tables
                 "[qwe, test]\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -259,20 +263,26 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно создана запись {id=1111, name=Peter, password=****}\n" +
-                "Введите команду или help для помощи\n" +
-                "test size is 1\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncate
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table 'test' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Insert row '{id=1111, name=Peter, password=****}' into table '"+TABLE_NAME+"' successfully\n" +
+                "Input command or 'help' for assistance\n" +
+                //size
+                "Table '"+TABLE_NAME+"' size is 1\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -363,22 +373,28 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно создана запись {id=1111, name=Peter, password=****}\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Не возможно получить размер таблицы notexisttable ОШИБКА: отношение \"notexisttable\" не существует\n" +
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Insert row '{id=1111, name=Peter, password=****}' into table 'test' successfully\n" +
+                "Input command or 'help' for assistance\n" +
+                //size|NOT_EXIST_TABLE
+                "Failure cause: It is not possible to obtain the size of the table '"+NOT_EXIST_TABLE+"' ОШИБКА: отношение \"notexisttable\" не существует\n" +
                 "  Позиция: 32\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //wxit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -424,31 +440,39 @@ public class IntegrationTest {
 
         // then
         assertEquals(
-                "Привет, юзер\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Подключение к базе 'dbtest' прошло успешно!\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Удаляем данные с таблицы 'test'. Y/N\n" +
-                        "Таблица test была успешно очищена.\n" +
-                        "Введите команду или help для помощи\n" +
-                        "В таблице 'test' успешно создана запись {id=1111, name=Peter, password=****}\n" +
-                        "Введите команду или help для помощи\n" +
+                "Hello, user\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //connect
+                        "Connecting to database '"+DB_NAME+"' is successful\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //truncateTable
+                        "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                        "Table '"+TABLE_NAME+"' cleared successful\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //insertRow
+                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+TABLE_NAME+"' successfully\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //rows
                         "+----+-----+--------+\n" +
                         "|id  |name |password|\n" +
                         "+----+-----+--------+\n" +
                         "|1111|Peter|****    |\n" +
                         "+----+-----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Удаляем данные с таблицы 'test'. Y/N\n" +
-                        "Таблица test была успешно очищена.\n" +
-                        "Введите команду или help для помощи\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //truncateTable
+                        "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                        "Table '"+TABLE_NAME+"' cleared successful\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //rows
                         "+--+----+--------+\n" +
                         "|id|name|password|\n" +
                         "+--+----+--------+\n" +
-                        "Введите команду или help для помощи\n" +
-                        "Отключение успешно\n" +
-                        "Введите команду или help для помощи\n" +
-                        "До скорой встречи!\n", getData());
+                        "Input command or 'help' for assistance\n" +
+                        //disconnect
+                        "Disconnect successful\n" +
+                        "Input command or 'help' for assistance\n" +
+                        //exit
+                        "Good bye!\n", getData());
     }
 
     @Test
@@ -498,7 +522,6 @@ public class IntegrationTest {
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("tables");
         in.add("disconnect");
-
         in.add("connect|" + DB_NAME2 + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("tables");
         in.add("disconnect");
@@ -508,21 +531,28 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //tables
                 "[qwe, test]\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'test' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME2+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //tables
                 "[]\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -536,14 +566,17 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Количество параметров разделенных символом '|' - 2. Ожидается - 4\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect|dbname
+                "Failure cause: Number of parameters, splitting by '|' - 2. Expected - 4\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -573,10 +606,10 @@ public class IntegrationTest {
                 "Table '"+TABLE_NAME+"' cleared successful\n" +
                 "Input command or 'help' for assistance\n" +
                 //insertRow
-                "Insert row '{id=13, name=Stiven, password=*****}' into table 'test' successfully\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+TABLE_NAME+"' successfully\n" +
                 "Input command or 'help' for assistance\n" +
                 //insertRow
-                "Insert row '{id=14, name=Pupkin, password=+++++}' into table 'test' successfully\n" +
+                "Insert row '{id=14, name=Pupkin, password=+++++}' into table '"+TABLE_NAME+"' successfully\n" +
                 "Input command or 'help' for assistance\n" +
                 //rows
                 "+--+------+--------+\n" +
@@ -606,16 +639,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Невозможно вставить строку в таблицу notexisttable.  Таблицы не существует\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                "Failure cause: Cannot insert a row into a table '"+NOT_EXIST_TABLE+"'.  Table does not exists\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -632,19 +668,24 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Невозможно вставить строку в таблицу test. Столбец \"id5\" в таблице \"test\" не существует\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Failure cause: Cannot insert a row into a table '"+TABLE_NAME+"'. Столбец \"id5\" в таблице \"test\" не существует\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -661,19 +702,24 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Должно быть четное количество параметров в формате insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow|
+                "Failure cause: Expect command parameters в формате 'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN'\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -681,9 +727,7 @@ public class IntegrationTest {
         // given
         in.add("history|3");
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("truncateTable|" + TABLE_NAME);
-        in.add("y");
-        in.add("tables");
+        in.add("asd");
         in.add("history");
         in.add("disconnect");
         in.add("exit");
@@ -692,24 +736,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Установлен размер хранимой истории введенных команд. Новый размер - 3 \n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "[qwe, test]\n" +
-                "Введите команду или help для помощи\n" +
-                "3. truncateTable|test\n" +
-                "4. tables\n" +
-                "5. history\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //history|3
+                "Size of commands history set to '3' \n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //asd
+                "This command does not exist - asd\n" +
+                "Input command or 'help' for assistance\n" +
+                //help
+                "2. connect|"+DB_NAME+"|"+DB_USER+"|"+DB_PASSWORD+"\n" +
+                "3. asd\n" +
+                "4. history\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -921,21 +968,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно создана запись {id=13, name=Stiven, password=*****}\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Должно быть четное количество параметров большее или равное 4 в формате updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+TABLE_NAME+"' successfully\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow|tableName|id
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -950,16 +1003,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Третий параметр ID не может быть преобразован к числовому!\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //updateRow|tableName|fgr|name|Ivan
+                "Failure cause: 3 parameter must be numeric!\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -1037,26 +1094,29 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно создана запись {id=13, name=Stiven, password=*****}\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно удалена запись c ID=14\n" +
-                "Введите команду или help для помощи\n" +
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+TABLE_NAME+"' successfully\n" +
+                "Input command or 'help' for assistance\n" +
+                "Delete row '14' from table 'test' successfully\n" +
+                "Input command or 'help' for assistance\n" +
                 "+--+------+--------+\n" +
                 "|id|name  |password|\n" +
                 "+--+------+--------+\n" +
                 "|13|Stiven|*****   |\n" +
                 "+--+------+--------+\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+                "Input command or 'help' for assistance\n" +
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                "Good bye!\n", getData());
     }
     @Test
     public void testDeleteRowInNotExistingTable() {
@@ -1098,16 +1158,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //deleteRow|
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|'\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -1122,16 +1186,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|test\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //deleteRow|tableName
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|test'\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -1149,21 +1217,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Удаляем данные с таблицы 'test'. Y/N\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введите команду или help для помощи\n" +
-                "В таблице 'test' успешно создана запись {id=13, name=Stiven, password=*****}\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Формат команды 'deleteRow|tableName|ID', а ты ввел: deleteRow|test|13|adsf|asdfa\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //truncateTable
+                "Do you wish to clear table '"+TABLE_NAME+"'. Y/N?\n" +
+                "Table '"+TABLE_NAME+"' cleared successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //insertRow
+                "Insert row '{id=13, name=Stiven, password=*****}' into table 'test' successfully\n" +
+                "Input command or 'help' for assistance\n" +
+                //"deleteRow|" + TABLE_NAME + "|13|adsf|asdfa");
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|test|13|adsf|asdfa'\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 
     @Test
@@ -1178,15 +1252,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет, юзер\n" +
-                "Введите команду или help для помощи\n" +
-                "Подключение к базе 'dbtest' прошло успешно!\n" +
-                "Введите команду или help для помощи\n" +
-                "Неудача по причине: Третий параметр ID не может быть преобразован к числовому!\n" +
-                "Повтори попытку\n" +
-                "Введите команду или help для помощи\n" +
-                "Отключение успешно\n" +
-                "Введите команду или help для помощи\n" +
-                "До скорой встречи!\n", getData());
+        assertEquals("Hello, user\n" +
+                "Input command or 'help' for assistance\n" +
+                //connect
+                "Connecting to database '"+DB_NAME+"' is successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //deleteRow|tableName|fgr
+                "Failure cause: 3 parameter must be numeric!\n" +
+                "Try again\n" +
+                "Input command or 'help' for assistance\n" +
+                //disconnect
+                "Disconnect successful\n" +
+                "Input command or 'help' for assistance\n" +
+                //exit
+                "Good bye!\n", getData());
     }
 }
