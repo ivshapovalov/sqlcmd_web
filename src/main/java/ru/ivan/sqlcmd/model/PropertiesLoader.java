@@ -2,22 +2,21 @@ package ru.ivan.sqlcmd.model;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 
 public class PropertiesLoader {
 
-    private static final String CONFIG_SQLCMD_PROPERTIES = "src/config/sqlcmd.properties";
-    private final Properties properties;
+    private static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";
+    private Properties properties;
 
     public PropertiesLoader() {
         properties = new Properties();
-        File file = new File(CONFIG_SQLCMD_PROPERTIES);
-
-        try (FileInputStream fileInput = new FileInputStream(file)) {
-            properties.load(fileInput);
+        try ( InputStream in= PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_SQLCMD_PROPERTIES)) {
+            properties.load(in);
         } catch (Exception e) {
-            System.out.println("Error loading config " + file.getAbsolutePath());
+            System.out.println("Error loading config "+CONFIG_SQLCMD_PROPERTIES);
             e.printStackTrace();
         }
     }

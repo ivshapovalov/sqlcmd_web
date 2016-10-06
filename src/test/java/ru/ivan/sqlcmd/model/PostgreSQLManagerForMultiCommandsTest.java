@@ -2,7 +2,6 @@ package ru.ivan.sqlcmd.model;
 
 import org.junit.*;
 import java.util.*;
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class PostgreSQLManagerForMultiCommandsTest {
