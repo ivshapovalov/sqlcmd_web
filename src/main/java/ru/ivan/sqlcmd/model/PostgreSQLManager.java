@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
+import ru.ivan.sqlcmd.controller.MainController;
+
 import java.sql.*;
 import java.util.*;
 
@@ -226,7 +228,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 message = message.concat(" Table does not exists");
             } else if (originalMessage.contains("столбец")) {
                 message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf("\n")));
+                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
             }
             throw new DatabaseManagerException(message);
         }
@@ -253,7 +255,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 message = message.concat(" Table does not exists");
             } else if (originalMessage.contains("столбец")) {
                 message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf("\n")));
+                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
             }
             throw new DatabaseManagerException(message);
         }
@@ -272,7 +274,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 message = message.concat(" Table does not exists");
             } else if (originalMessage.contains("столбец")) {
                 message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf("\n")));
+                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
             }
             throw new DatabaseManagerException(message);
         }

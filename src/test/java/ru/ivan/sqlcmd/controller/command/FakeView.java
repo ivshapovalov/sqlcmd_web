@@ -1,5 +1,6 @@
 package ru.ivan.sqlcmd.controller.command;
 
+import ru.ivan.sqlcmd.controller.MainController;
 import ru.ivan.sqlcmd.view.View;
 
 public class FakeView implements View {
@@ -19,7 +20,7 @@ public class FakeView implements View {
 
     @Override
     public void write(String message) {
-        messages+=message+"\n";
+        messages+=message+""+ MainController.LINE_SEPARATOR+"";
 
     }
     public void addRead(String input){

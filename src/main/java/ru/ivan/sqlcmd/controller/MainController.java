@@ -8,6 +8,7 @@ import java.util.*;
 
 public class MainController {
 
+    public static final char LINE_SEPARATOR='\n';
     private final View view;
     private final DatabaseManager manager;
     private final java.util.List<Command> commands;

@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.integration;
 
+import ru.ivan.sqlcmd.controller.MainController;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,7 +24,7 @@ public class ConfigurableInputStream extends InputStream {
         char ch = line.charAt(0);
         line = line.substring(1);
 
-        if (ch == '\n') {
+        if (ch == MainController.LINE_SEPARATOR) {
             endLine = true;
         }
 
@@ -33,7 +35,7 @@ public class ConfigurableInputStream extends InputStream {
         if (this.line == null) {
             this.line = line;
         } else {
-            this.line += "\n" + line;
+            this.line += ""+ MainController.LINE_SEPARATOR+"" + line;
         }
     }
 

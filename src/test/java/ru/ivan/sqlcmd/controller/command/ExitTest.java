@@ -1,6 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import org.junit.Test;
+import ru.ivan.sqlcmd.controller.MainController;
 
 import static org.junit.Assert.*;
 
@@ -44,7 +45,7 @@ public class ExitTest {
 
         }
         //then
-        assertEquals("Good bye!\n",view.getContent());
+        assertEquals("Good bye!"+ MainController.LINE_SEPARATOR+"",view.getContent());
 
     }
 }

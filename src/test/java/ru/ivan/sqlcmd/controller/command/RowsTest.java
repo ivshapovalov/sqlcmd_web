@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import ru.ivan.sqlcmd.controller.MainController;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
@@ -56,12 +57,12 @@ public class RowsTest {
 
         //then
         String expected =
-                "[+--+-----+--------+\n" +
-                        "|id|name |password|\n" +
-                        "+--+-----+--------+\n" +
-                        "|12|Eva  |*****   |\n" +
-                        "+--+-----+--------+\n" +
-                        "|16|Steve|+++++   |\n" +
+                "[+--+-----+--------+"+ MainController.LINE_SEPARATOR+"" +
+                        "|id|name |password|"+MainController.LINE_SEPARATOR+"" +
+                        "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|12|Eva  |*****   |"+MainController.LINE_SEPARATOR+"" +
+                        "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|16|Steve|+++++   |"+MainController.LINE_SEPARATOR+"" +
                         "+--+-----+--------+]";
         shouldPrint(expected);
     }
@@ -119,8 +120,8 @@ public class RowsTest {
 
         //then
         String expected =
-                "[+--+----+--------+\n" +
-                        "|id|name|password|\n" +
+                "[+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|id|name|password|"+MainController.LINE_SEPARATOR+"" +
                         "+--+----+--------+]";
         shouldPrint(expected);
     }

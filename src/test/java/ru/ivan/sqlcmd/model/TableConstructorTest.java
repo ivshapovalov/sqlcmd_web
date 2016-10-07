@@ -3,6 +3,7 @@ package ru.ivan.sqlcmd.model;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.Test;
+import ru.ivan.sqlcmd.controller.MainController;
 
 import java.util.*;
 
@@ -18,12 +19,12 @@ public class TableConstructorTest {
 
         TableConstructor table = initTableConstructor();
 
-        assertEquals("+--+----------+--------+\n" +
-                "|id|name      |password|\n" +
-                "+--+----------+--------+\n" +
-                "|1 |FirstUser |+++++   |\n" +
-                "+--+----------+--------+\n" +
-                "|2 |SecondUser|#####   |\n" +
+        assertEquals("+--+----------+--------+"+ MainController.LINE_SEPARATOR+"" +
+                "|id|name      |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+----------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|1 |FirstUser |+++++   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+----------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|2 |SecondUser|#####   |"+MainController.LINE_SEPARATOR+"" +
                 "+--+----------+--------+", table.getTableString());
     }
 

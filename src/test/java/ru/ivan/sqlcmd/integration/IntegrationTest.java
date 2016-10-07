@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.ivan.sqlcmd.Main;
+import ru.ivan.sqlcmd.controller.MainController;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
@@ -81,36 +82,36 @@ public class IntegrationTest {
 
         // then
         assertEquals(
-                "Hello, user\n" +
-                        "Input command or 'help' for assistance\n" +
-                        "Existing program commands:\n" +
-                        "\t\t'connect|sqlcmd|postgres|postgres' -- connect to database\n" +
-                        "\t\t'createDatabase|databaseName' -- create new database\n" +
-                        "\t\t'createTable|tableName' -- create new table\n" +
-                        "\t\t'databases' -- list of databases\n" +
-                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID \n" +
-                        "\t\t'disconnect' -- disconnect from curent database\n" +
-                        "\t\t'dropTable|tableName' -- delete table\n" +
-                        "\t\t'dropAllTables' -- delete all tables of current database\n" +
-                        "\t\t'dropDatabase|databaseName' -- delete database\n" +
-                        "\t\t'dropAllDatabases' -- delete all databases\n" +
-                        "\t\t'exit' -- exit from application\n" +
-                        "\t\t'help' -- list of all commands with description\n" +
-                        "\t\t'history' -- list of last 'history capacity' inputed commands. history|N - set 'history capacity'\n" +
-                        "\t\t'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN' -- insert row in table\n" +
-                        "\t\t'rows|tableName' -- list of rows in table\n" +
-                        "\t\t'size|tableName' -- size of the table\n" +
-                        "\t\t'tables' -- list of tables in current database\n" +
-                        "\t\t'truncateAll' -- clear all tables\n" +
-                        "\t\t'truncateTable|tableName' -- clear the table\n" +
-                        "\t\t'updateRow|tableName|ID' -- update row with specific ID in table\n" +
-                        "Input command or 'help' for assistance\n" +
-                        "Good bye!\n", getData());
+                "Hello, user"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Existing program commands:"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'connect|sqlcmd|postgres|postgres' -- connect to database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'createDatabase|databaseName' -- create new database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'createTable|tableName' -- create new table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'databases' -- list of databases"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID "+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'disconnect' -- disconnect from curent database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'dropTable|tableName' -- delete table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'dropAllTables' -- delete all tables of current database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'dropDatabase|databaseName' -- delete database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'dropAllDatabases' -- delete all databases"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'exit' -- exit from application"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'help' -- list of all commands with description"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'history' -- list of last 'history capacity' inputed commands. history|N - set 'history capacity'"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN' -- insert row in table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'rows|tableName' -- list of rows in table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'size|tableName' -- size of the table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'tables' -- list of tables in current database"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'truncateAll' -- clear all tables"+ MainController.LINE_SEPARATOR+"" +
+                        "\t\t'truncateTable|tableName' -- clear the table"+MainController.LINE_SEPARATOR+"" +
+                        "\t\t'updateRow|tableName|ID' -- update row with specific ID in table"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     private String getData() {
         try {
-            String result = new String(out.toByteArray(), "UTF-8").replaceAll("\r\n", "\n");
+            String result = new String(out.toByteArray(), "UTF-8").replaceAll("\r"+MainController.LINE_SEPARATOR+"", ""+MainController.LINE_SEPARATOR+"");
             out.reset();
             return result;
         } catch (UnsupportedEncodingException e) {
@@ -128,9 +129,9 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
-                "Good bye!\n", getData());
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -143,13 +144,13 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //tables
-                "You can't use 'tables'. First connect with the command 'connect|database|user|password'\n" +
-                "Input command or 'help' for assistance\n" +
+                "You can't use 'tables'. First connect with the command 'connect|database|user|password'"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -162,13 +163,13 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //rows|TABLE_TEST1
-                "You can't use 'rows|"+ TABLE_TEST1 +"'. First connect with the command 'connect|database|user|password'\n" +
-                "Input command or 'help' for assistance\n" +
+                "You can't use 'rows|"+ TABLE_TEST1 +"'. First connect with the command 'connect|database|user|password'"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -181,13 +182,13 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //unsupported
-                "You can't use 'unsupported'. First connect with the command 'connect|database|user|password'\n" +
-                "Input command or 'help' for assistance\n" +
+                "You can't use 'unsupported'. First connect with the command 'connect|database|user|password'"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -202,19 +203,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //unsupported
-                "This command does not exist - unsupported\n" +
-                "Input command or 'help' for assistance\n" +
+                "This command does not exist - unsupported"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
 
@@ -231,19 +232,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //tables
-                "["+TABLE_TEST2+", "+TABLE_TEST1+"]\n" +
-                "Input command or 'help' for assistance\n" +
+                "["+TABLE_TEST2+", "+TABLE_TEST1+"]"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -261,26 +262,26 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //size
-                "Table '"+ TABLE_TEST1 +"' size is 1\n" +
-                "Input command or 'help' for assistance\n" +
+                "Table '"+ TABLE_TEST1 +"' size is 1"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -298,26 +299,26 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate table
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insert row
-                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                "Failure cause: Must be 2 parameters in format size|tableName\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Must be 2 parameters in format size|tableName"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -335,25 +336,25 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate table
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
-                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                "Failure cause: Must be 2 parameters in format size|tableName\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Must be 2 parameters in format size|tableName"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -371,28 +372,28 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=1111, name=Peter, password=****}' into table '"+TABLE_TEST1+"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=1111, name=Peter, password=****}' into table '"+TABLE_TEST1+"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //size|NOT_EXIST_TABLE
-                "Failure cause: It is not possible to obtain the size of the table '"+NOT_EXIST_TABLE+"' ОШИБКА: отношение \"notexisttable\" не существует\n" +
-                "  Позиция: 32\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: It is not possible to obtain the size of the table '"+NOT_EXIST_TABLE+"' ОШИБКА: отношение \"notexisttable\" не существует"+MainController.LINE_SEPARATOR+"" +
+                "  Позиция: 32"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //wxit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -406,17 +407,17 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Failure cause: Unable to connect to database '"+DB_TEST1+"', user 'postgres', password 'postgresWRONG' Ошибка при попытке подсоединения.\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Unable to connect to database '"+DB_TEST1+"', user 'postgres', password 'postgresWRONG' Ошибка при попытке подсоединения."+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -438,39 +439,39 @@ public class IntegrationTest {
 
         // then
         assertEquals(
-                "Hello, user\n" +
-                        "Input command or 'help' for assistance\n" +
+                "Hello, user"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //connect
-                        "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //truncateTable
-                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                        "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                        "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //insertRow
-                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //rows
-                        "+----+-----+--------+\n" +
-                        "|id  |name |password|\n" +
-                        "+----+-----+--------+\n" +
-                        "|1111|Peter|****    |\n" +
-                        "+----+-----+--------+\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|id  |name |password|"+MainController.LINE_SEPARATOR+"" +
+                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|1111|Peter|****    |"+MainController.LINE_SEPARATOR+"" +
+                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //truncateTable
-                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                        "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                        "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //rows
-                        "+--+----+--------+\n" +
-                        "|id|name|password|\n" +
-                        "+--+----+--------+\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|id|name|password|"+MainController.LINE_SEPARATOR+"" +
+                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //disconnect
-                        "Disconnect successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //exit
-                        "Good bye!\n", getData());
+                        "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -489,27 +490,27 @@ public class IntegrationTest {
 
         // then
         assertEquals(
-                "Hello, user\n" +
-                        "Input command or 'help' for assistance\n" +
+                "Hello, user"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //connect
-                        "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //truncate table
-                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                        "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                        "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //insert row
-                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         // rows|table|sdfasf
-                        "Failure cause: Must be 2 parameters in format rows|tableName\n" +
-                        "Try again\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Failure cause: Must be 2 parameters in format rows|tableName"+MainController.LINE_SEPARATOR+"" +
+                        "Try again"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //disconnect
-                        "Disconnect successful\n" +
-                        "Input command or 'help' for assistance\n" +
+                        "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                         //exit
-                        "Good bye!\n", getData());
+                        "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
 
@@ -529,28 +530,28 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //tables
-                "["+TABLE_TEST2+", "+TABLE_TEST1+"]\n" +
-                "Input command or 'help' for assistance\n" +
+                "["+TABLE_TEST2+", "+TABLE_TEST1+"]"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST2 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST2 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //tables
-                "[]\n" +
-                "Input command or 'help' for assistance\n" +
+                "[]"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -564,17 +565,17 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect|dbname
-                "Failure cause: Number of parameters, splitting by '|' - 2. Expected - 4\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Number of parameters, splitting by '|' - 2. Expected - 4"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -594,35 +595,35 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=14, name=Pupkin, password=+++++}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=14, name=Pupkin, password=+++++}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //rows
-                "+--+------+--------+\n" +
-                "|id|name  |password|\n" +
-                "+--+------+--------+\n" +
-                "|13|Stiven|*****   |\n" +
-                "+--+------+--------+\n" +
-                "|14|Pupkin|+++++   |\n" +
-                "+--+------+--------+\n" +
-                "Input command or 'help' for assistance\n" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|id|name  |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|13|Stiven|*****   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|14|Pupkin|+++++   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -637,19 +638,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
-                "Failure cause: Cannot insert a row into a table '"+NOT_EXIST_TABLE+"'.  Table does not exists\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Cannot insert a row into a table '"+NOT_EXIST_TABLE+"'.  Table does not exists"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -666,24 +667,24 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Failure cause: Cannot insert a row into a table '"+ TABLE_TEST1 +"'. Столбец \"id5\" в таблице \""+TABLE_TEST1+"\" не существует\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Cannot insert a row into a table '"+ TABLE_TEST1 +"'. Столбец \"id5\" в таблице \""+TABLE_TEST1+"\" не существует"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -700,24 +701,24 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow|
-                "Failure cause: Expect command parameters в формате 'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN'\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Expect command parameters в формате 'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN'"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -734,27 +735,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //history|3
-                "Size of commands history set to '3' \n" +
-                "Input command or 'help' for assistance\n" +
+                "Size of commands history set to '3' "+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //asd
-                "This command does not exist - asd\n" +
-                "Input command or 'help' for assistance\n" +
+                "This command does not exist - asd"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //help
-                "2. connect|"+ DB_TEST1 +"|"+DB_USER+"|"+DB_PASSWORD+"\n" +
-                "3. asd\n" +
-                "4. history\n" +
-                "Input command or 'help' for assistance\n" +
+                "2. connect|"+ DB_TEST1 +"|"+DB_USER+"|"+DB_PASSWORD+""+MainController.LINE_SEPARATOR+"" +
+                "3. asd"+MainController.LINE_SEPARATOR+"" +
+                "4. history"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -768,16 +769,16 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //history|gfh
-                "Failure cause: Size of commands history must be numeric, but actual 'gfh'\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Size of commands history must be numeric, but actual 'gfh'"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
-                "Good bye!\n", getData());
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
 
@@ -801,43 +802,43 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate table
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insert row
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //rows
-                "+--+------+--------+\n" +
-                "|id|name  |password|\n" +
-                "+--+------+--------+\n" +
-                "|13|Stiven|*****   |\n" +
-                "+--+------+--------+\n" +
-                "Input command or 'help' for assistance\n"+
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|id|name  |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|13|Stiven|*****   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+""+
                 //update row
-                "Update row '{name=Pupkin, password=+++++}' in table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                "+--+------+--------+\n" +
-                "|id|name  |password|\n" +
-                "+--+------+--------+\n" +
-                "|13|Pupkin|+++++   |\n" +
-                "+--+------+--------+\n" +
-                "Input command or 'help' for assistance\n" +
+                "Update row '{name=Pupkin, password=+++++}' in table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|id|name  |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|13|Pupkin|+++++   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate table
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -852,20 +853,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //updateRow|notExistTable
-                "Failure cause: It is not possible to update a record with id=14 in table 'notexisttable'. Table does not exists\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: It is not possible to update a record with id=14 in table 'notexisttable'. Table does not exists"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -880,19 +881,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
-                "Failure cause: It is not possible to update a record with id=14 in table '"+ TABLE_TEST1 +"'.Столбец \"nam\" в таблице \""+ TABLE_TEST1 +"\" не существует\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: It is not possible to update a record with id=14 in table '"+ TABLE_TEST1 +"'.Столбец \"nam\" в таблице \""+ TABLE_TEST1 +"\" не существует"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -907,20 +908,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //updateRow|
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -935,20 +936,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //updateRow|tableName
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -966,27 +967,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow|tableName|id
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1001,20 +1002,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //updateRow|tableName|fgr|name|Ivan
-                "Failure cause: 3 parameter must be numeric!\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: 3 parameter must be numeric!"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1035,45 +1036,45 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncate table
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insert row in table
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insert row
-                "Insert row '{id=14, name=Kevin, password=-----}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=14, name=Kevin, password=-----}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //rows of table
-                        "+--+------+--------+\n" +
-                        "|id|name  |password|\n" +
-                        "+--+------+--------+\n" +
-                        "|13|Stiven|*****   |\n" +
-                        "+--+------+--------+\n" +
-                        "|14|Kevin |-----   |\n" +
-                        "+--+------+--------+\n"+
-                "Input command or 'help' for assistance\n" +
+                        "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|id|name  |password|"+MainController.LINE_SEPARATOR+"" +
+                        "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|13|Stiven|*****   |"+MainController.LINE_SEPARATOR+"" +
+                        "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                        "|14|Kevin |-----   |"+MainController.LINE_SEPARATOR+"" +
+                        "+--+------+--------+"+MainController.LINE_SEPARATOR+""+
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //deleteRow 13
-                "Delete row '13' from table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Delete row '13' from table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //rows of table
-                "+--+-----+--------+\n" +
-                "|id|name |password|\n" +
-                "+--+-----+--------+\n" +
-                "|14|Kevin|-----   |\n" +
-                "+--+-----+--------+\n" +
-                "Input command or 'help' for assistance\n" +
+                "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|id|name |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|14|Kevin|-----   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1092,29 +1093,29 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                "Delete row '14' from table '"+TABLE_TEST1+"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                "+--+------+--------+\n" +
-                "|id|name  |password|\n" +
-                "+--+------+--------+\n" +
-                "|13|Stiven|*****   |\n" +
-                "+--+------+--------+\n" +
-                "Input command or 'help' for assistance\n" +
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
-                "Good bye!\n", getData());
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Delete row '14' from table '"+TABLE_TEST1+"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|id|name  |password|"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "|13|Stiven|*****   |"+MainController.LINE_SEPARATOR+"" +
+                "+--+------+--------+"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
     @Test
     public void testDeleteRowInNotExistingTable() {
@@ -1128,20 +1129,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //deletRow|notExistTable
-                "Failure cause: It is not possible to delete a record with id=13 in table '"+NOT_EXIST_TABLE+"'. Table does not exists\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: It is not possible to delete a record with id=13 in table '"+NOT_EXIST_TABLE+"'. Table does not exists"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1156,20 +1157,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //deleteRow|
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|'\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|'"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1184,20 +1185,20 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //deleteRow|tableName
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|"+TABLE_TEST1+"'\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|"+TABLE_TEST1+"'"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1215,27 +1216,27 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //truncateTable
-                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?\n" +
-                "Table '"+ TABLE_TEST1 +"' cleared successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Do you wish to clear table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
+                "Table '"+ TABLE_TEST1 +"' cleared successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //insertRow
-                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+TABLE_TEST1+"' successfully\n" +
-                "Input command or 'help' for assistance\n" +
+                "Insert row '{id=13, name=Stiven, password=*****}' into table '"+TABLE_TEST1+"' successfully"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //"deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa");
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|"+TABLE_TEST1+"|13|adsf|asdfa'\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|"+TABLE_TEST1+"|13|adsf|asdfa'"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 
     @Test
@@ -1250,19 +1251,19 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
+        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //deleteRow|tableName|fgr
-                "Failure cause: 3 parameter must be numeric!\n" +
-                "Try again\n" +
-                "Input command or 'help' for assistance\n" +
+                "Failure cause: 3 parameter must be numeric!"+MainController.LINE_SEPARATOR+"" +
+                "Try again"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
+                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
+                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
                 //exit
-                "Good bye!\n", getData());
+                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
     }
 }
