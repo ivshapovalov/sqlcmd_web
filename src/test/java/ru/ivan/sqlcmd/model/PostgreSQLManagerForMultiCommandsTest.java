@@ -84,23 +84,23 @@ public class PostgreSQLManagerForMultiCommandsTest {
 
         // Осторожно. Тест удаляет ВСЕ базы данных вообще.
 
-        manager.connect("", DB_USER, DB_PASSWORD);
-        //given
-        String newDatabase1 = "dropdatabasetest1";
-        manager.dropDatabase(newDatabase1);
-        manager.createDatabase(newDatabase1);
-        String newDatabase2 = "dropdatabasetest2";
-        manager.dropDatabase(newDatabase2);
-        manager.createDatabase(newDatabase2);
-
-        //when
-        manager.dropAllDatabases();
-
-        //then
-        Set<String> databases = manager.getDatabasesNames();
-        if (databases.size() != 1 && databases.contains("postgres")) {
-            fail();
-        }
+//        manager.connect("", DB_USER, DB_PASSWORD);
+//        //given
+//        String newDatabase1 = "dropdatabasetest1";
+//        manager.dropDatabase(newDatabase1);
+//        manager.createDatabase(newDatabase1);
+//        String newDatabase2 = "dropdatabasetest2";
+//        manager.dropDatabase(newDatabase2);
+//        manager.createDatabase(newDatabase2);
+//
+//        //when
+//        manager.dropAllDatabases();
+//
+//        //then
+//        Set<String> databases = manager.getDatabasesNames();
+//        if (databases.size() != 1 && databases.contains("postgres")) {
+//            fail();
+//        }
     }
 
     @Test
