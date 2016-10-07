@@ -13,7 +13,7 @@ public class UpdateRow extends Command {
     UpdateRow() {
     }
 
-    public UpdateRow(DatabaseManager manager, View view) {
+    public UpdateRow(final DatabaseManager manager,final  View view) {
         this.manager = manager;
 
         this.view = view;
@@ -30,12 +30,12 @@ public class UpdateRow extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("updateRow|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("[|]");
         if (data.length % 2 == 0 || data.length <=parametersLength(format())) {
             throw new IllegalArgumentException("Must be not even parameters equal to or greater than 4 " +
@@ -56,7 +56,7 @@ public class UpdateRow extends Command {
         view.write(String.format("Update row '%s' in table '%s' successfully", tableData,tableName));
     }
 
-    private Map<String, Object> extractTableDataFromParameters(String[] data) {
+    private Map<String, Object> extractTableDataFromParameters(final String[] data) {
         int parametersCount=data.length/2-1;
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int i = 1; i <= parametersCount; i++) {

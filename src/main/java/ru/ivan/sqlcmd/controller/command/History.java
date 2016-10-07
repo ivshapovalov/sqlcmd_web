@@ -12,7 +12,7 @@ public class History extends Command {
     History() {
     }
 
-    public History(View view, Map<Integer, String> history) {
+    public History(final View view,final  Map<Integer, String> history) {
         this.view = view;
         this.history = history;
     }
@@ -33,7 +33,7 @@ public class History extends Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
 
         String[] data = command.split("[|]");
         if (data.length ==INDEX_NEW_CAPACITY) {
@@ -47,7 +47,7 @@ public class History extends Command {
         }
     }
 
-    private void setHistoryCapacity(String[] data) {
+    private void setHistoryCapacity(final String[] data) {
         int id;
         id= Integer.parseInt(data[INDEX_NEW_CAPACITY]);
         History.HISTORY_CAPACITY=id;

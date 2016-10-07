@@ -24,12 +24,12 @@ public class IsConnected extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return !manager.isConnected();
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         view.write(String.format("You can't use '%s'. First connect with the command 'connect|database|user|password'",command));
 
     }

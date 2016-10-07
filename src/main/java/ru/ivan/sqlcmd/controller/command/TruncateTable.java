@@ -9,7 +9,7 @@ public class TruncateTable extends Command {
     public TruncateTable() {
     }
 
-    public TruncateTable(DatabaseManager manager, View view) {
+    public TruncateTable(final DatabaseManager manager,final  View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -31,7 +31,7 @@ public class TruncateTable extends Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
             throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
@@ -39,7 +39,7 @@ public class TruncateTable extends Command {
 
         confirmAndTruncateTable(data[INDEX_TABLE_NAME]);
     }
-    private void confirmAndTruncateTable(String tableName) {
+    private void confirmAndTruncateTable(final String tableName) {
         try {
             view.write(String.format("Do you wish to clear table '%s'. Y/N?", tableName));
             if (view.read().equalsIgnoreCase("y")) {

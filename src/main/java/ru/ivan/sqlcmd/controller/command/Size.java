@@ -10,7 +10,7 @@ public class Size extends Command {
     public Size() {
     }
 
-    public Size(DatabaseManager manager, View view) {
+    public Size(final DatabaseManager manager,final  View view) {
         this.manager=manager;
         this.view=view;
     }
@@ -31,7 +31,7 @@ public class Size extends Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("[|]");
         if (data.length!=parametersLength(format())) {
             throw new IllegalArgumentException("Must be " +parametersLength(format())+" parameters "+

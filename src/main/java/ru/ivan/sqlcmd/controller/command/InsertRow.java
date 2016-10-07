@@ -12,7 +12,7 @@ public class InsertRow extends Command {
     InsertRow() {
     }
 
-    public InsertRow(DatabaseManager manager, View view) {
+    public InsertRow(final DatabaseManager manager,final  View view) {
         this.manager=manager;
 
         this.view=view;
@@ -29,12 +29,12 @@ public class InsertRow extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("insertRow|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data=command.split("[|]");
         if (data.length%2==1) {
             throw new IllegalArgumentException("Expect command parameters " +
@@ -49,7 +49,7 @@ public class InsertRow extends Command {
         view.write(String.format("Insert row '%s' into table '%s' successfully",tableData,table ));
     }
 
-    private Map<String, Object> extractTableDataFromParameters(String[] data) {
+    private Map<String, Object> extractTableDataFromParameters(final String[] data) {
         int parametersCount=data.length/2-1;
 
         Map<String, Object> tableData = new LinkedHashMap<>();

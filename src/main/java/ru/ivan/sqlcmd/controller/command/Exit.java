@@ -7,7 +7,7 @@ public class Exit extends Command {
     public Exit() {
     }
 
-    public Exit(View view) {
+    public Exit(final View view) {
         this.view=view;
     }
 
@@ -22,12 +22,12 @@ public class Exit extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.equals("exit");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         view.write("Good bye!");
         throw new ExitException();
     }

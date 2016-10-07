@@ -13,7 +13,7 @@ public class CreateTable extends Command {
     public CreateTable() {
     }
 
-    public CreateTable(DatabaseManager manager, View view) {
+    public CreateTable(final DatabaseManager manager,final View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -29,12 +29,12 @@ public class CreateTable extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("createTable|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length !=parametersLength(format()) ) {
             throw new IllegalArgumentException("Expected command format 'createTable|tableName(column1,column2,..,columnN), but actual '" + command+"'");

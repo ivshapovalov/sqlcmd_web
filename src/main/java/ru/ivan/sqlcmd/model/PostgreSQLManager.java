@@ -32,7 +32,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(String database, String userName, String password) {
+    public void connect(final String database,final String userName,final String password) {
 
         closeOpenedConnection(connection);
         try {
@@ -56,7 +56,7 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private void closeOpenedConnection(Connection connection) {
+    private void closeOpenedConnection(final Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
@@ -67,7 +67,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public Integer getTableSize(String tableName) {
+    public Integer getTableSize(final String tableName) {
         Integer result = 0;
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select count(*) as count from  " + tableName)) {
@@ -111,7 +111,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void createDatabase(String databaseName) {
+    public void createDatabase(final String databaseName) {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE  " + databaseName);
         } catch (SQLException e) {
@@ -121,7 +121,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void dropDatabase(String databaseName) {
+    public void dropDatabase(final String databaseName) {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName + ";");
         } catch (SQLException e) {
@@ -131,7 +131,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void createTable(String query) {
+    public void createTable(final String query) {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("CREATE TABLE public." + query );
@@ -158,7 +158,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public List<Map<String, Object>> getTableRows(String tableName) {
+    public List<Map<String, Object>> getTableRows(final String tableName) {
         List<Map<String, Object>> result = new LinkedList<>();
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName)) {
@@ -191,7 +191,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void dropTable(String tableName) {
+    public void dropTable(final String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
         } catch (SQLException e) {
@@ -200,7 +200,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void truncateTable(String tableName) {
+    public void truncateTable(final String tableName) {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
         } catch (SQLException e) {
@@ -211,7 +211,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void insertRow(String tableName, Map<String, Object> newRow) {
+    public void insertRow(final String tableName,final  Map<String, Object> newRow) {
         String rowNames = getFormatedName(newRow, "\"%s\",");
         String values = getFormatedValues(newRow, "'%s',");
         String sql = createString("INSERT INTO ", tableName, " (", rowNames, ") ", "VALUES (", values, ")");
@@ -233,7 +233,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void updateRow(String tableName, int id, Map<String, Object> newRow) {
+    public void updateRow(final String tableName,final  int id,final  Map<String, Object> newRow) {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
         String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
 
@@ -260,7 +260,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void deleteRow(String tableName, int id) {
+    public void deleteRow(final String tableName,final  int id) {
         String query = createString("DELETE  FROM ", tableName, " WHERE id = ", String.valueOf(id));
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
@@ -279,7 +279,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public Set<String> getTableColumns(String tableName) {
+    public Set<String> getTableColumns(final String tableName) {
         Set<String> tables = new LinkedHashSet<String>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
@@ -299,7 +299,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return connection != null;
     }
 
-    private String createString(String... args) {
+    private String createString(final String... args) {
         StringBuilder result = new StringBuilder();
         for (String arg : args) {
             result.append(arg);
@@ -307,7 +307,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return result.toString();
     }
 
-    private String getFormatedName(Map<String, Object> newValue, String format) {
+    private String getFormatedName(final Map<String, Object> newValue,final  String format) {
         String string = "";
         for (String name : newValue.keySet()) {
             string += String.format(format, name);
@@ -316,7 +316,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return string;
     }
 
-    private String getFormatedValues(Map<String, Object> input, String format) {
+    private String getFormatedValues(final Map<String, Object> input,final  String format) {
         String values = "";
         for (Object value : input.values()) {
             values += String.format(format, value);

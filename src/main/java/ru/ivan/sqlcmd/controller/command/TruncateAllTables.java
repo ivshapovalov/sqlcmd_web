@@ -8,7 +8,7 @@ public class TruncateAllTables extends Command {
     public TruncateAllTables() {
     }
 
-    public TruncateAllTables(DatabaseManager manager, View view) {
+    public TruncateAllTables(final DatabaseManager manager,final  View view) {
         this.manager = manager;
 
         this.view = view;
@@ -26,12 +26,12 @@ public class TruncateAllTables extends Command {
 
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith(format());
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
 
         confirmAndTruncateAllTables();
     }

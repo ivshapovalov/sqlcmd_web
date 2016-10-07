@@ -10,7 +10,7 @@ public class Help extends Command {
 
     private List<Command> commands;
 
-    public Help(View view) {
+    public Help(final View view) {
         super(view);
         this.commands = new ArrayList<>(Arrays.asList(
                 new Connect(),
@@ -48,16 +48,16 @@ public class Help extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.equals(format());
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
 
         view.write("Existing program commands:");
         for (Command currentCommand : commands) {
-            view.write("\t\t" + currentCommand.format() + " -- " + currentCommand.description());
+            view.write("\t\t" + "'"+currentCommand.format()+"'" + " -- " + currentCommand.description());
         }
     }
 }

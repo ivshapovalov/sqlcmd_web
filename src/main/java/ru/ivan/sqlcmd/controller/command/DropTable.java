@@ -25,12 +25,12 @@ public class DropTable extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("dropTable|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
             throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
@@ -38,7 +38,7 @@ public class DropTable extends Command {
         confirmAndDropTable(data[INDEX_TABLE_NAME]);
     }
 
-    private void confirmAndDropTable(String tableName) {
+    private void confirmAndDropTable(final String tableName) {
         try {
             view.write(String.format("Do you wish to delete table '%s'. Y/N?", tableName));
             if (view.read().equalsIgnoreCase("y")) {

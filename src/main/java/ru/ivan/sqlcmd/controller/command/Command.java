@@ -10,7 +10,7 @@ public abstract class Command {
     public Command() {
     }
 
-    public Command(View view) {
+    public Command(final View view) {
         this.view = view;
     }
 

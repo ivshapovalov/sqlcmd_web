@@ -27,7 +27,7 @@ public class Connect extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("connect|");
     }
 

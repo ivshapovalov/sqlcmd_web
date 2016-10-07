@@ -26,12 +26,12 @@ public class Tables extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.equals(format());
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         Set<String> tableNames = manager.getTableNames();
 
         String message = tableNames.toString();

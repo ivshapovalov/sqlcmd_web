@@ -24,12 +24,12 @@ public class Databases extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.equals(format());
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         view.write("***Existing databases***");
         for (String database : manager.getDatabasesNames()) {
             view.write(database);

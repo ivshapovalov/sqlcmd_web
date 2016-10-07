@@ -13,7 +13,7 @@ public class Rows extends Command {
     public Rows() {
     }
 
-    public Rows(DatabaseManager manager, View view) {
+    public Rows(final DatabaseManager manager,final  View view) {
         this.manager=manager;
         this.view=view;
     }
@@ -29,12 +29,12 @@ public class Rows extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("rows|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("[|]");
         if (data.length!=parametersLength(format())) {
             throw new IllegalArgumentException("Must be " +parametersLength(format())+" parameters"+

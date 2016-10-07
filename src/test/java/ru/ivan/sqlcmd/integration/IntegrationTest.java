@@ -84,26 +84,26 @@ public class IntegrationTest {
                 "Hello, user\n" +
                         "Input command or 'help' for assistance\n" +
                         "Existing program commands:\n" +
-                        "\t\tconnect|sqlcmd|postgres|postgres -- connect to database\n" +
-                        "\t\tcreateDatabase|databaseName -- create new database\n" +
-                        "\t\tcreateTable|tableName -- create new table\n" +
-                        "\t\tdatabases -- list of databases\n" +
-                        "\t\tdeleteRow|tableName|ID -- delete from table row with specific ID \n" +
-                        "\t\tdisconnect -- disconnect from curent database\n" +
-                        "\t\tdropTable|tableName -- delete table\n" +
-                        "\t\tdropAllTables -- delete all tables of current database\n" +
-                        "\t\tdropDatabase|databaseName -- delete database\n" +
-                        "\t\tdropAllDatabases -- delete all databases\n" +
-                        "\t\texit -- exit from application\n" +
-                        "\t\thelp -- list of all commands with description\n" +
-                        "\t\thistory -- list of last 'history capacity' inputed commands. history|N - set 'history capacity'\n" +
-                        "\t\tinsertRow|tableName|column1|value1|column2|value2|...|columnN|valueN -- insert row in table\n" +
-                        "\t\trows|tableName -- list of rows in table\n" +
-                        "\t\tsize|tableName -- size of the table\n" +
-                        "\t\ttables -- list of tables in current database\n" +
-                        "\t\ttruncateAll -- clear all tables\n" +
-                        "\t\ttruncateTable|tableName -- clear the table\n" +
-                        "\t\tupdateRow|tableName|ID -- update row with specific ID in table\n" +
+                        "\t\t'connect|sqlcmd|postgres|postgres' -- connect to database\n" +
+                        "\t\t'createDatabase|databaseName' -- create new database\n" +
+                        "\t\t'createTable|tableName' -- create new table\n" +
+                        "\t\t'databases' -- list of databases\n" +
+                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID \n" +
+                        "\t\t'disconnect' -- disconnect from curent database\n" +
+                        "\t\t'dropTable|tableName' -- delete table\n" +
+                        "\t\t'dropAllTables' -- delete all tables of current database\n" +
+                        "\t\t'dropDatabase|databaseName' -- delete database\n" +
+                        "\t\t'dropAllDatabases' -- delete all databases\n" +
+                        "\t\t'exit' -- exit from application\n" +
+                        "\t\t'help' -- list of all commands with description\n" +
+                        "\t\t'history' -- list of last 'history capacity' inputed commands. history|N - set 'history capacity'\n" +
+                        "\t\t'insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN' -- insert row in table\n" +
+                        "\t\t'rows|tableName' -- list of rows in table\n" +
+                        "\t\t'size|tableName' -- size of the table\n" +
+                        "\t\t'tables' -- list of tables in current database\n" +
+                        "\t\t'truncateAll' -- clear all tables\n" +
+                        "\t\t'truncateTable|tableName' -- clear the table\n" +
+                        "\t\t'updateRow|tableName|ID' -- update row with specific ID in table\n" +
                         "Input command or 'help' for assistance\n" +
                         "Good bye!\n", getData());
     }

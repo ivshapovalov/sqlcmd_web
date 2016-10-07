@@ -8,7 +8,7 @@ public class DropAllTables extends Command {
     public DropAllTables() {
     }
 
-    public DropAllTables(DatabaseManager manager, View view) {
+    public DropAllTables(final DatabaseManager manager,final View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -24,12 +24,12 @@ public class DropAllTables extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith(format());
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         confirmAndDropAllTables();
     }
 

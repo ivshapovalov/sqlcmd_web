@@ -8,7 +8,7 @@ public class DropDatabase extends Command {
     public DropDatabase() {
     }
 
-    public DropDatabase(DatabaseManager manager, View view) {
+    public DropDatabase(final DatabaseManager manager,final View view) {
         this.manager = manager;
 
         this.view = view;
@@ -25,12 +25,12 @@ public class DropDatabase extends Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canProcess(final String command) {
         return command.startsWith("dropDatabase|");
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
             throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
@@ -38,7 +38,7 @@ public class DropDatabase extends Command {
         confirmAndDropDatabase(data[INDEX_DATABASE_NAME]);
     }
 
-    private void confirmAndDropDatabase(String databaseName) {
+    private void confirmAndDropDatabase(final String databaseName) {
         try {
             view.write(String.format("Do you wish to delete database '%s'. Y/N?", databaseName));
             if (view.read().equalsIgnoreCase("y")) {
