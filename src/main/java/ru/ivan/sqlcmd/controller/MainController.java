@@ -58,24 +58,13 @@ public class MainController {
             view.write("Input command or 'help' for assistance");
             String input = view.read();
 
-            try {
-                int historyIndex = Integer.parseInt(input);
-                String newInput = history.get(historyIndex);
-                if (newInput != null) {
-                    input = newInput;
-                    view.write(newInput);
-                } else {
-                    view.write(String.format("Index '%s' does not exist in command history",historyIndex));
-                    continue;
-                }
-            } catch (NumberFormatException e) {
-                //ввели не число
+            String historyInput=checkHistoryInput(input);
+            if (historyInput==null) {
+                continue;
+            } else {
+                input=historyInput;
             }
-
-            history.put(++historySize, input);
-            if (history.size()>History.HISTORY_CAPACITY) {
-                history.pollFirstEntry();
-            }
+            increaseInputHistory(++historySize,input);
             for (Command command : commands
                     ) {
 
@@ -85,7 +74,6 @@ public class MainController {
                         break;
                     }
                 } catch (ExitException e) {
-
                     throw e;
                 } catch (Exception e) {
                     printError(e);
@@ -93,6 +81,30 @@ public class MainController {
                 }
             }
         }
+    }
+
+    private void increaseInputHistory(int historySize,String input) {
+        history.put(historySize, input);
+        if (history.size()>History.HISTORY_CAPACITY) {
+            history.pollFirstEntry();
+        }
+    }
+
+    private String checkHistoryInput(String input) {
+        try {
+            int historyIndex = Integer.parseInt(input);
+            String newInput = history.get(historyIndex);
+            if (newInput != null) {
+                view.write(newInput);
+            } else {
+                view.write(String.format("Index '%s' does not exist in command history",historyIndex));
+            }
+        } catch (NumberFormatException e) {
+            //ввели не число
+            return input;
+        }
+        return null;
+
     }
 
     private void printError(Exception e) {
