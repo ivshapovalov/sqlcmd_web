@@ -123,55 +123,56 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testCreateAndDropAllDatabases() {
 
-        // Осторожно. Тест удаляет ВСЕ базы данных вообще.
-        // given
-        String testDB = "dbtest2";
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("dropDatabase|" + testDB);
-        in.add("y");
-        in.add("createDatabase|" + testDB);
-        in.add("databases");
-        in.add("dropAllDatabases");
-        in.add("y");
-        in.add("databases");
-        in.add("disconnect");
-        in.add("exit");
+        // Осторожно. Тест удаляет ВСЕ базы данных.
 
-        // when
-        Main.main(new String[0]);
-
-        // then
-        assertEquals("Hello, user\n" +
-                "Input command or 'help' for assistance\n" +
-                //connect
-                "Connecting to database '' is successful\n" +
-                "Input command or 'help' for assistance\n" +
-                //dropDatabase|test1
-                "Do you wish to delete database '"+testDB+"'. Y/N?\n" +
-                "Database '"+testDB+"' deleted successful\n" +
-                "Input command or 'help' for assistance\n" +
-                //createDatabase
-                "Database '"+testDB+"' created successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                //databases
-                "***Existing databases***\n" +
-                "postgres\n" +
-                "dbtest\n" +
-                "dbtest2\n" +
-                "Input command or 'help' for assistance\n" +
-                //dropAllaDatabases
-                "Do you wish to delete all databases? Y/N\n" +
-                "All databases  deleted successfully\n" +
-                "Input command or 'help' for assistance\n" +
-                //databases
-                "***Existing databases***\n" +
-                "postgres\n" +
-                "Input command or 'help' for assistance\n" +
-                //disconnect
-                "Disconnect successful\n" +
-                "Input command or 'help' for assistance\n" +
-                //exit
-                "Good bye!\n", getData());
+//        // given
+//        String testDB = "dbtest2";
+//        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+//        in.add("dropDatabase|" + testDB);
+//        in.add("y");
+//        in.add("createDatabase|" + testDB);
+//        in.add("databases");
+//        in.add("dropAllDatabases");
+//        in.add("y");
+//        in.add("databases");
+//        in.add("disconnect");
+//        in.add("exit");
+//
+//        // when
+//        Main.main(new String[0]);
+//
+//        // then
+//        assertEquals("Hello, user\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //connect
+//                "Connecting to database '' is successful\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //dropDatabase|test1
+//                "Do you wish to delete database '"+testDB+"'. Y/N?\n" +
+//                "Database '"+testDB+"' deleted successful\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //createDatabase
+//                "Database '"+testDB+"' created successfully\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //databases
+//                "***Existing databases***\n" +
+//                "postgres\n" +
+//                "dbtest\n" +
+//                "dbtest2\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //dropAllaDatabases
+//                "Do you wish to delete all databases? Y/N\n" +
+//                "All databases  deleted successfully\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //databases
+//                "***Existing databases***\n" +
+//                "postgres\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //disconnect
+//                "Disconnect successful\n" +
+//                "Input command or 'help' for assistance\n" +
+//                //exit
+//                "Good bye!\n", getData());
     }
 
     @Test
