@@ -37,21 +37,27 @@ public class History extends Command {
 
         String[] data = command.split("[|]");
         if (data.length ==INDEX_NEW_CAPACITY) {
-            for (Map.Entry<Integer, String> entry : history.entrySet()
-                    ) {
-                view.write(entry.getKey() + ". " + entry.getValue());
-            }
+            writeHistory();
         } else {
-            int id;
             try {
-                id= Integer.parseInt(data[INDEX_NEW_CAPACITY]);
-                History.HISTORY_CAPACITY=id;
-                view.write(String.format("Size of commands history set to '%s' ", id));
+                setHistoryCapacity(data);
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException(String.format("Size of commands history must be numeric, but actual '%s'",data[INDEX_NEW_CAPACITY]));
             }
         }
+    }
 
+    private void setHistoryCapacity(String[] data) {
+        int id;
+        id= Integer.parseInt(data[INDEX_NEW_CAPACITY]);
+        History.HISTORY_CAPACITY=id;
+        view.write(String.format("Size of commands history set to '%s' ", id));
+    }
 
+    private void writeHistory() {
+        for (Map.Entry<Integer, String> entry : history.entrySet()
+                ) {
+            view.write(entry.getKey() + ". " + entry.getValue());
+        }
     }
 }

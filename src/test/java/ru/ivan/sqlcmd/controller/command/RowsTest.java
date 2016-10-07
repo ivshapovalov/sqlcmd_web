@@ -84,7 +84,7 @@ public class RowsTest {
     }
 
     @Test
-    public void testCanProcessFindWithoutParametersString() {
+    public void testCanProcessRowsWithoutParametersString() {
         //given
 
         //when
@@ -96,7 +96,7 @@ public class RowsTest {
 
 
     @Test
-    public void testCanProcessFindWithIllegalParametersString() {
+    public void testCanProcessRowsWithIllegalParametersString() {
         //given
 
         //when
