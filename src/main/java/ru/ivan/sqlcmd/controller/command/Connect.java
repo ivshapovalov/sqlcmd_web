@@ -11,7 +11,7 @@ public class Connect extends Command {
     public Connect() {
     }
 
-    public Connect(DatabaseManager manager, View view) {
+    public Connect(final DatabaseManager manager, final View view) {
         this.manager = manager;
         this.view=view;
     }
@@ -32,7 +32,7 @@ public class Connect extends Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(final String command) {
 
                 String[] data = command.split("[|]");
 

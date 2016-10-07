@@ -14,15 +14,15 @@ public abstract class Command {
         this.view = view;
     }
 
-    public abstract boolean canProcess(String command);
+    public abstract boolean canProcess(final String command);
 
-    public abstract void process(String command);
+    public abstract void process(final String command);
 
     public abstract String description();
 
     public abstract String format();
 
-    protected int parametersLength(String COMMAND_SAMPLE) {
+    protected int parametersLength(final String COMMAND_SAMPLE) {
         return COMMAND_SAMPLE.split("[|]").length;
     }
 }
