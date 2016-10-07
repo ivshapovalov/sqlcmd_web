@@ -8,16 +8,17 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class PostgreSQLManagerTest {
-    private final static String DB_NAME ="dbtest";
+    private static final PropertiesLoader pl = new PropertiesLoader();
+    private final static String DB_USER = pl.getUserName();
+    private final static String DB_PASSWORD = pl.getPassword();
+    private static DatabaseManager manager;
+    private final static String DB_NAME ="db_test";
     private final static String TABLE_NAME = "tabletest";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE1 = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
-    private static final PropertiesLoader pl = new PropertiesLoader();
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
-    private static DatabaseManager manager;
+
 
     @BeforeClass
     public static void init() {
@@ -168,19 +169,6 @@ public class PostgreSQLManagerTest {
         if (databases.contains(newDatabase)) {
             fail();
         }
-    }
-
-    @Test(expected = DatabaseManagerException.class)
-    public void testDropDatabaseWithInvalidCommand() {
-        //given
-
-        String databaseName1 = "postgres";
-        manager.dropDatabase(databaseName1);
-
-        //when
-
-        //then
-
     }
 
     @Test

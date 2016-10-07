@@ -10,7 +10,7 @@ public class UpdateRow extends Command {
     private final static Integer INDEX_TABLE_NAME=1;
     private final static Integer INDEX_UPDATING_ROW_ID =2;
 
-    public UpdateRow() {
+    UpdateRow() {
     }
 
     public UpdateRow(DatabaseManager manager, View view) {
@@ -49,6 +49,14 @@ public class UpdateRow extends Command {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(String.valueOf(INDEX_UPDATING_ROW_ID+1)+" parameter must be numeric!");
         }
+        Map<String, Object> tableData = extractTableDataFromParameters(data);
+
+        manager.updateRow(tableName, id, tableData);
+
+        view.write(String.format("Update row '%s' in table '%s' successfully", tableData,tableName));
+    }
+
+    private Map<String, Object> extractTableDataFromParameters(String[] data) {
         int parametersCount=data.length/2-1;
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int i = 1; i <= parametersCount; i++) {
@@ -56,12 +64,6 @@ public class UpdateRow extends Command {
             String value = data[i * 2 + 2];
             tableData.put(column, value);
         }
-        try {
-            manager.updateRow(tableName, id, tableData);
-        } catch (DatabaseManagerException e) {
-            throw e;
-        }
-
-        view.write(String.format("Update row '%s' in table '%s' successfully", tableData,tableName));
+        return tableData;
     }
 }

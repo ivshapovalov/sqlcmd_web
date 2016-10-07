@@ -9,7 +9,7 @@ import java.util.Map;
 public class InsertRow extends Command {
     private final static Integer INDEX_TABLE_NAME=1;
 
-    public InsertRow() {
+    InsertRow() {
     }
 
     public InsertRow(DatabaseManager manager, View view) {
@@ -42,6 +42,14 @@ public class InsertRow extends Command {
 
         }
         String table=data[INDEX_TABLE_NAME];
+        Map<String, Object> tableData = extractTableDataFromParameters(data);
+
+        manager.insertRow(table, tableData);
+
+        view.write(String.format("Insert row '%s' into table '%s' successfully",tableData,table ));
+    }
+
+    private Map<String, Object> extractTableDataFromParameters(String[] data) {
         int parametersCount=data.length/2-1;
 
         Map<String, Object> tableData = new LinkedHashMap<>();
@@ -50,11 +58,6 @@ public class InsertRow extends Command {
             String value=data[i*2+1];
             tableData.put(column,value);
         }
-        try {
-            manager.insertRow(table, tableData);
-        } catch (DatabaseManagerException e) {
-            throw e;
-        }
-        view.write(String.format("Insert row '%s' into table '%s' successfully",tableData,table ));
+        return tableData;
     }
 }

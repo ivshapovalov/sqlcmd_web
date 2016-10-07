@@ -1,6 +1,7 @@
-package ru.ivan.sqlcmd.controller;
+package ru.ivan.sqlcmd;
 
 import org.apache.log4j.varia.NullAppender;
+import ru.ivan.sqlcmd.controller.MainController;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.view.Console;
 import org.apache.log4j.BasicConfigurator;

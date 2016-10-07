@@ -5,11 +5,11 @@ import ru.ivan.sqlcmd.view.View;
 import java.util.Map;
 
 public class History extends Command {
-    Map<Integer, String> history;
+    private Map<Integer, String> history;
     public static Integer HISTORY_CAPACITY = 10;
     private final static Integer INDEX_NEW_CAPACITY=1;
 
-    public History() {
+    History() {
     }
 
     public History(View view, Map<Integer, String> history) {
@@ -19,7 +19,7 @@ public class History extends Command {
 
     @Override
     public String description() {
-        return "list of lase " + HISTORY_CAPACITY + " inputed commands";
+        return "list of last 'history capacity' inputed commands. "+format() + "|N - set 'history capacity'";
     }
 
     @Override
