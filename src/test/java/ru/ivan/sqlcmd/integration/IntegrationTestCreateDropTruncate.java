@@ -369,7 +369,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Table '" + TABLE_TEST1 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createTable|tableName()||||
-                "Failure cause: Expected command format 'createTable|tableName(column1,column2,..,columnN), but actual 'createTable|" + TABLE_TEST1 + "()|asfdasf|||'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command format 'createTable|tableName(column1 type, column2 type,...columnN type)', but actual 'createTable|" + TABLE_TEST1 + "()|asfdasf|||'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

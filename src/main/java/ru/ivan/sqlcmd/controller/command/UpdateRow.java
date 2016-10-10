@@ -39,7 +39,7 @@ public class UpdateRow extends Command {
         String[] data = command.split("[|]");
         if (data.length % 2 == 0 || data.length <= 3) {
             throw new IllegalArgumentException("Must be not even parameters equal to or greater than 4 " +
-                    "in format "+format());
+                    "in format '"+format()+"'");
 
         }
         String tableName = data[INDEX_TABLE_NAME];

@@ -6,7 +6,7 @@ import ru.ivan.sqlcmd.view.View;
 public class CreateTable extends Command {
     private final static Integer INDEX_DATABASE_NAME = 1;
 
-    public CreateTable() {
+    CreateTable() {
     }
 
     public CreateTable(final DatabaseManager manager, final View view) {
@@ -33,7 +33,7 @@ public class CreateTable extends Command {
     public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '"+format()+"'), but actual '" + command + "'");
+            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command + "'");
         }
         manager.createTable(data[INDEX_DATABASE_NAME]);
         view.write(String.format("Table '%s' created successfully", data[1]));

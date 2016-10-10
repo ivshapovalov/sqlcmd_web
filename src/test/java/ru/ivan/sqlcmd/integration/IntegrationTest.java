@@ -89,7 +89,7 @@ public class IntegrationTest {
                         "Existing program commands:" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'connect|sqlcmd|postgres|postgres' -- connect to database" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'createDatabase|databaseName' -- create new database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'createTable|tableName()' -- create new table" + MainController.LINE_SEPARATOR + "" +
+                        "\t\t'createTable|tableName(column1 type, column2 type,...columnN type)' -- create new table" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'databases' -- list of databases" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID " + MainController.LINE_SEPARATOR + "" +
                         "\t\t'disconnect' -- disconnect from current database" + MainController.LINE_SEPARATOR + "" +
@@ -106,7 +106,7 @@ public class IntegrationTest {
                         "\t\t'tables' -- list of tables in current database" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'truncateAll' -- clear all tables" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'truncateTable|tableName' -- clear the table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'updateRow|tableName|ID' -- update row with specific ID in table" + MainController.LINE_SEPARATOR + "" +
+                        "\t\t'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN' -- update row with specific ID in table" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
@@ -916,7 +916,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -944,7 +944,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -982,7 +982,7 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow|tableName|id
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format updateRow|tableName|ID|column1|value1|column2|value2|...|columnN|valueN" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
