@@ -82,11 +82,8 @@ public class PostgreSQLManagerForMultiCommandsTest {
         assertEquals(expected, actual2);
     }
 
-    @Test  @Ignore
+    @Test  @Ignore ("Тест удаляет ВСЕ базы данных")
     public void testDropAllDatabases() {
-
-        // Осторожно. Тест удаляет ВСЕ базы данных вообще.
-
         manager.connect("", DB_USER, DB_PASSWORD);
         //given
         String newDatabase1 = "dropdatabasetest1";

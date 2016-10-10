@@ -122,11 +122,8 @@ public class IntegrationTestCreateDropTruncate {
                 "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
-    @Test @Ignore
+    @Test @Ignore ("Тест удаляет ВСЕ базы данных")
     public void testCreateAndDropAllDatabases() {
-
-        // Осторожно. Тест удаляет ВСЕ базы данных.
-
         // given
         in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + DB_TEST2);
