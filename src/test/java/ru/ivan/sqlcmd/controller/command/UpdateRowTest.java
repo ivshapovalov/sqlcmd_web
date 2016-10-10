@@ -7,8 +7,6 @@ import org.mockito.Mockito;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.*;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
 

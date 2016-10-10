@@ -1,26 +1,14 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.mockito.ArgumentCaptor;
-import ru.ivan.sqlcmd.controller.command.Command;
-import ru.ivan.sqlcmd.controller.command.TruncateTable;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import ru.ivan.sqlcmd.integration.ConfigurableInputStream;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.PostgreSQLManager;
-import ru.ivan.sqlcmd.model.PropertiesLoader;
 import ru.ivan.sqlcmd.view.View;
-
-import java.io.ByteArrayOutputStream;
-import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class TruncateTableTest {
 
@@ -29,12 +17,11 @@ public class TruncateTableTest {
     private static DatabaseManager manager;
 
 
-
     @Before
     public void setup() {
-        manager=Mockito.mock(DatabaseManager.class);
-        view=Mockito.mock(View.class);
-        command =new TruncateTable(manager,view);
+        manager = Mockito.mock(DatabaseManager.class);
+        view = Mockito.mock(View.class);
+        command = new TruncateTable(manager, view);
     }
 
     @Test
@@ -42,12 +29,13 @@ public class TruncateTableTest {
         //when
         try {
             command.process("truncateTable");
-            fail ();
+            fail();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable'",e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable'", e.getMessage());
         }
     }
+
     @Test
     public void testTruncateTableWithParameters2() {
         //given
@@ -67,10 +55,10 @@ public class TruncateTableTest {
         //when
         try {
             command.process("truncateTable|users|qwe");
-            fail ();
+            fail();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable|users|qwe'",e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable|users|qwe'", e.getMessage());
         }
     }
 
@@ -79,7 +67,7 @@ public class TruncateTableTest {
         //given
 
         //when
-        Boolean canProcess=command.canProcess("truncateTable|users");
+        Boolean canProcess = command.canProcess("truncateTable|users");
 
         //then
         assertTrue(canProcess);
@@ -89,7 +77,7 @@ public class TruncateTableTest {
     public void testCanProcessTruncateWithoutParametersString() {
         //given
         //when
-        Boolean canProcess=command.canProcess("truncateTable");
+        Boolean canProcess = command.canProcess("truncateTable");
 
         //then
         assertFalse(canProcess);

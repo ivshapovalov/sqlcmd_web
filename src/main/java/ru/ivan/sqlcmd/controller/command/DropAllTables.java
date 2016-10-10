@@ -8,7 +8,7 @@ public class DropAllTables extends Command {
     public DropAllTables() {
     }
 
-    public DropAllTables(final DatabaseManager manager,final View view) {
+    public DropAllTables(final DatabaseManager manager, final View view) {
         this.manager = manager;
         this.view = view;
     }

@@ -8,7 +8,7 @@ public class Exit extends Command {
     }
 
     public Exit(final View view) {
-        this.view=view;
+        this.view = view;
     }
 
     @Override

@@ -14,8 +14,6 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
-    private static final String USER_NAME = propertiesLoader.getUserName();
-    private static final String PASSWORD = propertiesLoader.getPassword();
 
     static {
         try {
@@ -34,7 +32,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(final String database,final String userName,final String password) {
+    public void connect(final String database, final String userName, final String password) {
 
         closeOpenedConnection(connection);
         try {
@@ -55,6 +53,8 @@ public class PostgreSQLManager implements DatabaseManager {
                 e.printStackTrace();
             }
             connection = null;
+        } else {
+            throw new DatabaseManagerException("Disconnect failed. You are not connected to any Database");
         }
     }
 
@@ -136,7 +136,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void createTable(final String query) {
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE public." + query );
+            stmt.executeUpdate("CREATE TABLE public." + query);
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Query cannot be completed  '%s'",
                     query),
@@ -146,7 +146,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getDatabasesNames() {
-        Set<String> databases = new LinkedHashSet<String>();
+        Set<String> databases = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT datname as database_name FROM pg_database WHERE datistemplate = false;")) {
             while (rs.next()) {
@@ -180,7 +180,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableNames() {
-        Set<String> tables = new LinkedHashSet<String>();
+        Set<String> tables = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
             while (rs.next()) {
@@ -213,7 +213,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void insertRow(final String tableName,final  Map<String, Object> newRow) {
+    public void insertRow(final String tableName, final Map<String, Object> newRow) {
         String rowNames = getFormatedName(newRow, "\"%s\",");
         String values = getFormatedValues(newRow, "'%s',");
         String sql = createString("INSERT INTO ", tableName, " (", rowNames, ") ", "VALUES (", values, ")");
@@ -235,7 +235,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void updateRow(final String tableName,final  int id,final  Map<String, Object> newRow) {
+    public void updateRow(final String tableName, final int id, final Map<String, Object> newRow) {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
         String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
 
@@ -249,7 +249,7 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.executeUpdate();
         } catch (SQLException e) {
             String message = String.format("It is not possible to update a record with id=%s in table '%s'.",
-                    id,tableName);
+                    id, tableName);
             String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
                 message = message.concat(" Table does not exists");
@@ -262,13 +262,13 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void deleteRow(final String tableName,final  int id) {
+    public void deleteRow(final String tableName, final int id) {
         String query = createString("DELETE  FROM ", tableName, " WHERE id = ", String.valueOf(id));
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
             String message = String.format("It is not possible to delete a record with id=%s in table '%s'.",
-                    id,tableName);
+                    id, tableName);
             String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
                 message = message.concat(" Table does not exists");
@@ -282,7 +282,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(final String tableName) {
-        Set<String> tables = new LinkedHashSet<String>();
+        Set<String> tables = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
             while (rs.next()) {
@@ -309,7 +309,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return result.toString();
     }
 
-    private String getFormatedName(final Map<String, Object> newValue,final  String format) {
+    private String getFormatedName(final Map<String, Object> newValue, final String format) {
         String string = "";
         for (String name : newValue.keySet()) {
             string += String.format(format, name);
@@ -318,7 +318,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return string;
     }
 
-    private String getFormatedValues(final Map<String, Object> input,final  String format) {
+    private String getFormatedValues(final Map<String, Object> input, final String format) {
         String values = "";
         for (Object value : input.values()) {
             values += String.format(format, value);

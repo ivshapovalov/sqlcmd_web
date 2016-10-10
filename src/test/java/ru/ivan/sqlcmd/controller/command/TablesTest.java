@@ -1,7 +1,5 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.varia.NullAppender;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -9,7 +7,9 @@ import org.mockito.Mockito;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
@@ -72,7 +72,7 @@ public class TablesTest {
     @Test
     public void testPrintNoTables() {
         //given
-        Set<String> tables=new LinkedHashSet<>();
+        Set<String> tables = new LinkedHashSet<>();
         Mockito.when(manager.getTableNames())
                 .thenReturn(tables);
         //when

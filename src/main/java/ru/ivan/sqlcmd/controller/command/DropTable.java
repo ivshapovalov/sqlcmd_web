@@ -4,7 +4,8 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class DropTable extends Command {
-    private final static Integer INDEX_TABLE_NAME=1;
+    private final static Integer INDEX_TABLE_NAME = 1;
+
     public DropTable() {
     }
 
@@ -33,7 +34,7 @@ public class DropTable extends Command {
     public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
+            throw new IllegalArgumentException("Expected command format '" + format() + "', but actual '" + command + "'");
         }
         confirmAndDropTable(data[INDEX_TABLE_NAME]);
     }

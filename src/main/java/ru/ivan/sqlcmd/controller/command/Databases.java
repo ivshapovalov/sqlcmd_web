@@ -8,9 +8,9 @@ public class Databases extends Command {
     }
 
     public Databases(DatabaseManager manager, View view) {
-        this.manager=manager;
+        this.manager = manager;
 
-        this.view=view;
+        this.view = view;
     }
 
     @Override

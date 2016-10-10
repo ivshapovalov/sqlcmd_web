@@ -1,12 +1,12 @@
 package ru.ivan.sqlcmd.model;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TableConstructor {
 
@@ -31,19 +31,19 @@ public class TableConstructor {
     }
 
     private void buildHeader() {
-        for (String column: columns) {
+        for (String column : columns) {
             table.addCell(column);
         }
     }
 
     private void buildRows() {
-        for (Map<String, Object> row: tableData) {
-            for (Object value: row.values()) {
-                String strValue="";
-                if (value!=null) {
+        for (Map<String, Object> row : tableData) {
+            for (Object value : row.values()) {
+                String strValue;
+                if (value != null) {
                     strValue = value.toString();
                 } else {
-                    strValue="";
+                    strValue = "";
                 }
                 table.addCell(strValue);
             }

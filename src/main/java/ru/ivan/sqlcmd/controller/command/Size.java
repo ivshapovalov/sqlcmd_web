@@ -5,14 +5,14 @@ import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
 public class Size extends Command {
-    private final static Integer INDEX_TABLE_NAME=1;
+    private final static Integer INDEX_TABLE_NAME = 1;
 
     public Size() {
     }
 
-    public Size(final DatabaseManager manager,final  View view) {
-        this.manager=manager;
-        this.view=view;
+    public Size(final DatabaseManager manager, final View view) {
+        this.manager = manager;
+        this.view = view;
     }
 
     @Override
@@ -33,19 +33,15 @@ public class Size extends Command {
     @Override
     public void process(final String command) {
         String[] data = command.split("[|]");
-        if (data.length!=parametersLength(format())) {
-            throw new IllegalArgumentException("Must be " +parametersLength(format())+" parameters "+
-                    "in format "+format());
+        if (data.length != parametersLength(format())) {
+            throw new IllegalArgumentException("Must be " + parametersLength(format()) + " parameters " +
+                    "in format " + format());
 
         }
         String tableName = data[INDEX_TABLE_NAME];
-        Integer size=0;
-        try {
-           size = manager.getTableSize(tableName);
-        } catch (DatabaseManagerException e) {
-            throw e;
-        }
-        view.write(String.format("Table '%s' size is %s",tableName,size));
- }
+        int size;
+        size = manager.getTableSize(tableName);
+        view.write(String.format("Table '%s' size is %s", tableName, size));
+    }
 
 }

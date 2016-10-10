@@ -7,15 +7,15 @@ import static org.junit.Assert.*;
 
 public class ExitTest {
 
-    private FakeView view=new FakeView();
+    private FakeView view = new FakeView();
 
     @Test
     public void testCanProcessExitString() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
-        Boolean canProcess=command.canProcess("exit");
+        Boolean canProcess = command.canProcess("exit");
 
         //then
         assertTrue(canProcess);
@@ -24,10 +24,10 @@ public class ExitTest {
     @Test
     public void testCanProcessQweString() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
-        Boolean canProcess=command.canProcess("qwe");
+        Boolean canProcess = command.canProcess("qwe");
 
         assertFalse(canProcess);
     }
@@ -35,7 +35,7 @@ public class ExitTest {
     @Test
     public void testCanProcessExitCommand_ThrowsExitException() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
         try {
@@ -45,7 +45,7 @@ public class ExitTest {
 
         }
         //then
-        assertEquals("Good bye!"+ MainController.LINE_SEPARATOR+"",view.getContent());
+        assertEquals("Good bye!" + MainController.LINE_SEPARATOR + "", view.getContent());
 
     }
 }

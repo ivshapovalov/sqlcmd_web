@@ -1,14 +1,12 @@
 package ru.ivan.sqlcmd.integration;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import ru.ivan.sqlcmd.Main;
 import ru.ivan.sqlcmd.controller.MainController;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -64,7 +62,7 @@ public class IntegrationTestCreateDropTruncate {
 
     private String getData() {
         try {
-            String result = new String(out.toByteArray(), "UTF-8").replaceAll("\r"+MainController.LINE_SEPARATOR+"", ""+MainController.LINE_SEPARATOR+"");
+            String result = new String(out.toByteArray(), "UTF-8").replaceAll("\r" + MainController.LINE_SEPARATOR + "", "" + MainController.LINE_SEPARATOR + "");
             out.reset();
             return result;
         } catch (UnsupportedEncodingException e) {
@@ -90,41 +88,41 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
-                "Do you wish to delete database '"+DB_TEST2+"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Database '"+DB_TEST2+"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Database '" + DB_TEST2 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase
-                "Database '"+DB_TEST2+"' created successfully"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Database '" + DB_TEST2 + "' created successfully" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //databases
-                "***Existing databases***"+MainController.LINE_SEPARATOR+"" +
-                "postgres"+MainController.LINE_SEPARATOR+"" +
-                ""+ DB_TEST1 +""+MainController.LINE_SEPARATOR+"" +
-                ""+DB_TEST2+""+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "***Existing databases***" + MainController.LINE_SEPARATOR + "" +
+                "postgres" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST1 + "" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST2 + "" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
-                "Do you wish to delete database '"+DB_TEST2+"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Database '"+DB_TEST2+"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Database '" + DB_TEST2 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //databases
-                "***Existing databases***"+MainController.LINE_SEPARATOR+"" +
-                "postgres"+MainController.LINE_SEPARATOR+"" +
-                ""+ DB_TEST1 +""+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "***Existing databases***" + MainController.LINE_SEPARATOR + "" +
+                "postgres" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST1 + "" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
-    @Test
+    @Test @Ignore
     public void testCreateAndDropAllDatabases() {
 
         // Осторожно. Тест удаляет ВСЕ базы данных.
@@ -145,37 +143,37 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase|test1
-                "Do you wish to delete database '"+DB_TEST2+"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Database '"+DB_TEST2+"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+ MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Database '" + DB_TEST2 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase
-                "Database '"+DB_TEST2+"' created successfully"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Database '" + DB_TEST2 + "' created successfully" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //databases
-                "***Existing databases***"+MainController.LINE_SEPARATOR+"" +
-                "postgres"+MainController.LINE_SEPARATOR+"" +
-                ""+DB_TEST1+""+MainController.LINE_SEPARATOR+"" +
-                ""+DB_TEST2+""+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "***Existing databases***" + MainController.LINE_SEPARATOR + "" +
+                "postgres" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST1 + "" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST2 + "" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropAllaDatabases
-                "Do you wish to delete all databases? Y/N"+MainController.LINE_SEPARATOR+"" +
-                "All databases  deleted successfully"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete all databases? Y/N" + MainController.LINE_SEPARATOR + "" +
+                "All databases  deleted successfully" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //databases
-                "***Existing databases***"+MainController.LINE_SEPARATOR+"" +
-                "postgres"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "***Existing databases***" + MainController.LINE_SEPARATOR + "" +
+                "postgres" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -187,7 +185,7 @@ public class IntegrationTestCreateDropTruncate {
         in.add("createDatabase|" + DB_TEST2);
         in.add("connect|" + DB_TEST2 + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("databases");
-        in.add("dropDatabase|"+DB_TEST2);
+        in.add("dropDatabase|" + DB_TEST2);
         in.add("y");
         in.add("disconnect");
         in.add("exit");
@@ -196,36 +194,36 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
-                "Do you wish to delete database '"+DB_TEST2+"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Database '"+DB_TEST2+"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Database '" + DB_TEST2 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase
-                "Database '"+DB_TEST2+"' created successfully"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Database '" + DB_TEST2 + "' created successfully" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '"+DB_TEST2+"' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '" + DB_TEST2 + "' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //databases
-                "***Existing databases***"+MainController.LINE_SEPARATOR+"" +
-                "postgres"+MainController.LINE_SEPARATOR+"" +
-                ""+ DB_TEST1 +""+MainController.LINE_SEPARATOR+"" +
-                ""+DB_TEST2+""+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "***Existing databases***" + MainController.LINE_SEPARATOR + "" +
+                "postgres" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST1 + "" + MainController.LINE_SEPARATOR + "" +
+                "" + DB_TEST2 + "" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
-                "Do you wish to delete database '"+DB_TEST2+"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Error while deleting database '"+DB_TEST2+"'. Cause: 'It is not possible to delete a table '"+DB_TEST2+"''"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Error while deleting database '" + DB_TEST2 + "'. Cause: 'It is not possible to delete a table '" + DB_TEST2 + "''" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -255,67 +253,67 @@ public class IntegrationTestCreateDropTruncate {
 
         // then
         assertEquals(
-                "Hello, user"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Hello, user" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //connect
-                        "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //dropTable
-                        "Do you wish to delete table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                        "Table '"+ TABLE_TEST1 +"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Do you wish to delete table '" + TABLE_TEST1 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                        "Table '" + TABLE_TEST1 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //createTable
-                        "Table '"+ TABLE_TEST1 + " (id INTEGER,name text,password text)' created successfully"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Table '" + TABLE_TEST1 + " (id INTEGER,name text,password text)' created successfully" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //insertRow
-                        "Insert row '{id=1111, name=Peter, password=****}' into table '"+ TABLE_TEST1 +"' successfully"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //rows1
-                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|id  |name |password|"+MainController.LINE_SEPARATOR+"" +
-                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|1111|Peter|****    |"+MainController.LINE_SEPARATOR+"" +
-                        "+----+-----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "+----+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id  |name |password|" + MainController.LINE_SEPARATOR + "" +
+                        "+----+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|1111|Peter|****    |" + MainController.LINE_SEPARATOR + "" +
+                        "+----+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //createTable2
-                        "Table '"+ TABLE_TEST2 + " (id INTEGER,name text,password text)' created successfully"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Table '" + TABLE_TEST2 + " (id INTEGER,name text,password text)' created successfully" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //insertRow
-                        "Insert row '{id=2222, name=Ivan, password=++++}' into table '"+ TABLE_TEST2 +"' successfully"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Insert row '{id=2222, name=Ivan, password=++++}' into table '" + TABLE_TEST2 + "' successfully" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //rows2
-                        "+----+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|id  |name|password|"+MainController.LINE_SEPARATOR+"" +
-                        "+----+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|2222|Ivan|++++    |"+MainController.LINE_SEPARATOR+"" +
-                        "+----+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "+----+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id  |name|password|" + MainController.LINE_SEPARATOR + "" +
+                        "+----+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|2222|Ivan|++++    |" + MainController.LINE_SEPARATOR + "" +
+                        "+----+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //truncateAll
-                        "Do you wish to clear all tables?. Y/N"+MainController.LINE_SEPARATOR+"" +
-                        "All tables cleared successfully"+MainController.LINE_SEPARATOR+"" +
+                        "Do you wish to clear all tables?. Y/N" + MainController.LINE_SEPARATOR + "" +
+                        "All tables cleared successfully" + MainController.LINE_SEPARATOR + "" +
                         //rows1
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
-                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|id|name|password|"+MainController.LINE_SEPARATOR+"" +
-                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
+                        "+--+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id|name|password|" + MainController.LINE_SEPARATOR + "" +
+                        "+--+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //rows2
-                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|id|name|password|"+MainController.LINE_SEPARATOR+"" +
-                        "+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "+--+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id|name|password|" + MainController.LINE_SEPARATOR + "" +
+                        "+--+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //dropAllTables
-                        "Do you wish to delete all tables? Y/N"+MainController.LINE_SEPARATOR+"" +
-                        "All tables deleted successfully"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Do you wish to delete all tables? Y/N" + MainController.LINE_SEPARATOR + "" +
+                        "All tables deleted successfully" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //tables
-                        "[]"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "[]" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //disconnect
-                        "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                        "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                        "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //exit
-                        "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                        "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
 
@@ -331,20 +329,20 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //truncateTable|sadfasd|fsf|fdsf
-                "Failure cause: Expected command format 'truncateTable|tableName', but actual 'truncateTable|sadfasd|fsf|fdsf'"+MainController.LINE_SEPARATOR+"" +
-                "Try again"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Expected command format 'truncateTable|tableName', but actual 'truncateTable|sadfasd|fsf|fdsf'" + MainController.LINE_SEPARATOR + "" +
+                "Try again" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -361,24 +359,24 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '"+ DB_TEST1 +"' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //truncateTable
-                "Do you wish to delete table '"+ TABLE_TEST1 +"'. Y/N?"+MainController.LINE_SEPARATOR+"" +
-                "Table '"+ TABLE_TEST1 +"' deleted successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
-                //creatTable|tableName()||||
-                "Failure cause: Expected command format 'createTable|tableName(column1,column2,..,columnN), but actual 'createTable|"+TABLE_TEST1+"()|asfdasf|||'"+MainController.LINE_SEPARATOR+"" +
-                "Try again"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Do you wish to delete table '" + TABLE_TEST1 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
+                "Table '" + TABLE_TEST1 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
+                //createTable|tableName()||||
+                "Failure cause: Expected command format 'createTable|tableName(column1,column2,..,columnN), but actual 'createTable|" + TABLE_TEST1 + "()|asfdasf|||'" + MainController.LINE_SEPARATOR + "" +
+                "Try again" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -394,20 +392,20 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase|
-                "Failure cause: Expected command format 'createDatabase|databaseName', but actual 'createDatabase|'"+MainController.LINE_SEPARATOR+"" +
-                "Try again"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Expected command format 'createDatabase|databaseName', but actual 'createDatabase|'" + MainController.LINE_SEPARATOR + "" +
+                "Try again" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -423,20 +421,20 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase|
-                "Failure cause: Expected command format 'dropDatabase|databaseName', but actual 'dropDatabase|'"+MainController.LINE_SEPARATOR+"" +
-                "Try again"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Expected command format 'dropDatabase|databaseName', but actual 'dropDatabase|'" + MainController.LINE_SEPARATOR + "" +
+                "Try again" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 
     @Test
@@ -452,19 +450,19 @@ public class IntegrationTestCreateDropTruncate {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Hello, user"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropTable|
-                "Failure cause: Expected command format 'dropTable|tableName', but actual 'dropTable|'"+MainController.LINE_SEPARATOR+"" +
-                "Try again"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Failure cause: Expected command format 'dropTable|tableName', but actual 'dropTable|'" + MainController.LINE_SEPARATOR + "" +
+                "Try again" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
-                "Disconnect successful"+MainController.LINE_SEPARATOR+"" +
-                "Input command or 'help' for assistance"+MainController.LINE_SEPARATOR+"" +
+                "Disconnect successful" + MainController.LINE_SEPARATOR + "" +
+                "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //exit
-                "Good bye!"+MainController.LINE_SEPARATOR+"", getData());
+                "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
 }

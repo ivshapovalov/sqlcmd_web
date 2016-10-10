@@ -14,17 +14,18 @@ public class TableConstructorTest {
     static {
         Logger.getRootLogger().addAppender(new NullAppender());
     }
+
     @Test
     public void testTableConstructorWithOneParameters() {
 
         TableConstructor table = initTableConstructor();
 
-        assertEquals("+--+----------+--------+"+ MainController.LINE_SEPARATOR+"" +
-                "|id|name      |password|"+MainController.LINE_SEPARATOR+"" +
-                "+--+----------+--------+"+MainController.LINE_SEPARATOR+"" +
-                "|1 |FirstUser |+++++   |"+MainController.LINE_SEPARATOR+"" +
-                "+--+----------+--------+"+MainController.LINE_SEPARATOR+"" +
-                "|2 |SecondUser|#####   |"+MainController.LINE_SEPARATOR+"" +
+        assertEquals("+--+----------+--------+" + MainController.LINE_SEPARATOR + "" +
+                "|id|name      |password|" + MainController.LINE_SEPARATOR + "" +
+                "+--+----------+--------+" + MainController.LINE_SEPARATOR + "" +
+                "|1 |FirstUser |+++++   |" + MainController.LINE_SEPARATOR + "" +
+                "+--+----------+--------+" + MainController.LINE_SEPARATOR + "" +
+                "|2 |SecondUser|#####   |" + MainController.LINE_SEPARATOR + "" +
                 "+--+----------+--------+", table.getTableString());
     }
 

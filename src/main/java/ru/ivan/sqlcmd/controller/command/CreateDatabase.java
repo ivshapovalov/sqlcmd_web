@@ -4,12 +4,12 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class CreateDatabase extends Command {
-    private final static Integer INDEX_DATABASE_NAME=1;
+    private final static Integer INDEX_DATABASE_NAME = 1;
 
     public CreateDatabase() {
     }
 
-    public CreateDatabase(final DatabaseManager manager,final View view) {
+    public CreateDatabase(final DatabaseManager manager, final View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -33,7 +33,7 @@ public class CreateDatabase extends Command {
     public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
+            throw new IllegalArgumentException("Expected command format '" + format() + "', but actual '" + command + "'");
         }
         manager.createDatabase(data[INDEX_DATABASE_NAME]);
 

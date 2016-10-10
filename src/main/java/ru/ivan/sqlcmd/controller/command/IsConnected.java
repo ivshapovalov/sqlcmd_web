@@ -5,12 +5,9 @@ import ru.ivan.sqlcmd.view.View;
 
 public class IsConnected extends Command {
 
-    public IsConnected() {
-    }
-
     public IsConnected(DatabaseManager manager, View view) {
         this.manager = manager;
-        this.view=view;
+        this.view = view;
     }
 
     @Override
@@ -30,7 +27,7 @@ public class IsConnected extends Command {
 
     @Override
     public void process(final String command) {
-        view.write(String.format("You can't use '%s'. First connect with the command 'connect|database|user|password'",command));
+        view.write(String.format("You can't use '%s'. First connect with the command 'connect|database|user|password'", command));
 
     }
 

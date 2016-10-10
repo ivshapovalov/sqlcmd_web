@@ -13,11 +13,8 @@ public class Unsupported extends Command {
         return "";
     }
 
-    public Unsupported() {
-    }
-
     public Unsupported(View view) {
-        this.view=view;
+        this.view = view;
     }
 
     @Override

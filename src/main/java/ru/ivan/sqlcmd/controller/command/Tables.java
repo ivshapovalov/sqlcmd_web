@@ -21,8 +21,8 @@ public class Tables extends Command {
     }
 
     public Tables(DatabaseManager manager, View view) {
-        this.manager=manager;
-        this.view=view;
+        this.manager = manager;
+        this.view = view;
     }
 
     @Override

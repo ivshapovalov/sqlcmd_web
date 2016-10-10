@@ -57,7 +57,7 @@ public class Help extends Command {
 
         view.write("Existing program commands:");
         for (Command currentCommand : commands) {
-            view.write("\t\t" + "'"+currentCommand.format()+"'" + " -- " + currentCommand.description());
+            view.write("\t\t" + "'" + currentCommand.format() + "'" + " -- " + currentCommand.description());
         }
     }
 }

@@ -8,7 +8,7 @@ public class DropAllDatabases extends Command {
     public DropAllDatabases() {
     }
 
-    public DropAllDatabases(final DatabaseManager manager,final View view) {
+    public DropAllDatabases(final DatabaseManager manager, final View view) {
         this.manager = manager;
         this.view = view;
     }

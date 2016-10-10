@@ -15,7 +15,7 @@ public class Disconnect extends Command {
 
     @Override
     public String description() {
-        return "disconnect from curent database";
+        return "disconnect from current database";
     }
 
     @Override

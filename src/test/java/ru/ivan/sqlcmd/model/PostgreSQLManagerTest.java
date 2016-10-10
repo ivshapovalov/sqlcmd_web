@@ -1,7 +1,6 @@
 package ru.ivan.sqlcmd.model;
 
 import org.junit.*;
-import org.junit.Test;
 
 import java.util.*;
 
@@ -12,7 +11,7 @@ public class PostgreSQLManagerTest {
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
     private static DatabaseManager manager;
-    private final static String DB_NAME ="db_test";
+    private final static String DB_NAME = "db_test";
     private final static String TABLE_NAME = "tabletest";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE1 = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
@@ -225,7 +224,7 @@ public class PostgreSQLManagerTest {
         //given
 
         //when
-        Set<String> actual = manager.getTableColumns("'adfsf'");
+        manager.getTableColumns("'adfsf'");
 
         //then
 
@@ -282,7 +281,7 @@ public class PostgreSQLManagerTest {
         //given
 
         //when
-        Integer actual = manager.getTableSize(NOT_EXIST_TABLE);
+        manager.getTableSize(NOT_EXIST_TABLE);
 
         //then
     }

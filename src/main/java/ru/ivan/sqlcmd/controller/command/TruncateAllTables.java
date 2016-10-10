@@ -8,7 +8,7 @@ public class TruncateAllTables extends Command {
     public TruncateAllTables() {
     }
 
-    public TruncateAllTables(final DatabaseManager manager,final  View view) {
+    public TruncateAllTables(final DatabaseManager manager, final View view) {
         this.manager = manager;
 
         this.view = view;

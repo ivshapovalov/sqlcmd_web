@@ -1,11 +1,14 @@
 package ru.ivan.sqlcmd.model;
 
 import org.junit.*;
+
 import java.util.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class PostgreSQLManagerForMultiCommandsTest {
-    private final static String DB_NAME ="db_test";
+    private final static String DB_NAME = "db_test";
     private final static String TABLE_TEST1 = "table_test1";
     private final static String TABLE_TEST2 = "table_test2";
     private final static String SQL_CREATE_TABLE1 = TABLE_TEST1 + " (id SERIAL PRIMARY KEY," +
@@ -79,28 +82,28 @@ public class PostgreSQLManagerForMultiCommandsTest {
         assertEquals(expected, actual2);
     }
 
-    @Test
+    @Test  @Ignore
     public void testDropAllDatabases() {
 
         // Осторожно. Тест удаляет ВСЕ базы данных вообще.
 
-//        manager.connect("", DB_USER, DB_PASSWORD);
-//        //given
-//        String newDatabase1 = "dropdatabasetest1";
-//        manager.dropDatabase(newDatabase1);
-//        manager.createDatabase(newDatabase1);
-//        String newDatabase2 = "dropdatabasetest2";
-//        manager.dropDatabase(newDatabase2);
-//        manager.createDatabase(newDatabase2);
-//
-//        //when
-//        manager.dropAllDatabases();
-//
-//        //then
-//        Set<String> databases = manager.getDatabasesNames();
-//        if (databases.size() != 1 && databases.contains("postgres")) {
-//            fail();
-//        }
+        manager.connect("", DB_USER, DB_PASSWORD);
+        //given
+        String newDatabase1 = "dropdatabasetest1";
+        manager.dropDatabase(newDatabase1);
+        manager.createDatabase(newDatabase1);
+        String newDatabase2 = "dropdatabasetest2";
+        manager.dropDatabase(newDatabase2);
+        manager.createDatabase(newDatabase2);
+
+        //when
+        manager.dropAllDatabases();
+
+        //then
+        Set<String> databases = manager.getDatabasesNames();
+        if (databases.size() != 1 && databases.contains("postgres")) {
+            fail();
+        }
     }
 
     @Test

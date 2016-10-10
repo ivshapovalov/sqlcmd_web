@@ -4,18 +4,17 @@ import ru.ivan.sqlcmd.controller.command.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.TreeMap;
 
 public class MainController {
 
-    public static final char LINE_SEPARATOR='\n';
+    public static final char LINE_SEPARATOR = '\n';
     private final View view;
-    private final DatabaseManager manager;
     private final java.util.List<Command> commands;
     private TreeMap<Integer, String> history = new TreeMap<>();
 
     public MainController(View view, DatabaseManager manager) {
-        this.manager = manager;
         this.view = view;
         this.commands = Arrays.asList(
                 new Help(view),
@@ -50,21 +49,21 @@ public class MainController {
             //do nothing
         }
     }
-
+    @SuppressWarnings("while")
     private void doWork() {
         view.write("Hello, user");
-        int historySize=0;
+        int historySize = 0;
         while (true) {
             view.write("Input command or 'help' for assistance");
             String input = view.read();
 
-            String historyInput=checkHistoryInput(input);
-            if (historyInput==null) {
+            String historyInput = checkHistoryInput(input);
+            if (historyInput == null) {
                 continue;
             } else {
-                input=historyInput;
+                input = historyInput;
             }
-            increaseInputHistory(++historySize,input);
+            increaseInputHistory(++historySize, input);
             for (Command command : commands
                     ) {
 
@@ -83,9 +82,9 @@ public class MainController {
         }
     }
 
-    private void increaseInputHistory(int historySize,String input) {
+    private void increaseInputHistory(int historySize, String input) {
         history.put(historySize, input);
-        if (history.size()>History.HISTORY_CAPACITY) {
+        if (history.size() > History.HISTORY_CAPACITY) {
             history.pollFirstEntry();
         }
     }
@@ -97,7 +96,7 @@ public class MainController {
             if (newInput != null) {
                 view.write(newInput);
             } else {
-                view.write(String.format("Index '%s' does not exist in command history",historyIndex));
+                view.write(String.format("Index '%s' does not exist in command history", historyIndex));
             }
         } catch (NumberFormatException e) {
             //ввели не число

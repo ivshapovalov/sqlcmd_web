@@ -7,15 +7,15 @@ import ru.ivan.sqlcmd.view.View;
 import static org.junit.Assert.*;
 
 public class ExitWithMockitoTest {
-    private View view= Mockito.mock(View.class);
+    private View view = Mockito.mock(View.class);
 
     @Test
     public void testCanProcessExitString() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
-        Boolean canProcess=command.canProcess("exit");
+        Boolean canProcess = command.canProcess("exit");
 
         //then
         assertTrue(canProcess);
@@ -24,10 +24,10 @@ public class ExitWithMockitoTest {
     @Test
     public void testCanProcessQweString() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
-        Boolean canProcess=command.canProcess("qwe");
+        Boolean canProcess = command.canProcess("qwe");
 
         //then
         assertFalse(canProcess);
@@ -37,7 +37,7 @@ public class ExitWithMockitoTest {
     @Test
     public void testCanProcessExitCommand_ThrowsExitException() {
         //given
-        Command command =new Exit(view);
+        Command command = new Exit(view);
 
         //when
         try {

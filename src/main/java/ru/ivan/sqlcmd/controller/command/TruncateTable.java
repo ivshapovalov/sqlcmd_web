@@ -4,12 +4,12 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class TruncateTable extends Command {
-    private final static Integer INDEX_TABLE_NAME=1;
+    private final static Integer INDEX_TABLE_NAME = 1;
 
     public TruncateTable() {
     }
 
-    public TruncateTable(final DatabaseManager manager,final  View view) {
+    public TruncateTable(final DatabaseManager manager, final View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -34,11 +34,12 @@ public class TruncateTable extends Command {
     public void process(final String command) {
         String[] data = command.split("\\|");
         if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command+"'");
+            throw new IllegalArgumentException("Expected command format '" + format() + "', but actual '" + command + "'");
         }
 
         confirmAndTruncateTable(data[INDEX_TABLE_NAME]);
     }
+
     private void confirmAndTruncateTable(final String tableName) {
         try {
             view.write(String.format("Do you wish to clear table '%s'. Y/N?", tableName));

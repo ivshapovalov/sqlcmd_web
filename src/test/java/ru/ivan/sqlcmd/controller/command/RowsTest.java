@@ -11,7 +11,6 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 import java.util.*;
-import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
@@ -28,7 +27,7 @@ public class RowsTest {
         view = Mockito.mock(View.class);
         command = new Rows(manager, view);
 
-            Logger.getRootLogger().addAppender(new NullAppender());
+        Logger.getRootLogger().addAppender(new NullAppender());
 
     }
 
@@ -57,12 +56,12 @@ public class RowsTest {
 
         //then
         String expected =
-                "[+--+-----+--------+"+ MainController.LINE_SEPARATOR+"" +
-                        "|id|name |password|"+MainController.LINE_SEPARATOR+"" +
-                        "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|12|Eva  |*****   |"+MainController.LINE_SEPARATOR+"" +
-                        "+--+-----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|16|Steve|+++++   |"+MainController.LINE_SEPARATOR+"" +
+                "[+--+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id|name |password|" + MainController.LINE_SEPARATOR + "" +
+                        "+--+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|12|Eva  |*****   |" + MainController.LINE_SEPARATOR + "" +
+                        "+--+-----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|16|Steve|+++++   |" + MainController.LINE_SEPARATOR + "" +
                         "+--+-----+--------+]";
         shouldPrint(expected);
     }
@@ -120,8 +119,8 @@ public class RowsTest {
 
         //then
         String expected =
-                "[+--+----+--------+"+MainController.LINE_SEPARATOR+"" +
-                        "|id|name|password|"+MainController.LINE_SEPARATOR+"" +
+                "[+--+----+--------+" + MainController.LINE_SEPARATOR + "" +
+                        "|id|name|password|" + MainController.LINE_SEPARATOR + "" +
                         "+--+----+--------+]";
         shouldPrint(expected);
     }
