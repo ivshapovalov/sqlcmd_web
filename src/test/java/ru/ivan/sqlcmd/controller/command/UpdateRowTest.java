@@ -28,7 +28,7 @@ public class UpdateRowTest {
         //given
 
         //when
-        command.process("updateRow|users|12|name|Ivan");
+        command.process("updateRow|users|id|12|name|Ivan");
 
         //then
         String expected =

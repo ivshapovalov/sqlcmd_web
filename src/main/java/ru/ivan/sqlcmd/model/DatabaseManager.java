@@ -22,7 +22,7 @@ public interface DatabaseManager {
 
     boolean isConnected();
 
-    void updateRow(String tableName, int id, Map<String, Object> newRow);
+    void updateRow(String tableName, String conditionColumnName,String conditionColumnValue, Map<String, Object> newRow);
 
     void createTable(String tableName);
 

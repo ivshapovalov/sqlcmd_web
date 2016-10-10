@@ -235,10 +235,11 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void updateRow(final String tableName, final int id, final Map<String, Object> newRow) {
+    public void updateRow(final String tableName, final String conditionColumnName, String conditionColumnValue, final Map<String, Object> newRow) {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
-        String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE id = ?");
+        String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE "+conditionColumnName+" = ?");
 
+        Object id=getColumnType(tableName,conditionColumnName,conditionColumnValue);
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
             for (Object value : newRow.values()) {
@@ -248,8 +249,8 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            String message = String.format("It is not possible to update a record with id=%s in table '%s'.",
-                    id, tableName);
+            String message = String.format("It is not possible to update a record with '%s'=%s in table '%s'.",
+                    conditionColumnName,conditionColumnValue, tableName);
             String originalMessage = e.getMessage();
             if (originalMessage.contains("отношение")) {
                 message = message.concat(" Table does not exists");
@@ -259,6 +260,29 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             throw new DatabaseManagerException(message);
         }
+    }
+
+    public Object getColumnType(final String tableName, final String conditionColumnName, final String conditionColumnValue) {
+        String dataType = "";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT column_name,data_type FROM information_schema.columns"
+                     + "  WHERE table_schema = 'public' AND table_name = '" + tableName + "' AND column_name='" + conditionColumnName + "'")) {
+            while (rs.next()) {
+                dataType = rs.getString("data_type");
+            }
+            if (!"".equals(dataType)) {
+                if (dataType.contains("text")) {
+                    return conditionColumnValue;
+                } else if (dataType.contains("numeric") || dataType.contains("integer")) {
+                    return Integer.valueOf(conditionColumnValue);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(String.format("It is impossible to get data type of '%s' column in table '%s'",
+                    conditionColumnName,tableName),
+                    e);
+        }
+        return null;
     }
 
     @Override

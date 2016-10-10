@@ -106,7 +106,7 @@ public class IntegrationTest {
                         "\t\t'tables' -- list of tables in current database" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'truncateAll' -- clear all tables" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'truncateTable|tableName' -- clear the table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN' -- update row with specific ID in table" + MainController.LINE_SEPARATOR + "" +
+                        "\t\t'updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN' -- update row with specific ID in table" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
     }
@@ -793,7 +793,7 @@ public class IntegrationTest {
         in.add("y");
         in.add("insertRow|" + TABLE_TEST1 + "|id|13|name|Stiven|password|*****");
         in.add("rows|" + TABLE_TEST1);
-        in.add("updateRow|" + TABLE_TEST1 + "|13|name|Pupkin|password|+++++");
+        in.add("updateRow|" + TABLE_TEST1 + "|id|13|name|Pupkin|password|+++++");
         in.add("rows|" + TABLE_TEST1);
         in.add("truncateTable|" + TABLE_TEST1);
         in.add("y");
@@ -847,7 +847,7 @@ public class IntegrationTest {
     public void testUpdateRowInNotExistingTable() {
         // given
         in.add("connect|" + DB_TEST1 + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("updateRow|" + NOT_EXIST_TABLE + "|14|name|Pupkin|password|+++++");
+        in.add("updateRow|" + NOT_EXIST_TABLE + "|id|14|name|Pupkin|password|+++++");
         in.add("disconnect");
         in.add("exit");
 
@@ -861,7 +861,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|notExistTable
-                "Failure cause: It is not possible to update a record with id=14 in table 'notexisttable'. Table does not exists" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: It is not possible to update a record with 'id'=14 in table 'notexisttable'. Table does not exists" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -875,7 +875,7 @@ public class IntegrationTest {
     public void testUpdateRowWithNotExistingColumnInTable() {
         // given
         in.add("connect|" + DB_TEST1 + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("updateRow|" + TABLE_TEST1 + "|14|nam|Pupkin|password|+++++");
+        in.add("updateRow|" + TABLE_TEST1 + "|id|14|nam|Pupkin|password|+++++");
         in.add("disconnect");
         in.add("exit");
 
@@ -888,7 +888,7 @@ public class IntegrationTest {
                 //connect
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: It is not possible to update a record with id=14 in table '" + TABLE_TEST1 + "'.Столбец \"nam\" в таблице \"" + TABLE_TEST1 + "\" не существует" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: It is not possible to update a record with 'id'=14 in table '" + TABLE_TEST1 + "'.Столбец \"nam\" в таблице \"" + TABLE_TEST1 + "\" не существует" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -916,7 +916,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -944,7 +944,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -982,7 +982,7 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow|tableName|id
-                "Failure cause: Must be not even parameters equal to or greater than 4 in format 'updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1010,7 +1010,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName|fgr|name|Ivan
-                "Failure cause: 3 parameter must be numeric!" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

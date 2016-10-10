@@ -342,7 +342,7 @@ public class PostgreSQLManagerTest {
         updateData.put("password", "qwerty");
         updateData.put("id", 2);
 
-        manager.updateRow(TABLE_NAME, 2, updateData);
+        manager.updateRow(TABLE_NAME,"id" ,"2", updateData);
 
         //then
         Map<String, Object> user = manager.getTableRows(TABLE_NAME).get(0);
@@ -358,7 +358,7 @@ public class PostgreSQLManagerTest {
         updateData.put("id", 1);
 
         //then
-        manager.updateRow(NOT_EXIST_TABLE, 1, updateData);
+        manager.updateRow(NOT_EXIST_TABLE,"id", "1", updateData);
     }
 
     @Test

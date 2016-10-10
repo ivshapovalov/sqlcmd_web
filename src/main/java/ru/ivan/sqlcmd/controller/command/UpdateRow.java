@@ -8,7 +8,8 @@ import java.util.Map;
 
 public class UpdateRow extends Command {
     private final static Integer INDEX_TABLE_NAME = 1;
-    private final static Integer INDEX_UPDATING_ROW_ID = 2;
+    private final static Integer INDEX_CONDITION_COLUMN_NAME = 2;
+    private final static Integer INDEX_CONDITION_COLUMN_VALUE = 3;
 
     UpdateRow() {
     }
@@ -26,7 +27,7 @@ public class UpdateRow extends Command {
 
     @Override
     public String format() {
-        return "updateRow|tableName|ID|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN";
+        return "updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN";
     }
 
     @Override
@@ -37,31 +38,33 @@ public class UpdateRow extends Command {
     @Override
     public void process(final String command) {
         String[] data = command.split("[|]");
-        if (data.length % 2 == 0 || data.length <= 3) {
-            throw new IllegalArgumentException("Must be not even parameters equal to or greater than 4 " +
+        if (data.length % 2 != 0 || data.length <=5) {
+            throw new IllegalArgumentException("Must be not even parameters equal to or greater than 6 " +
                     "in format '"+format()+"'");
 
         }
         String tableName = data[INDEX_TABLE_NAME];
-        int id;
-        try {
-            id = Integer.parseInt(data[INDEX_UPDATING_ROW_ID]);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(String.valueOf(INDEX_UPDATING_ROW_ID + 1) + " parameter must be numeric!");
-        }
+        String conditionColumnName=data[INDEX_CONDITION_COLUMN_NAME];
+        String conditionColumnValue=data[INDEX_CONDITION_COLUMN_VALUE];
+//        int id;
+//        try {
+//            id = Integer.parseInt(data[INDEX_CONDITION_COLUMN_NAME]);
+//        } catch (NumberFormatException e) {
+//            throw new IllegalArgumentException(String.valueOf(INDEX_CONDITION_COLUMN_NAME + 1) + " parameter must be numeric!");
+//        }
         Map<String, Object> tableData = extractTableDataFromParameters(data);
 
-        manager.updateRow(tableName, id, tableData);
+        manager.updateRow(tableName, conditionColumnName,conditionColumnValue, tableData);
 
         view.write(String.format("Update row '%s' in table '%s' successfully", tableData, tableName));
     }
 
     private Map<String, Object> extractTableDataFromParameters(final String[] data) {
-        int parametersCount = data.length / 2 - 1;
+        int parametersCount = data.length / 2 - 2;
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int i = 1; i <= parametersCount; i++) {
-            String column = data[i * 2 + 1];
-            String value = data[i * 2 + 2];
+            String column = data[i * 2+2];
+            String value = data[i * 2 + 3];
             tableData.put(column, value);
         }
         return tableData;
