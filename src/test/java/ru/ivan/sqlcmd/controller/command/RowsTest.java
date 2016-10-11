@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.Before;
@@ -27,7 +29,9 @@ public class RowsTest {
         view = Mockito.mock(View.class);
         command = new Rows(manager, view);
 
-        Logger.getRootLogger().addAppender(new NullAppender());
+        //Disable log4j
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.OFF);
 
     }
 

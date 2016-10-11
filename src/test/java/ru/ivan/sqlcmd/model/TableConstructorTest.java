@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.Test;
@@ -12,7 +14,9 @@ import static org.junit.Assert.assertEquals;
 public class TableConstructorTest {
 
     static {
-        Logger.getRootLogger().addAppender(new NullAppender());
+        //Disable log4j
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Test

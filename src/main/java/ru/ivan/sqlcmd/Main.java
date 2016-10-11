@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import ru.ivan.sqlcmd.controller.MainController;
@@ -10,7 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Logger.getRootLogger().addAppender(new NullAppender());
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.OFF);
 
         MainController controller = new
                 MainController(new Console(), new PostgreSQLManager());
