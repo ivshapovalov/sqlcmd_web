@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class Disconnect extends Command {
+public class Disconnect extends AbstractCommand implements Command {
 
     public Disconnect() {
     }

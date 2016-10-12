@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Help extends Command {
+public class Help extends AbstractCommand implements Command {
 
     private List<Command> commands;
 
     public Help(final View view) {
-        super(view);
+        this.view=view;
         this.commands = new ArrayList<>(Arrays.asList(
                 new Connect(),
                 new CreateDatabase(),

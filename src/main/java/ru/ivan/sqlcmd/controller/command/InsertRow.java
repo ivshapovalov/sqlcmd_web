@@ -6,7 +6,7 @@ import ru.ivan.sqlcmd.view.View;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class InsertRow extends Command {
+public class InsertRow extends AbstractCommand implements Command {
     private final static Integer INDEX_TABLE_NAME = 1;
 
     InsertRow() {

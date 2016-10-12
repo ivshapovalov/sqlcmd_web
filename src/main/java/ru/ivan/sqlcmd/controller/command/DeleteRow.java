@@ -1,10 +1,9 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.DatabaseManagerException;
 import ru.ivan.sqlcmd.view.View;
 
-public class DeleteRow extends Command {
+public class DeleteRow extends AbstractCommand implements Command {
     private final static Integer INDEX_TABLE_NAME = 1;
     private final static Integer INDEX_DELETING_ROW_ID = 2;
 

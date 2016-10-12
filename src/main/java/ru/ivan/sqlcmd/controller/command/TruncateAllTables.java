@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class TruncateAllTables extends Command {
+public class TruncateAllTables extends AbstractCommand implements Command {
 
     public TruncateAllTables() {
     }

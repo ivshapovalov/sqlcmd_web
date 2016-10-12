@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class DropDatabase extends Command {
+public class DropDatabase extends AbstractCommand implements Command {
     private final static Integer INDEX_DATABASE_NAME = 1;
 
     public DropDatabase() {

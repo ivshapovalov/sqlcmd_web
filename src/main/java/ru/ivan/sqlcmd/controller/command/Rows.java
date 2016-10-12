@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Rows extends Command {
+public class Rows extends AbstractCommand implements Command {
     private final static Integer INDEX_TABLE_NAME = 1;
 
     public Rows() {

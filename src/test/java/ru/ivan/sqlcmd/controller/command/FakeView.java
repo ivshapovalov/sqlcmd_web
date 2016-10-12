@@ -27,5 +27,7 @@ public class FakeView implements View {
     public String getContent() {
         return messages;
     }
+
+
 }
 

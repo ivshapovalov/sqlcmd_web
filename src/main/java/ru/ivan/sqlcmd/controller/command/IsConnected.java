@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class IsConnected extends Command {
+public class IsConnected extends AbstractCommand implements Command {
 
     public IsConnected(DatabaseManager manager, View view) {
         this.manager = manager;

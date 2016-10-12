@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class DropAllDatabases extends Command {
+public class DropAllDatabases extends AbstractCommand implements Command {
 
     public DropAllDatabases() {
     }
