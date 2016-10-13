@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class Connect extends AbstractCommand implements Command {
+public class Connect extends AbstractCommand {
     private final static Integer INDEX_DATABASE_NAME = 1;
     private final static Integer INDEX_USER_NAME = 2;
     private final static Integer INDEX_PASSWORD = 3;

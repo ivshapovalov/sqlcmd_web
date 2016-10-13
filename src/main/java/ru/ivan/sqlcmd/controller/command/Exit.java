@@ -2,7 +2,7 @@ package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.view.View;
 
-public class Exit extends AbstractCommand implements Command {
+public class Exit extends AbstractCommand {
 
     public Exit() {
     }

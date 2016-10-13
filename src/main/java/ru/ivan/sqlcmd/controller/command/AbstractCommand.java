@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class AbstractCommand {
+public abstract class AbstractCommand implements Command {
     protected DatabaseManager manager;
     protected View view;
 

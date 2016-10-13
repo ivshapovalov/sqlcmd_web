@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Help extends AbstractCommand implements Command {
+public class Help extends AbstractCommand {
 
     private List<Command> commands;
 

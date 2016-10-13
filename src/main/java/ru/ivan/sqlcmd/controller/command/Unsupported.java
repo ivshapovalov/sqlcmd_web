@@ -2,7 +2,7 @@ package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.view.View;
 
-public class Unsupported extends AbstractCommand implements Command {
+public class Unsupported extends AbstractCommand  {
     @Override
     public String description() {
         return "unsupported operation";

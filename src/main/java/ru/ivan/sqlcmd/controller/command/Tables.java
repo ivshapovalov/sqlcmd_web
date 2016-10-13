@@ -5,7 +5,7 @@ import ru.ivan.sqlcmd.view.View;
 
 import java.util.Set;
 
-public class Tables extends AbstractCommand implements Command {
+public class Tables extends AbstractCommand {
 
     @Override
     public String description() {

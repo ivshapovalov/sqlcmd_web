@@ -3,7 +3,7 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-public class TruncateTable extends AbstractCommand implements Command {
+public class TruncateTable extends AbstractCommand {
     private final static Integer INDEX_TABLE_NAME = 1;
 
     public TruncateTable() {

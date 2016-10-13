@@ -6,7 +6,7 @@ import ru.ivan.sqlcmd.view.View;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class UpdateRow extends AbstractCommand implements Command {
+public class UpdateRow extends AbstractCommand {
     private final static Integer INDEX_TABLE_NAME = 1;
     private final static Integer INDEX_CONDITION_COLUMN_NAME = 2;
     private final static Integer INDEX_CONDITION_COLUMN_VALUE = 3;

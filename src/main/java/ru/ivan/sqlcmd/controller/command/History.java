@@ -4,7 +4,7 @@ import ru.ivan.sqlcmd.view.View;
 
 import java.util.Map;
 
-public class History extends AbstractCommand implements Command {
+public class History extends AbstractCommand  {
     private Map<Integer, String> history;
     public static Integer HISTORY_CAPACITY = 10;
     private final static Integer INDEX_NEW_CAPACITY = 1;
