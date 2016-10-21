@@ -87,7 +87,7 @@ public class IntegrationTest {
                 "Hello, user" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         "Existing program commands:" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'connect|databaseName|userName|userPassword' -- connect to database" + MainController.LINE_SEPARATOR + "" +
+                        "\t\t'connect|databaseName|userName|userPassword' -- connect to database (databaseName may be blank)" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'createDatabase|databaseName' -- create new database" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)' -- create new table (type i.e. TEXT,INTEGER)" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'databases' -- list of databases" + MainController.LINE_SEPARATOR + "" +

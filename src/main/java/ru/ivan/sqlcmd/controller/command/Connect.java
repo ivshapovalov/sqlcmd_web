@@ -18,7 +18,7 @@ public class Connect extends AbstractCommand {
 
     @Override
     public String description() {
-        return "connect to database";
+        return "connect to database (databaseName may be blank)";
     }
 
     @Override
