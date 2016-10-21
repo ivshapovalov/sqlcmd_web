@@ -23,7 +23,7 @@ public class Connect extends AbstractCommand {
 
     @Override
     public String format() {
-        return "connect|sqlcmd|postgres|postgres";
+        return "connect|databaseName|userName|userPassword";
     }
 
     @Override
