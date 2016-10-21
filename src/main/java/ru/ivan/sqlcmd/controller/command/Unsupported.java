@@ -1,17 +1,19 @@
 package ru.ivan.sqlcmd.controller.command;
 
 class Unsupported extends AbstractCommand  {
+
     Unsupported() {
 
     }
 
     @Override
-    public String getDescription() {
-        return "unsupported operation";
-    }
-
     public boolean showInHelp() {
         return false;
+    }
+
+    @Override
+    public String getDescription() {
+        return "unsupported operation";
     }
 
     @Override

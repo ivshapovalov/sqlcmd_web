@@ -5,7 +5,7 @@ class IsConnected extends AbstractCommand  {
     IsConnected() {
 
     }
-
+    @Override
     public boolean showInHelp() {
         return false;
     }
