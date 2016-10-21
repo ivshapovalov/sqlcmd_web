@@ -4,24 +4,17 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class DropTable extends AbstractCommand  {
-    private final static Integer INDEX_TABLE_NAME = 1;
 
     public DropTable() {
     }
 
-    public DropTable(DatabaseManager manager, View view) {
-        this.manager = manager;
-
-        this.view = view;
-    }
-
     @Override
-    public String description() {
+    public String getDescription() {
         return "delete table";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "dropTable|tableName";
     }
 
@@ -32,9 +25,11 @@ public class DropTable extends AbstractCommand  {
 
     @Override
     public void process(final String command) {
+        final int INDEX_TABLE_NAME = 1;
+
         String[] data = command.split("\\|");
-        if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '" + format() + "', but actual '" + command + "'");
+        if (data.length != parametersLength(getCommandFormat())) {
+            throw new IllegalArgumentException("Expected command getCommandFormat '" + getCommandFormat() + "', but actual '" + command + "'");
         }
         confirmAndDropTable(data[INDEX_TABLE_NAME]);
     }

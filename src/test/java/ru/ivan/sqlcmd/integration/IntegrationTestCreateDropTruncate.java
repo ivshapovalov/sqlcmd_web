@@ -332,7 +332,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //truncateTable|sadfasd|fsf|fdsf
-                "Failure cause: Expected command format 'truncateTable|tableName', but actual 'truncateTable|sadfasd|fsf|fdsf'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'truncateTable|tableName', but actual 'truncateTable|sadfasd|fsf|fdsf'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -366,7 +366,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Table '" + TABLE_TEST1 + "' deleted successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createTable|tableName()||||
-                "Failure cause: Expected command format 'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)', but actual 'createTable|" + TABLE_TEST1 + "()|asfdasf|||'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)', but actual 'createTable|" + TABLE_TEST1 + "()|asfdasf|||'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -395,7 +395,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase|
-                "Failure cause: Expected command format 'createDatabase|databaseName', but actual 'createDatabase|'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'createDatabase|databaseName', but actual 'createDatabase|'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -424,7 +424,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase|
-                "Failure cause: Expected command format 'dropDatabase|databaseName', but actual 'dropDatabase|'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'dropDatabase|databaseName', but actual 'dropDatabase|'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -453,7 +453,7 @@ public class IntegrationTestCreateDropTruncate {
                 "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropTable|
-                "Failure cause: Expected command format 'dropTable|tableName', but actual 'dropTable|'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'dropTable|tableName', but actual 'dropTable|'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

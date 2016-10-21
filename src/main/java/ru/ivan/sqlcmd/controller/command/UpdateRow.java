@@ -7,13 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class UpdateRow extends AbstractCommand {
-    private final static Integer INDEX_TABLE_NAME = 1;
-    private final static Integer INDEX_CONDITION_COLUMN_NAME = 2;
-    private final static Integer INDEX_CONDITION_COLUMN_VALUE = 3;
-    private final static Integer INDEX_DIGITAL_MARK = 0;
-    private static final String DIGITAL_MARK = "@";
+    private final Integer INDEX_DIGITAL_MARK = 0;
+    private final String DIGITAL_MARK = "@";
 
-    UpdateRow() {
+    public UpdateRow() {
     }
 
     public UpdateRow(final DatabaseManager manager, final View view) {
@@ -23,12 +20,12 @@ public class UpdateRow extends AbstractCommand {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "update row in table with specific condition (mark digital columnNames as @columnName)";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN";
     }
 
@@ -39,10 +36,14 @@ public class UpdateRow extends AbstractCommand {
 
     @Override
     public void process(final String command) {
+        final int INDEX_TABLE_NAME = 1;
+        final int INDEX_CONDITION_COLUMN_NAME = 2;
+        final int INDEX_CONDITION_COLUMN_VALUE = 3;
+
         String[] data = command.split("[|]");
         if (data.length % 2 != 0 || data.length <= 5) {
             throw new IllegalArgumentException("Must be not even parameters equal to or greater than 6 " +
-                    "in format '" + format() + "'");
+                    "in getCommandFormat '" + getCommandFormat() + "'");
 
         }
         String tableName = data[INDEX_TABLE_NAME];

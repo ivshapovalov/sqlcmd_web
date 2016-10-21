@@ -84,31 +84,31 @@ public class IntegrationTest {
 
         // then
         assertEquals(
-                "Hello, user" + MainController.LINE_SEPARATOR + "" +
-                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                        "Existing program commands:" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'connect|databaseName|userName|userPassword' -- connect to database (databaseName may be blank)" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'createDatabase|databaseName' -- create new database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)' -- create new table (type i.e. TEXT,INTEGER)" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'databases' -- list of databases" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID " + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'disconnect' -- disconnect from current database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'dropTable|tableName' -- delete table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'dropAllTables' -- delete all tables of current database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'dropDatabase|databaseName' -- delete database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'dropAllDatabases' -- delete all databases" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'exit' -- exit from application" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'help' -- list of all commands with description" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'history' -- list last 'history capacity' commands. All inputted commands stores in memory.history|N - set 'history capacity'" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN' -- insert row in table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'rows|tableName' -- list of rows in table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'size|tableName' -- size of the table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'tables' -- list of tables in current database" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'truncateAll' -- clear all tables" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'truncateTable|tableName' -- clear the table" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN' -- update row in table with specific condition (mark digital columnNames as @columnName)" + MainController.LINE_SEPARATOR + "" +
-                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                        "Good bye!" + MainController.LINE_SEPARATOR + "", getData());
+                "Hello, user" + MainController.LINE_SEPARATOR +"" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR +"" +
+                        "Existing program commands:" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'help' -- list of all commands with getDescription" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'history' -- list last 'history capacity' commands. All inputted commands stores in memory.history|N - set 'history capacity'" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'exit' -- exit from application" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'disconnect' -- disconnect from current database" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'connect|databaseName|userName|userPassword' -- connect to database (databaseName may be blank)" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'size|tableName' -- size of the table" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'createDatabase|databaseName' -- create new database" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID " + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)' -- create new table (type i.e. TEXT,INTEGER)" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'databases' -- list of databases" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'dropDatabase|databaseName' -- delete database" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'dropAllDatabases' -- delete all databases" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'dropTable|tableName' -- delete table" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'dropAllTables' -- delete all tables of current database" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'truncateAll' -- clear all tables" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'truncateTable|tableName' -- clear the table" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN' -- insert row in table" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN' -- update row in table with specific condition (mark digital columnNames as @columnName)" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'rows|tableName' -- list of rows in table" + MainController.LINE_SEPARATOR +"" +
+                        "\t\t'tables' -- list of tables in current database" + MainController.LINE_SEPARATOR +"" +
+                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR +"" +
+                        "Good bye!" + MainController.LINE_SEPARATOR +"", getData());
     }
 
     private String getData() {
@@ -312,7 +312,7 @@ public class IntegrationTest {
                 //insert row
                 "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: Must be 2 parameters in format size|tableName" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be 2 parameters in getCommandFormat size|tableName" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -348,7 +348,7 @@ public class IntegrationTest {
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: Must be 2 parameters in format size|tableName" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be 2 parameters in getCommandFormat size|tableName" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -505,7 +505,7 @@ public class IntegrationTest {
                         "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         // rows|table|sdfasf
-                        "Failure cause: Must be 2 parameters in format rows|tableName" + MainController.LINE_SEPARATOR + "" +
+                        "Failure cause: Must be 2 parameters in getCommandFormat rows|tableName" + MainController.LINE_SEPARATOR + "" +
                         "Try again" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //disconnect
@@ -916,7 +916,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|
-                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -944,7 +944,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName
-                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -982,7 +982,7 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow|tableName|id
-                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1010,7 +1010,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName|fgr|name|Ivan
-                "Failure cause: Must be not even parameters equal to or greater than 6 in format 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1166,7 +1166,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //deleteRow|
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1194,7 +1194,7 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //deleteRow|tableName
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1232,7 +1232,7 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //"deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa");
-                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

@@ -9,23 +9,22 @@ public class Databases extends AbstractCommand {
 
     public Databases(DatabaseManager manager, View view) {
         this.manager = manager;
-
         this.view = view;
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "list of databases";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "databases";
     }
 
     @Override
     public boolean canProcess(final String command) {
-        return command.equals(format());
+        return command.equals(getCommandFormat());
     }
 
     @Override

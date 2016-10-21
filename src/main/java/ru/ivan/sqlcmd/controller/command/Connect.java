@@ -4,25 +4,17 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class Connect extends AbstractCommand {
-    private final static Integer INDEX_DATABASE_NAME = 1;
-    private final static Integer INDEX_USER_NAME = 2;
-    private final static Integer INDEX_PASSWORD = 3;
 
     public Connect() {
     }
 
-    public Connect(final DatabaseManager manager, final View view) {
-        this.manager = manager;
-        this.view = view;
-    }
-
     @Override
-    public String description() {
+    public String getDescription() {
         return "connect to database (databaseName may be blank)";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "connect|databaseName|userName|userPassword";
     }
 
@@ -34,11 +26,15 @@ public class Connect extends AbstractCommand {
     @Override
     public void process(final String command) {
 
+        final int INDEX_DATABASE_NAME = 1;
+        final int INDEX_USER_NAME = 2;
+        final int INDEX_PASSWORD = 3;
+
         String[] data = command.split("[|]");
 
-        if (data.length != parametersLength(format())) {
+        if (data.length != parametersLength(getCommandFormat())) {
             throw new IllegalArgumentException(String.format("Number of parameters, splitting by '|' - %s. Expected - %s",
-                    data.length, parametersLength(format())));
+                    data.length, parametersLength(getCommandFormat())));
         }
         String database = data[INDEX_DATABASE_NAME];
         String user = data[INDEX_USER_NAME];

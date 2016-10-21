@@ -7,9 +7,8 @@ import java.util.Set;
 
 public class Tables extends AbstractCommand {
 
-
     @Override
-    public String description() {
+    public String getDescription() {
         return "list of tables in current database";
     }
 
@@ -17,7 +16,7 @@ public class Tables extends AbstractCommand {
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "tables";
     }
 
@@ -28,7 +27,7 @@ public class Tables extends AbstractCommand {
 
     @Override
     public boolean canProcess(final String command) {
-        return command.equals(format());
+        return command.equals(getCommandFormat());
     }
 
     @Override

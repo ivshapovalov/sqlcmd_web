@@ -3,13 +3,21 @@ package ru.ivan.sqlcmd.controller.command;
 import ru.ivan.sqlcmd.view.View;
 
 public class Unsupported extends AbstractCommand  {
-    @Override
-    public String description() {
-        return "unsupported operation";
+    public Unsupported() {
+
     }
 
     @Override
-    public String format() {
+    public String getDescription() {
+        return "unsupported operation";
+    }
+
+    public boolean showInHelp() {
+        return false;
+    }
+
+    @Override
+    public String getCommandFormat() {
         return "";
     }
 

@@ -4,23 +4,17 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class CreateTable extends AbstractCommand {
-    private final static Integer INDEX_DATABASE_NAME = 1;
 
-    CreateTable() {
-    }
-
-    public CreateTable(final DatabaseManager manager, final View view) {
-        this.manager = manager;
-        this.view = view;
+    public CreateTable() {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "create new table (type i.e. TEXT,INTEGER)";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)";
     }
 
@@ -31,9 +25,10 @@ public class CreateTable extends AbstractCommand {
 
     @Override
     public void process(final String command) {
+        final int INDEX_DATABASE_NAME = 1;
         String[] data = command.split("\\|");
-        if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '"+format()+"', but actual '" + command + "'");
+        if (data.length != parametersLength(getCommandFormat())) {
+            throw new IllegalArgumentException("Expected command getCommandFormat '"+ getCommandFormat()+"', but actual '" + command + "'");
         }
         manager.createTable(data[INDEX_DATABASE_NAME]);
         view.write(String.format("Table '%s' created successfully", data[1]));

@@ -6,7 +6,11 @@ public interface Command {
 
     void process(final String command);
 
-    String description();
+    String getDescription();
 
-    String format();
+    String getCommandFormat();
+
+    boolean showInHelp();
+
+
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Rows extends AbstractCommand {
-    private final static Integer INDEX_TABLE_NAME = 1;
 
     public Rows() {
     }
@@ -20,12 +19,12 @@ public class Rows extends AbstractCommand {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "list of rows in table";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "rows|tableName";
     }
 
@@ -36,10 +35,12 @@ public class Rows extends AbstractCommand {
 
     @Override
     public void process(final String command) {
+        final int INDEX_TABLE_NAME = 1;
+
         String[] data = command.split("[|]");
-        if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Must be " + parametersLength(format()) + " parameters" +
-                    " in format " + format());
+        if (data.length != parametersLength(getCommandFormat())) {
+            throw new IllegalArgumentException("Must be " + parametersLength(getCommandFormat()) + " parameters" +
+                    " in getCommandFormat " + getCommandFormat());
 
         }
         String table = data[INDEX_TABLE_NAME];

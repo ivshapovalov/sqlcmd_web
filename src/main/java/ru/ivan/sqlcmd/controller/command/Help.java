@@ -1,63 +1,65 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.view.View;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Help extends AbstractCommand {
 
-    private List<Command> commands;
-
-    public Help(final View view) {
-        this.view=view;
-        this.commands = new ArrayList<>(Arrays.asList(
-                new Connect(),
-                new CreateDatabase(),
-                new CreateTable(),
-                new Databases(),
-                new DeleteRow(),
-                new Disconnect(),
-                new DropTable(),
-                new DropAllTables(),
-                new DropDatabase(),
-                new DropAllDatabases(),
-                new Exit(),
-                this,
-                new History(),
-                new InsertRow(),
-                new Rows(),
-                new Size(),
-                new Tables(),
-                new TruncateAllTables(),
-                new TruncateTable(),
-                new UpdateRow()
-        ));
+    public Help() {
 
     }
 
-    @Override
-    public String description() {
-        return "list of all commands with description";
+    public List<Command> getCommands() {
+        List<Command> commands=
+                Arrays.asList(
+                        new Help(),
+                        new History(),
+                        new Exit(),
+                        new Disconnect(),
+                        new Connect(),
+                        new IsConnected(),
+                        new Size(),
+                        new CreateDatabase(),
+                        new DeleteRow(),
+                        new CreateTable(),
+                        new Databases(),
+                        new DropDatabase(),
+                        new DropAllDatabases(),
+                        new DropTable(),
+                        new DropAllTables(),
+                        new TruncateAllTables(),
+                        new TruncateTable(),
+                        new InsertRow(),
+                        new UpdateRow(),
+                        new Rows(),
+                        new Tables(),
+                        new Unsupported());
+        return commands;
     }
 
     @Override
-    public String format() {
+    public String getDescription() {
+        return "list of all commands with getDescription";
+    }
+
+    @Override
+    public String getCommandFormat() {
         return "help";
     }
 
     @Override
     public boolean canProcess(final String command) {
-        return command.equals(format());
+        return command.equals(getCommandFormat());
     }
 
     @Override
     public void process(final String command) {
-
+        List<Command> commands = getCommands();
         view.write("Existing program commands:");
         for (Command currentCommand : commands) {
-            view.write("\t\t" + "'" + currentCommand.format() + "'" + " -- " + currentCommand.description());
+            if (currentCommand.showInHelp()) {
+                view.write("\t\t" + "'" + currentCommand.getCommandFormat() + "'" + " -- " + currentCommand.getDescription());
+            }
         }
     }
 }

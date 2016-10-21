@@ -8,24 +8,20 @@ public class DropAllTables extends AbstractCommand {
     public DropAllTables() {
     }
 
-    public DropAllTables(final DatabaseManager manager, final View view) {
-        this.manager = manager;
-        this.view = view;
-    }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "delete all tables of current database";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "dropAllTables";
     }
 
     @Override
     public boolean canProcess(final String command) {
-        return command.startsWith(format());
+        return command.startsWith(getCommandFormat());
     }
 
     @Override

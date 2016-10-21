@@ -4,7 +4,6 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 public class TruncateTable extends AbstractCommand {
-    private final static Integer INDEX_TABLE_NAME = 1;
 
     public TruncateTable() {
     }
@@ -15,12 +14,12 @@ public class TruncateTable extends AbstractCommand {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "clear the table";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "truncateTable|tableName";
     }
 
@@ -32,9 +31,11 @@ public class TruncateTable extends AbstractCommand {
 
     @Override
     public void process(final String command) {
+        final int INDEX_TABLE_NAME = 1;
+
         String[] data = command.split("\\|");
-        if (data.length != parametersLength(format())) {
-            throw new IllegalArgumentException("Expected command format '" + format() + "', but actual '" + command + "'");
+        if (data.length != parametersLength(getCommandFormat())) {
+            throw new IllegalArgumentException("Expected command getCommandFormat '" + getCommandFormat() + "', but actual '" + command + "'");
         }
 
         confirmAndTruncateTable(data[INDEX_TABLE_NAME]);

@@ -8,26 +8,20 @@ public class TruncateAllTables extends AbstractCommand {
     public TruncateAllTables() {
     }
 
-    public TruncateAllTables(final DatabaseManager manager, final View view) {
-        this.manager = manager;
-
-        this.view = view;
-    }
-
     @Override
-    public String description() {
+    public String getDescription() {
         return "clear all tables";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "truncateAll";
     }
 
 
     @Override
     public boolean canProcess(final String command) {
-        return command.startsWith(format());
+        return command.startsWith(getCommandFormat());
     }
 
     @Override

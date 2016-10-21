@@ -8,30 +8,30 @@ import java.util.TreeMap;
 
 public class History extends AbstractCommand {
     private TreeMap<Integer, String> history;
-    private static Integer HISTORY_CAPACITY = 5;
+    private static Integer historyCapacity = 5;
     private final static Integer INDEX_NEW_CAPACITY = 1;
 
-    History() {
-    }
+    public History() {
 
-    public History(final View view, final TreeMap<Integer, String> history) {
-        this.view = view;
-        this.history = history;
     }
 
     @Override
-    public String description() {
-        return "list last 'history capacity' commands. All inputted commands stores in memory." + format() + "|N - set 'history capacity'";
+    public String getDescription() {
+        return "list last 'history capacity' commands. All inputted commands stores in memory." + getCommandFormat() + "|N - set 'history capacity'";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "history";
     }
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith(format());
+        return command.startsWith(getCommandFormat());
+    }
+
+    public void setHistory(TreeMap<Integer, String> history) {
+        this.history = history;
     }
 
     @Override
@@ -52,15 +52,15 @@ public class History extends AbstractCommand {
     private void setHistoryCapacity(final String[] data) {
         int id;
         id = Integer.parseInt(data[INDEX_NEW_CAPACITY]);
-        History.HISTORY_CAPACITY = id;
+        History.historyCapacity = id;
         view.write(String.format("Size of commands history set to '%s' ", id));
     }
 
     private void writeHistory() {
 
         SortedMap<Integer, String> tailMap = (SortedMap<Integer, String>) history.clone();
-        if (history.size() >= HISTORY_CAPACITY) {
-            tailMap = history.tailMap(history.size() - HISTORY_CAPACITY+1);
+        if (history.size() >= historyCapacity) {
+            tailMap = history.tailMap(history.size() - historyCapacity +1);
         }
 
         for (Map.Entry<Integer, String> entry : tailMap.entrySet()

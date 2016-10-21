@@ -8,24 +8,19 @@ public class Disconnect extends AbstractCommand {
     public Disconnect() {
     }
 
-    public Disconnect(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
-    }
-
     @Override
-    public String description() {
+    public String getDescription() {
         return "disconnect from current database";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "disconnect";
     }
 
     @Override
     public boolean canProcess(final String command) {
-        return command.startsWith(format());
+        return command.startsWith(getCommandFormat());
     }
 
     @Override

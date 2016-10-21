@@ -5,40 +5,28 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 public class MainController {
 
     public static final char LINE_SEPARATOR = '\n';
-    private final View view;
-    private final java.util.List<Command> commands;
+    private View view;
+    private List<Command> commands;
     private TreeMap<Integer, String> history = new TreeMap<>();
 
     public MainController(View view, DatabaseManager manager) {
+        commands=new Help().getCommands();
         this.view = view;
-        this.commands = Arrays.asList(
-                new Help(view),
-                new History(view, history),
-                new Exit(view),
-                new Disconnect(manager, view),
-                new Connect(manager, view),
-                new IsConnected(manager, view),
-                new Size(manager, view),
-                new CreateDatabase(manager, view),
-                new DeleteRow(manager, view),
-                new CreateTable(manager, view),
-                new Databases(manager, view),
-                new DropDatabase(manager, view),
-                new DropAllDatabases(manager, view),
-                new DropTable(manager, view),
-                new DropAllTables(manager, view),
-                new TruncateAllTables(manager, view),
-                new TruncateTable(manager, view),
-                new InsertRow(manager, view),
-                new UpdateRow(manager, view),
-                new Rows(manager, view),
-                new Tables(manager, view),
-                new Unsupported(view));
+        for ( Command command:commands
+             ) {
+            AbstractCommand abstractCommand=(AbstractCommand)command;
+            abstractCommand.setManager(manager);
+            abstractCommand.setView(view);
+            if (abstractCommand instanceof History) {
+                ((History)abstractCommand).setHistory(history);
+            }
+        }
     }
 
     public void run() {

@@ -7,24 +7,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InsertRow extends AbstractCommand {
-    private final static Integer INDEX_TABLE_NAME = 1;
 
-    InsertRow() {
-    }
-
-    public InsertRow(final DatabaseManager manager, final View view) {
-        this.manager = manager;
-
-        this.view = view;
+    public InsertRow() {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "insert row in table";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN";
     }
 
@@ -35,10 +28,12 @@ public class InsertRow extends AbstractCommand {
 
     @Override
     public void process(final String command) {
+        final int INDEX_TABLE_NAME = 1;
+
         String[] data = command.split("[|]");
         if (data.length % 2 == 1) {
             throw new IllegalArgumentException("Expect command parameters " +
-                    "в формате '" + format() + "'");
+                    "в формате '" + getCommandFormat() + "'");
 
         }
         String table = data[INDEX_TABLE_NAME];

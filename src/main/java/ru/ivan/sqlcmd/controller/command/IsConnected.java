@@ -5,18 +5,21 @@ import ru.ivan.sqlcmd.view.View;
 
 public class IsConnected extends AbstractCommand  {
 
-    public IsConnected(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+    public IsConnected() {
+
+    }
+
+    public boolean showInHelp() {
+        return false;
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "";
     }
 

@@ -19,11 +19,4 @@ public class Main {
                 MainController(new Console(), new PostgreSQLManager());
         controller.run();
     }
-
-
-
-
-
-
-
 }

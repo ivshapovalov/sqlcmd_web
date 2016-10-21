@@ -12,12 +12,12 @@ public class Exit extends AbstractCommand {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "exit from application";
     }
 
     @Override
-    public String format() {
+    public String getCommandFormat() {
         return "exit";
     }
 
