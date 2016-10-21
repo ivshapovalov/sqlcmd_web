@@ -99,7 +99,7 @@ public class IntegrationTest {
                         "\t\t'dropAllDatabases' -- delete all databases" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'exit' -- exit from application" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'help' -- list of all commands with description" + MainController.LINE_SEPARATOR + "" +
-                        "\t\t'history' -- list of last 'history capacity' inputted commands. history|N - set 'history capacity'" + MainController.LINE_SEPARATOR + "" +
+                        "\t\t'history' -- list last 'history capacity' commands. All inputted commands stores in memory.history|N - set 'history capacity'" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN' -- insert row in table" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'rows|tableName' -- list of rows in table" + MainController.LINE_SEPARATOR + "" +
                         "\t\t'size|tableName' -- size of the table" + MainController.LINE_SEPARATOR + "" +

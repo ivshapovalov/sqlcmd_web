@@ -21,7 +21,7 @@ public class History extends AbstractCommand {
 
     @Override
     public String description() {
-        return "list of last 'history capacity' inputted commands. " + format() + "|N - set 'history capacity'";
+        return "list last 'history capacity' commands. All inputted commands stores in memory." + format() + "|N - set 'history capacity'";
     }
 
     @Override

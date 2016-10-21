@@ -13,7 +13,7 @@ public class Tables extends AbstractCommand {
         return "list of tables in current database";
     }
 
-    private Tables() {
+    public Tables() {
     }
 
     @Override
