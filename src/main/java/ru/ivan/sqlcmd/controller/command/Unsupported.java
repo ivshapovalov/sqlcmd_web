@@ -1,9 +1,7 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.view.View;
-
-public class Unsupported extends AbstractCommand  {
-    public Unsupported() {
+class Unsupported extends AbstractCommand  {
+    Unsupported() {
 
     }
 
@@ -19,10 +17,6 @@ public class Unsupported extends AbstractCommand  {
     @Override
     public String getCommandFormat() {
         return "";
-    }
-
-    public Unsupported(View view) {
-        this.view = view;
     }
 
     @Override

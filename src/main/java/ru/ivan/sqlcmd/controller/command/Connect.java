@@ -1,11 +1,8 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.view.View;
+class Connect extends AbstractCommand {
 
-public class Connect extends AbstractCommand {
-
-    public Connect() {
+    Connect() {
     }
 
     @Override

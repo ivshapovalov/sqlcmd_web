@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.ivan.sqlcmd.Main;
 import ru.ivan.sqlcmd.controller.MainController;
+import ru.ivan.sqlcmd.controller.command.Command;
+import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.model.PropertiesLoader;
@@ -83,32 +85,21 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals(
-                "Hello, user" + MainController.LINE_SEPARATOR +"" +
-                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR +"" +
-                        "Existing program commands:" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'help' -- list of all commands with getDescription" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'history' -- list last 'history capacity' commands. All inputted commands stores in memory.history|N - set 'history capacity'" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'exit' -- exit from application" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'disconnect' -- disconnect from current database" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'connect|databaseName|userName|userPassword' -- connect to database (databaseName may be blank)" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'size|tableName' -- size of the table" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'createDatabase|databaseName' -- create new database" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'deleteRow|tableName|ID' -- delete from table row with specific ID " + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)' -- create new table (type i.e. TEXT,INTEGER)" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'databases' -- list of databases" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'dropDatabase|databaseName' -- delete database" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'dropAllDatabases' -- delete all databases" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'dropTable|tableName' -- delete table" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'dropAllTables' -- delete all tables of current database" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'truncateAll' -- clear all tables" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'truncateTable|tableName' -- clear the table" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN' -- insert row in table" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN' -- update row in table with specific condition (mark digital columnNames as @columnName)" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'rows|tableName' -- list of rows in table" + MainController.LINE_SEPARATOR +"" +
-                        "\t\t'tables' -- list of tables in current database" + MainController.LINE_SEPARATOR +"" +
-                        "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR +"" +
-                        "Good bye!" + MainController.LINE_SEPARATOR +"", getData());
+        StringBuilder Expected=new StringBuilder();
+        Expected.append("Hello, user").append(MainController.LINE_SEPARATOR)
+                .append("Input command or 'help' for assistance").append(MainController.LINE_SEPARATOR)
+                .append("Existing program commands:").append(MainController.LINE_SEPARATOR);
+
+        for (Command command:new Help().getCommands()
+             ) {
+            if (command.showInHelp()) {
+                Expected.append("\t\t").append("'").append(command.getCommandFormat()).append("'").append(" -- ").append(command.getDescription())
+                        .append(MainController.LINE_SEPARATOR);
+            }
+        }
+        Expected.append("Input command or 'help' for assistance").append(MainController.LINE_SEPARATOR)
+                .append("Good bye!").append(MainController.LINE_SEPARATOR);
+        assertEquals(Expected.toString(), getData());
     }
 
     private String getData() {

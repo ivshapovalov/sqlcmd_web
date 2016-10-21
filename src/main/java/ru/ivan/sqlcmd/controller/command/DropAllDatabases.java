@@ -1,11 +1,8 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.view.View;
+class DropAllDatabases extends AbstractCommand  {
 
-public class DropAllDatabases extends AbstractCommand  {
-
-    public DropAllDatabases() {
+    DropAllDatabases() {
     }
 
     @Override

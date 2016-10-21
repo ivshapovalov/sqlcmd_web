@@ -4,16 +4,15 @@ import ru.ivan.sqlcmd.controller.command.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.view.View;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
 public class MainController {
 
     public static final char LINE_SEPARATOR = '\n';
-    private View view;
-    private List<Command> commands;
-    private TreeMap<Integer, String> history = new TreeMap<>();
+    private final View view;
+    private final List<Command> commands;
+    private final TreeMap<Integer, String> history = new TreeMap<>();
 
     public MainController(View view, DatabaseManager manager) {
         commands=new Help().getCommands();

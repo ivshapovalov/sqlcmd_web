@@ -3,7 +3,6 @@ package ru.ivan.sqlcmd.model;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.varia.NullAppender;
 import org.junit.Test;
 import ru.ivan.sqlcmd.controller.MainController;
 

@@ -10,36 +10,35 @@ public class Help extends AbstractCommand {
     }
 
     public List<Command> getCommands() {
-        List<Command> commands=
-                Arrays.asList(
-                        new Help(),
-                        new History(),
-                        new Exit(),
-                        new Disconnect(),
-                        new Connect(),
-                        new IsConnected(),
-                        new Size(),
-                        new CreateDatabase(),
-                        new DeleteRow(),
-                        new CreateTable(),
-                        new Databases(),
-                        new DropDatabase(),
-                        new DropAllDatabases(),
-                        new DropTable(),
-                        new DropAllTables(),
-                        new TruncateAllTables(),
-                        new TruncateTable(),
-                        new InsertRow(),
-                        new UpdateRow(),
-                        new Rows(),
-                        new Tables(),
-                        new Unsupported());
-        return commands;
+         return Arrays.asList(
+                new Help(),
+                new History(),
+                new Exit(),
+                new Disconnect(),
+                new Connect(),
+                new IsConnected(),
+                new CreateDatabase(),
+                new CreateTable(),
+                new Databases(),
+                new DeleteRow(),
+                new DropAllDatabases(),
+                new DropAllTables(),
+                new DropDatabase(),
+                new DropTable(),
+                new InsertRow(),
+                new Rows(),
+                new Size(),
+                new Tables(),
+                new TruncateAllTables(),
+                new TruncateTable(),
+                new UpdateRow(),
+                new Unsupported()
+        );
     }
 
     @Override
     public String getDescription() {
-        return "list of all commands with getDescription";
+        return "list of all commands with description";
     }
 
     @Override

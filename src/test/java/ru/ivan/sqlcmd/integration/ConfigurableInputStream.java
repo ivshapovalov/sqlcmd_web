@@ -5,7 +5,7 @@ import ru.ivan.sqlcmd.controller.MainController;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ConfigurableInputStream extends InputStream {
+class ConfigurableInputStream extends InputStream {
 
     private String line;
     private boolean endLine = false;
@@ -31,7 +31,7 @@ public class ConfigurableInputStream extends InputStream {
         return (int) ch;
     }
 
-    public void add(String line) {
+    void add(String line) {
         if (this.line == null) {
             this.line = line;
         } else {

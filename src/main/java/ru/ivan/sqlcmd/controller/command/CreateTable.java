@@ -1,11 +1,8 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.view.View;
+class CreateTable extends AbstractCommand {
 
-public class CreateTable extends AbstractCommand {
-
-    public CreateTable() {
+    CreateTable() {
     }
 
     @Override

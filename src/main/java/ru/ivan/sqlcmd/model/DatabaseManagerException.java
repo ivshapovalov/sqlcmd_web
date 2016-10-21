@@ -1,11 +1,11 @@
 package ru.ivan.sqlcmd.model;
 
-public class DatabaseManagerException extends RuntimeException {
-    public DatabaseManagerException(String message, Throwable cause) {
+class DatabaseManagerException extends RuntimeException {
+    DatabaseManagerException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DatabaseManagerException(String message) {
+    DatabaseManagerException(String message) {
         super(message);
     }
 }

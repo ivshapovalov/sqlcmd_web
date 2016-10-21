@@ -1,14 +1,11 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.view.View;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class InsertRow extends AbstractCommand {
+class InsertRow extends AbstractCommand {
 
-    public InsertRow() {
+    InsertRow() {
     }
 
     @Override

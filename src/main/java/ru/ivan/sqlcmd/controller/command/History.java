@@ -1,7 +1,5 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.view.View;
-
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -11,7 +9,7 @@ public class History extends AbstractCommand {
     private static Integer historyCapacity = 5;
     private final static Integer INDEX_NEW_CAPACITY = 1;
 
-    public History() {
+    History() {
 
     }
 

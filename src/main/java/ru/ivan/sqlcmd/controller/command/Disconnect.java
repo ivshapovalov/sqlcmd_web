@@ -1,11 +1,8 @@
 package ru.ivan.sqlcmd.controller.command;
 
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.view.View;
+class Disconnect extends AbstractCommand {
 
-public class Disconnect extends AbstractCommand {
-
-    public Disconnect() {
+    Disconnect() {
     }
 
     @Override

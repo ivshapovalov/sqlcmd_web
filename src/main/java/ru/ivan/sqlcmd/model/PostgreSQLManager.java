@@ -262,7 +262,7 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    public Object getColumnType(final String tableName, final String conditionColumnName, final String conditionColumnValue) {
+    private Object getColumnType(final String tableName, final String conditionColumnName, final String conditionColumnValue) {
         String dataType = "";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT column_name,data_type FROM information_schema.columns"

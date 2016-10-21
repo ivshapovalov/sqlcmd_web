@@ -7,7 +7,7 @@ public abstract class AbstractCommand implements Command {
     DatabaseManager manager;
     View view;
 
-    protected final int parametersLength(final String COMMAND_SAMPLE) {
+    final int parametersLength(final String COMMAND_SAMPLE) {
         return COMMAND_SAMPLE.split("[|]").length;
     }
 
@@ -28,6 +28,6 @@ public abstract class AbstractCommand implements Command {
         this.view = view;
     }
 
-    public AbstractCommand() {
+    AbstractCommand() {
     }
 }
