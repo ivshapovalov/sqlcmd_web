@@ -25,7 +25,7 @@ public class InsertRow extends AbstractCommand {
 
     @Override
     public String format() {
-        return "insertRow|tableName|column1|value1|column2|value2|...|columnN|valueN";
+        return "insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN";
     }
 
     @Override

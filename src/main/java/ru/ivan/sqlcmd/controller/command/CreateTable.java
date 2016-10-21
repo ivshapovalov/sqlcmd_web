@@ -16,12 +16,12 @@ public class CreateTable extends AbstractCommand {
 
     @Override
     public String description() {
-        return "create new table";
+        return "create new table (type i.e. TEXT,INTEGER)";
     }
 
     @Override
     public String format() {
-        return "createTable|tableName(column1 type, column2 type,...columnN type)";
+        return "createTable|tableName(columnName1 type, columnName2 type,...columnNameN type)";
     }
 
     @Override

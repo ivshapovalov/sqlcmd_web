@@ -10,6 +10,8 @@ public class UpdateRow extends AbstractCommand {
     private final static Integer INDEX_TABLE_NAME = 1;
     private final static Integer INDEX_CONDITION_COLUMN_NAME = 2;
     private final static Integer INDEX_CONDITION_COLUMN_VALUE = 3;
+    private final static Integer INDEX_DIGITAL_MARK = 0;
+    private static final String DIGITAL_MARK = "@";
 
     UpdateRow() {
     }
@@ -22,12 +24,12 @@ public class UpdateRow extends AbstractCommand {
 
     @Override
     public String description() {
-        return "update row with specific ID in table";
+        return "update row in table with specific condition (mark digital columnNames as @columnName)";
     }
 
     @Override
     public String format() {
-        return "updateRow|tableName|columnCondition|valueCondition|columnToSet1|valueToSet1|...|columnToSetN|valueToSetN";
+        return "updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN";
     }
 
     @Override
@@ -38,23 +40,19 @@ public class UpdateRow extends AbstractCommand {
     @Override
     public void process(final String command) {
         String[] data = command.split("[|]");
-        if (data.length % 2 != 0 || data.length <=5) {
+        if (data.length % 2 != 0 || data.length <= 5) {
             throw new IllegalArgumentException("Must be not even parameters equal to or greater than 6 " +
-                    "in format '"+format()+"'");
+                    "in format '" + format() + "'");
 
         }
         String tableName = data[INDEX_TABLE_NAME];
-        String conditionColumnName=data[INDEX_CONDITION_COLUMN_NAME];
-        String conditionColumnValue=data[INDEX_CONDITION_COLUMN_VALUE];
-//        int id;
-//        try {
-//            id = Integer.parseInt(data[INDEX_CONDITION_COLUMN_NAME]);
-//        } catch (NumberFormatException e) {
-//            throw new IllegalArgumentException(String.valueOf(INDEX_CONDITION_COLUMN_NAME + 1) + " parameter must be numeric!");
-//        }
+        String conditionColumnName = data[INDEX_CONDITION_COLUMN_NAME];
+        if (conditionColumnName.charAt(INDEX_DIGITAL_MARK) == DIGITAL_MARK.charAt(INDEX_DIGITAL_MARK)) {
+            conditionColumnName = conditionColumnName.substring(INDEX_DIGITAL_MARK+1);
+        }
+        String conditionColumnValue = data[INDEX_CONDITION_COLUMN_VALUE];
         Map<String, Object> tableData = extractTableDataFromParameters(data);
-
-        manager.updateRow(tableName, conditionColumnName,conditionColumnValue, tableData);
+        manager.updateRow(tableName, conditionColumnName, conditionColumnValue, tableData);
 
         view.write(String.format("Update row '%s' in table '%s' successfully", tableData, tableName));
     }
@@ -63,9 +61,20 @@ public class UpdateRow extends AbstractCommand {
         int parametersCount = data.length / 2 - 2;
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int i = 1; i <= parametersCount; i++) {
-            String column = data[i * 2+2];
-            String value = data[i * 2 + 3];
-            tableData.put(column, value);
+            String columnName = data[i * 2 + 2];
+            String valueString = data[i * 2 + 3];
+            Object value;
+            if (columnName.charAt(INDEX_DIGITAL_MARK) == DIGITAL_MARK.charAt(INDEX_DIGITAL_MARK)) {
+                columnName = columnName.substring(INDEX_DIGITAL_MARK+1);
+                try {
+                    value = Integer.valueOf(valueString);
+                } catch (NumberFormatException e) {
+                    value = valueString;
+                }
+            } else {
+                value = valueString;
+            }
+            tableData.put(columnName, value);
         }
         return tableData;
     }

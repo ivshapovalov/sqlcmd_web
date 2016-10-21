@@ -7,12 +7,13 @@ import java.util.Set;
 
 public class Tables extends AbstractCommand {
 
+
     @Override
     public String description() {
         return "list of tables in current database";
     }
 
-    public Tables() {
+    private Tables() {
     }
 
     @Override

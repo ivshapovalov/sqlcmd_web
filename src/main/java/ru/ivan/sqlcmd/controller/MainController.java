@@ -84,9 +84,9 @@ public class MainController {
 
     private void increaseInputHistory(int historySize, String input) {
         history.put(historySize, input);
-        if (history.size() > History.HISTORY_CAPACITY) {
-            history.pollFirstEntry();
-        }
+//        if (history.size() > History.HISTORY_CAPACITY) {
+//            history.pollFirstEntry();
+//        }
     }
 
     private String checkHistoryInput(String input) {
