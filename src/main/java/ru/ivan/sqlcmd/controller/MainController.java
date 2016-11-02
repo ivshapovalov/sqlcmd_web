@@ -82,15 +82,14 @@ public class MainController {
             String newInput = history.get(historyIndex);
             if (newInput != null) {
                 view.write(newInput);
+                return newInput;
             } else {
                 view.write(String.format("Index '%s' does not exist in command history", historyIndex));
             }
         } catch (NumberFormatException e) {
-            //ввели не число
             return input;
         }
-        return null;
-
+        return input;
     }
 
     private void printError(Exception e) {

@@ -18,14 +18,6 @@ public class PropertiesLoader {
             System.out.println("Error loading config " + CONFIG_SQLCMD_PROPERTIES);
             e.printStackTrace();
         }
-//        Properties logProperties = new Properties();
-//        try ( InputStream in= PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_LOG4J_PROPERTIES)) {
-//            logProperties.load(in);
-//        } catch (Exception e) {
-//            System.out.println("Error loading config "+CONFIG_LOG4J_PROPERTIES);
-//            e.printStackTrace();
-//        }
-
     }
 
     public String getServerName() {

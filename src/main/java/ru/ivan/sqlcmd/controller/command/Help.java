@@ -10,7 +10,8 @@ public class Help extends AbstractCommand {
     }
 
     public List<Command> getCommands() {
-         return Arrays.asList(
+        return Arrays.asList(
+
                 new Help(),
                 new History(),
                 new Exit(),
@@ -32,7 +33,8 @@ public class Help extends AbstractCommand {
                 new TruncateAllTables(),
                 new TruncateTable(),
                 new UpdateRow(),
-                new Unsupported()
+                new Unsupported(),
+                new HistoryCommand()
         );
     }
 
