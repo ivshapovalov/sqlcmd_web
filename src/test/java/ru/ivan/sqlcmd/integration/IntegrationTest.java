@@ -303,7 +303,7 @@ public class IntegrationTest {
                 //insert row
                 "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: Must be 2 parameters in getCommandFormat size|tableName" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be 2 parameters in format size|tableName" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -339,7 +339,7 @@ public class IntegrationTest {
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: Must be 2 parameters in getCommandFormat size|tableName" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be 2 parameters in format size|tableName" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -497,7 +497,8 @@ public class IntegrationTest {
                         "Insert row '{id=1111, name=Peter, password=****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         // rows|table|sdfasf
-                        "Failure cause: Must be 2 parameters in getCommandFormat rows|tableName" + MainController.LINE_SEPARATOR + "" +
+                        "Failure cause: Must be 2 parameters in format rows|tableName" + MainController
+                        .LINE_SEPARATOR + "" +
                         "Try again" + MainController.LINE_SEPARATOR + "" +
                         "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                         //disconnect
@@ -637,7 +638,9 @@ public class IntegrationTest {
                 //connect
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: Cannot insert a row into a table '" + NOT_EXIST_TABLE + "'.  Table does not exists" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Cannot insert a row into a table '" + NOT_EXIST_TABLE + "'. "+
+                "Table or column does not exists."
+                + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -671,7 +674,8 @@ public class IntegrationTest {
                 "Table '" + TABLE_TEST1 + "' cleared successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow
-                "Failure cause: Cannot insert a row into a table '" + TABLE_TEST1 + "'. Столбец \"id5\" в таблице \"" + TABLE_TEST1 + "\" не существует" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Cannot insert a row into a table '" + TABLE_TEST1 + "'. "+
+                "Table or column does not exists." + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -705,7 +709,8 @@ public class IntegrationTest {
                 "Table '" + TABLE_TEST1 + "' cleared successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow|
-                "Failure cause: Expect command parameters в формате 'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expect command parameters in format " +
+                "'insertRow|tableName|columnName1|value1|columnName2|value2|...|columnNameN|valueN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -853,7 +858,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|notExistTable
-                "Failure cause: It is not possible to update a record with 'id'=14 in table 'notexisttable'. Table does not exists" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: It is not possible to update a record with 'id'=14 in table 'notexisttable'. Table or" +
+                " column does not exists." + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -880,7 +886,9 @@ public class IntegrationTest {
                 //connect
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
-                "Failure cause: It is not possible to update a record with 'id'=14 in table '" + TABLE_TEST1 + "'.Столбец \"nam\" в таблице \"" + TABLE_TEST1 + "\" не существует" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: It is not possible to update a record with 'id'=14 in table '" + TABLE_TEST1 + "'. " +
+                "Table or column does not exists."
+                + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -908,7 +916,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|
-                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format " +
+                "'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -936,7 +945,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName
-                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format " +
+                "'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -974,7 +984,8 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //insertRow|tableName|id
-                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format " +
+                "'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1002,7 +1013,9 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //updateRow|tableName|fgr|name|Ivan
-                "Failure cause: Must be not even parameters equal to or greater than 6 in getCommandFormat 'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|...|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Must be not even parameters equal to or greater than 6 in format " +
+                "'updateRow|tableName|columnNameCondition|valueCondition|columnNameToSet1|valueToSet1|..." +
+                "|columnNameToSetN|valueToSetN'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1130,7 +1143,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //deletRow|notExistTable
-                "Failure cause: It is not possible to delete a record with id=13 in table '" + NOT_EXIST_TABLE + "'. Table does not exists" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: It is not possible to delete a record with id=13 in table '" + NOT_EXIST_TABLE +"'. "+
+                "Table or column does not exists." + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1158,7 +1172,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //deleteRow|
-                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|'" +
+                MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1186,7 +1201,8 @@ public class IntegrationTest {
                 "Connecting to database '" + DB_TEST1 + "' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //deleteRow|tableName
-                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|" +
+                TABLE_TEST1 + "'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect
@@ -1224,7 +1240,8 @@ public class IntegrationTest {
                 "Insert row '{id=13, name=Stiven, password=*****}' into table '" + TABLE_TEST1 + "' successfully" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //"deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa");
-                "Failure cause: Expected command getCommandFormat 'deleteRow|tableName|ID', but actual 'deleteRow|" + TABLE_TEST1 + "|13|adsf|asdfa'" + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Expected command format 'deleteRow|tableName|ID', but actual 'deleteRow|" +
+                TABLE_TEST1 + "|13|adsf|asdfa'" + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

@@ -32,7 +32,8 @@ public class TruncateTableTest {
             fail();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Expected command getCommandFormat 'truncateTable|tableName', but actual 'truncateTable'", e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable'", e.getMessage
+                    ());
         }
     }
 
@@ -58,7 +59,8 @@ public class TruncateTableTest {
             fail();
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Expected command getCommandFormat 'truncateTable|tableName', but actual 'truncateTable|users|qwe'", e.getMessage());
+            assertEquals("Expected command format 'truncateTable|tableName', but actual 'truncateTable|users|qwe'", e
+                    .getMessage());
         }
     }
 

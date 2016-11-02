@@ -182,7 +182,8 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getTableNames() {
         Set<String> tables = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'")) {
+             ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE" +
+                     " table_schema='public' AND table_type='BASE TABLE'")) {
             while (rs.next()) {
                 tables.add(rs.getString("table_name"));
             }
@@ -221,15 +222,8 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            String message = String.format("Cannot insert a row into a table '%s'. ",
+            String message = String.format("Cannot insert a row into a table '%s'. Table or column does not exists.",
                     tableName);
-            String originalMessage = e.getMessage();
-            if (originalMessage.contains("отношение")) {
-                message = message.concat(" Table does not exists");
-            } else if (originalMessage.contains("столбец")) {
-                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
-            }
             throw new DatabaseManagerException(message);
         }
     }
@@ -249,15 +243,9 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            String message = String.format("It is not possible to update a record with '%s'=%s in table '%s'.",
+            String message = String.format("It is not possible to update a record with '%s'=%s in table '%s'. " +
+                    "Table or column does not exists.",
                     conditionColumnName,conditionColumnValue, tableName);
-            String originalMessage = e.getMessage();
-            if (originalMessage.contains("отношение")) {
-                message = message.concat(" Table does not exists");
-            } else if (originalMessage.contains("столбец")) {
-                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
-            }
             throw new DatabaseManagerException(message);
         }
     }
@@ -266,7 +254,8 @@ public class PostgreSQLManager implements DatabaseManager {
         String dataType = "";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT column_name,data_type FROM information_schema.columns"
-                     + "  WHERE table_schema = 'public' AND table_name = '" + tableName + "' AND column_name='" + conditionColumnName + "'")) {
+                     + "  WHERE table_schema = 'public' AND table_name = '" + tableName + "' AND column_name='"
+                     + conditionColumnName + "'")) {
             while (rs.next()) {
                 dataType = rs.getString("data_type");
             }
@@ -291,15 +280,9 @@ public class PostgreSQLManager implements DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            String message = String.format("It is not possible to delete a record with id=%s in table '%s'.",
+            String message = String.format("It is not possible to delete a record with id=%s in table '%s'." +
+                    " Table or column does not exists.",
                     id, tableName);
-            String originalMessage = e.getMessage();
-            if (originalMessage.contains("отношение")) {
-                message = message.concat(" Table does not exists");
-            } else if (originalMessage.contains("столбец")) {
-                message = message.concat("С").concat(originalMessage.substring(originalMessage.indexOf(":") + 3,
-                        originalMessage.indexOf(MainController.LINE_SEPARATOR)));
-            }
             throw new DatabaseManagerException(message);
         }
     }
@@ -308,7 +291,8 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getTableColumns(final String tableName) {
         Set<String> tables = new LinkedHashSet<>();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
+                     "AND table_name = '" + tableName + "'")) {
             while (rs.next()) {
                 tables.add(rs.getString("column_name"));
             }
