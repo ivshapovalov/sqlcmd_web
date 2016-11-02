@@ -26,7 +26,8 @@ class DropTable extends AbstractCommand  {
 
         String[] data = command.split("\\|");
         if (data.length != parametersLength(getCommandFormat())) {
-            throw new IllegalArgumentException("Expected command getCommandFormat '" + getCommandFormat() + "', but actual '" + command + "'");
+            throw new IllegalArgumentException("Expected command format '" + getCommandFormat() + "', but actual '" +
+                    command + "'");
         }
         confirmAndDropTable(data[INDEX_TABLE_NAME]);
     }

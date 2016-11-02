@@ -40,7 +40,7 @@ public class Rows extends AbstractCommand {
         String[] data = command.split("[|]");
         if (data.length != parametersLength(getCommandFormat())) {
             throw new IllegalArgumentException("Must be " + parametersLength(getCommandFormat()) + " parameters" +
-                    " in getCommandFormat " + getCommandFormat());
+                    " in format " + getCommandFormat());
 
         }
         String table = data[INDEX_TABLE_NAME];

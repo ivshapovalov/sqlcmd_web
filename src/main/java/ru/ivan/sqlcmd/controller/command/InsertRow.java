@@ -30,7 +30,7 @@ class InsertRow extends AbstractCommand {
         String[] data = command.split("[|]");
         if (data.length % 2 == 1) {
             throw new IllegalArgumentException("Expect command parameters " +
-                    "в формате '" + getCommandFormat() + "'");
+                    "in format '" + getCommandFormat() + "'");
 
         }
         String table = data[INDEX_TABLE_NAME];

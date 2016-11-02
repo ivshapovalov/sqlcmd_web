@@ -402,7 +402,8 @@ public class IntegrationTest {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Failure cause: Unable to connect to database '" + DB_TEST1 + "', user 'postgres', password 'postgresWRONG' Ошибка при попытке подсоединения." + MainController.LINE_SEPARATOR + "" +
+                "Failure cause: Unable to connect to database '" + DB_TEST1 + "', user '"+DB_USER+"', password '"
+                +DB_PASSWORD+"WRONG' Ошибка при попытке подсоединения." + MainController.LINE_SEPARATOR + "" +
                 "Try again" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //disconnect

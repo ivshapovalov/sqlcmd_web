@@ -25,7 +25,8 @@ class CreateDatabase extends AbstractCommand {
         final int INDEX_DATABASE_NAME = 1;
         String[] data = command.split("\\|");
         if (data.length != parametersLength(getCommandFormat())) {
-            throw new IllegalArgumentException("Expected command getCommandFormat '" + getCommandFormat() + "', but actual '" + command + "'");
+            throw new IllegalArgumentException("Expected command format '" + getCommandFormat() + "', but actual '" +
+                    command + "'");
         }
         manager.createDatabase(data[INDEX_DATABASE_NAME]);
 

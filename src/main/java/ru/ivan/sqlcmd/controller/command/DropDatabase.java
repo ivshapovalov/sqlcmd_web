@@ -26,7 +26,8 @@ class DropDatabase extends AbstractCommand  {
 
         String[] data = command.split("\\|");
         if (data.length != parametersLength(getCommandFormat())) {
-            throw new IllegalArgumentException("Expected command getCommandFormat '" + getCommandFormat() + "', but actual '" + command + "'");
+            throw new IllegalArgumentException("Expected command format '" + getCommandFormat() + "', but actual '" +
+                    command + "'");
         }
         confirmAndDropDatabase(data[INDEX_DATABASE_NAME]);
     }
