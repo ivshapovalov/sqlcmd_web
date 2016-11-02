@@ -6,11 +6,15 @@
 
     <properties>
         <module.name>SqlCmd</module.name>
+        <project.build.sourceEncodings>UTF-8</project.build.sourceEncodings>
     </properties>
 
     <groupId>ru.ivan.sqlcmd</groupId>
     <artifactId>sql-cmd</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
+    <name>sqlcmd</name>
+    <description>sqlcmd description</description>
 
     <dependencies>
         <dependency>
