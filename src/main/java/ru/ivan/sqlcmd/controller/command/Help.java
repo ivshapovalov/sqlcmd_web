@@ -11,7 +11,6 @@ public class Help extends AbstractCommand {
 
     public List<Command> getCommands() {
         return Arrays.asList(
-
                 new Help(),
                 new History(),
                 new Exit(),
