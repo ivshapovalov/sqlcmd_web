@@ -28,6 +28,10 @@ public class PropertiesLoader {
         return appProperties.getProperty("database.port");
     }
 
+    public String getDatabaseName() {
+        return appProperties.getProperty("database.name");
+    }
+
     public String getDriver() {
         return appProperties.getProperty("database.jdbc.driver");
     }
@@ -39,6 +43,7 @@ public class PropertiesLoader {
     public String getPassword() {
         return appProperties.getProperty("database.user.password");
     }
+
 
 
 }

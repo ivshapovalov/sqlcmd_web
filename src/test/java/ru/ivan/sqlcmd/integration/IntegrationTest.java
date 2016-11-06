@@ -32,6 +32,8 @@ public class IntegrationTest {
             " password VARCHAR (50) NOT NULL)";
 
     private static final PropertiesLoader pl = new PropertiesLoader();
+
+    private static final String DB_NAME = pl.getDatabaseName();
     private static final String DB_USER = pl.getUserName();
     private static final String DB_PASSWORD = pl.getPassword();
 
@@ -42,7 +44,7 @@ public class IntegrationTest {
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_TEST1);
         manager.dropDatabase(DB_TEST2);
 
@@ -60,7 +62,7 @@ public class IntegrationTest {
     public static void clearAfterAllTests() {
 
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_TEST1);
         manager.dropDatabase(DB_TEST2);
     }

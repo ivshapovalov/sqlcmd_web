@@ -23,6 +23,7 @@ public class IntegrationTestCreateDropTruncate {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
+    private static final String DB_DEFAULT = pl.getDatabaseName();
 
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
@@ -30,7 +31,7 @@ public class IntegrationTestCreateDropTruncate {
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_DEFAULT, DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_TEST1);
         manager.createDatabase(DB_TEST1);
         manager.disconnect();
@@ -38,7 +39,7 @@ public class IntegrationTestCreateDropTruncate {
 
     @AfterClass
     public static void clearAfterAllTests() {
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_DEFAULT, DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_TEST1);
         manager.dropDatabase(DB_TEST2);
         manager.disconnect();
@@ -53,7 +54,7 @@ public class IntegrationTestCreateDropTruncate {
         System.setIn(in);
         System.setOut(new PrintStream(out));
 
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_DEFAULT, DB_USER, DB_PASSWORD);
         manager.dropDatabase(DB_TEST1);
         manager.createDatabase(DB_TEST1);
         manager.disconnect();
@@ -73,7 +74,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testCreateAndDropDatabase() {
         // given
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + DB_TEST2);
         in.add("y");
         in.add("createDatabase|" + DB_TEST2);
@@ -91,7 +92,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
                 "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
@@ -125,7 +126,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test @Ignore ("Тест удаляет ВСЕ базы данных")
     public void testCreateAndDropAllDatabases() {
         // given
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + DB_TEST2);
         in.add("y");
         in.add("createDatabase|" + DB_TEST2);
@@ -143,7 +144,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase|test1
                 "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
@@ -176,7 +177,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testDropCurrentDatabase() {
         // given
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|" + DB_TEST2);
         in.add("y");
         in.add("createDatabase|" + DB_TEST2);
@@ -194,7 +195,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase
                 "Do you wish to delete database '" + DB_TEST2 + "'. Y/N?" + MainController.LINE_SEPARATOR + "" +
@@ -317,7 +318,7 @@ public class IntegrationTestCreateDropTruncate {
     @Test
     public void testTruncateWithError() {
         // given
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("truncateTable|sadfasd|fsf|fdsf");
         in.add("disconnect");
         in.add("exit");
@@ -329,7 +330,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //truncateTable|sadfasd|fsf|fdsf
                 "Failure cause: Expected command format 'truncateTable|tableName', but actual " +
@@ -382,7 +383,7 @@ public class IntegrationTestCreateDropTruncate {
     public void testCreateDatabaseWithIllegalParameters() {
         // given
 
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("createDatabase|");
         in.add("disconnect");
         in.add("exit");
@@ -394,7 +395,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //createDatabase|
                 "Failure cause: Expected command format 'createDatabase|databaseName', but actual 'createDatabase|'" +
@@ -412,7 +413,7 @@ public class IntegrationTestCreateDropTruncate {
     public void testDropDatabaseWithoutParameters() {
         // given
 
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropDatabase|");
         in.add("disconnect");
         in.add("exit");
@@ -424,7 +425,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropDatabase|
                 "Failure cause: Expected command format 'dropDatabase|databaseName', but actual 'dropDatabase|'" +
@@ -442,7 +443,7 @@ public class IntegrationTestCreateDropTruncate {
     public void testDropTableWithoutParameters() {
         // given
 
-        in.add("connect|" + "" + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_DEFAULT + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("dropTable|");
         in.add("disconnect");
         in.add("exit");
@@ -454,7 +455,7 @@ public class IntegrationTestCreateDropTruncate {
         assertEquals("Hello, user" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //connect
-                "Connecting to database '' is successful" + MainController.LINE_SEPARATOR + "" +
+                "Connecting to database '"+ DB_DEFAULT +"' is successful" + MainController.LINE_SEPARATOR + "" +
                 "Input command or 'help' for assistance" + MainController.LINE_SEPARATOR + "" +
                 //dropTable|
                 "Failure cause: Expected command format 'dropTable|tableName', but actual 'dropTable|'" + MainController
