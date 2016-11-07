@@ -6,6 +6,11 @@ class HistoryCommand extends AbstractCommand {
     }
 
     @Override
+    public boolean showInHelp() {
+        return false;
+    }
+
+    @Override
     public String getDescription() {
         return " command from history by number";
     }
