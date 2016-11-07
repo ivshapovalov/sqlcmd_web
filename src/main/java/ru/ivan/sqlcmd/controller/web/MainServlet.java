@@ -77,6 +77,10 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("insertrow.jsp").forward(req, resp);
         } else if (action.startsWith("/createdatabase")) {
             req.getRequestDispatcher("createdatabase.jsp").forward(req, resp);
+        } else if (action.startsWith("/database")) {
+            String databaseName = req.getParameter("database");
+            req.setAttribute("databaseName", databaseName);
+            req.getRequestDispatcher("database.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
@@ -137,6 +141,21 @@ public class MainServlet extends HttpServlet {
                     req.getRequestDispatcher("message.jsp").forward(req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect database name. Try again!");
+                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                }
+            }
+        } else if (action.startsWith("/dropdatabase")) {
+            String databaseName = req.getParameter("database");
+
+            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+            if (manager != null) {
+                try {
+                    manager.dropDatabase(databaseName);
+                    req.setAttribute("message", String.format("Database '%s' dropped successfully!",databaseName));
+                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                } catch (Exception e) {
+                    req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
+                            databaseName));
                     req.getRequestDispatcher("error.jsp").forward(req, resp);
                 }
             }
