@@ -5,14 +5,23 @@
     <title>sqlcmd help</title>
 </head>
 <body>
-<table border="1">
+<table border="1" >
+    <tr>
+        <td >
+            <b>FORMAT</b>
+        </td>
+        <td w>
+            <b>DESCRIPTION</b>
+        </td>
+    </tr>
     <c:forEach items="${commands}" var="row">
         <tr>
-            <c:forEach items="${row}" var="column">
-            <td>
-                ${column}
+            <td >
+                    ${row[0]}
             </td>
-            </c:forEach>
+            <td >
+                    ${row[1]}
+            </td>
         </tr>
     </c:forEach>
 </table>
