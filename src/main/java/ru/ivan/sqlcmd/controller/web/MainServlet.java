@@ -45,7 +45,7 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/menu") || action.equals("/")) {
-            req.setAttribute("items", service.commandsList());
+            req.setAttribute("items", service.mainMenuList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
 
         } else if (action.startsWith("/help")) {
@@ -55,6 +55,9 @@ public class MainServlet extends HttpServlet {
             String tableName = req.getParameter("table");
             req.setAttribute("table", service.rows(manager, tableName));
             req.getRequestDispatcher("rows.jsp").forward(req, resp);
+        } else if (action.startsWith("/tables")) {
+            req.setAttribute("tables", service.tables(manager));
+            req.getRequestDispatcher("tables.jsp").forward(req, resp);
 
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
