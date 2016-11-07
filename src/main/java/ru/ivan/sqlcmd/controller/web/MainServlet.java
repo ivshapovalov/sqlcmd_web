@@ -75,7 +75,8 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("tableName", tableName);
             req.setAttribute("columns", service.tableColumns(manager, tableName));
             req.getRequestDispatcher("insertrow.jsp").forward(req, resp);
-
+        } else if (action.startsWith("/createdatabase")) {
+            req.getRequestDispatcher("createdatabase.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
@@ -125,8 +126,20 @@ public class MainServlet extends HttpServlet {
                     req.getRequestDispatcher("error.jsp").forward(req, resp);
                 }
             }
+        } else if (action.startsWith("/createdatabase")) {
+            String databaseName = req.getParameter("database");
 
-
+            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+            if (manager != null) {
+                try {
+                    manager.createDatabase(databaseName);
+                    req.setAttribute("message", "New database created successfully!");
+                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                } catch (Exception e) {
+                    req.setAttribute("message", "Incorrect database name. Try again!");
+                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                }
+            }
         }
     }
 
