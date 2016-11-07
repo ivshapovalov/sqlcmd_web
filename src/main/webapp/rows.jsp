@@ -24,5 +24,7 @@
         </table>
     </form>
         <a href="tables">tables</a><br>
+    <%@include file="footer.jsp" %>
+
     </body>
 </html>

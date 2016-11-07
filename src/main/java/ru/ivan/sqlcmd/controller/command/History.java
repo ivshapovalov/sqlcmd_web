@@ -14,6 +14,11 @@ public class History extends AbstractCommand {
     }
 
     @Override
+    public boolean showInHelp() {
+        return false;
+    }
+
+    @Override
     public String getDescription() {
         return "list last 'history capacity' commands. All inputted commands stores in memory." + getCommandFormat() + "|N - set 'history capacity'";
     }
