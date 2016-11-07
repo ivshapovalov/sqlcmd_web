@@ -10,7 +10,7 @@
         <tr>
 
             <td>
-                <a href="/sqlcmd/rows?table=${table}">${table}</a><br>
+                <a href="rows?table=${table}">${table}</a><br>
 
             </td>
 

@@ -49,6 +49,7 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
 
         } else if (action.startsWith("/help")) {
+            req.setAttribute("commands", service.help());
             req.getRequestDispatcher("help.jsp").forward(req, resp);
 
         } else if (action.startsWith("/rows")) {
