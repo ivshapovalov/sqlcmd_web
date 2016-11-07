@@ -298,7 +298,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' columns",
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' tableColumns",
                     tableName),
                     e);
         }

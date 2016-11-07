@@ -5,6 +5,8 @@
         <title>SQLCmd</title>
     </head>
     <body>
+    <form action="insertrow" method="get" >
+        <input type="hidden" name="table" value=${tableName} />
         <table border="1">
             <c:forEach items="${table}" var="row">
                 <tr>
@@ -15,7 +17,12 @@
                     </c:forEach>
                 </tr>
             </c:forEach>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="insert row"/></td>
+            </tr>
         </table>
+    </form>
         <a href="tables">tables</a><br>
     </body>
 </html>
