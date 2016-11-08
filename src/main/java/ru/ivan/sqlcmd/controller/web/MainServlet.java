@@ -68,6 +68,20 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("id", id);
             req.setAttribute("table", service.row(manager, tableName,id));
             req.getRequestDispatcher("row.jsp").forward(req, resp);
+        } else if (action.startsWith("/deleterow")) {
+            String tableName = req.getParameter("table");
+            int id= Integer.valueOf(req.getParameter("id"));
+
+            try {
+                manager.deleteRow(tableName,id);
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!",id,
+                        tableName));
+                req.getRequestDispatcher("message.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!",id,
+                        tableName));
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
 
         } else if (action.startsWith("/tables")) {
             req.setAttribute("tables", service.tables(manager));

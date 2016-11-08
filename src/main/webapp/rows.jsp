@@ -11,6 +11,7 @@
             <c:forEach items="${table}" var="row">
                 <tr>
                     <td> <a href="row?table=${tableName}&id=${row[0]}">edit</a><br></td>
+                    <td> <a href="deleterow?table=${tableName}&id=${row[0]}">delete</a><br></td>
                     <c:forEach items="${row}" var="element">
                         <td>
                             ${element}
