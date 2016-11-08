@@ -8,6 +8,7 @@
 <table border="1">
     <c:forEach items="${tables}" var="table">
         <tr>
+            <td> <a href="droptable?table=${table[0]}">delete</a><br></td>
             <td>
                 <a href="rows?table=${table[0]}">${table[0]}</a><br>
             </td>

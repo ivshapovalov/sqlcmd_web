@@ -63,23 +63,35 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("rows.jsp").forward(req, resp);
         } else if (action.startsWith("/row")) {
             String tableName = req.getParameter("table");
-            int id= Integer.valueOf(req.getParameter("id"));
+            int id = Integer.valueOf(req.getParameter("id"));
             req.setAttribute("tableName", tableName);
             req.setAttribute("id", id);
-            req.setAttribute("table", service.row(manager, tableName,id));
+            req.setAttribute("table", service.row(manager, tableName, id));
             req.getRequestDispatcher("row.jsp").forward(req, resp);
         } else if (action.startsWith("/deleterow")) {
             String tableName = req.getParameter("table");
-            int id= Integer.valueOf(req.getParameter("id"));
+            int id = Integer.valueOf(req.getParameter("id"));
 
             try {
-                manager.deleteRow(tableName,id);
-                req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!",id,
+                manager.deleteRow(tableName, id);
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
                         tableName));
                 req.getRequestDispatcher("message.jsp").forward(req, resp);
             } catch (Exception e) {
-                req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!",id,
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
                         tableName));
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        } else if (action.startsWith("/droptable")) {
+            String tableName = req.getParameter("table");
+
+            try {
+                manager.dropTable(tableName);
+                req.setAttribute("message", String.format("Table '%s' dropped successfully!",
+                        tableName));
+                req.getRequestDispatcher("message.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
 
@@ -129,7 +141,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-               } else if (action.startsWith("/insertrow")) {
+        } else if (action.startsWith("/insertrow")) {
             String tableName = req.getParameter("table");
 
             DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
@@ -153,7 +165,7 @@ public class MainServlet extends HttpServlet {
             }
         } else if (action.startsWith("/updaterow")) {
             String tableName = req.getParameter("tableName");
-            int id= Integer.valueOf(req.getParameter("id"));
+            int id = Integer.valueOf(req.getParameter("id"));
 
             DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
             if (manager != null) {
@@ -166,8 +178,8 @@ public class MainServlet extends HttpServlet {
                 }
                 row.remove("id");
                 try {
-                    manager.updateRow(tableName,"id",String.valueOf(id), row);
-                    req.setAttribute("message", String.format("Row with id='%s' updated successfully!",id));
+                    manager.updateRow(tableName, "id", String.valueOf(id), row);
+                    req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
                     req.getRequestDispatcher("message.jsp").forward(req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect data. Try again!");
@@ -196,7 +208,7 @@ public class MainServlet extends HttpServlet {
             if (manager != null) {
                 try {
                     manager.dropDatabase(databaseName);
-                    req.setAttribute("message", String.format("Database '%s' dropped successfully!",databaseName));
+                    req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
                     req.getRequestDispatcher("message.jsp").forward(req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
