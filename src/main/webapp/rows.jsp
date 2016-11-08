@@ -6,10 +6,11 @@
     </head>
     <body>
     <form action="insertrow" method="get" >
-        <input type="hidden" name="table" value=${tableName} />
+        <input type="hidden" name="tableName" value=${tableName} />
         <table border="1">
             <c:forEach items="${table}" var="row">
                 <tr>
+                    <td> <a href="row?table=${tableName}&id=${row[0]}">edit</a><br></td>
                     <c:forEach items="${row}" var="element">
                         <td>
                             ${element}

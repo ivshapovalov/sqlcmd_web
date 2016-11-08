@@ -229,6 +229,26 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
+    public Map<String, Object> getRow(final String tableName, int id) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        String sql = String.format("SELECT * FROM %s where id=%s", tableName,id);
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs= statement.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while (rs.next()) {
+                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
+                    result.put(rsmd.getColumnName(index), rs.getObject(index));
+                }
+            }
+            return result;
+        } catch (SQLException e) {
+            String message = String.format("Cannot insert a row into a table '%s'. Table or column does not exists.",
+                    tableName);
+            throw new DatabaseManagerException(message);
+        }
+    }
+
+    @Override
     public void updateRow(final String tableName, final String conditionColumnName, String conditionColumnValue, final Map<String, Object> newRow) {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
         String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE "+conditionColumnName+" = ?");

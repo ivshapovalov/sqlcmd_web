@@ -20,6 +20,8 @@ public interface DatabaseManager {
 
     void insertRow(String tableName, Map<String, Object> newRow);
 
+    Map<String, Object> getRow(final String tableName, int id);
+
     boolean isConnected();
 
     void updateRow(String tableName, String conditionColumnName,String conditionColumnValue, Map<String, Object> newRow);

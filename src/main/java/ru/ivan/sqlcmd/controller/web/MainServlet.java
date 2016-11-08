@@ -61,6 +61,13 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("tableName", tableName);
             req.setAttribute("table", service.rows(manager, tableName));
             req.getRequestDispatcher("rows.jsp").forward(req, resp);
+        } else if (action.startsWith("/row")) {
+            String tableName = req.getParameter("table");
+            int id= Integer.valueOf(req.getParameter("id"));
+            req.setAttribute("tableName", tableName);
+            req.setAttribute("id", id);
+            req.setAttribute("table", service.row(manager, tableName,id));
+            req.getRequestDispatcher("row.jsp").forward(req, resp);
 
         } else if (action.startsWith("/tables")) {
             req.setAttribute("tables", service.tables(manager));
@@ -108,7 +115,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-        } else if (action.startsWith("/insertrow")) {
+               } else if (action.startsWith("/insertrow")) {
             String tableName = req.getParameter("table");
 
             DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
@@ -130,6 +137,30 @@ public class MainServlet extends HttpServlet {
                     req.getRequestDispatcher("error.jsp").forward(req, resp);
                 }
             }
+        } else if (action.startsWith("/updaterow")) {
+            String tableName = req.getParameter("tableName");
+            int id= Integer.valueOf(req.getParameter("id"));
+
+            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+            if (manager != null) {
+                List<String> columnNames = service.tableColumns(manager, tableName);
+                Map<String, Object> row = new HashMap<>();
+                for (String columnName : columnNames
+                        ) {
+                    String parameter = req.getParameter(columnName);
+                    row.put(columnName, parameter);
+                }
+                row.remove("id");
+                try {
+                    manager.updateRow(tableName,"id",String.valueOf(id), row);
+                    req.setAttribute("message", String.format("Row with id='%s' updated successfully!",id));
+                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                } catch (Exception e) {
+                    req.setAttribute("message", "Incorrect data. Try again!");
+                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                }
+            }
+
         } else if (action.startsWith("/createdatabase")) {
             String databaseName = req.getParameter("database");
 
