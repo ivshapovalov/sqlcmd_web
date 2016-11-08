@@ -6,9 +6,7 @@
     </head>
     <body>
         <form action="insertrow?table=${tableName}" method="post">
-
             <table>
-
                 <c:forEach items="${columns}" var="column">
                     <tr>
                         <td>
