@@ -6,7 +6,7 @@
     </head>
     <body>
     <form action="insertrow" method="get" >
-        <input type="hidden" name="tableName" value=${tableName} />
+        <input type="hidden" name="table" value=${tableName} />
         <table border="1">
             <c:forEach items="${table}" var="row">
                 <tr>

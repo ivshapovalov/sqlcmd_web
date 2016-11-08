@@ -94,6 +94,17 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
+        } else if (action.startsWith("/truncatetable")) {
+            String tableName = req.getParameter("table");
+            try {
+                manager.truncateTable(tableName);
+                req.setAttribute("message", String.format("Table '%s' truncated successfully!",
+                        tableName));
+                req.getRequestDispatcher("message.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
 
         } else if (action.startsWith("/tables")) {
             req.setAttribute("tables", service.tables(manager));
