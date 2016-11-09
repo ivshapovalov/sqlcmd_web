@@ -7,6 +7,8 @@ import ru.ivan.sqlcmd.controller.MainController;
 import java.sql.*;
 import java.util.*;
 
+@Component
+@Scope(value = "prototype")
 public class PostgreSQLManager implements DatabaseManager {
 
     private Connection connection;

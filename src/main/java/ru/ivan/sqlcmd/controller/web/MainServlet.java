@@ -192,7 +192,7 @@ public class MainServlet extends HttpServlet {
                 }
                 row.remove("id");
                 try {
-                    service.updateRow(manager, tableName, "id", String.valueOf(id), row);
+                    service.updateRow(manager, tableName, "id", id, row);
                     req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
                     jsp("message",req, resp);
                 } catch (Exception e) {

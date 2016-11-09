@@ -35,7 +35,7 @@ public interface Service {
 
     void insertRow(DatabaseManager manager, String tableName, Map<String, Object> row);
 
-    void updateRow(DatabaseManager manager, String tableName, String id, String s, Map<String, Object> row);
+    void updateRow(DatabaseManager manager, String tableName, String idColumn, int idValue, Map<String, Object> row);
 
     void createDatabase(DatabaseManager manager,String databaseName);
 

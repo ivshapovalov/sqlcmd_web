@@ -8,10 +8,8 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 
 import java.util.*;
 @Component
-public class ServiceImpl implements Service {
-
-    @Autowired
-    private DatabaseManagerFactory factory;
+public abstract class ServiceImpl implements Service {
+    public abstract DatabaseManager getManager();
 
     @Override
     public List<String> getMainMenu() {
@@ -41,7 +39,8 @@ public class ServiceImpl implements Service {
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
-        DatabaseManager manager= factory.createDatabaseManager();
+
+        DatabaseManager manager= getManager();
         manager.connect(databaseName, userName, password);
         return manager;
     }
@@ -69,8 +68,8 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void updateRow(DatabaseManager manager, String tableName, String id, String s, Map<String, Object> row) {
-        manager.updateRow(tableName, "id", String.valueOf(id), row);
+    public void updateRow(DatabaseManager manager, String tableName, String idColumn, int idValue, Map<String, Object> row) {
+        manager.updateRow(tableName, idColumn, String.valueOf(idValue), row);
 
     }
 

@@ -6,8 +6,8 @@
 </head>
 <body>
 <form action="updaterow" method="post">
-    <input type="hidden" name="tableName" value=${tableName} />
-    <input type="hidden" name="id" value=${id} />
+    <input type="hidden" name="tableName" value=${tableName}>
+    <input type="hidden" name="id" value=${id}>
     <table border="1">
             <c:forEach items="${table}" var="column">
                 <tr>
