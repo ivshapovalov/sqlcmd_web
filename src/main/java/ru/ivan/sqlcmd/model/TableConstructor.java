@@ -1,8 +1,6 @@
 package ru.ivan.sqlcmd.model;
 
-import org.nocrala.tools.texttablefmt.BorderStyle;
-import org.nocrala.tools.texttablefmt.ShownBorders;
-import org.nocrala.tools.texttablefmt.Table;
+import ru.ivan.sqlcmd.controller.MainController;
 
 import java.util.List;
 import java.util.Map;
@@ -11,18 +9,20 @@ import java.util.Set;
 public class TableConstructor {
 
     private Set<String> columns;
-    private Table table;
+
     private List<Map<String, Object>> tableData;
+
+    private StringBuilder table;
 
     public TableConstructor(Set<String> columns, List<Map<String, Object>> tableData) {
         this.columns = columns;
         this.tableData = tableData;
-        table = new Table(columns.size(), BorderStyle.CLASSIC, ShownBorders.ALL);
+        this.table=new StringBuilder();
     }
 
     public String getTableString() {
         build();
-        return table.render();
+        return table.toString();
     }
 
     private void build() {
@@ -32,8 +32,9 @@ public class TableConstructor {
 
     private void buildHeader() {
         for (String column : columns) {
-            table.addCell(column);
+            table.append(column).append("|");
         }
+        table.append(MainController.LINE_SEPARATOR);
     }
 
     private void buildRows() {
@@ -45,8 +46,10 @@ public class TableConstructor {
                 } else {
                     strValue = "";
                 }
-                table.addCell(strValue);
+                table.append(strValue).append("|");
+
             }
+            table.append(MainController.LINE_SEPARATOR);
         }
     }
 }

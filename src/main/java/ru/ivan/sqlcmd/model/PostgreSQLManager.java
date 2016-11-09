@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.MainController;
 
 import java.sql.*;
@@ -318,7 +320,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' tableColumns",
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' getTableColumns",
                     tableName),
                     e);
         }
