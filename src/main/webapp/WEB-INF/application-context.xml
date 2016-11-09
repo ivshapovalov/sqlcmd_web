@@ -14,4 +14,9 @@
         <!--<property name="service" ref="dummy"/>-->
     <!--</bean>-->
 
+    <bean id="databaseManagerFactory" class="ru.ivan.sqlcmd.service.DatabaseManagerFactoryImpl">
+    <property name="className" value="ru.ivan.sqlcmd.model.PostgreSQLManager"/>
+    </bean>
+
+
 </beans>

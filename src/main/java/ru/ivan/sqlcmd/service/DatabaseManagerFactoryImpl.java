@@ -5,19 +5,18 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 
 
-@Component(value = "factory")
 public class DatabaseManagerFactoryImpl implements DatabaseManagerFactory {
 
     private String className;
 
     @Override
     public DatabaseManager createDatabaseManager() {
-//        try {
-//            return (DatabaseManager)Class.forName(className).newInstance();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-        return new PostgreSQLManager();
+        try {
+            return (DatabaseManager)Class.forName(className).newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        //return new PostgreSQLManager();
 
     }
 
