@@ -9,15 +9,6 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="ru.ivan.sqlcmd"/>
-
-    <!--<bean id="serviceFactory" class="ru.ivan.sqlcmd.service.ServiceFactory">-->
-        <!--<property name="service" ref="dummy"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="databaseManagerFactory" class="ru.ivan.sqlcmd.service.DatabaseManagerFactoryImpl">-->
-    <!--<property name="className" value="ru.ivan.sqlcmd.model.PostgreSQLManager"/>-->
-    <!--</bean>-->
-
     <bean id="service" class="ru.ivan.sqlcmd.service.ServiceImpl">
         <lookup-method name="getManager" bean="postgreSQLManager"/>
     </bean>

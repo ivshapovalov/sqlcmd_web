@@ -5,6 +5,10 @@
     <title>SQLCmd</title>
 </head>
 <body>
+<B>
+    ROWS OF TABLE ${tableName}
+</B>
+<br><br>
 <form action="insertrow" method="get">
     <input type="hidden" name="table" value=${tableName}>
     <table border="1">
@@ -35,11 +39,10 @@
             </tr>
             <c:set var="x" value="${x+1}"></c:set>
         </c:forEach>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="insert row"/></td>
-        </tr>
     </table>
+    <br>
+<input type="submit" value="insert row"/>
+
 </form>
 <a href="tables">tables</a><br>
 <%@include file="footer.jsp" %>

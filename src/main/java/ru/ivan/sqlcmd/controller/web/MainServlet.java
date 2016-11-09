@@ -2,6 +2,7 @@ package ru.ivan.sqlcmd.controller.web;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
@@ -18,7 +19,6 @@ import java.util.Map;
 
 public class MainServlet extends HttpServlet {
 
-    @Autowired
     private Service service;
 
     @Override

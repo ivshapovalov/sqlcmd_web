@@ -1,13 +1,11 @@
 package ru.ivan.sqlcmd.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
 import java.util.*;
-@Component
+
 public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 

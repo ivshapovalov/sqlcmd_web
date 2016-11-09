@@ -5,6 +5,8 @@
     <title>sqlcmd databases</title>
 </head>
 <body>
+<b>DATABASES</b>
+<br><br>
 <form action="createdatabase" method="get">
     <table border="1">
         <c:forEach items="${databases}" var="database">
@@ -14,8 +16,10 @@
                 </td>
             </tr>
         </c:forEach>
-        <td><input type="submit" value="create new"/></td>
+
     </table>
+    <BR>
+    <input type="submit" value="create new"/>
 </form>
 <%@include file="footer.jsp" %>
 </body>

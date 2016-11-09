@@ -5,6 +5,8 @@
     <title>sqlcmd Tables</title>
 </head>
 <body>
+<B>TABLES</B>
+<br><br>
 <table border="1">
     <c:forEach items="${tables}" var="table">
         <tr>
