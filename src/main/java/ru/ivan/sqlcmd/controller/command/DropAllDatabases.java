@@ -7,7 +7,7 @@ class DropAllDatabases extends AbstractCommand  {
 
     @Override
     public String getDescription() {
-        return "delete all getDatabases";
+        return "delete all databases";
     }
 
     @Override
@@ -26,10 +26,10 @@ class DropAllDatabases extends AbstractCommand  {
     }
 
     private void confirmAndDropAllDatabases() {
-        view.write("Do you wish to delete all getDatabases? Y/N");
+        view.write("Do you wish to delete all databases? Y/N");
         if (view.read().equalsIgnoreCase("y")) {
             manager.dropAllDatabases();
-            view.write("All getDatabases  deleted successfully");
+            view.write("All databases  deleted successfully");
         }
     }
 }

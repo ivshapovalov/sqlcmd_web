@@ -156,7 +156,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return databases;
         } catch (SQLException e) {
-            throw new DatabaseManagerException("It is not possible to obtain the list of getDatabases", e);
+            throw new DatabaseManagerException("It is not possible to obtain the list of databases", e);
 
         }
     }
@@ -176,7 +176,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is not possible to list table '%s' getRows", tableName), e);
+            throw new DatabaseManagerException(String.format("It is not possible to list table '%s' rows", tableName), e);
         }
     }
 
@@ -191,7 +191,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException | NullPointerException e) {
-            throw new DatabaseManagerException("It is not possible to list all getTables", e);
+            throw new DatabaseManagerException("It is not possible to list all tables", e);
         }
     }
 
@@ -224,7 +224,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            String message = String.format("Cannot insert a getRow into a table '%s'. Table or column does not exists.",
+            String message = String.format("Cannot insert a row into a table '%s'. Table or column does not exists.",
                     tableName);
             throw new DatabaseManagerException(message);
         }
@@ -244,7 +244,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            String message = String.format("Cannot insert a getRow into a table '%s'. Table or column does not exists.",
+            String message = String.format("Cannot insert a row into a table '%s'. Table or column does not exists.",
                     tableName);
             throw new DatabaseManagerException(message);
         }

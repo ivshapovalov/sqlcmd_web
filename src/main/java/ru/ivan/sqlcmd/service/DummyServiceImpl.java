@@ -19,7 +19,7 @@ public class DummyServiceImpl implements Service {
 
 
     @Override
-    public List<String> getDatabases(DatabaseManager manager) {
+    public List<String> databases(DatabaseManager manager) {
         return null;
     }
 
@@ -29,17 +29,17 @@ public class DummyServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> getRows(DatabaseManager manager, String tableName) {
+    public List<List<String>> rows(DatabaseManager manager, String tableName) {
         return null;
     }
 
     @Override
-    public List<List<String>> getRow(DatabaseManager manager, String TableName, Integer id) {
+    public List<List<String>> row(DatabaseManager manager, String TableName, Integer id) {
         return null;
     }
 
     @Override
-    public List<List<String>> getTables(DatabaseManager manager) {
+    public List<List<String>> tables(DatabaseManager manager) {
         return null;
     }
 

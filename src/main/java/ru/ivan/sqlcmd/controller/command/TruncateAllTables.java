@@ -7,7 +7,7 @@ class TruncateAllTables extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "clear all getTables";
+        return "clear all tables";
     }
 
     @Override
@@ -29,13 +29,13 @@ class TruncateAllTables extends AbstractCommand {
 
     private void confirmAndTruncateAllTables() {
         try {
-            view.write("Do you wish to clear all getTables?. Y/N");
+            view.write("Do you wish to clear all tables?. Y/N");
             if (view.read().equalsIgnoreCase("y")) {
                 manager.truncateAllTables();
-                view.write("All getTables cleared successfully");
+                view.write("All tables cleared successfully");
             }
         } catch (Exception e) {
-            view.write(String.format("Error while deleting all getTables. Cause: '%s'", e.getMessage()));
+            view.write(String.format("Error while deleting all tables. Cause: '%s'", e.getMessage()));
         }
     }
 }

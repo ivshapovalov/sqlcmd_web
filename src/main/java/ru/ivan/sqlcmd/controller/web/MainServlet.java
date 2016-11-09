@@ -38,41 +38,41 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/connect")) {
             if (manager == null) {
-                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+                jsp("connect",req,resp);
             } else {
-                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+                redirect("menu",resp);
             }
             return;
         }
 
         if (manager == null) {
-            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+            redirect("connect",resp);
             return;
         }
         if (action.startsWith("/disconnect")) {
             manager = service.disconnect();
             req.getSession().setAttribute("db_manager", manager);
-            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+            redirect("connect",resp);
         } else if (action.startsWith("/menu") || action.equals("/")) {
             req.setAttribute("items", service.getMainMenu());
-            req.getRequestDispatcher("menu.jsp").forward(req, resp);
+            jsp("menu",req, resp);
 
         } else if (action.startsWith("/help")) {
             req.setAttribute("commands", service.help());
-            req.getRequestDispatcher("help.jsp").forward(req, resp);
+            jsp("help",req, resp);
 
-        } else if (action.startsWith("/getRows")) {
+        } else if (action.startsWith("/rows")) {
             String tableName = req.getParameter("table");
             req.setAttribute("tableName", tableName);
-            req.setAttribute("table", service.getRows(manager, tableName));
-            req.getRequestDispatcher("getRows.jsp").forward(req, resp);
-        } else if (action.startsWith("/getRow")) {
+            req.setAttribute("table", service.rows(manager, tableName));
+            jsp("rows",req, resp);
+        } else if (action.startsWith("/row")) {
             String tableName = req.getParameter("table");
             int id = Integer.valueOf(req.getParameter("id"));
             req.setAttribute("tableName", tableName);
             req.setAttribute("id", id);
-            req.setAttribute("table", service.getRow(manager, tableName, id));
-            req.getRequestDispatcher("getRow.jsp").forward(req, resp);
+            req.setAttribute("table", service.row(manager, tableName, id));
+            jsp("row",req, resp);
         } else if (action.startsWith("/deleterow")) {
             String tableName = req.getParameter("table");
             int id = Integer.valueOf(req.getParameter("id"));
@@ -81,11 +81,11 @@ public class MainServlet extends HttpServlet {
                 service.deleteRow(manager,tableName, id);
                 req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
                         tableName));
-                req.getRequestDispatcher("message.jsp").forward(req, resp);
+                jsp("message",req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
                         tableName));
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                jsp("error",req, resp);
             }
         } else if (action.startsWith("/droptable")) {
             String tableName = req.getParameter("table");
@@ -94,10 +94,10 @@ public class MainServlet extends HttpServlet {
                 service.dropTable(manager, tableName);
                 req.setAttribute("message", String.format("Table '%s' dropped successfully!",
                         tableName));
-                req.getRequestDispatcher("message.jsp").forward(req, resp);
+                jsp("message",req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                jsp("error",req, resp);
             }
         } else if (action.startsWith("/truncatetable")) {
             String tableName = req.getParameter("table");
@@ -105,33 +105,33 @@ public class MainServlet extends HttpServlet {
                 service.truncateTable(manager, tableName);
                 req.setAttribute("message", String.format("Table '%s' truncated successfully!",
                         tableName));
-                req.getRequestDispatcher("message.jsp").forward(req, resp);
+                jsp("message",req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                jsp("error",req, resp);
             }
 
-        } else if (action.startsWith("/getTables")) {
-            req.setAttribute("getTables", service.getTables(manager));
-            req.getRequestDispatcher("getTables.jsp").forward(req, resp);
+        } else if (action.startsWith("/tables")) {
+            req.setAttribute("tables", service.tables(manager));
+            jsp("tables",req, resp);
 
-        } else if (action.startsWith("/getDatabases")) {
-            req.setAttribute("getDatabases", service.getDatabases(manager));
-            req.getRequestDispatcher("getDatabases.jsp").forward(req, resp);
+        } else if (action.startsWith("/databases")) {
+            req.setAttribute("databases", service.databases(manager));
+            jsp("databases",req, resp);
 
         } else if (action.startsWith("/insertrow")) {
             String tableName = req.getParameter("table");
             req.setAttribute("tableName", tableName);
             req.setAttribute("columns", service.getTableColumns(manager, tableName));
-            req.getRequestDispatcher("insertrow.jsp").forward(req, resp);
+            jsp("insertrow",req, resp);
         } else if (action.startsWith("/createdatabase")) {
-            req.getRequestDispatcher("createdatabase.jsp").forward(req, resp);
+            jsp("createdatabase",req, resp);
         } else if (action.startsWith("/database")) {
             String databaseName = req.getParameter("database");
             req.setAttribute("databaseName", databaseName);
-            req.getRequestDispatcher("database.jsp").forward(req, resp);
+            jsp("database",req, resp);
         } else {
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
+            jsp("error",req, resp);
         }
     }
 
@@ -152,10 +152,10 @@ public class MainServlet extends HttpServlet {
             try {
                 DatabaseManager manager = service.connect(databaseName, userName, password);
                 req.getSession().setAttribute("db_manager", manager);
-                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+                redirect("menu",resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                jsp("error",req, resp);
             }
         } else if (action.startsWith("/insertrow")) {
             String tableName = req.getParameter("table");
@@ -170,11 +170,11 @@ public class MainServlet extends HttpServlet {
                 }
                 try {
                     service.insertRow(manager, tableName, row);
-                    req.setAttribute("message", "New getRow inserted successfully!");
-                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                    req.setAttribute("message", "New row inserted successfully!");
+                    jsp("message",req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect data. Try again!");
-                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                    jsp("error",req, resp);
                 }
             }
         } else if (action.startsWith("/updaterow")) {
@@ -194,10 +194,10 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.updateRow(manager, tableName, "id", String.valueOf(id), row);
                     req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
-                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                    jsp("message",req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect data. Try again!");
-                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                    jsp("error",req, resp);
                 }
             }
 
@@ -209,10 +209,10 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.createDatabase(manager,databaseName);
                     req.setAttribute("message", "New database created successfully!");
-                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                    jsp("message",req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect database name. Try again!");
-                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                    jsp("error",req, resp);
                 }
             }
         } else if (action.startsWith("/dropdatabase")) {
@@ -223,14 +223,20 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.dropDatabase(manager,databaseName);
                     req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
-                    req.getRequestDispatcher("message.jsp").forward(req, resp);
+                    jsp("message",req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
                             databaseName));
-                    req.getRequestDispatcher("error.jsp").forward(req, resp);
+                    jsp("error",req, resp);
                 }
             }
         }
     }
+    private void jsp(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher(jsp + ".jsp").forward(request, response);
+    }
 
+    private void redirect(String url, HttpServletResponse response) throws IOException {
+        response.sendRedirect(response.encodeRedirectURL(url));
+    }
 }

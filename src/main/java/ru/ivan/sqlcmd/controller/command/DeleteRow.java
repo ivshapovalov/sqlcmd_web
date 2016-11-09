@@ -7,7 +7,7 @@ class DeleteRow extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "delete from table getRow with specific ID ";
+        return "delete from table row with specific ID ";
     }
 
     @Override
@@ -38,6 +38,6 @@ class DeleteRow extends AbstractCommand {
             throw new IllegalArgumentException(String.valueOf(INDEX_DELETING_ROW_ID + 1) + " parameter must be numeric!");
         }
         manager.deleteRow(tableName, id);
-        view.write(String.format("Delete getRow '%s' from table '%s' successfully", id, tableName));
+        view.write(String.format("Delete row '%s' from table '%s' successfully", id, tableName));
     }
 }

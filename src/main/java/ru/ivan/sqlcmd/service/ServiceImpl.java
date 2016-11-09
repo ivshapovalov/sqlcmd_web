@@ -15,7 +15,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> getMainMenu() {
-        return Arrays.asList("help", "menu", "connect", "getDatabases", "getTables", "disconnect");
+        return Arrays.asList("help", "menu", "connect", "databases", "tables", "disconnect");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> getRows(DatabaseManager manager, String tableName) {
+    public List<List<String>> rows(DatabaseManager manager, String tableName) {
         List<List<String>> result = new LinkedList<>();
 
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
@@ -105,7 +105,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> getRow(DatabaseManager manager, String tableName, Integer id) {
+    public List<List<String>> row(DatabaseManager manager, String tableName, Integer id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
@@ -120,7 +120,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> getTables(DatabaseManager manager) {
+    public List<List<String>> tables(DatabaseManager manager) {
         List<String> tableNames = new LinkedList<>(manager.getTableNames());
         List<List<String>> tablesWithSize = new LinkedList<>();
         for (String tableName : tableNames
@@ -134,7 +134,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<String> getDatabases(DatabaseManager manager) {
+    public List<String> databases(DatabaseManager manager) {
         return new LinkedList<>(manager.getDatabasesNames());
     }
 

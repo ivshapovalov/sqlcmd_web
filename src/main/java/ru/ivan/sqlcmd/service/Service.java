@@ -14,15 +14,15 @@ public interface Service {
 
     DatabaseManager disconnect();
 
-    List<List<String>> getRows(DatabaseManager manager, String tableName);
+    List<List<String>> rows(DatabaseManager manager, String tableName);
 
-    List<List<String>> getRow(DatabaseManager manager, String TableName, Integer id);
+    List<List<String>> row(DatabaseManager manager, String TableName, Integer id);
 
-    List<List<String>> getTables(DatabaseManager manager);
+    List<List<String>> tables(DatabaseManager manager);
 
     List<String> getTableColumns(DatabaseManager manager, String tableName);
 
-    List<String> getDatabases(DatabaseManager manager);
+    List<String> databases(DatabaseManager manager);
 
     
     List<List<String>> help();

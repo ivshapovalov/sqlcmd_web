@@ -14,12 +14,12 @@ public class Databases extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "list of getDatabases";
+        return "list of databases";
     }
 
     @Override
     public String getCommandFormat() {
-        return "getDatabases";
+        return "databases";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Databases extends AbstractCommand {
 
     @Override
     public void process(final String command) {
-        view.write("***Existing getDatabases***");
+        view.write("***Existing databases***");
         for (String database : manager.getDatabasesNames()) {
             view.write(database);
         }

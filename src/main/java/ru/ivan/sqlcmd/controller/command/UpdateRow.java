@@ -21,7 +21,7 @@ public class UpdateRow extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "update getRow in table with specific condition (mark digital columnNames as @columnName)";
+        return "update row in table with specific condition (mark digital columnNames as @columnName)";
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UpdateRow extends AbstractCommand {
         Map<String, Object> tableData = extractTableDataFromParameters(data);
         manager.updateRow(tableName, conditionColumnName, conditionColumnValue, tableData);
 
-        view.write(String.format("Update getRow '%s' in table '%s' successfully", tableData, tableName));
+        view.write(String.format("Update row '%s' in table '%s' successfully", tableData, tableName));
     }
 
     private Map<String, Object> extractTableDataFromParameters(final String[] data) {

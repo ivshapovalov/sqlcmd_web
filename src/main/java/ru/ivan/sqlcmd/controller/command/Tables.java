@@ -9,7 +9,7 @@ public class Tables extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "list of getTables in current database";
+        return "list of tables in current database";
     }
 
     public Tables() {
@@ -17,7 +17,7 @@ public class Tables extends AbstractCommand {
 
     @Override
     public String getCommandFormat() {
-        return "getTables";
+        return "tables";
     }
 
     public Tables(DatabaseManager manager, View view) {

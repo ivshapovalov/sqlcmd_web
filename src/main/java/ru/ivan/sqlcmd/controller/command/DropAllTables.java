@@ -8,7 +8,7 @@ class DropAllTables extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "delete all getTables of current database";
+        return "delete all tables of current database";
     }
 
     @Override
@@ -28,13 +28,13 @@ class DropAllTables extends AbstractCommand {
 
     private void confirmAndDropAllTables() {
         try {
-            view.write("Do you wish to delete all getTables? Y/N");
+            view.write("Do you wish to delete all tables? Y/N");
             if (view.read().equalsIgnoreCase("y")) {
                 manager.dropAllTables();
-                view.write("All getTables deleted successfully");
+                view.write("All tables deleted successfully");
             }
         } catch (Exception e) {
-            view.write(String.format("Error while deleting all getTables. Cause: '%s'", e.getMessage()));
+            view.write(String.format("Error while deleting all tables. Cause: '%s'", e.getMessage()));
         }
     }
 }
