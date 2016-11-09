@@ -1,14 +1,18 @@
 package ru.ivan.sqlcmd.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.PostgreSQLManager;
 
 import java.util.*;
-@Component (value = "impl")
+@Component
 public class ServiceImpl implements Service {
+
+    @Autowired
+    private DatabaseManagerFactory factory;
 
     @Override
     public List<String> mainMenuList() {
@@ -33,7 +37,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
-        DatabaseManager manager = new PostgreSQLManager();
+        DatabaseManager manager= factory.createDatabaseManager();
         manager.connect(databaseName, userName, password);
         return manager;
     }

@@ -3,6 +3,7 @@ package ru.ivan.sqlcmd.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.ivan.sqlcmd.model.DatabaseManager;
@@ -22,7 +23,6 @@ import java.util.Map;
 public class MainServlet extends HttpServlet {
 
     @Autowired
-    @Qualifier("impl")
     private Service service;
 
     @Override
