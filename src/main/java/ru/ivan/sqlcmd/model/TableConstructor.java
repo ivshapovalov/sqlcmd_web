@@ -1,5 +1,7 @@
 package ru.ivan.sqlcmd.model;
 
+import ru.ivan.sqlcmd.controller.MainController;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,14 +12,17 @@ public class TableConstructor {
 
     private List<Map<String, Object>> tableData;
 
+    private StringBuilder table;
+
     public TableConstructor(Set<String> columns, List<Map<String, Object>> tableData) {
         this.columns = columns;
         this.tableData = tableData;
+        this.table=new StringBuilder();
     }
 
     public String getTableString() {
         build();
-        return "";
+        return table.toString();
     }
 
     private void build() {
@@ -27,8 +32,9 @@ public class TableConstructor {
 
     private void buildHeader() {
         for (String column : columns) {
-
+            table.append(column).append("|");
         }
+        table.append(MainController.LINE_SEPARATOR);
     }
 
     private void buildRows() {
@@ -40,8 +46,10 @@ public class TableConstructor {
                 } else {
                     strValue = "";
                 }
+                table.append(strValue).append("|");
 
             }
+            table.append(MainController.LINE_SEPARATOR);
         }
     }
 }
