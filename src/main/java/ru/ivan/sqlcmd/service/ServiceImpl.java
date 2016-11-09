@@ -1,12 +1,13 @@
 package ru.ivan.sqlcmd.service;
 
+import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
 
 import java.util.*;
-
+@Component (value = "impl")
 public class ServiceImpl implements Service {
 
     @Override

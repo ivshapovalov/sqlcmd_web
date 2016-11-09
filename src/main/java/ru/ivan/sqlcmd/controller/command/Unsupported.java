@@ -1,6 +1,6 @@
 package ru.ivan.sqlcmd.controller.command;
 
-class Unsupported extends AbstractCommand  {
+public class Unsupported extends AbstractCommand  {
 
     Unsupported() {
 

@@ -45,23 +45,6 @@
             <artifactId>postgresql</artifactId>
             <version>9.4.1209.jre7</version>
         </dependency>
-        <dependency>
-            <groupId>org.ow2.sirocco</groupId>
-            <artifactId>sirocco-text-table-formatter</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <!-- LOG4J-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.6.2</version>
-        </dependency>
-
         <!--TEST-->
         <dependency>
             <groupId>org.mockito</groupId>

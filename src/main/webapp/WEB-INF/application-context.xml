@@ -8,10 +8,10 @@
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="ru.ivan.sqlcmd.service"/>
+    <context:component-scan base-package="ru.ivan.sqlcmd"/>
 
-    <bean id="databaseManagerFactory" class="ru.ivan.sqlcmd.service.DatabaseManagerFactoryImpl">
-        <property name="className" value="ua.com.juja.sqlcmd.model.JDBCDatabaseManager"/>
-    </bean>
+    <!--<bean id="serviceFactory" class="ru.ivan.sqlcmd.service.ServiceFactory">-->
+        <!--<property name="service" ref="dummy"/>-->
+    <!--</bean>-->
 
 </beans>
