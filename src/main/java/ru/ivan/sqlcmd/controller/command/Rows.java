@@ -20,17 +20,17 @@ public class Rows extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "list of rows in table";
+        return "list of getRows in table";
     }
 
     @Override
     public String getCommandFormat() {
-        return "rows|tableName";
+        return "getRows|tableName";
     }
 
     @Override
     public boolean canProcess(final String command) {
-        return command.startsWith("rows|");
+        return command.startsWith("getRows|");
     }
 
     @Override

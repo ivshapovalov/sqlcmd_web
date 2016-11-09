@@ -1,7 +1,6 @@
 package ru.ivan.sqlcmd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Help;
@@ -15,8 +14,13 @@ public class ServiceImpl implements Service {
     private DatabaseManagerFactory factory;
 
     @Override
-    public List<String> mainMenuList() {
-        return Arrays.asList("help", "menu", "connect", "databases", "tables", "disconnect");
+    public List<String> getMainMenu() {
+        return Arrays.asList("help", "menu", "connect", "getDatabases", "getTables", "disconnect");
+    }
+
+    @Override
+    public void dropDatabase(DatabaseManager manager, String databaseName) {
+        manager.dropDatabase(databaseName);
     }
 
     @Override
@@ -43,7 +47,47 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> rows(DatabaseManager manager, String tableName) {
+    public DatabaseManager disconnect() {
+        return null;
+    }
+
+    @Override
+    public void deleteRow(DatabaseManager manager, String tableName, int id) {
+        manager.deleteRow(tableName, id);
+    }
+
+    @Override
+    public void truncateTable(DatabaseManager manager, String tableName) {
+        manager.truncateTable(tableName);
+
+    }
+
+    @Override
+    public void insertRow(DatabaseManager manager, String tableName, Map<String, Object> row) {
+        manager.insertRow(tableName, row);
+
+    }
+
+    @Override
+    public void updateRow(DatabaseManager manager, String tableName, String id, String s, Map<String, Object> row) {
+        manager.updateRow(tableName, "id", String.valueOf(id), row);
+
+    }
+
+    @Override
+    public void createDatabase(DatabaseManager manager, String databaseName) {
+        manager.createDatabase(databaseName);
+
+    }
+
+    @Override
+    public void dropTable(DatabaseManager manager, String tableName) {
+        manager.dropTable(tableName);
+
+    }
+
+    @Override
+    public List<List<String>> getRows(DatabaseManager manager, String tableName) {
         List<List<String>> result = new LinkedList<>();
 
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
@@ -61,7 +105,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> row(DatabaseManager manager, String tableName, Integer id) {
+    public List<List<String>> getRow(DatabaseManager manager, String tableName, Integer id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
@@ -76,7 +120,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> tables(DatabaseManager manager) {
+    public List<List<String>> getTables(DatabaseManager manager) {
         List<String> tableNames = new LinkedList<>(manager.getTableNames());
         List<List<String>> tablesWithSize = new LinkedList<>();
         for (String tableName : tableNames
@@ -90,12 +134,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<String> databases(DatabaseManager manager) {
+    public List<String> getDatabases(DatabaseManager manager) {
         return new LinkedList<>(manager.getDatabasesNames());
     }
 
     @Override
-    public List<String> tableColumns(DatabaseManager manager, String tableName) {
+    public List<String> getTableColumns(DatabaseManager manager, String tableName) {
         return new LinkedList<>(manager.getTableColumns(tableName));
     }
 }

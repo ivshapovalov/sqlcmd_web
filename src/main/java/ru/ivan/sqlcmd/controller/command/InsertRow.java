@@ -10,7 +10,7 @@ class InsertRow extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "insert row in table";
+        return "insert getRow in table";
     }
 
     @Override
@@ -38,7 +38,7 @@ class InsertRow extends AbstractCommand {
 
         manager.insertRow(table, tableData);
 
-        view.write(String.format("Insert row '%s' into table '%s' successfully", tableData, table));
+        view.write(String.format("Insert getRow '%s' into table '%s' successfully", tableData, table));
     }
 
     private Map<String, Object> extractTableDataFromParameters(final String[] data) {
