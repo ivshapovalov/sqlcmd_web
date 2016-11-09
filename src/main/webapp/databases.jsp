@@ -14,6 +14,13 @@
                 <td>
                     <a href="database?database=${database}">${database}</a><br>
                 </td>
+
+                <td>
+                    <button onclick="location.href='dropdatabase?database=${database}'" type="button">
+                        delete
+                    </button>
+                </td>
+
             </tr>
         </c:forEach>
 

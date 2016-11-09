@@ -5,9 +5,14 @@
         <title>SQLCmd</title>
     </head>
     <body>
-        <c:set var="blabla" value="adsdsd"/>
+    <b> MENU </b>
+    <br><br>
+    <table border="1">
         <c:forEach items="${items}" var="item">
+            <tr><td>
             <a href="${item}">${item}</a><br>
+            </td></tr>
         </c:forEach>
+    </table>
     </body>
 </html>

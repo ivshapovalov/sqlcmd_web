@@ -1,5 +1,6 @@
 package ru.ivan.sqlcmd.service;
 
+import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.command.Command;
 import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;

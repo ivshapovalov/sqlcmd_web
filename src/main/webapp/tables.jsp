@@ -10,15 +10,20 @@
 <table border="1">
     <c:forEach items="${tables}" var="table">
         <tr>
-
             <td>
-                <a href="rows?table=${table[0]}">${table[0]}</a><br>
+                    ${table[0]}
             </td>
             <td>
                 ${table[1]} rows
             </td>
-            <td> <a href="droptable?table=${table[0]}">delete table</a><br></td>
-            <td> <a href="truncatetable?table=${table[0]}">clear table</a><br></td>
+            <td><button onclick="location.href='rows?table=${table[0]}'" type="button">
+                open</button></td>
+            <td><button onclick="location.href='droptable?table=${table[0]}'" type="button">
+                delete</button></td>
+            <td><button onclick="location.href='truncatetable?table=${table[0]}'" type="button">
+                clear</button></td>
+            <%--<td> <a href="droptable?table=${table[0]}">delete table</a><br></td>--%>
+            <%--<td> <a href="truncatetable?table=${table[0]}">clear table</a><br></td>--%>
 
         </tr>
     </c:forEach>

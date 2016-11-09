@@ -14,11 +14,9 @@
             </td>
             <td>${databaseName}</td>
         </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="drop database"/></td>
-        </tr>
     </table>
+    <br>
+    <input type="submit" value="drop database"/>
 </form>
 <%@include file="footer.jsp" %>
 </body>
