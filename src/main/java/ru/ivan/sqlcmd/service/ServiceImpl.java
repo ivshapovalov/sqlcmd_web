@@ -1,25 +1,25 @@
 package ru.ivan.sqlcmd.service;
 
 import org.springframework.stereotype.Component;
-import ru.ivan.sqlcmd.controller.command.Command;
-import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
 import java.util.*;
+
 @Component
 public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Override
     public List<String> getMainMenu() {
-        return Arrays.asList("help", "menu", "connect", "databases", "tables", "disconnect");
+        return Arrays.asList("help", "connect", "databases", "tables", "disconnect");
     }
 
     @Override
     public void createTable(DatabaseManager manager, String tableName, String keyName, Map<String, Object> columnParameters) {
-        String query=tableName+"(" + keyName + " INT  PRIMARY KEY NOT NULL"+getParameters(columnParameters) + ")";
+        String query = tableName + "(" + keyName + " INT  PRIMARY KEY NOT NULL" + getParameters(columnParameters) + ")";
         manager.createTable(query);
     }
+
     private String getParameters(Map<String, Object> columnParameters) {
         String result = "";
         for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
@@ -37,22 +37,27 @@ public abstract class ServiceImpl implements Service {
     public List<List<String>> help() {
         List<List<String>> commands = new ArrayList<>();
 
-        for (Command command : new Help().getCommands()
-                ) {
-            if (command.showInHelp()) {
-                List<String> row = new ArrayList<>();
-                row.add(command.getCommandFormat());
-                row.add(command.getDescription());
-                commands.add(row);
-            }
-        }
+        commands.add(Arrays.asList("connect", "connect to database"));
+        commands.add(Arrays.asList("disconnect", "disconnect from database"));
+        commands.add(Arrays.asList("tables", "list of tables"));
+        commands.add(Arrays.asList("databases", "list of databases"));
+        commands.add(Arrays.asList("create database", "create new database with specific name"));
+        commands.add(Arrays.asList("drop database", "drop selected database"));
+        commands.add(Arrays.asList("create table ", "create new table with selected number of columns"));
+        commands.add(Arrays.asList("truncate table", "truncate selected table"));
+        commands.add(Arrays.asList("drop table", "drop selected table"));
+        commands.add(Arrays.asList("rows", "rows of selected table"));
+        commands.add(Arrays.asList("insert row", "insert new row in selected table"));
+        commands.add(Arrays.asList("update row", "update selected row in table"));
+        commands.add(Arrays.asList("delete row", "delete selected row in table"));
+
         return commands;
     }
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
 
-        DatabaseManager manager= getManager();
+        DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
         return manager;
     }

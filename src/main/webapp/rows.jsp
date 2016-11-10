@@ -32,8 +32,6 @@
                         <td><b>DELETE</b><br></td>
                     </c:when>
                     <c:otherwise>
-                        <%--<td><a href="row?table=${tableName}&id=${row[0]}">edit</a><br></td>--%>
-                        <%--<td><a href="deleterow?table=${tableName}&id=${row[0]}">delete</a><br></td>--%>
                         <td>
                             <button onclick="location.href='row?table=${tableName}&id=${row[0]}'" type="button">
                                 edit
@@ -51,10 +49,21 @@
         </c:forEach>
     </table>
     <br>
-    <input type="submit" value="insert row"/>
+    <table>
+        <tr>
+            <td>
+                <input type="submit" value="insert row"/>
+            </td>
+            <td>
+                <button onclick="location.href='tables'" type="button">
+                    Back to Tables
+                </button>
+            </td>
+        </tr>
+    </table>
+
 
 </form>
-<a href="tables">tables</a><br>
 <%@include file="footer.jsp" %>
 </body>
 </html>

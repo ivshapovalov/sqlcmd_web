@@ -22,7 +22,7 @@
             <td><button onclick="location.href='droptable?table=${table[0]}'" type="button">
                 drop</button></td>
             <td><button onclick="location.href='truncatetable?table=${table[0]}'" type="button">
-                clear</button></td>
+                truncate</button></td>
             <%--<td> <a href="droptable?table=${table[0]}">delete table</a><br></td>--%>
             <%--<td> <a href="truncatetable?table=${table[0]}">clear table</a><br></td>--%>
 

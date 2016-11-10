@@ -41,8 +41,6 @@ public class MainServlet extends HttpServlet {
         if (action.startsWith("/connect")) {
             String databaseName = req.getParameter("database");
             if (databaseName!=null) {
-//                manager = service.disconnect();
-//                req.getSession().setAttribute("db_manager", manager);
                 req.setAttribute("dbname", databaseName);
                 jsp("connect", req, resp);
                 return;

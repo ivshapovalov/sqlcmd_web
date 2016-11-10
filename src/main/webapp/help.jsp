@@ -8,7 +8,7 @@
 <table border="1" >
     <tr>
         <td >
-            <b>FORMAT</b>
+            <b>COMMAND</b>
         </td>
         <td w>
             <b>DESCRIPTION</b>
@@ -25,6 +25,7 @@
         </tr>
     </c:forEach>
 </table>
+<body>
 <%@include file="footer.jsp" %>
 </body>
 </html>
