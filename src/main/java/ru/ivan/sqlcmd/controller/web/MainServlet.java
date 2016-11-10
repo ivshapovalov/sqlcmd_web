@@ -34,6 +34,7 @@ public class MainServlet extends HttpServlet {
         String action = getAction(req);
 
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        String currentDatabase = (String) req.getSession().getAttribute("db_name");
 
         if (action.startsWith("/connect")) {
             String databaseName = req.getParameter("database");
@@ -73,6 +74,8 @@ public class MainServlet extends HttpServlet {
             dropTable(manager, req, resp);
         } else if (action.startsWith("/truncatetable")) {
             truncateTable(manager, req, resp);
+        } else if (action.startsWith("/truncatedatabase")) {
+            truncateDatabase(manager, req, resp);
         } else if (action.startsWith("/tables")) {
             tables(manager, req, resp);
         } else if (action.startsWith("/databases")) {
@@ -86,7 +89,7 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/createdatabase")) {
             jsp("createdatabase", req, resp);
         } else if (action.startsWith("/database")) {
-            database(req, resp);
+            database(manager, currentDatabase, req, resp);
         } else if (action.startsWith("/dropdatabase")) {
             dropDatabase(req, resp);
         } else {
@@ -113,8 +116,14 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void database(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void database(DatabaseManager manager, String currentDatabase, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String databaseName = req.getParameter("database");
+
+        if (currentDatabase != null) {
+            if (currentDatabase.equals(databaseName)) {
+                req.setAttribute("current", true);
+            }
+        }
         req.setAttribute("databaseName", databaseName);
         jsp("database", req, resp);
     }
@@ -155,6 +164,22 @@ public class MainServlet extends HttpServlet {
             jsp("message", req, resp);
         } catch (Exception e) {
             req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
+            jsp("error", req, resp);
+        }
+    }
+
+    private void truncateDatabase(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws
+            ServletException, IOException {
+        String databaseName = req.getParameter("database");
+        try {
+            manager.truncateAllTables();
+            req.setAttribute("message", String.format("All tables in database '%s' truncated successfully!",
+                    databaseName));
+            req.setAttribute("link", "databases");
+            req.setAttribute("title", "Back to databases list");
+            jsp("message", req, resp);
+        } catch (Exception e) {
+            req.setAttribute("message", String.format("Database '%s' cannot be truncated!", databaseName));
             jsp("error", req, resp);
         }
     }
@@ -221,6 +246,7 @@ public class MainServlet extends HttpServlet {
 
     private void disconnect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().setAttribute("db_manager", null);
+        req.getSession().setAttribute("db_name", null);
         redirect("connect", resp);
     }
 
@@ -243,7 +269,7 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/createdatabase")) {
             createDatabase(req, resp);
         } else if (action.startsWith("/dropdatabase")) {
-            dropDatabase(req,resp);
+            dropDatabase(req, resp);
         }
     }
 
@@ -353,6 +379,7 @@ public class MainServlet extends HttpServlet {
         try {
             DatabaseManager manager = connectionService.connect(databaseName, userName, password);
             req.getSession().setAttribute("db_manager", manager);
+            req.getSession().setAttribute("db_name", databaseName);
             redirect("menu", resp);
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
