@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
 
-public class IntegrationTestCreateDropTruncate {
+public class ConsoleIntegrationTestCreateDropTruncate {
 
     private final static String DB_TEST1 = "db_test1";
     private final static String DB_TEST2 = "db_test2";

@@ -18,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
 
-public class IntegrationTest {
+public class ConsoleIntegrationTest {
     private static final String DB_TEST1 = "db_test";
     private final static String TABLE_TEST1 = "table_test1";
     private final static String NOT_EXIST_TABLE = "notexisttable";

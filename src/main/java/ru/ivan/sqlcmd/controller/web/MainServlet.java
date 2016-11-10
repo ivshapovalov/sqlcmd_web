@@ -22,7 +22,7 @@ public class MainServlet extends HttpServlet {
     private ConnectionService connectionService;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(final ServletConfig config) throws ServletException {
 
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
@@ -30,7 +30,8 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException,
+            IOException {
         String action = getAction(req);
 
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
@@ -97,7 +98,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void dropDatabase(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void dropDatabase(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         DatabaseManager manager;
         String databaseName = req.getParameter("database");
         manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
@@ -116,7 +118,7 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void database(DatabaseManager manager, String currentDatabase, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void database(final DatabaseManager manager,final String currentDatabase,final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
         String databaseName = req.getParameter("database");
 
         if (currentDatabase != null) {
@@ -128,14 +130,15 @@ public class MainServlet extends HttpServlet {
         jsp("database", req, resp);
     }
 
-    private void insertRow(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void insertRow(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         String tableName = req.getParameter("table");
         req.setAttribute("tableName", tableName);
         req.setAttribute("columns", new LinkedList<>(manager.getTableColumns(tableName)));
         jsp("insertrow", req, resp);
     }
 
-    private void newTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void newTable(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
         String tableName = req.getParameter("tableName");
         int columnCount = Integer.parseInt(req.getParameter("columnCount"));
         req.setAttribute("tableName", tableName);
@@ -143,17 +146,20 @@ public class MainServlet extends HttpServlet {
         jsp("newtable", req, resp);
     }
 
-    private void databases(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void databases(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
         jsp("databases", req, resp);
     }
 
-    private void tables(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void tables(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         req.setAttribute("tables", tables(manager));
         jsp("tables", req, resp);
     }
 
-    private void truncateTable(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void truncateTable(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp)
+            throws ServletException, IOException {
         String tableName = req.getParameter("table");
         try {
             manager.truncateTable(tableName);
@@ -168,7 +174,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void truncateDatabase(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws
+    private void truncateDatabase(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp)
+            throws
             ServletException, IOException {
         String databaseName = req.getParameter("database");
         try {
@@ -184,7 +191,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void dropTable(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void dropTable(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         String tableName = req.getParameter("table");
 
         try {
@@ -200,7 +208,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void deleteRow(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void deleteRow(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         String tableName = req.getParameter("table");
         int id = Integer.valueOf(req.getParameter("id"));
 
@@ -218,7 +227,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void row(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void row(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         String tableName = req.getParameter("table");
         int id = Integer.valueOf(req.getParameter("id"));
         req.setAttribute("tableName", tableName);
@@ -227,36 +237,38 @@ public class MainServlet extends HttpServlet {
         jsp("row", req, resp);
     }
 
-    private void rows(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void rows(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+            ServletException, IOException {
         String tableName = req.getParameter("table");
         req.setAttribute("tableName", tableName);
         req.setAttribute("table", rows(manager, tableName));
         jsp("rows", req, resp);
     }
 
-    private void help(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void help(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("commands", help());
         jsp("help", req, resp);
     }
 
-    private void menu(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void menu(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         req.setAttribute("items", getMainMenu());
         jsp("menu", req, resp);
     }
 
-    private void disconnect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void disconnect(final HttpServletRequest req,final HttpServletResponse resp) throws IOException {
         req.getSession().setAttribute("db_manager", null);
         req.getSession().setAttribute("db_name", null);
         redirect("connect", resp);
     }
 
-    private String getAction(HttpServletRequest req) {
+    private String getAction(final HttpServletRequest req) {
         String requestURI = req.getRequestURI();
         return requestURI.substring(req.getContextPath().length(), requestURI.length());
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
         if (action.startsWith("/connect")) {
             connect(req, resp);
@@ -273,7 +285,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void saveNewRow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void saveNewRow(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         String tableName = req.getParameter("table");
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
         if (manager != null) {
@@ -297,7 +310,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void saveNewTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void saveNewTable(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         String tableName = req.getParameter("tableName");
         int columnCount = Integer.parseInt(req.getParameter("columnCount"));
         String keyName = req.getParameter("keyName");
@@ -326,7 +340,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void updateRow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void updateRow(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         String tableName = req.getParameter("tableName");
         int id = Integer.valueOf(req.getParameter("id"));
 
@@ -353,7 +368,8 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void createDatabase(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void createDatabase(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
+            IOException {
         String databaseName = req.getParameter("database");
 
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
@@ -371,7 +387,7 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void connect(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void connect(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
         String databaseName = req.getParameter("dbname");
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
@@ -387,7 +403,7 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private String getParameters(Map<String, Object> columnParameters) {
+    private String getParameters(final Map<String, Object> columnParameters) {
         String result = "";
         for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
             result += ", " + pair.getKey() + " " + pair.getValue();
@@ -418,7 +434,7 @@ public class MainServlet extends HttpServlet {
         return actions;
     }
 
-    public List<List<String>> tables(DatabaseManager manager) {
+    public List<List<String>> tables(final DatabaseManager manager) {
         List<String> tableNames = new LinkedList<>(manager.getTableNames());
         List<List<String>> tablesWithSize = new LinkedList<>();
         for (String tableName : tableNames
@@ -431,7 +447,7 @@ public class MainServlet extends HttpServlet {
         return tablesWithSize;
     }
 
-    public List<List<String>> rows(DatabaseManager manager, String tableName) {
+    public List<List<String>> rows(final DatabaseManager manager,final String tableName) {
         List<List<String>> result = new LinkedList<>();
 
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
@@ -448,7 +464,7 @@ public class MainServlet extends HttpServlet {
         return result;
     }
 
-    public List<List<String>> row(DatabaseManager manager, String tableName, Integer id) {
+    public List<List<String>> row(final DatabaseManager manager,final  String tableName,final int id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
@@ -462,11 +478,12 @@ public class MainServlet extends HttpServlet {
         return result;
     }
 
-    private void jsp(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void jsp(final String jsp,final HttpServletRequest request,final HttpServletResponse response) throws
+            ServletException, IOException {
         request.getRequestDispatcher(jsp + ".jsp").forward(request, response);
     }
 
-    private void redirect(String url, HttpServletResponse response) throws IOException {
+    private void redirect(final String url,final HttpServletResponse response) throws IOException {
         response.sendRedirect(response.encodeRedirectURL(url));
     }
 }
