@@ -103,7 +103,7 @@ public class MainServlet extends HttpServlet {
                 manager.dropDatabase(databaseName);
                 req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
                 req.setAttribute("link", "databases");
-                req.setAttribute("title", "Back to databases list ");
+                req.setAttribute("title", "Back to databases list");
                 jsp("message", req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
@@ -151,7 +151,7 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("message", String.format("Table '%s' truncated successfully!",
                     tableName));
             req.setAttribute("link", "tables");
-            req.setAttribute("title", "Back to tables list ");
+            req.setAttribute("title", "Back to tables list");
             jsp("message", req, resp);
         } catch (Exception e) {
             req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
@@ -336,7 +336,7 @@ public class MainServlet extends HttpServlet {
                 manager.createDatabase(databaseName);
                 req.setAttribute("message", "New database created successfully!");
                 req.setAttribute("link", "databases");
-                req.setAttribute("title", "Back to databases list ");
+                req.setAttribute("title", "Back to databases list");
                 jsp("message", req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", "Incorrect database name. Try again!");
@@ -373,23 +373,22 @@ public class MainServlet extends HttpServlet {
     }
 
     public List<List<String>> help() {
-        List<List<String>> commands = new ArrayList<>();
+        List<List<String>> actions = new ArrayList<>();
 
-        commands.add(Arrays.asList("connect", "connect to database"));
-        commands.add(Arrays.asList("disconnect", "disconnect from database"));
-        commands.add(Arrays.asList("tables", "list of tables"));
-        commands.add(Arrays.asList("databases", "list of databases"));
-        commands.add(Arrays.asList("create database", "create new database with specific name"));
-        commands.add(Arrays.asList("drop database", "drop selected database"));
-        commands.add(Arrays.asList("create table ", "create new table with selected number of columns"));
-        commands.add(Arrays.asList("truncate table", "truncate selected table"));
-        commands.add(Arrays.asList("drop table", "drop selected table"));
-        commands.add(Arrays.asList("rows", "rows of selected table"));
-        commands.add(Arrays.asList("insert row", "insert new row in selected table"));
-        commands.add(Arrays.asList("update row", "update selected row in table"));
-        commands.add(Arrays.asList("delete row", "delete selected row in table"));
-
-        return commands;
+        actions.add(Arrays.asList("connect", "connect to database"));
+        actions.add(Arrays.asList("disconnect", "disconnect from database"));
+        actions.add(Arrays.asList("tables", "list of tables"));
+        actions.add(Arrays.asList("databases", "list of databases"));
+        actions.add(Arrays.asList("create database", "create new database with specific name"));
+        actions.add(Arrays.asList("drop database", "drop selected database"));
+        actions.add(Arrays.asList("create table ", "create new table with selected number of columns"));
+        actions.add(Arrays.asList("truncate table", "truncate selected table"));
+        actions.add(Arrays.asList("drop table", "drop selected table"));
+        actions.add(Arrays.asList("rows", "rows of selected table"));
+        actions.add(Arrays.asList("insert row", "insert new row in selected table"));
+        actions.add(Arrays.asList("update row", "update selected row in table"));
+        actions.add(Arrays.asList("delete row", "delete selected row in table"));
+        return actions;
     }
 
     public List<List<String>> tables(DatabaseManager manager) {
