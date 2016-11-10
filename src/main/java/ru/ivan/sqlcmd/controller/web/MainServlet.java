@@ -56,118 +56,172 @@ public class MainServlet extends HttpServlet {
             return;
         }
         if (action.startsWith("/disconnect")) {
-            req.getSession().setAttribute("db_manager", null);
-            redirect("connect", resp);
+            disconnect(req, resp);
         } else if (action.startsWith("/menu") || action.equals("/")) {
-            req.setAttribute("items", getMainMenu());
-            jsp("menu", req, resp);
+            menu(req, resp);
 
         } else if (action.startsWith("/help")) {
-            req.setAttribute("commands", help());
-            jsp("help", req, resp);
+            help(req, resp);
 
         } else if (action.startsWith("/rows")) {
-            String tableName = req.getParameter("table");
-            req.setAttribute("tableName", tableName);
-            req.setAttribute("table", rows(manager, tableName));
-            jsp("rows", req, resp);
+            rows(manager, req, resp);
         } else if (action.startsWith("/row")) {
-            String tableName = req.getParameter("table");
-            int id = Integer.valueOf(req.getParameter("id"));
-            req.setAttribute("tableName", tableName);
-            req.setAttribute("id", id);
-            req.setAttribute("table", row(manager, tableName, id));
-            jsp("row", req, resp);
+            row(manager, req, resp);
         } else if (action.startsWith("/deleterow")) {
-            String tableName = req.getParameter("table");
-            int id = Integer.valueOf(req.getParameter("id"));
-
-            try {
-                manager.deleteRow(tableName, id);
-                req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
-                        tableName));
-                req.setAttribute("link", "rows?table=" + tableName);
-                req.setAttribute("title", String.format("Back to of table '%s' rows ", tableName));
-                jsp("message", req, resp);
-            } catch (Exception e) {
-                req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
-                        tableName));
-                jsp("error", req, resp);
-            }
+            deleteRow(manager, req, resp);
         } else if (action.startsWith("/droptable")) {
-            String tableName = req.getParameter("table");
-
-            try {
-                manager.dropTable(tableName);
-                req.setAttribute("message", String.format("Table '%s' dropped successfully!",
-                        tableName));
-                req.setAttribute("link", "tables");
-                req.setAttribute("title", "Back to of table list");
-                jsp("message", req, resp);
-            } catch (Exception e) {
-                req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
-                jsp("error", req, resp);
-            }
+            dropTable(manager, req, resp);
         } else if (action.startsWith("/truncatetable")) {
-            String tableName = req.getParameter("table");
-            try {
-                manager.truncateTable(tableName);
-                req.setAttribute("message", String.format("Table '%s' truncated successfully!",
-                        tableName));
-                req.setAttribute("link", "tables");
-                req.setAttribute("title", "Back to of tables list ");
-                jsp("message", req, resp);
-            } catch (Exception e) {
-                req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
-                jsp("error", req, resp);
-            }
-
+            truncateTable(manager, req, resp);
         } else if (action.startsWith("/tables")) {
-            req.setAttribute("tables", tables(manager));
-            jsp("tables", req, resp);
-
+            tables(manager, req, resp);
         } else if (action.startsWith("/databases")) {
-            req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
-            jsp("databases", req, resp);
+            databases(manager, req, resp);
         } else if (action.startsWith("/createtable")) {
             jsp("createtable", req, resp);
         } else if (action.startsWith("/newtable")) {
-            String tableName = req.getParameter("tableName");
-            int columnCount = Integer.parseInt(req.getParameter("columnCount"));
-            req.setAttribute("tableName", tableName);
-            req.setAttribute("columnCount", columnCount);
-            jsp("newtable", req, resp);
+            newTable(req, resp);
         } else if (action.startsWith("/insertrow")) {
-            String tableName = req.getParameter("table");
-            req.setAttribute("tableName", tableName);
-            req.setAttribute("columns", new LinkedList<>(manager.getTableColumns(tableName)));
-            jsp("insertrow", req, resp);
+            insertRow(manager, req, resp);
         } else if (action.startsWith("/createdatabase")) {
             jsp("createdatabase", req, resp);
         } else if (action.startsWith("/database")) {
-            String databaseName = req.getParameter("database");
-            req.setAttribute("databaseName", databaseName);
-            jsp("database", req, resp);
+            database(req, resp);
         } else if (action.startsWith("/dropdatabase")) {
-            String databaseName = req.getParameter("database");
-            manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
-                try {
-                    manager.dropDatabase(databaseName);
-                    req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
-                    req.setAttribute("link", "databases");
-                    req.setAttribute("title", "Back to ofdatabases list ");
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
-                            databaseName));
-                    jsp("error", req, resp);
-                }
-            }
-
+            dropDatabase(req, resp);
         } else {
             jsp("error", req, resp);
         }
+    }
+
+    private void dropDatabase(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DatabaseManager manager;
+        String databaseName = req.getParameter("database");
+        manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        if (manager != null) {
+            try {
+                manager.dropDatabase(databaseName);
+                req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
+                req.setAttribute("link", "databases");
+                req.setAttribute("title", "Back to databases list ");
+                jsp("message", req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
+                        databaseName));
+                jsp("error", req, resp);
+            }
+        }
+    }
+
+    private void database(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String databaseName = req.getParameter("database");
+        req.setAttribute("databaseName", databaseName);
+        jsp("database", req, resp);
+    }
+
+    private void insertRow(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        req.setAttribute("tableName", tableName);
+        req.setAttribute("columns", new LinkedList<>(manager.getTableColumns(tableName)));
+        jsp("insertrow", req, resp);
+    }
+
+    private void newTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("tableName");
+        int columnCount = Integer.parseInt(req.getParameter("columnCount"));
+        req.setAttribute("tableName", tableName);
+        req.setAttribute("columnCount", columnCount);
+        jsp("newtable", req, resp);
+    }
+
+    private void databases(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
+        jsp("databases", req, resp);
+    }
+
+    private void tables(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("tables", tables(manager));
+        jsp("tables", req, resp);
+    }
+
+    private void truncateTable(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        try {
+            manager.truncateTable(tableName);
+            req.setAttribute("message", String.format("Table '%s' truncated successfully!",
+                    tableName));
+            req.setAttribute("link", "tables");
+            req.setAttribute("title", "Back to tables list ");
+            jsp("message", req, resp);
+        } catch (Exception e) {
+            req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
+            jsp("error", req, resp);
+        }
+    }
+
+    private void dropTable(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+
+        try {
+            manager.dropTable(tableName);
+            req.setAttribute("message", String.format("Table '%s' dropped successfully!",
+                    tableName));
+            req.setAttribute("link", "tables");
+            req.setAttribute("title", "Back to tables list");
+            jsp("message", req, resp);
+        } catch (Exception e) {
+            req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
+            jsp("error", req, resp);
+        }
+    }
+
+    private void deleteRow(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        int id = Integer.valueOf(req.getParameter("id"));
+
+        try {
+            manager.deleteRow(tableName, id);
+            req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
+                    tableName));
+            req.setAttribute("link", "rows?table=" + tableName);
+            req.setAttribute("title", String.format("Back to tables '%s' rows ", tableName));
+            jsp("message", req, resp);
+        } catch (Exception e) {
+            req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
+                    tableName));
+            jsp("error", req, resp);
+        }
+    }
+
+    private void row(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        int id = Integer.valueOf(req.getParameter("id"));
+        req.setAttribute("tableName", tableName);
+        req.setAttribute("id", id);
+        req.setAttribute("table", row(manager, tableName, id));
+        jsp("row", req, resp);
+    }
+
+    private void rows(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        req.setAttribute("tableName", tableName);
+        req.setAttribute("table", rows(manager, tableName));
+        jsp("rows", req, resp);
+    }
+
+    private void help(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("commands", help());
+        jsp("help", req, resp);
+    }
+
+    private void menu(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("items", getMainMenu());
+        jsp("menu", req, resp);
+    }
+
+    private void disconnect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.getSession().setAttribute("db_manager", null);
+        redirect("connect", resp);
     }
 
     private String getAction(HttpServletRequest req) {
@@ -178,129 +232,131 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
-
         if (action.startsWith("/connect")) {
-            String databaseName = req.getParameter("dbname");
-            String userName = req.getParameter("username");
-            String password = req.getParameter("password");
+            connect(req, resp);
+        } else if (action.startsWith("/insertrow")) {
+            saveNewRow(req, resp);
+        } else if (action.startsWith("/newtable")) {
+            saveNewTable(req, resp);
+        } else if (action.startsWith("/updaterow")) {
+            updateRow(req, resp);
+        } else if (action.startsWith("/createdatabase")) {
+            createDatabase(req, resp);
+        } else if (action.startsWith("/dropdatabase")) {
+            dropDatabase(req,resp);
+        }
+    }
 
+    private void saveNewRow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("table");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        if (manager != null) {
+            List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
+            Map<String, Object> row = new HashMap<>();
+            for (String columnName : columnNames
+                    ) {
+                String parameter = req.getParameter(columnName);
+                row.put(columnName, parameter);
+            }
             try {
-                DatabaseManager manager = connectionService.connect(databaseName, userName, password);
-                req.getSession().setAttribute("db_manager", manager);
-                redirect("menu", resp);
+                manager.insertRow(tableName, row);
+                req.setAttribute("message", "New row inserted successfully!");
+                req.setAttribute("link", "rows?table=" + tableName);
+                req.setAttribute("title", String.format("Back to table '%s' rows ", tableName));
+                jsp("message", req, resp);
             } catch (Exception e) {
-                req.setAttribute("message", e.getMessage());
+                req.setAttribute("message", "Incorrect data. Try again!");
                 jsp("error", req, resp);
             }
-        } else if (action.startsWith("/insertrow")) {
-            String tableName = req.getParameter("table");
-            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
-                List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
-                Map<String, Object> row = new HashMap<>();
-                for (String columnName : columnNames
-                        ) {
-                    String parameter = req.getParameter(columnName);
-                    row.put(columnName, parameter);
-                }
-                try {
-                    manager.insertRow(tableName, row);
-                    req.setAttribute("message", "New row inserted successfully!");
-                    req.setAttribute("link", "rows?table=" + tableName);
-                    req.setAttribute("title", String.format("Back to of table '%s' rows ", tableName));
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", "Incorrect data. Try again!");
-                    jsp("error", req, resp);
-                }
-            }
-        } else if (action.startsWith("/newtable")) {
-            String tableName = req.getParameter("tableName");
-            int columnCount = Integer.parseInt(req.getParameter("columnCount"));
-            String keyName = req.getParameter("keyName");
+        }
+    }
 
-            Map<String, Object> columnParameters = new HashMap<>();
-            for (int index = 1; index < columnCount; index++) {
-                //int jindex = index + 1;
-                columnParameters.put(req.getParameter("columnName" + index),
-                        req.getParameter("columnType" + index));
-            }
-            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
+    private void saveNewTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("tableName");
+        int columnCount = Integer.parseInt(req.getParameter("columnCount"));
+        String keyName = req.getParameter("keyName");
 
-                try {
-                    String query = tableName + "(" + keyName + " INT  PRIMARY KEY NOT NULL"
-                            + getParameters(columnParameters) + ")";
-                    manager.createTable(query);
-                    req.setAttribute("message", String.format("Table '%s' created successfully!",
-                            tableName));
-                    req.setAttribute("link", "tables");
-                    req.setAttribute("title", "Back to of tables list");
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", String.format("Table '%s' not created. Try again!", tableName));
-                    jsp("error", req, resp);
-                }
-            }
-        } else if (action.startsWith("/updaterow")) {
-            String tableName = req.getParameter("tableName");
-            int id = Integer.valueOf(req.getParameter("id"));
+        Map<String, Object> columnParameters = new HashMap<>();
+        for (int index = 1; index < columnCount; index++) {
+            columnParameters.put(req.getParameter("columnName" + index),
+                    req.getParameter("columnType" + index));
+        }
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        if (manager != null) {
 
-            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
-                List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
-                Map<String, Object> row = new HashMap<>();
-                for (String columnName : columnNames
-                        ) {
-                    String parameter = req.getParameter(columnName);
-                    row.put(columnName, parameter);
-                }
-                row.remove("id");
-                try {
-                    manager.updateRow(tableName, "id", String.valueOf(id), row);
-                    req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
-                    req.setAttribute("link", "rows?table=" + tableName);
-                    req.setAttribute("title", String.format("Back to of table '%s' rows ", tableName));
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", "Incorrect data. Try again!");
-                    jsp("error", req, resp);
-                }
+            try {
+                String query = tableName + "(" + keyName + " INT  PRIMARY KEY NOT NULL"
+                        + getParameters(columnParameters) + ")";
+                manager.createTable(query);
+                req.setAttribute("message", String.format("Table '%s' created successfully!",
+                        tableName));
+                req.setAttribute("link", "tables");
+                req.setAttribute("title", "Back to tables list");
+                jsp("message", req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Table '%s' not created. Try again!", tableName));
+                jsp("error", req, resp);
             }
+        }
+    }
 
-        } else if (action.startsWith("/createdatabase")) {
-            String databaseName = req.getParameter("database");
+    private void updateRow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tableName = req.getParameter("tableName");
+        int id = Integer.valueOf(req.getParameter("id"));
 
-            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
-                try {
-                    manager.createDatabase(databaseName);
-                    req.setAttribute("message", "New database created successfully!");
-                    req.setAttribute("link", "databases");
-                    req.setAttribute("title", "Back to of databases list ");
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", "Incorrect database name. Try again!");
-                    jsp("error", req, resp);
-                }
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        if (manager != null) {
+            List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
+            Map<String, Object> row = new HashMap<>();
+            for (String columnName : columnNames
+                    ) {
+                String parameter = req.getParameter(columnName);
+                row.put(columnName, parameter);
             }
-        } else if (action.startsWith("/dropdatabase")) {
-            String databaseName = req.getParameter("database");
-
-            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-            if (manager != null) {
-                try {
-                    manager.dropDatabase(databaseName);
-                    req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
-                    req.setAttribute("link", "databases");
-                    req.setAttribute("title", "Back to of databases list");
-                    jsp("message", req, resp);
-                } catch (Exception e) {
-                    req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
-                            databaseName));
-                    jsp("error", req, resp);
-                }
+            row.remove("id");
+            try {
+                manager.updateRow(tableName, "id", String.valueOf(id), row);
+                req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
+                req.setAttribute("link", "rows?table=" + tableName);
+                req.setAttribute("title", String.format("Back to table '%s' rows ", tableName));
+                jsp("message", req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", "Incorrect data. Try again!");
+                jsp("error", req, resp);
             }
+        }
+    }
+
+    private void createDatabase(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String databaseName = req.getParameter("database");
+
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        if (manager != null) {
+            try {
+                manager.createDatabase(databaseName);
+                req.setAttribute("message", "New database created successfully!");
+                req.setAttribute("link", "databases");
+                req.setAttribute("title", "Back to databases list ");
+                jsp("message", req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", "Incorrect database name. Try again!");
+                jsp("error", req, resp);
+            }
+        }
+    }
+
+    private void connect(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String databaseName = req.getParameter("dbname");
+        String userName = req.getParameter("username");
+        String password = req.getParameter("password");
+
+        try {
+            DatabaseManager manager = connectionService.connect(databaseName, userName, password);
+            req.getSession().setAttribute("db_manager", manager);
+            redirect("menu", resp);
+        } catch (Exception e) {
+            req.setAttribute("message", e.getMessage());
+            jsp("error", req, resp);
         }
     }
 
