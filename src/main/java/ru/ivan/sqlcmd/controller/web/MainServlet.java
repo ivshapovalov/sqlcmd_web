@@ -233,7 +233,7 @@ public class MainServlet extends HttpServlet {
         int id = Integer.valueOf(req.getParameter("id"));
         req.setAttribute("tableName", tableName);
         req.setAttribute("id", id);
-        req.setAttribute("table", row(manager, tableName, id));
+        req.setAttribute("table", getRow(manager, tableName, id));
         jsp("row", req, resp);
     }
 
@@ -241,7 +241,7 @@ public class MainServlet extends HttpServlet {
             ServletException, IOException {
         String tableName = req.getParameter("table");
         req.setAttribute("tableName", tableName);
-        req.setAttribute("table", rows(manager, tableName));
+        req.setAttribute("table", getRows(manager, tableName));
         jsp("rows", req, resp);
     }
 
@@ -447,12 +447,11 @@ public class MainServlet extends HttpServlet {
         return tablesWithSize;
     }
 
-    public List<List<String>> rows(final DatabaseManager manager,final String tableName) {
+    public List<List<String>> getRows(final DatabaseManager manager,final String tableName) {
         List<List<String>> result = new LinkedList<>();
 
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
         List<Map<String, Object>> tableData = manager.getTableRows(tableName);
-
         result.add(columns);
         for (Map<String, Object> dataSet : tableData) {
             List<String> row = new ArrayList<>(columns.size());
@@ -464,7 +463,7 @@ public class MainServlet extends HttpServlet {
         return result;
     }
 
-    public List<List<String>> row(final DatabaseManager manager,final  String tableName,final int id) {
+    public List<List<String>> getRow(final DatabaseManager manager,final  String tableName,final int id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
