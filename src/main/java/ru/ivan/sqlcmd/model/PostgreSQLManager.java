@@ -2,7 +2,6 @@ package ru.ivan.sqlcmd.model;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ru.ivan.sqlcmd.controller.MainController;
 
 import java.sql.*;
 import java.util.*;

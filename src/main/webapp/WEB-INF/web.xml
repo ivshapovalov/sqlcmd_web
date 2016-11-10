@@ -19,7 +19,7 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>ru.ivan.sqlcmd.controller.web.MainServlet</servlet-class>
+        <servlet-class>ru.ivan.sqlcmd.controller.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

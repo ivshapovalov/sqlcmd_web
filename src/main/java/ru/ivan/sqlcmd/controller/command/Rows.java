@@ -1,7 +1,6 @@
 package ru.ivan.sqlcmd.controller.command;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.TableConstructor;
 import ru.ivan.sqlcmd.view.View;
 
 import java.util.List;
@@ -47,9 +46,9 @@ public class Rows extends AbstractCommand {
         List<Map<String, Object>> tableData = manager.getTableRows(table);
         Set<String> tableHeaders = manager.getTableColumns(table);
 
-        TableConstructor constructor = new TableConstructor(
-                tableHeaders, tableData);
-        view.write(constructor.getTableString());
+//        TableConstructor constructor = new TableConstructor(
+//                tableHeaders, tableData);
+//        view.write(constructor.getTableString());
     }
 
 }

@@ -3,6 +3,11 @@ package ru.ivan.sqlcmd.service;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Component
 public abstract class ConnectionServiceImpl implements ConnectionService {
     public abstract DatabaseManager getManager();
@@ -12,5 +17,22 @@ public abstract class ConnectionServiceImpl implements ConnectionService {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
         return manager;
+    }
+
+    @Override
+    public List<List<String>> rows(DatabaseManager manager, String tableName) {
+        List<List<String>> result = new LinkedList<>();
+
+        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        List<Map<String, Object>> tableData = manager.getTableRows(tableName);
+        result.add(columns);
+        for (Map<String, Object> dataSet : tableData) {
+            List<String> row = new ArrayList<>(columns.size());
+            result.add(row);
+            for (String column : columns) {
+                row.add(dataSet.get(column).toString());
+            }
+        }
+        return result;
     }
 }

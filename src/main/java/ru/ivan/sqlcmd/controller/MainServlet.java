@@ -1,4 +1,4 @@
-package ru.ivan.sqlcmd.controller.web;
+package ru.ivan.sqlcmd.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
