@@ -24,7 +24,6 @@ public interface Service {
 
     List<String> databases(DatabaseManager manager);
 
-    
     List<List<String>> help();
 
     void deleteRow(DatabaseManager manager, String tableName, int id);
@@ -40,4 +39,6 @@ public interface Service {
     void createDatabase(DatabaseManager manager,String databaseName);
 
     void dropDatabase(DatabaseManager manager, String databaseName);
+
+    void createTable(DatabaseManager manager, String tableName, String keyName, Map<String, Object> columnParameters);
 }

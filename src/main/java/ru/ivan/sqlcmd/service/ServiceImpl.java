@@ -6,13 +6,26 @@ import ru.ivan.sqlcmd.controller.command.Help;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
 import java.util.*;
-
+@Component
 public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Override
     public List<String> getMainMenu() {
         return Arrays.asList("help", "menu", "connect", "databases", "tables", "disconnect");
+    }
+
+    @Override
+    public void createTable(DatabaseManager manager, String tableName, String keyName, Map<String, Object> columnParameters) {
+        String query=tableName+"(" + keyName + " INT  PRIMARY KEY NOT NULL"+getParameters(columnParameters) + ")";
+        manager.createTable(query);
+    }
+    private String getParameters(Map<String, Object> columnParameters) {
+        String result = "";
+        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
+            result += ", " + pair.getKey() + " " + pair.getValue();
+        }
+        return result;
     }
 
     @Override

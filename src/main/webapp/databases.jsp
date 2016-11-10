@@ -14,10 +14,14 @@
                 <td>
                     <a href="database?database=${database}">${database}</a><br>
                 </td>
-
+                <td>
+                    <button onclick="location.href='connect?database=${database}'" type="button">
+                        connect
+                    </button>
+                </td>
                 <td>
                     <button onclick="location.href='dropdatabase?database=${database}'" type="button">
-                        delete
+                        drop
                     </button>
                 </td>
 

@@ -7,6 +7,7 @@
 <body>
 <B>TABLES</B>
 <br><br>
+<form action="createtable" method="get">
 <table border="1">
     <c:forEach items="${tables}" var="table">
         <tr>
@@ -19,7 +20,7 @@
             <td><button onclick="location.href='rows?table=${table[0]}'" type="button">
                 open</button></td>
             <td><button onclick="location.href='droptable?table=${table[0]}'" type="button">
-                delete</button></td>
+                drop</button></td>
             <td><button onclick="location.href='truncatetable?table=${table[0]}'" type="button">
                 clear</button></td>
             <%--<td> <a href="droptable?table=${table[0]}">delete table</a><br></td>--%>
@@ -28,6 +29,10 @@
         </tr>
     </c:forEach>
 </table>
+    <br><br>
+    <input type="submit" value="create new table"/>
+    <br>
+
 
 <%@include file="footer.jsp" %>
 

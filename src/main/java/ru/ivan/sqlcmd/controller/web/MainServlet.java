@@ -39,6 +39,15 @@ public class MainServlet extends HttpServlet {
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
 
         if (action.startsWith("/connect")) {
+            String databaseName = req.getParameter("database");
+            if (databaseName!=null) {
+//                manager = service.disconnect();
+//                req.getSession().setAttribute("db_manager", manager);
+                req.setAttribute("dbname", databaseName);
+                jsp("connect", req, resp);
+                return;
+            }
+
             if (manager == null) {
                 jsp("connect", req, resp);
             } else {
@@ -83,6 +92,8 @@ public class MainServlet extends HttpServlet {
                 service.deleteRow(manager, tableName, id);
                 req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
                         tableName));
+                req.setAttribute("link", "rows?table=" + tableName);
+                req.setAttribute("title", String.format("Back to of table '%s' rows ",tableName));
                 jsp("message", req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
@@ -96,6 +107,8 @@ public class MainServlet extends HttpServlet {
                 service.dropTable(manager, tableName);
                 req.setAttribute("message", String.format("Table '%s' dropped successfully!",
                         tableName));
+                req.setAttribute("link", "tables");
+                req.setAttribute("title", "Back to of table list");
                 jsp("message", req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Table '%s' cannot be dropped!", tableName));
@@ -107,6 +120,8 @@ public class MainServlet extends HttpServlet {
                 service.truncateTable(manager, tableName);
                 req.setAttribute("message", String.format("Table '%s' truncated successfully!",
                         tableName));
+                req.setAttribute("link", "tables");
+                req.setAttribute("title", "Back to of tables list ");
                 jsp("message", req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", String.format("Table '%s' cannot be truncated!", tableName));
@@ -120,7 +135,14 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/databases")) {
             req.setAttribute("databases", service.databases(manager));
             jsp("databases", req, resp);
-
+        } else if (action.startsWith("/createtable")) {
+            jsp("createtable", req, resp);
+        } else if (action.startsWith("/newtable")) {
+            String tableName = req.getParameter("tableName");
+            int columnCount = Integer.parseInt(req.getParameter("columnCount"));
+            req.setAttribute("tableName", tableName);
+            req.setAttribute("columnCount", columnCount);
+            jsp("newtable", req, resp);
         } else if (action.startsWith("/insertrow")) {
             String tableName = req.getParameter("table");
             req.setAttribute("tableName", tableName);
@@ -139,6 +161,8 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.dropDatabase(manager, databaseName);
                     req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
+                    req.setAttribute("link", "databases");
+                    req.setAttribute("title", "Back to ofdatabases list ");
                     jsp("message", req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
@@ -188,9 +212,37 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.insertRow(manager, tableName, row);
                     req.setAttribute("message", "New row inserted successfully!");
+                    req.setAttribute("link", "rows?table=" + tableName);
+                    req.setAttribute("title", String.format("Back to of table '%s' rows ",tableName));
                     jsp("message", req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect data. Try again!");
+                    jsp("error", req, resp);
+                }
+            }
+        } else if (action.startsWith("/newtable")) {
+            String tableName = req.getParameter("tableName");
+            int columnCount = Integer.parseInt(req.getParameter("columnCount"));
+            String keyName = req.getParameter("keyName");
+
+            Map<String, Object> columnParameters = new HashMap<>();
+            for (int index = 1; index < columnCount; index++) {
+                //int jindex = index + 1;
+                columnParameters.put(req.getParameter("columnName" + index),
+                        req.getParameter("columnType" + index));
+            }
+            DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+            if (manager != null) {
+
+                try {
+                    service.createTable(manager, tableName, keyName, columnParameters);
+                    req.setAttribute("message", String.format("Table '%s' created successfully!",
+                            tableName));
+                    req.setAttribute("link", "tables");
+                    req.setAttribute("title","Back to of tables list");
+                    jsp("message", req, resp);
+                } catch (Exception e) {
+                    req.setAttribute("message", String.format("Table '%s' not created. Try again!", tableName));
                     jsp("error", req, resp);
                 }
             }
@@ -211,6 +263,8 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.updateRow(manager, tableName, "id", id, row);
                     req.setAttribute("message", String.format("Row with id='%s' updated successfully!", id));
+                    req.setAttribute("link", "rows?table=" + tableName);
+                    req.setAttribute("title", String.format("Back to of table '%s' rows ",tableName));
                     jsp("message", req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect data. Try again!");
@@ -226,6 +280,8 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.createDatabase(manager, databaseName);
                     req.setAttribute("message", "New database created successfully!");
+                    req.setAttribute("link", "databases");
+                    req.setAttribute("title", "Back to of databases list ");
                     jsp("message", req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", "Incorrect database name. Try again!");
@@ -240,6 +296,8 @@ public class MainServlet extends HttpServlet {
                 try {
                     service.dropDatabase(manager, databaseName);
                     req.setAttribute("message", String.format("Database '%s' dropped successfully!", databaseName));
+                    req.setAttribute("link", "databases");
+                    req.setAttribute("title", "Back to of databases list");
                     jsp("message", req, resp);
                 } catch (Exception e) {
                     req.setAttribute("message", String.format("Database '%s' cannot be dropped!",
