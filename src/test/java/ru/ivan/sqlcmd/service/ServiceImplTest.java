@@ -1,46 +1,61 @@
 package ru.ivan.sqlcmd.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.xml.crypto.Data;
+import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:test-application-context.xml")
+import static org.mockito.Mockito.when;
+@RunWith(MockitoJUnitRunner.class)
 
 public class ServiceImplTest {
 
-    @Autowired
-    private ConnectionService service;
+    @InjectMocks
+    private ConnectionServiceImpl service=new ConnectionServiceImpl() {
+        @Override
+        public DatabaseManager getManager() {
+            return manager;
+        }
+    };
+
+    @Mock
+    private DatabaseManager manager;
+
     @Test
-    public void test () {
+    public void test() {
         //given
-        DatabaseManager manager=service.connect("database","user","password");
-        manager.createTable("users999 (id int, name text)");
-        Map<String,Object> row=new HashMap<>();
-        row.put("id","1");
-        row.put("name","name1");
-        manager.insertRow("users999",row);
-        row=new HashMap<>();
-        row.put("id","2");
-        row.put("name","name2");
-        manager.insertRow("users999",row);
+        when(manager.getTableColumns("users")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id","name",
+                "password")));
+
+        Map<String, Object> row = new HashMap<>();
+        row.put("id", "1");
+        row.put("name", "name1");
+        row.put("password", "+++");
+
+        Map<String, Object> row2 = new HashMap<>();
+        row2.put("id", "2");
+        row2.put("name", "name2");
+        row2.put("password", "****");
+        when(manager.getTableRows("users")).thenReturn(Arrays.asList(row,row2));
 
         //when
-        List<List<String>> users=service.rows(manager,"users999");
 
-
+        List<List<String>> users = service.rows(manager, "users");
 
         //then
-        assertEquals("[[name, id], [name1, 1], [name2, 2]]",users.toString());
+        assertEquals("[[id, name, password], " +
+                "[1, name1, +++]," +
+                " [2, name2, ****]]", users.toString());
     }
 }
