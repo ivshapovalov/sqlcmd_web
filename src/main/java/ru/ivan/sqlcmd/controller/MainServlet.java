@@ -80,7 +80,7 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/tables")) {
             tables(manager, req, resp);
         } else if (action.startsWith("/databases")) {
-            databases(manager, req, resp);
+            databases(manager,currentDatabase, req, resp);
         } else if (action.startsWith("/createtable")) {
             jsp("createtable", req, resp);
         } else if (action.startsWith("/newtable")) {
@@ -123,7 +123,7 @@ public class MainServlet extends HttpServlet {
 
         if (currentDatabase != null) {
             if (currentDatabase.equals(databaseName)) {
-                req.setAttribute("current", true);
+                req.setAttribute("currentDatabase", true);
             }
         }
         req.setAttribute("databaseName", databaseName);
@@ -146,15 +146,20 @@ public class MainServlet extends HttpServlet {
         jsp("newtable", req, resp);
     }
 
-    private void databases(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
+    private void databases(final DatabaseManager manager,final String currentDatabase,final HttpServletRequest req,
+                           final HttpServletResponse resp) throws
             ServletException, IOException {
+
+        if (currentDatabase != null) {
+                req.setAttribute("currentDatabase", currentDatabase);
+        }
         req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
         jsp("databases", req, resp);
     }
 
     private void tables(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
             ServletException, IOException {
-        req.setAttribute("tables", tables(manager));
+        req.setAttribute("tables", connectionService.tables(manager));
         jsp("tables", req, resp);
     }
 
@@ -241,7 +246,7 @@ public class MainServlet extends HttpServlet {
             ServletException, IOException {
         String tableName = req.getParameter("table");
         req.setAttribute("tableName", tableName);
-        req.setAttribute("table", getRows(manager, tableName));
+        req.setAttribute("table", connectionService.rows(manager, tableName));
         jsp("rows", req, resp);
     }
 
@@ -432,35 +437,6 @@ public class MainServlet extends HttpServlet {
         actions.add(Arrays.asList("update row", "update selected row in table"));
         actions.add(Arrays.asList("delete row", "delete selected row in table"));
         return actions;
-    }
-
-    public List<List<String>> tables(final DatabaseManager manager) {
-        List<String> tableNames = new LinkedList<>(manager.getTableNames());
-        List<List<String>> tablesWithSize = new LinkedList<>();
-        for (String tableName : tableNames
-                ) {
-            List<String> row = new LinkedList<>();
-            row.add(tableName);
-            row.add(String.valueOf(manager.getTableSize(tableName)));
-            tablesWithSize.add(row);
-        }
-        return tablesWithSize;
-    }
-
-    public List<List<String>> getRows(final DatabaseManager manager,final String tableName) {
-        List<List<String>> result = new LinkedList<>();
-
-        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
-        List<Map<String, Object>> tableData = manager.getTableRows(tableName);
-        result.add(columns);
-        for (Map<String, Object> dataSet : tableData) {
-            List<String> row = new ArrayList<>(columns.size());
-            result.add(row);
-            for (String column : columns) {
-                row.add(dataSet.get(column).toString());
-            }
-        }
-        return result;
     }
 
     public List<List<String>> getRow(final DatabaseManager manager,final  String tableName,final int id) {

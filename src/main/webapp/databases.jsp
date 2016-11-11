@@ -24,6 +24,17 @@
                         drop
                     </button>
                 </td>
+                <c:choose>
+                    <c:when test="${currentDatabase==database}">
+                        <td>
+                            ACTIVE DB
+                        </td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>
+                        </td>
+                    </c:otherwise>
+                </c:choose>
 
             </tr>
         </c:forEach>

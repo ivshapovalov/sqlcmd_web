@@ -35,4 +35,18 @@ public abstract class ConnectionServiceImpl implements ConnectionService {
         }
         return result;
     }
+
+    @Override
+    public List<List<String>> tables(DatabaseManager manager) {
+        List<String> tableNames = new LinkedList<>(manager.getTableNames());
+        List<List<String>> tablesWithSize = new LinkedList<>();
+        for (String tableName : tableNames
+                ) {
+            List<String> row = new LinkedList<>();
+            row.add(tableName);
+            row.add(String.valueOf(manager.getTableSize(tableName)));
+            tablesWithSize.add(row);
+        }
+        return tablesWithSize;
+    }
 }
