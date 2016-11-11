@@ -10,7 +10,9 @@
     <table border="1">
         <c:forEach items="${items}" var="item">
             <tr><td>
-            <a href="${item}">${item}</a><br>
+                    <button onclick="location.href='${item}'" type="button" style="width:100%" >
+                            ${item}
+                    </button>
             </td></tr>
         </c:forEach>
     </table>
