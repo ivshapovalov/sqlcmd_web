@@ -12,7 +12,7 @@
 
     <bean id="InMemoryDatabaseManager" class="ru.ivan.sqlcmd.model.InMemoryDatabaseManager"/>
 
-    <bean id="service" class="ru.ivan.sqlcmd.service.ConnectionServiceImpl">
+    <bean id="service" class="ru.ivan.sqlcmd.service.ServiceImpl">
         <lookup-method name="getManager" bean="InMemoryDatabaseManager"/>
     </bean>
 

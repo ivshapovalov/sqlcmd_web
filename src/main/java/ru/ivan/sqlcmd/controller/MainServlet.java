@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.service.ConnectionService;
+import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.util.*;
 public class MainServlet extends HttpServlet {
 
     @Autowired
-    private ConnectionService connectionService;
+    private Service service;
 
     @Override
     public void init(final ServletConfig config) throws ServletException {
@@ -159,7 +159,7 @@ public class MainServlet extends HttpServlet {
 
     private void tables(final DatabaseManager manager,final HttpServletRequest req,final HttpServletResponse resp) throws
             ServletException, IOException {
-        req.setAttribute("tables", connectionService.tables(manager));
+        req.setAttribute("tables", service.tables(manager));
         jsp("tables", req, resp);
     }
 
@@ -246,7 +246,7 @@ public class MainServlet extends HttpServlet {
             ServletException, IOException {
         String tableName = req.getParameter("table");
         req.setAttribute("tableName", tableName);
-        req.setAttribute("table", connectionService.rows(manager, tableName));
+        req.setAttribute("table", service.rows(manager, tableName));
         jsp("rows", req, resp);
     }
 
@@ -257,7 +257,7 @@ public class MainServlet extends HttpServlet {
 
     private void menu(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException,
             IOException {
-        req.setAttribute("items", getMainMenu());
+        req.setAttribute("items", service.getMainMenu());
         jsp("menu", req, resp);
     }
 
@@ -393,12 +393,12 @@ public class MainServlet extends HttpServlet {
     }
 
     private void connect(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
-        String databaseName = req.getParameter("dbname");
+        String databaseName = req.getParameter("database");
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
 
         try {
-            DatabaseManager manager = connectionService.connect(databaseName, userName, password);
+            DatabaseManager manager = service.connect(databaseName, userName, password);
             req.getSession().setAttribute("db_manager", manager);
             req.getSession().setAttribute("db_name", databaseName);
             redirect("menu", resp);
@@ -416,9 +416,7 @@ public class MainServlet extends HttpServlet {
         return result;
     }
 
-    public List<String> getMainMenu() {
-        return Arrays.asList("help", "databases", "tables", "disconnect");
-    }
+
 
     public List<List<String>> help() {
         List<List<String>> actions = new ArrayList<>();

@@ -3,13 +3,10 @@ package ru.ivan.sqlcmd.service;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
-public abstract class ConnectionServiceImpl implements ConnectionService {
+public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Override
@@ -49,4 +46,10 @@ public abstract class ConnectionServiceImpl implements ConnectionService {
         }
         return tablesWithSize;
     }
+
+    @Override
+        public List<String> getMainMenu() {
+            return Arrays.asList("help", "databases", "tables", "disconnect");
+        }
+
 }

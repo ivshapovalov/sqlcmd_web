@@ -30,8 +30,6 @@
                         </button>
                     </td>
                 </c:when>
-                <c:otherwise>
-                </c:otherwise>
             </c:choose>
         </tr>
     </table>
@@ -39,9 +37,13 @@
     <br>
     <table>
         <tr>
-            <td>
-                <input type="submit" value="drop database"/>
-            </td>
+            <c:choose>
+                <c:when test="${currentDatabase != true}">
+                    <td>
+                        <input type="submit" value="drop database"/>
+                    </td>
+                </c:when>
+            </c:choose>
             <td>
                 <button onclick="location.href='databases'" type="button">
                     Back to Databases

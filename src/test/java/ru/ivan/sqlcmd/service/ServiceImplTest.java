@@ -1,6 +1,5 @@
 package ru.ivan.sqlcmd.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.when;
 public class ServiceImplTest {
 
     @InjectMocks
-    private ConnectionServiceImpl service=new ConnectionServiceImpl() {
+    private ServiceImpl service=new ServiceImpl() {
         @Override
         public DatabaseManager getManager() {
             return manager;
