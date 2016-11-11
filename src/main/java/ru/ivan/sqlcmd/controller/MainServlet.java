@@ -417,7 +417,7 @@ public class MainServlet extends HttpServlet {
     }
 
     public List<String> getMainMenu() {
-        return Arrays.asList("help", "connect", "databases", "tables", "disconnect");
+        return Arrays.asList("help", "databases", "tables", "disconnect");
     }
 
     public List<List<String>> help() {

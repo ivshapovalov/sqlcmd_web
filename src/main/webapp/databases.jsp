@@ -32,6 +32,7 @@
                     </c:when>
                     <c:otherwise>
                         <td>
+
                         </td>
                     </c:otherwise>
                 </c:choose>

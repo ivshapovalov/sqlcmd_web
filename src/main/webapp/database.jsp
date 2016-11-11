@@ -17,7 +17,6 @@
                 database name
             </td>
             <td>${databaseName}</td>
-
             <c:choose>
                 <c:when test="${currentDatabase == true}">
                     <td>
@@ -30,7 +29,6 @@
                             truncate
                         </button>
                     </td>
-
                 </c:when>
                 <c:otherwise>
                 </c:otherwise>
