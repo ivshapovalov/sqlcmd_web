@@ -26,6 +26,7 @@ public class PostgreSQLManager implements DatabaseManager {
             + "  WHERE table_schema = 'public' AND table_name = '%s' AND column_name='%s'";
     private static final String QUERY_UPDATE_ROW = "UPDATE %s SET %s WHERE %s = ?";
     private static final String QUERY_INSERT_ROW = "INSERT INTO %s (%s) VALUES (%s)";
+
     private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
@@ -246,7 +247,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Map<String, Object> getRow(final String tableName, int id) {
         Map<String, Object> result = new LinkedHashMap<>();
-        String sql = String.format(QUERY_SELECT_ROWS + " %s where id=%s", tableName,id);
+        String sql = String.format(QUERY_SELECT_ROWS + " where id=%s", tableName,id);
         try (Statement statement = connection.createStatement()) {
             ResultSet rs= statement.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();

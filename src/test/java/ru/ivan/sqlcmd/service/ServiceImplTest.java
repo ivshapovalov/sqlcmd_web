@@ -27,7 +27,8 @@ public class ServiceImplTest {
     @Test
     public void test() {
         //given
-        when(manager.getTableColumns("users")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id","name",
+        when(manager.getTableColumns("users")).thenReturn(new LinkedHashSet<String>(Arrays.
+                asList("id","name",
                 "password")));
 
         Map<String, Object> row = new HashMap<>();
