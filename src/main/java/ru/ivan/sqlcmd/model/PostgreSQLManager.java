@@ -14,7 +14,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String QUERY_DATABASE_CREATE = "CREATE DATABASE %s";
     private static final String QUERY_DATABASE_DROP = "DROP DATABASE IF EXISTS %s ;";
     private static final String QUERY_DATABASES_NAMES = "SELECT datname as database_name FROM pg_database WHERE datistemplate = false;";
-    private static final String QUERY_SELECT_ROWS = "";
+    private static final String QUERY_SELECT_ROWS = "SELECT * FROM %s ";
     private static final String QUERY_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE" +
             " table_schema='public' AND table_type='BASE TABLE'";
     private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS public.%s";
@@ -233,7 +233,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void insertRow(final String tableName, final Map<String, Object> newRow) {
         String rowNames = getFormatedName(newRow, "\"%s\",");
         String values = getFormatedValues(newRow, "'%s',");
-        String sql = createString(String.format(QUERY_INSERT_ROW,tableName,rowNames));
+        String sql = createString(String.format(QUERY_INSERT_ROW,tableName,rowNames,values));
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
