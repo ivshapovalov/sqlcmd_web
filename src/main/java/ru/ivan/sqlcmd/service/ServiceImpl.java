@@ -49,7 +49,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
         public List<String> getMainMenu() {
-            return Arrays.asList("help", "databases", "tables", "disconnect");
+            return Arrays.asList("listOfCommands", "databases", "tables", "disconnect");
         }
 
 }

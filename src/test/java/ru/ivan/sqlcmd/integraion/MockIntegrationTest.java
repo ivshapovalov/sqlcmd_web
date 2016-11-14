@@ -43,7 +43,7 @@ public class MockIntegrationTest {
         runner.start();
         service = runner.getBean("service");
 
-        when(service.getMainMenu()).thenReturn(Arrays.asList("help","databases","tables","disconnect"));
+        when(service.getMainMenu()).thenReturn(Arrays.asList("listOfCommands","databases","tables","disconnect"));
 
         DatabaseManager manager = mock(DatabaseManager.class);
         when(service.connect(anyString(), anyString(), anyString()))
@@ -63,8 +63,8 @@ public class MockIntegrationTest {
         driver.findElement(By.id("connect")).click();
 
         // then
-        assertLinksByTagName("[help, databases, tables, disconnect]",
-                "[/sqlcmd/help, /sqlcmd/databases, /sqlcmd/tables, /sqlcmd/disconnect]");
+        assertLinksByTagName("[listOfCommands, databases, tables, disconnect]",
+                "[/sqlcmd/listOfCommands, /sqlcmd/databases, /sqlcmd/tables, /sqlcmd/disconnect]");
 
         // when
         driver.get(getBase() + "/sqlcmd/tables");

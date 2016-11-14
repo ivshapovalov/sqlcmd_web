@@ -6,6 +6,8 @@ import java.util.Set;
 
 public interface DatabaseManager {
 
+    DatabaseManager NULL = new NullDatabaseManager();
+
     void connect(String databaseName, String user, String password);
 
     void createDatabase(String databaseName);
