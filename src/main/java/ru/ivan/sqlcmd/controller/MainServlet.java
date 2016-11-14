@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@Component
 public class MainServlet extends HttpServlet {
 
     @Autowired
@@ -40,7 +39,7 @@ public class MainServlet extends HttpServlet {
         if (action.startsWith("/connect")) {
             String databaseName = req.getParameter("database");
             if (databaseName != null) {
-                req.setAttribute("dbname", databaseName);
+                req.setAttribute("database", databaseName);
                 jsp("connect", req, resp);
                 return;
             }

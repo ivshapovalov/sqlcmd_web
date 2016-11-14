@@ -10,13 +10,28 @@ import java.util.*;
 @Scope(value = "prototype")
 public class PostgreSQLManager implements DatabaseManager {
 
-    private Connection connection;
-
+    private static final String QUERY_TABLE_SIZE = "SELECT COUNT(*) AS COUNT FROM %s";
+    private static final String QUERY_DATABASE_CREATE = "CREATE DATABASE %s";
+    private static final String QUERY_DATABASE_DROP = "DROP DATABASE IF EXISTS %s ;";
+    private static final String QUERY_DATABASES_NAMES = "SELECT datname as database_name FROM pg_database WHERE datistemplate = false;";
+    private static final String QUERY_SELECT_ROWS = "";
+    private static final String QUERY_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE" +
+            " table_schema='public' AND table_type='BASE TABLE'";
+    private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS public.%s";
+    private static final String QUERY_TRUNCATE_TABLE = "TRUNCATE TABLE public.%s";
+    private static final String QUERY_TABLE_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
+            "AND table_name = '%s';";
+    private static final String QUERY_DELETE_ROW = "DELETE  FROM %s WHERE id = %s";
+    private static final String QUERY_COLUMN_TYPE = "SELECT column_name,data_type FROM information_schema.columns"
+            + "  WHERE table_schema = 'public' AND table_name = '%s' AND column_name='%s'";
+    private static final String QUERY_UPDATE_ROW = "UPDATE %s SET %s WHERE %s = ?";
+    private static final String QUERY_INSERT_ROW = "INSERT INTO %s (%s) VALUES (%s)";
     private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
+    private Connection connection;
 
     static {
         try {
@@ -75,7 +90,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public Integer getTableSize(final String tableName) {
         Integer result = 0;
         try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("select count(*) as count from  " + tableName)) {
+             ResultSet rs = statement.executeQuery(String.format(QUERY_TABLE_SIZE,tableName))) {
             while (rs.next()) {
                 result = rs.getInt("count");
                 return result;
@@ -118,7 +133,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void createDatabase(final String databaseName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE DATABASE  " + databaseName);
+            statement.executeUpdate(String.format(QUERY_DATABASE_CREATE,databaseName));
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("It is not possible to create a table '%s'", databaseName), e);
 
@@ -128,18 +143,17 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void dropDatabase(final String databaseName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName + ";");
+            statement.executeUpdate(String.format(QUERY_DATABASE_DROP,databaseName));
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", databaseName), e);
-
         }
     }
 
     @Override
     public void createTable(final String query) {
 
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("CREATE TABLE public." + query);
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE public." + query);
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("Query cannot be completed  '%s'",
                     query),
@@ -150,8 +164,8 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Set<String> getDatabasesNames() {
         Set<String> databases = new LinkedHashSet<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT datname as database_name FROM pg_database WHERE datistemplate = false;")) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(QUERY_DATABASES_NAMES)) {
             while (rs.next()) {
                 databases.add(rs.getString("database_name"));
             }
@@ -166,7 +180,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public List<Map<String, Object>> getTableRows(final String tableName) {
         List<Map<String, Object>> result = new LinkedList<>();
         try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName)) {
+             ResultSet rs = statement.executeQuery(String.format(QUERY_SELECT_ROWS,tableName))) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 Map<String, Object> data = new LinkedHashMap<>();
@@ -184,9 +198,8 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Set<String> getTableNames() {
         Set<String> tables = new LinkedHashSet<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE" +
-                     " table_schema='public' AND table_type='BASE TABLE'")) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(QUERY_TABLE_NAMES)) {
             while (rs.next()) {
                 tables.add(rs.getString("table_name"));
             }
@@ -198,8 +211,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void dropTable(final String tableName) {
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DROP TABLE IF EXISTS public." + tableName);
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(String.format(QUERY_DROP_TABLE,tableName));
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", tableName), e);
         }
@@ -207,8 +220,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void truncateTable(final String tableName) {
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("TRUNCATE TABLE public." + tableName);
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(String.format(QUERY_TRUNCATE_TABLE,tableName));
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("It is not possible to clear the table '%s'",
                     tableName),
@@ -220,8 +233,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void insertRow(final String tableName, final Map<String, Object> newRow) {
         String rowNames = getFormatedName(newRow, "\"%s\",");
         String values = getFormatedValues(newRow, "'%s',");
-        String sql = createString("INSERT INTO ", tableName, " (", rowNames, ") ", "VALUES (", values, ")");
-
+        String sql = createString(String.format(QUERY_INSERT_ROW,tableName,rowNames));
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -234,7 +246,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Map<String, Object> getRow(final String tableName, int id) {
         Map<String, Object> result = new LinkedHashMap<>();
-        String sql = String.format("SELECT * FROM %s where id=%s", tableName,id);
+        String sql = String.format(QUERY_SELECT_ROWS + " %s where id=%s", tableName,id);
         try (Statement statement = connection.createStatement()) {
             ResultSet rs= statement.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -254,7 +266,8 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void updateRow(final String tableName, final String conditionColumnName, String conditionColumnValue, final Map<String, Object> newRow) {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
-        String query = createString("UPDATE ", tableName, " SET ", tableNames, " WHERE "+conditionColumnName+" = ?");
+        String query = createString(String.format(QUERY_UPDATE_ROW,
+                tableName,tableNames,conditionColumnName));
 
         Object id=getColumnType(tableName,conditionColumnName,conditionColumnValue);
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -275,10 +288,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
     private Object getColumnType(final String tableName, final String conditionColumnName, final String conditionColumnValue) {
         String dataType = "";
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT column_name,data_type FROM information_schema.columns"
-                     + "  WHERE table_schema = 'public' AND table_name = '" + tableName + "' AND column_name='"
-                     + conditionColumnName + "'")) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(String.format(QUERY_COLUMN_TYPE,tableName,conditionColumnName))) {
             while (rs.next()) {
                 dataType = rs.getString("data_type");
             }
@@ -299,7 +310,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void deleteRow(final String tableName, final int id) {
-        String query = createString("DELETE  FROM ", tableName, " WHERE id = ", String.valueOf(id));
+        String query = String.format(QUERY_DELETE_ROW,tableName,String.valueOf(id));
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -313,9 +324,8 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Set<String> getTableColumns(final String tableName) {
         Set<String> tables = new LinkedHashSet<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
-                     "AND table_name = '" + tableName + "'")) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(String.format(QUERY_TABLE_COLUMNS,tableName))) {
             while (rs.next()) {
                 tables.add(rs.getString("column_name"));
             }

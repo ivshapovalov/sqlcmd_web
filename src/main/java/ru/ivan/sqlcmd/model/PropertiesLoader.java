@@ -15,7 +15,6 @@ public class PropertiesLoader {
         try (InputStream in = PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_SQLCMD_PROPERTIES)) {
             appProperties.load(in);
         } catch (Exception e) {
-            System.out.println("Error loading config " + CONFIG_SQLCMD_PROPERTIES);
             e.printStackTrace();
         }
     }
