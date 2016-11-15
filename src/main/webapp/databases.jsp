@@ -12,7 +12,7 @@
         <c:forEach items="${databases}" var="database">
             <tr>
                 <td>
-                    <a href="database?database=${database}">${database}</a><br>
+                    <a href="opendatabase?database=${database}">${database}</a><br>
                 </td>
                 <td>
                     <button onclick="location.href='connect?database=${database}'" type="button">

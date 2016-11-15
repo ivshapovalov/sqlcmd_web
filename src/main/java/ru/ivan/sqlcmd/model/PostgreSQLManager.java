@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.*;
 
 @Component
-//@Scope(value = "prototype")
+@Scope(value = "prototype")
 public class PostgreSQLManager implements DatabaseManager {
 
     private static final String QUERY_TABLE_SIZE = "SELECT COUNT(*) AS COUNT FROM %s";
@@ -33,6 +33,10 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String DRIVER = propertiesLoader.getDriver();
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private Connection connection;
+
+    {
+        System.out.println("asfda");
+    }
 
     static {
         try {

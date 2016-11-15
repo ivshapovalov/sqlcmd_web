@@ -7,6 +7,7 @@ import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class UpdateRowAction extends AbstractAction {
     }
 
     @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
+    public void post(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String tableName = req.getParameter("tableName");
         int id = Integer.valueOf(req.getParameter("id"));
 
@@ -48,6 +49,8 @@ public class UpdateRowAction extends AbstractAction {
                 req.setAttribute("message", "Incorrect data. Try again!");
                 this.forwardToError(req, resp, e);
             }
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
     }
 }

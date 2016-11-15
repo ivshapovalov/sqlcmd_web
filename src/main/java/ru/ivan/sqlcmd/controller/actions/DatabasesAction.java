@@ -24,12 +24,17 @@ public class DatabasesAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager manager = getManager(req, resp);
-        String currentDatabase=getCurrentDatabase(req,resp);
-        if (currentDatabase != null) {
-            req.setAttribute("currentDatabase", currentDatabase);
+
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+        if (manager != null) {
+            String currentDatabase = getCurrentDatabase(req, resp);
+            if (currentDatabase != null) {
+                req.setAttribute("currentDatabase", currentDatabase);
+            }
+            req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
+            goToJsp(req, resp, "databases.jsp");
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
-        req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
-        goToJsp(req, resp, "databases.jsp");
     }
 }

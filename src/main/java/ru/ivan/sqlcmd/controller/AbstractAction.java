@@ -22,19 +22,9 @@ public abstract class AbstractAction implements Action {
         req.getRequestDispatcher(path).forward(req, resp);
     }
 
-    protected DatabaseManager getManager(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
-        if (manager != null) {
-            return manager;
-        } else {
-            resp.sendRedirect(resp.encodeRedirectURL("connect"));
-            return DatabaseManager.NULL;
-        }
-    }
-
     protected String getCurrentDatabase(HttpServletRequest req, HttpServletResponse resp) throws
             IOException {
-        return  (String) req.getSession().getAttribute("currentDatabase");
+        return  (String) req.getSession().getAttribute("db_name");
     }
 
     protected void forwardToSuccess(ServletRequest req, ServletResponse resp, String msg) throws ServletException, IOException {

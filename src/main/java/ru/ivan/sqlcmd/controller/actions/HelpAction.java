@@ -30,23 +30,6 @@ public class HelpAction  extends AbstractAction {
         goToJsp(req, resp, "help.jsp");
     }
 
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-        String databaseName = req.getParameter("database");
-        String userName = req.getParameter("username");
-        String password = req.getParameter("password");
-
-        try {
-
-            DatabaseManager manager = service.connect(databaseName, userName, password);
-            req.getSession().setAttribute("manager", manager);
-            req.getSession().setAttribute("db_name", databaseName);
-            resp.sendRedirect(resp.encodeRedirectURL("menu"));
-        } catch (Exception e) {
-            forwardToError(req, resp, e);
-        }
-    }
-
     public List<List<String>> listOfCommands() {
         List<List<String>> commands = new ArrayList<>();
 

@@ -33,7 +33,8 @@
                     </c:when>
                     <c:otherwise>
                         <td>
-                            <button onclick="location.href='row?table=${tableName}&id=${row[0]}'" type="button">
+                            <button
+                                    onclick="location.href='openrow?table=${tableName}&id=${row[0]}'" type="button">
                                 edit
                             </button>
                         </td>

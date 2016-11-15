@@ -33,7 +33,7 @@ public class NewTableAction extends AbstractAction {
     }
 
     @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
+    public void post(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String tableName = req.getParameter("tableName");
         int columnCount = Integer.parseInt(req.getParameter("columnCount"));
         String keyName = req.getParameter("keyName");
@@ -45,7 +45,6 @@ public class NewTableAction extends AbstractAction {
         }
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
         if (manager != null) {
-
             try {
                 String query = tableName + "(" + keyName + " INT  PRIMARY KEY NOT NULL"
                         + getParameters(columnParameters) + ")";
@@ -59,6 +58,8 @@ public class NewTableAction extends AbstractAction {
                 req.setAttribute("message", String.format("Table '%s' not created. Try again!", tableName));
                 this.forwardToError(req, resp, e);
             }
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
     }
 

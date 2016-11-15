@@ -8,7 +8,12 @@ import java.util.*;
 
 @Component
 public abstract class ServiceImpl implements Service {
+
     public abstract DatabaseManager getManager();
+
+    {
+        System.out.println("asfdasfs");
+    }
 
     @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
@@ -50,7 +55,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
         public List<String> getMainMenu() {
-            return Arrays.asList("help", "databases", "tables", "disconnect");
+            return Arrays.asList("help", "connect","databases", "tables", "disconnect");
         }
 
 }

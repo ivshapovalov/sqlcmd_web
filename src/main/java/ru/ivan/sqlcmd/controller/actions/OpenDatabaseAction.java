@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class DatabaseAction extends AbstractAction {
+public class OpenDatabaseAction extends AbstractAction {
 
-    public DatabaseAction(Service service) {
+    public OpenDatabaseAction(Service service) {
         super(service);
     }
 
     @Override
     public boolean canProcess(String url) {
-        return url.startsWith("/database");
+        return url.startsWith("/opendatabase");
     }
 
     @Override
@@ -31,6 +31,6 @@ public class DatabaseAction extends AbstractAction {
             }
         }
         req.setAttribute("databaseName", databaseName);
-        goToJsp(req, resp, "database.jsp");
+        goToJsp(req, resp, "opendatabase.jsp");
     }
 }

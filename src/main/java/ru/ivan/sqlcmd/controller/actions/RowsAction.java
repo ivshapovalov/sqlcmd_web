@@ -23,10 +23,13 @@ public class RowsAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager manager = getManager(req, resp);
-        String tableName = req.getParameter("table");
-        req.setAttribute("tableName", tableName);
-        req.setAttribute("table", service.rows(manager, tableName));
-        goToJsp(req, resp,"rows.jsp");    }
-
-}
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+        if (manager != null) {
+            String tableName = req.getParameter("table");
+            req.setAttribute("tableName", tableName);
+            req.setAttribute("table", service.rows(manager, tableName));
+            goToJsp(req, resp, "rows.jsp");
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+        }
+    }}

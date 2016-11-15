@@ -19,6 +19,7 @@ public class InsertRowAction extends AbstractAction {
     public InsertRowAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
         return url.startsWith("/insertrow");
@@ -26,11 +27,15 @@ public class InsertRowAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager manager = getManager(req, resp);
-        String tableName = req.getParameter("table");
-        req.setAttribute("tableName", tableName);
-        req.setAttribute("columns", new LinkedList<>(manager.getTableColumns(tableName)));
-        goToJsp(req, resp, "insertrow.jsp");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+        if (manager != null) {
+            String tableName = req.getParameter("table");
+            req.setAttribute("tableName", tableName);
+            req.setAttribute("columns", new LinkedList<>(manager.getTableColumns(tableName)));
+            goToJsp(req, resp, "insertrow.jsp");
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.controller.actions.*;
 import ru.ivan.sqlcmd.service.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -17,9 +18,17 @@ public class ActionResolver {
     @Autowired
     private Service service;
 
+    {
+        System.out.println("adfasf");
+    }
+
     private List<Action> actions;
 
     public ActionResolver() {
+
+    }
+    @PostConstruct
+    private void init() {
         actions = new LinkedList<>();
 
         Reflections reflections = new Reflections(ErrorAction.class.getPackage().getName());

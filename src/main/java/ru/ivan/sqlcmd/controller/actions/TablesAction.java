@@ -23,8 +23,12 @@ public class TablesAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager manager = getManager(req, resp);
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+        if (manager != null) {
         req.setAttribute("tables", service.tables(manager));
         goToJsp(req, resp, "tables.jsp");
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+        }
     }
 }

@@ -23,20 +23,24 @@ public class DeleteRowAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager manager = getManager(req, resp);
-        String tableName = req.getParameter("table");
-        int id = Integer.valueOf(req.getParameter("id"));
-        try {
-            manager.deleteRow(tableName, id);
-            req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
-                    tableName));
-            req.setAttribute("link", "rows?table=" + tableName);
-            req.setAttribute("title", String.format("Back to tables '%s' rows ", tableName));
-            goToJsp(req, resp,"message.jsp");
-        } catch (Exception e) {
-            req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
-                    tableName));
-            goToJsp(req, resp, "error.jsp");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+        if (manager != null) {
+            String tableName = req.getParameter("table");
+            int id = Integer.valueOf(req.getParameter("id"));
+            try {
+                manager.deleteRow(tableName, id);
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' deleted successfully!", id,
+                        tableName));
+                req.setAttribute("link", "rows?table=" + tableName);
+                req.setAttribute("title", String.format("Back to tables '%s' rows ", tableName));
+                goToJsp(req, resp, "message.jsp");
+            } catch (Exception e) {
+                req.setAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
+                        tableName));
+                goToJsp(req, resp, "error.jsp");
+            }
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
     }
 }

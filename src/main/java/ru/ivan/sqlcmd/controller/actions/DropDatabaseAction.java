@@ -31,7 +31,7 @@ public class DropDatabaseAction extends AbstractAction {
     }
 
     private void dropDatabase(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        DatabaseManager manager = getManager(req, resp);
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
         String databaseName = req.getParameter("database");
         if (manager != null) {
             try {
@@ -45,6 +45,9 @@ public class DropDatabaseAction extends AbstractAction {
                         databaseName));
                 goToJsp(req, resp, "error.jsp");
             }
+        }
+        else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
     }
 }

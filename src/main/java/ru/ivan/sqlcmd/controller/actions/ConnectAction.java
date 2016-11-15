@@ -23,6 +23,12 @@ public class ConnectAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String databaseName = req.getParameter("database");
+        if (databaseName != null) {
+            req.setAttribute("database", databaseName);
+
+        }
         goToJsp(req, resp, "connect.jsp");
     }
 
@@ -31,9 +37,7 @@ public class ConnectAction extends AbstractAction {
         String databaseName = req.getParameter("database");
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
-
         try {
-
             DatabaseManager manager = service.connect(databaseName, userName, password);
             req.getSession().setAttribute("manager", manager);
             req.getSession().setAttribute("db_name", databaseName);
