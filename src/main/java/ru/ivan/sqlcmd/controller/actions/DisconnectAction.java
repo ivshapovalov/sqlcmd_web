@@ -2,7 +2,6 @@ package ru.ivan.sqlcmd.controller.actions;
 
 
 import ru.ivan.sqlcmd.controller.AbstractAction;
-import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.ServletException;
@@ -18,7 +17,7 @@ public class DisconnectAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/disconnect");
+        return url.startsWith("/disconnect");
     }
 
     @Override
@@ -27,5 +26,4 @@ public class DisconnectAction extends AbstractAction {
         req.getSession().setAttribute("db_name", null);
         resp.sendRedirect(resp.encodeRedirectURL("connect"));
     }
-
 }

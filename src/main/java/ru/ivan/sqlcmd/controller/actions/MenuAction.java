@@ -2,7 +2,6 @@ package ru.ivan.sqlcmd.controller.actions;
 
 
 import ru.ivan.sqlcmd.controller.AbstractAction;
-import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.ServletException;

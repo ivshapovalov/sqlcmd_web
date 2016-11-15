@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HelpAction  extends AbstractAction{
+public class HelpAction  extends AbstractAction {
 
     public HelpAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/help");
+        return url.startsWith("/help");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -65,5 +65,4 @@ public class HelpAction  extends AbstractAction{
         commands.add(Arrays.asList("delete row", "delete selected row in table"));
         return commands;
     }
-
 }

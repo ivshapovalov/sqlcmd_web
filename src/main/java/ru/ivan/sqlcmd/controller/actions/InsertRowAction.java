@@ -14,16 +14,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class InsertRowAction extends AbstractAction{
+public class InsertRowAction extends AbstractAction {
 
     public InsertRowAction(Service service) {
         super(service);
     }
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/insertrow");
+        return url.startsWith("/insertrow");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,9 +35,8 @@ public class InsertRowAction extends AbstractAction{
 
     @Override
     public void post(HttpServletRequest req, HttpServletResponse resp) {
-
         String tableName = req.getParameter("table");
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
         if (manager != null) {
             List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
             Map<String, Object> row = new HashMap<>();

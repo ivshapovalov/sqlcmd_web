@@ -16,13 +16,13 @@ public class ErrorAction extends AbstractAction {
     }
 
     @Override
-    public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("message", "Ошибка");
-        goToJsp(req, resp, "error.jsp");
+    public boolean canProcess(String url) {
+        return true;
     }
 
     @Override
-    public boolean canProcess(String url) {
-        return true;
+    public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("message", "Ошибка");
+        goToJsp(req, resp, "error.jsp");
     }
 }

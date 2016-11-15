@@ -18,7 +18,7 @@ public class DeleteRowAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/deleterow");
+        return url.startsWith("/deleterow");
     }
 
     @Override
@@ -39,10 +39,4 @@ public class DeleteRowAction extends AbstractAction {
             goToJsp(req, resp, "error.jsp");
         }
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

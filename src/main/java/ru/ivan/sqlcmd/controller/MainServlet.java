@@ -3,9 +3,6 @@ package ru.ivan.sqlcmd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import ru.ivan.sqlcmd.controller.actions.ConnectAction;
-import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,12 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
 
 public class MainServlet extends HttpServlet {
-
-    @Autowired
-    private Service service;
 
     @Autowired
     private ActionResolver actions;
@@ -49,5 +42,4 @@ public class MainServlet extends HttpServlet {
         Action action = actions.getAction(getActionName(req));
         action.post(req, resp);
     }
-
 }

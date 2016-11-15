@@ -18,7 +18,7 @@ public class TruncateTableAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/truncatetable");
+        return url.startsWith("/truncatetable");
     }
 
     @Override
@@ -37,10 +37,4 @@ public class TruncateTableAction extends AbstractAction {
             goToJsp(req, resp, "error.jsp");
         }
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

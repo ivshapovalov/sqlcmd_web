@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class DatabaseAction extends AbstractAction{
+public class DatabaseAction extends AbstractAction {
 
     public DatabaseAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/database");
+        return url.startsWith("/database");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,10 +33,4 @@ public class DatabaseAction extends AbstractAction{
         req.setAttribute("databaseName", databaseName);
         goToJsp(req, resp, "database.jsp");
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

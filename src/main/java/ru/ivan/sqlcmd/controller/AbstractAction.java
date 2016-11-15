@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 public abstract class AbstractAction implements Action {
 
     protected Service service;
@@ -25,7 +24,6 @@ public abstract class AbstractAction implements Action {
 
     protected DatabaseManager getManager(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
-
         if (manager != null) {
             return manager;
         } else {
@@ -34,11 +32,9 @@ public abstract class AbstractAction implements Action {
         }
     }
 
-
     protected String getCurrentDatabase(HttpServletRequest req, HttpServletResponse resp) throws
             IOException {
         return  (String) req.getSession().getAttribute("currentDatabase");
-
     }
 
     protected void forwardToSuccess(ServletRequest req, ServletResponse resp, String msg) throws ServletException, IOException {
@@ -64,6 +60,4 @@ public abstract class AbstractAction implements Action {
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // do nothing
     }
-
-
 }

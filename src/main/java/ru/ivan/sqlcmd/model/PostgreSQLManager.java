@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.*;
 
 @Component
-@Scope(value = "prototype")
+//@Scope(value = "prototype")
 public class PostgreSQLManager implements DatabaseManager {
 
     private static final String QUERY_TABLE_SIZE = "SELECT COUNT(*) AS COUNT FROM %s";

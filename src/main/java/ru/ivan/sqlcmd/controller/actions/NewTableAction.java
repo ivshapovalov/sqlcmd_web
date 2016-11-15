@@ -12,16 +12,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewTableAction extends AbstractAction{
+public class NewTableAction extends AbstractAction {
 
     public NewTableAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/newtable");
+        return url.startsWith("/newtable");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +43,7 @@ public class NewTableAction extends AbstractAction{
             columnParameters.put(req.getParameter("columnName" + index),
                     req.getParameter("columnType" + index));
         }
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
         if (manager != null) {
 
             try {
@@ -61,6 +61,7 @@ public class NewTableAction extends AbstractAction{
             }
         }
     }
+
     private String getParameters(final Map<String, Object> columnParameters) {
         String result = "";
         for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
@@ -68,5 +69,4 @@ public class NewTableAction extends AbstractAction{
         }
         return result;
     }
-
 }

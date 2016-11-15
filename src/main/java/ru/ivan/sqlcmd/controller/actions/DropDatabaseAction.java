@@ -1,6 +1,5 @@
 package ru.ivan.sqlcmd.controller.actions;
 
-
 import ru.ivan.sqlcmd.controller.AbstractAction;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
@@ -10,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class DropDatabaseAction extends AbstractAction{
+public class DropDatabaseAction extends AbstractAction {
 
     public DropDatabaseAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/createdatabase");
+        return url.startsWith("/dropdatabase");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,7 +47,4 @@ public class DropDatabaseAction extends AbstractAction{
             }
         }
     }
-
-
-
 }

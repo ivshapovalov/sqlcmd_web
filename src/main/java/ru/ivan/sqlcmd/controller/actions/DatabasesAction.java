@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class DatabasesAction extends AbstractAction{
+public class DatabasesAction extends AbstractAction {
 
     public DatabasesAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/databases");
+        return url.startsWith("/databases");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,10 +32,4 @@ public class DatabasesAction extends AbstractAction{
         req.setAttribute("databases", new LinkedList<>(manager.getDatabasesNames()));
         goToJsp(req, resp, "databases.jsp");
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

@@ -10,21 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CreateDatabaseAction extends AbstractAction{
+public class CreateDatabaseAction extends AbstractAction {
 
     public CreateDatabaseAction(Service service) {
         super(service);
     }
+
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/createdatabase");
+        return url.startsWith("/createdatabase");
     }
-
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         goToJsp(req, resp, "createdatabase.jsp");
-
     }
 
     @Override

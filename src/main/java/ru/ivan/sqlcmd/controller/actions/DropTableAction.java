@@ -18,7 +18,7 @@ public class DropTableAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/droptable");
+        return url.startsWith("/droptable");
     }
 
     @Override
@@ -37,10 +37,4 @@ public class DropTableAction extends AbstractAction {
             goToJsp(req, resp, "error.jsp");
         }
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

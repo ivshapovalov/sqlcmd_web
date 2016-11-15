@@ -18,7 +18,7 @@ public class RowsAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/rows");
+        return url.startsWith("/rows");
     }
 
     @Override
@@ -28,10 +28,5 @@ public class RowsAction extends AbstractAction {
         req.setAttribute("tableName", tableName);
         req.setAttribute("table", service.rows(manager, tableName));
         goToJsp(req, resp,"rows.jsp");    }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
 
 }

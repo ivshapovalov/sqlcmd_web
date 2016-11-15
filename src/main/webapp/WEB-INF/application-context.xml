@@ -12,6 +12,4 @@
     <bean id="service" class="ru.ivan.sqlcmd.service.ServiceImpl">
         <lookup-method name="getManager" bean="postgreSQLManager"/>
     </bean>
-
-
 </beans>

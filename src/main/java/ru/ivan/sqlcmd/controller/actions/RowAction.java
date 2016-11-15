@@ -22,7 +22,7 @@ public class RowAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/row");
+        return url.startsWith("/row");
     }
 
     @Override
@@ -34,11 +34,6 @@ public class RowAction extends AbstractAction {
         req.setAttribute("id", id);
         req.setAttribute("table", getRow(manager, tableName, id));
         goToJsp(req, resp,"row.jsp");
-    }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
     }
 
     public List<List<String>> getRow(final DatabaseManager manager, final  String tableName, final int id) {

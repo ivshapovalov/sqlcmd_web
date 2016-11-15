@@ -18,7 +18,7 @@ public class TruncateDatabaseAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/truncatedatabase");
+        return url.startsWith("/truncatedatabase");
     }
 
     @Override
@@ -37,10 +37,4 @@ public class TruncateDatabaseAction extends AbstractAction {
             goToJsp(req, resp, "error.jsp");
         }
     }
-
-    @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
 }

@@ -18,7 +18,7 @@ public class ConnectAction extends AbstractAction {
 
     @Override
     public boolean canProcess(String url) {
-        return url.equalsIgnoreCase("/connect");
+        return url.startsWith("/connect");
     }
 
     @Override
@@ -42,5 +42,4 @@ public class ConnectAction extends AbstractAction {
             forwardToError(req, resp, e);
         }
     }
-
 }

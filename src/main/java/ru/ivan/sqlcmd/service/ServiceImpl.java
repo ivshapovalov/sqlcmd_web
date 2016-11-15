@@ -1,5 +1,6 @@
 package ru.ivan.sqlcmd.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 
@@ -49,7 +50,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
         public List<String> getMainMenu() {
-            return Arrays.asList("listOfCommands", "databases", "tables", "disconnect");
+            return Arrays.asList("help", "databases", "tables", "disconnect");
         }
 
 }

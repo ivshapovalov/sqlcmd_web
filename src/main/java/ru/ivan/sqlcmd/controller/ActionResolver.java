@@ -2,14 +2,14 @@ package ru.ivan.sqlcmd.controller;
 
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.ivan.sqlcmd.controller.actions.ErrorAction;
+import ru.ivan.sqlcmd.controller.actions.*;
 import ru.ivan.sqlcmd.service.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 
 @Component
 public class ActionResolver {
@@ -30,15 +30,13 @@ public class ActionResolver {
             if (aClass.equals(ErrorAction.class)) {
                 continue;
             }
-
             try {
-                AbstractAction action = aClass.getConstructor().newInstance(service);
+                AbstractAction action = aClass.getConstructor(Service.class).newInstance(service);
                 actions.add(action);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
         actions.add(new ErrorAction(service));
 
     }
