@@ -32,7 +32,7 @@ public interface DatabaseManager {
 
     Set<String> getDatabasesNames();
 
-    void truncateTable(String tableName);
+    void truncateTable(String... tableName);
 
     void dropTable(String tableName);
 

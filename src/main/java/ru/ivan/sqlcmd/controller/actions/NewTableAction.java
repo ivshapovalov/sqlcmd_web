@@ -46,7 +46,7 @@ public class NewTableAction extends AbstractAction {
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
         if (manager != null) {
             try {
-                String query = tableName + "(" + keyName + " INT  PRIMARY KEY NOT NULL"
+                String query = tableName + "(" + keyName + " INT PRIMARY KEY NOT NULL"
                         + getParameters(columnParameters) + ")";
                 manager.createTable(query);
                 req.setAttribute("message", String.format("Table '%s' created successfully!",

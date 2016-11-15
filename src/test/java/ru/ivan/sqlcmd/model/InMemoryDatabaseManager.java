@@ -87,8 +87,8 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void truncateTable(String tableName) {
-        get(tableName).clear();
+    public void truncateTable(String... tableName) {
+        get(tableName[0]).clear();
 
     }
 

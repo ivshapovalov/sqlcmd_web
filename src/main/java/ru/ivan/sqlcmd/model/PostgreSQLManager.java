@@ -18,7 +18,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String QUERY_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE" +
             " table_schema='public' AND table_type='BASE TABLE'";
     private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS public.%s";
-    private static final String QUERY_TRUNCATE_TABLE = "TRUNCATE TABLE public.%s";
+    private static final String QUERY_TRUNCATE_TABLE = "TRUNCATE TABLE %s";
     private static final String QUERY_TABLE_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
             "AND table_name = '%s';";
     private static final String QUERY_DELETE_ROW = "DELETE  FROM %s WHERE id = %s";
@@ -125,10 +125,12 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void truncateAllTables() {
         Set<String> tables = getTableNames();
-        for (String tableName : tables
-                ) {
-            truncateTable(tableName);
-        }
+//        StringBuilder stringTables=new StringBuilder();
+//        for (String tableName : tables
+//                ) {
+//            stringTables.append("public.").append(tableName).append(",");
+//        }
+        truncateTable(tables.toArray(new String[tables.size()]));
     }
 
     @Override
@@ -220,9 +222,16 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void truncateTable(final String tableName) {
+    public void truncateTable(final String... tableName ) {
+
+        StringBuilder tableList=new StringBuilder();
+        for (String table:tableName
+             ) {
+            tableList.append("public.").append(table).append(",");
+        }
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(String.format(QUERY_TRUNCATE_TABLE,tableName));
+            statement.executeUpdate(String.format(QUERY_TRUNCATE_TABLE,tableList.substring(0,
+                    tableList.length()-1)));
         } catch (SQLException e) {
             throw new DatabaseManagerException(String.format("It is not possible to clear the table '%s'",
                     tableName),
