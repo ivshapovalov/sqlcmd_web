@@ -15,20 +15,13 @@ import java.util.Set;
 @Component
 public class ActionResolver {
 
-    @Autowired
     private Service service;
-
-    {
-        System.out.println("adfasf");
-    }
 
     private List<Action> actions;
 
-    public ActionResolver() {
-
-    }
-    @PostConstruct
-    private void init() {
+    @Autowired
+    public ActionResolver(Service service) {
+        this.service=service;
         actions = new LinkedList<>();
 
         Reflections reflections = new Reflections(ErrorAction.class.getPackage().getName());
@@ -47,7 +40,6 @@ public class ActionResolver {
             }
         }
         actions.add(new ErrorAction(service));
-
     }
 
     public Action getAction(String url) {

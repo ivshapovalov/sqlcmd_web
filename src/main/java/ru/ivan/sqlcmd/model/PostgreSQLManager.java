@@ -34,10 +34,6 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private Connection connection;
 
-    {
-        System.out.println("asfda");
-    }
-
     static {
         try {
             Class.forName("org.postgresql.Driver");

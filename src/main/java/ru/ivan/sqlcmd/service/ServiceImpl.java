@@ -11,10 +11,6 @@ public abstract class ServiceImpl implements Service {
 
     public abstract DatabaseManager getManager();
 
-    {
-        System.out.println("asfdasfs");
-    }
-
     @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
         DatabaseManager manager = getManager();

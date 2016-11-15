@@ -27,7 +27,7 @@ public class CreateDatabaseAction extends AbstractAction {
     }
 
     @Override
-    public void post(HttpServletRequest req, HttpServletResponse resp) {
+    public void post(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String databaseName = req.getParameter("database");
 
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
@@ -42,6 +42,8 @@ public class CreateDatabaseAction extends AbstractAction {
                 req.setAttribute("message", "Incorrect database name. Try again!");
                 this.forwardToError(req, resp, e);
             }
+        } else {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
         }
     }
 
