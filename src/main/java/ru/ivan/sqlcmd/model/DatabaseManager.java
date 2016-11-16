@@ -12,6 +12,8 @@ public interface DatabaseManager {
 
     Set<String> getTableColumns(String tableName);
 
+    Set<String> getTableColumnsWithType(String tableName);
+
     List<Map<String, Object>> getTableRows(String tableName);
 
     Integer getTableSize(String tableName);

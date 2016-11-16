@@ -29,6 +29,11 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public Set<String> getTableColumnsWithType(String tableName) {
+        return new LinkedHashSet<String>(Arrays.asList("name (text)", "id (integer)"));
+    }
+
+    @Override
     public List<Map<String, Object>> getTableRows(String tableName) {
         return get(tableName);
     }

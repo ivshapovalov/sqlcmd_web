@@ -13,14 +13,15 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String QUERY_TABLE_SIZE = "SELECT COUNT(*) AS COUNT FROM %s";
     private static final String QUERY_DATABASE_CREATE = "CREATE DATABASE %s";
     private static final String QUERY_DATABASE_DROP = "DROP DATABASE IF EXISTS %s ;";
-    private static final String QUERY_DATABASES_NAMES = "SELECT datname as database_name FROM pg_database WHERE datistemplate = false;";
+    private static final String QUERY_DATABASES_NAMES = "SELECT datname as database_name " +
+            "FROM pg_database WHERE datistemplate = false ORDER BY datname;";
     private static final String QUERY_SELECT_ROWS = "SELECT * FROM %s ";
     private static final String QUERY_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE" +
-            " table_schema='public' AND table_type='BASE TABLE'";
+            " table_schema='public' AND table_type='BASE TABLE' ORDER BY table_name";
     private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS public.%s";
     private static final String QUERY_TRUNCATE_TABLE = "TRUNCATE TABLE %s";
     private static final String QUERY_TABLE_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
-            "AND table_name = '%s';";
+            "AND table_name = '%s' ORDER BY table_name;";
     private static final String QUERY_DELETE_ROW = "DELETE  FROM %s WHERE id = %s";
     private static final String QUERY_COLUMN_TYPE = "SELECT column_name,data_type FROM information_schema.columns"
             + "  WHERE table_schema = 'public' AND table_name = '%s' AND column_name='%s'";
@@ -336,7 +337,25 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' getTableColumns",
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' ",
+                    tableName),
+                    e);
+        }
+    }
+
+    @Override
+    public Set<String> getTableColumnsWithType(final String tableName) {
+        Set<String> tables = new LinkedHashSet<>();
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(String.format(QUERY_TABLE_COLUMNS,
+                     tableName))) {
+            while (rs.next()) {
+                tables.add(rs.getString("column_name").concat(" (").concat(rs.getString
+                        ("data_type").concat(")")));
+            }
+            return tables;
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s'",
                     tableName),
                     e);
         }

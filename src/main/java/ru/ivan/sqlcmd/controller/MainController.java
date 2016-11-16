@@ -187,6 +187,31 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/truncatedatabase", method = {RequestMethod.GET})
+    public String truncateDatabase(Model model,
+                               @RequestParam(value = "database", required = true) String database,
+                               HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/opendatabase?database="+database);
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.truncateAllTables();;
+                model.addAttribute("message", String.format("Database '%s' truncated successfully!",
+                        database));
+                model.addAttribute("link", "databases");
+                model.addAttribute("title", "Back to databases list");
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Database '%s' cannot be truncated!",
+                        database));
+                return "error";
+            }
+        }
+    }
+
     @RequestMapping(value = "/droptable", method = {RequestMethod.GET})
     public String dropTable(Model model,
                             @RequestParam(value = "table", required = true) String table,
@@ -306,7 +331,7 @@ public class MainController {
     public String updateRow(Model model,
                             @RequestParam(value = "tableName", required = false) String tableName,
                             @RequestParam(value = "id", required = false) int id,
-                            @RequestParam Map<String,Object> allRequestParams,
+                            @RequestParam Map<String, Object> allRequestParams,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -316,7 +341,7 @@ public class MainController {
         } else {
             try {
                 List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
-                Map<String, Object> row = new HashMap<>();
+                Map<String, Object> row = new LinkedHashMap<>();
                 for (String columnName : columnNames
                         ) {
                     Object parameter = allRequestParams.get(columnName);
@@ -337,6 +362,125 @@ public class MainController {
                 return "error";
             }
         }
+    }
+
+    @RequestMapping(value = "/insertrow", method = {RequestMethod.GET})
+    public String insertRow(Model model,
+                            @RequestParam(value = "table", required = false) String tableName,
+                            HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/rows?table=" + tableName);
+            return "redirect:/connect";
+        } else {
+            model.addAttribute("tableName", tableName);
+            model.addAttribute("columns", new LinkedList<>(manager.getTableColumnsWithType
+                    (tableName)));
+            return "insertrow";
+        }
+    }
+
+    @RequestMapping(value = "/insertrow", method = {RequestMethod.POST})
+    public String insertRow(Model model,
+                            @RequestParam(value = "table", required = false) String tableName,
+                            @RequestParam Map<String, Object> allRequestParams,
+                            HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/rows?table=" + tableName);
+            return "redirect:/connect";
+        } else {
+            try {
+                List<String> columnNames = new LinkedList<>(manager.getTableColumns(tableName));
+                Map<String, Object> row = new LinkedHashMap<>();
+                for (String columnName : columnNames
+                        ) {
+                    Object parameter = allRequestParams.get(columnName);
+                    row.put(columnName, parameter);
+                }
+                manager.insertRow(tableName, row);
+                model.addAttribute("message", "New row inserted successfully!");
+                model.addAttribute("link", "rows?table=" + tableName);
+                model.addAttribute("title", String.format("Back to table '%s' rows ",
+                        tableName));
+                return "message";
+
+            } catch (Exception e) {
+                model.addAttribute("message", "Incorrect data. Try again!");
+                return "error";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/createtable", method = {RequestMethod.GET})
+    public String createTable() {
+        return "createtable";
+    }
+
+    @RequestMapping(value = "/newtable", method = {RequestMethod.GET})
+    public String newTable(Model model,
+                           @RequestParam(value = "tableName", required = false) String tableName,
+                           @RequestParam(value = "columnCount", required = true, defaultValue = "1")
+                                   int columnCount,
+                           HttpSession session) {
+
+        if (columnCount < 1) {
+            model.addAttribute("message", String.format("Column count must be greater than 1, but" +
+                            " actual %s",
+                    columnCount));
+            return "error";
+        }
+
+        model.addAttribute("tableName", tableName);
+        model.addAttribute("columnCount", columnCount);
+        return "newtable";
+    }
+
+    @RequestMapping(value = "/newtable", method = {RequestMethod.POST})
+    public String newTable(Model model,
+                           @RequestParam(value = "tableName", required = false) String tableName,
+                           @RequestParam(value = "columnCount", required = true, defaultValue = "1")
+                                   int columnCount,
+                           @RequestParam(value = "keyName", required = false) String keyName,
+                           @RequestParam Map<String, Object> allRequestParams,
+                           HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/rows?table=" + tableName);
+            return "redirect:/connect";
+        } else {
+            try {
+                Map<String, Object> columnParameters = new LinkedHashMap<>();
+                for (int index = 1; index < columnCount; index++) {
+                    columnParameters.put((String) allRequestParams.get("columnName" + index),
+                            allRequestParams.get("columnType" + index));
+                }
+                String query = tableName + "(" + keyName + " INT PRIMARY KEY NOT NULL"
+                        + getParameters(columnParameters) + ")";
+                manager.createTable(query);
+                model.addAttribute("message", String.format("Table '%s' created successfully!",
+                        tableName));
+                model.addAttribute("link", "tables");
+                model.addAttribute("title", "Back to tables list");
+                return "message";
+
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Table '%s' not created. Try again!",
+                        tableName));
+                return "error";
+            }
+        }
+    }
+
+    private String getParameters(final Map<String, Object> columnParameters) {
+        String result = "";
+        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
+            result += ", " + pair.getKey() + " " + pair.getValue();
+        }
+        return result;
     }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
