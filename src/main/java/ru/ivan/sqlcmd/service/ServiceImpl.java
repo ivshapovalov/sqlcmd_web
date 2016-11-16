@@ -54,4 +54,23 @@ public abstract class ServiceImpl implements Service {
             return Arrays.asList("help", "connect","databases", "tables", "disconnect");
         }
 
+    public List<List<String>> help() {
+        List<List<String>> commands = new ArrayList<>();
+
+        commands.add(Arrays.asList("connect", "connect to database"));
+        commands.add(Arrays.asList("disconnect", "disconnect from database"));
+        commands.add(Arrays.asList("tables", "list of tables"));
+        commands.add(Arrays.asList("databases", "list of databases"));
+        commands.add(Arrays.asList("create database", "create new database with specific name"));
+        commands.add(Arrays.asList("drop database", "drop selected database"));
+        commands.add(Arrays.asList("create table ", "create new table with selected number of columns"));
+        commands.add(Arrays.asList("truncate table", "truncate selected table"));
+        commands.add(Arrays.asList("drop table", "drop selected table"));
+        commands.add(Arrays.asList("rows", "rows of selected table"));
+        commands.add(Arrays.asList("insert row", "insert new row in selected table"));
+        commands.add(Arrays.asList("update row", "update selected row in table"));
+        commands.add(Arrays.asList("delete row", "delete selected row in table"));
+        return commands;
+    }
+
 }

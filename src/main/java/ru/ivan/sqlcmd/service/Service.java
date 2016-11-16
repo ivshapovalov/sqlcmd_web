@@ -13,5 +13,7 @@ public interface Service {
     List<List<String>> tables(DatabaseManager manager);
 
     List<String>  getMainMenu();
+
+    List<List<String>> help();
 }
 
