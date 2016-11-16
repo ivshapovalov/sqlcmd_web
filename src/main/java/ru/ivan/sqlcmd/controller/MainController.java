@@ -8,6 +8,10 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -103,6 +107,7 @@ public class MainController {
             return "redirect:/connect";
         }
         model.addAttribute("table", service.rows(manager, table));
+        model.addAttribute("tableName", table);
         return "rows";
     }
 
@@ -126,6 +131,37 @@ public class MainController {
         return "opendatabase";
     }
 
+
+
+    @RequestMapping(value = "/createdatabase", method = {RequestMethod.GET})
+    public String createDatabase() {
+        return "createdatabase";
+
+    }
+
+    @RequestMapping(value = "/createdatabase", method = {RequestMethod.POST})
+    public String createDatabase(Model model,
+                               @RequestParam(value = "database",required = true) String database,
+                               HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/databases");
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.createDatabase(database);
+                model.addAttribute("message", "New database created successfully!");
+                model.addAttribute("link", "databases");
+                model.addAttribute("title", "Back to databases list");
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message","Incorrect database name. Try again!");
+                return "error";
+            }
+        }
+    }
+
     @RequestMapping(value = "/dropdatabase", method = {RequestMethod.POST,RequestMethod.GET})
     public String dropDatabase(Model model,
                                @RequestParam(value = "database",required = true) String database,
@@ -146,6 +182,115 @@ public class MainController {
             } catch (Exception e) {
                 model.addAttribute("message", String.format("Database '%s' cannot be dropped!",
                         database));
+                return "error";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/droptable", method = {RequestMethod.GET})
+    public String dropTable(Model model,
+                               @RequestParam(value = "table",required = true) String table,
+                               HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/tables");
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.dropTable(table);
+                model.addAttribute("message", String.format("Table '%s' dropped successfully!",
+                        table));
+                model.addAttribute("link", "tables");
+                model.addAttribute("title", "Back to tables list");
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Table '%s' cannot be dropped!",
+                        table));
+                return "error";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/truncatetable", method = {RequestMethod.GET})
+    public String truncateTable(Model model,
+                            @RequestParam(value = "table",required = true) String table,
+                            HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/tables");
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.truncateTable(table);
+                model.addAttribute("message", String.format("Table '%s' truncated successfully!",
+                        table));
+                model.addAttribute("link", "tables");
+                model.addAttribute("title", "Back to tables list");
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Table '%s' cannot be truncated!",
+                        table));
+                return "error";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/openrow", method = {RequestMethod.GET})
+    public String openRow(Model model,
+                            @RequestParam(value = "table",required = true) String table,
+                            @RequestParam(value = "id",required = true) int id,
+                            HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/rows?table="+table);
+            return "redirect:/connect";
+        } else {
+            model.addAttribute("tableName", table);
+            model.addAttribute("id", id);
+            model.addAttribute("table", getRow(manager, table, id));
+            return "openrow";
+        }
+    }
+
+    public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
+        List<List<String>> result = new LinkedList<>();
+        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        Map<String, Object> tableData = manager.getRow(tableName, id);
+
+        for (String column : columns) {
+            List<String> row = new ArrayList<>(2);
+            row.add(column);
+            row.add(tableData.get(column).toString());
+            result.add(row);
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/deleterow", method = {RequestMethod.GET})
+    public String deleteRow(Model model,
+                            @RequestParam(value = "table",required = true) String table,
+                            @RequestParam(value = "id",required = true) int id,
+                            HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/rows?table="+table);
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.deleteRow(table, id);
+                model.addAttribute("message", String.format("Row with id='%s' in table='%s' " +
+                        "deleted successfully!",id,
+                        table));
+                model.addAttribute("link", "rows?table=" + table);
+                model.addAttribute("title",  String.format("Back to tables '%s' rows ", table));
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
+                        table));
                 return "error";
             }
         }
