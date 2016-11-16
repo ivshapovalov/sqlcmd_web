@@ -18,9 +18,9 @@ public class Connection {
 
     public Connection(String page) {
         this.fromPage = page;
-//        this.dbName="sqlcmd";
-//        this.userName="postgres";
-//        this.password="postgres";
+        this.dbName="sqlcmd";
+        this.userName="postgres";
+        this.password="postgres";
     }
 
     public String getUserName() {

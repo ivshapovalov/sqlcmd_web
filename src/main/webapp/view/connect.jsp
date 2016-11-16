@@ -7,7 +7,7 @@
 </head>
 <body>
 <form:form action="connect" method="post" modelAttribute="connection">
-    <form:input type="hidden" path="fromPage" id="from-page" value="${fromPage}"/>
+    <form:input type="hidden" path="fromPage" id="from-page"/>
     <table>
         <tr>
             <td>Database name</td>

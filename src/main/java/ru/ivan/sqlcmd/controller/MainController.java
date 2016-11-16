@@ -83,6 +83,7 @@ public class MainController {
             DatabaseManager manager = service.connect(connection.getDbName(),
                     connection.getUserName(), connection.getPassword());
             session.setAttribute("manager", manager);
+            session.setAttribute("db_name",connection.getDbName());
             return "redirect:" + connection.getFromPage();
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +104,51 @@ public class MainController {
         }
         model.addAttribute("table", service.rows(manager, table));
         return "rows";
+    }
+
+    @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
+    public String openDatabase(Model model,
+                       @RequestParam(value = "database",required = false) String database,
+                       HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/databases");
+            return "redirect:/connect";
+        }
+        model.addAttribute("databaseName", database);
+        String currentDatabase=(String) session.getAttribute("db_name");;
+        if (currentDatabase != null) {
+            if (currentDatabase.equals(database)) {
+                model.addAttribute("currentDatabase", true);
+            }
+        }
+        return "opendatabase";
+    }
+
+    @RequestMapping(value = "/dropdatabase", method = {RequestMethod.POST,RequestMethod.GET})
+    public String dropDatabase(Model model,
+                               @RequestParam(value = "database",required = true) String database,
+                               HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            session.setAttribute("from-page", "/databases");
+            return "redirect:/connect";
+        } else {
+            try {
+                manager.dropDatabase(database);
+                model.addAttribute("message", String.format("Database '%s' dropped successfully!",
+                        database));
+                model.addAttribute("link", "databases");
+                model.addAttribute("title", "Back to databases list");
+                return "message";
+            } catch (Exception e) {
+                model.addAttribute("message", String.format("Database '%s' cannot be dropped!",
+                        database));
+                return "error";
+            }
+        }
     }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
