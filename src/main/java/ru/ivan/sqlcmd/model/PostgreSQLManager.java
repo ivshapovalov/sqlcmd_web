@@ -125,11 +125,6 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void truncateAllTables() {
         Set<String> tables = getTableNames();
-//        StringBuilder stringTables=new StringBuilder();
-//        for (String tableName : tables
-//                ) {
-//            stringTables.append("public.").append(tableName).append(",");
-//        }
         truncateTable(tables.toArray(new String[tables.size()]));
     }
 
