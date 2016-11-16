@@ -3,10 +3,7 @@ package ru.ivan.sqlcmd.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.service.Service;
 
@@ -19,7 +16,8 @@ public class MainController {
     private Service service;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main() {
+    public String main(HttpSession session) {
+        session.setAttribute("from-page", "/menu");
         return "redirect:/menu";
     }
 
@@ -36,25 +34,45 @@ public class MainController {
     }
 
     @RequestMapping(value = "/databases", method = RequestMethod.GET)
-    public String databases(HttpSession session) {
+    public String databases(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
+
         if (manager == null) {
+            session.setAttribute("from-page", "/databases");
             return "redirect:/connect";
-        } else {
-            return "error";
         }
+
+        model.addAttribute("databases", service.databases(manager));
+        return "databases";
     }
 
+//    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+//    public String connect(HttpSession session, Model model) {
+//        String page = (String) session.getAttribute("from-page");
+//        session.removeAttribute("from-page");
+//        model.addAttribute("connection", new Connection(page));
+//        if (getManager(session) == null) {
+//            return "connect";
+//        } else {
+//            return "menu";
+//        }
+//    }
+
     @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(HttpSession session, Model model) {
+    public String connect(Model model,  @RequestParam(value = "database", required=false)
+            String database, HttpSession session) {
         String page = (String) session.getAttribute("from-page");
         session.removeAttribute("from-page");
-        model.addAttribute("connection", new Connection(page));
-
-        if (getManager(session) == null) {
+        if (database != null) {
+            model.addAttribute("connection", new Connection(database,page));
             return "connect";
         } else {
-            return "menu";
+            model.addAttribute("connection", new Connection(page));
+            if (getManager(session) == null) {
+                return "connect";
+            } else {
+                return "menu";
+            }
         }
     }
 
@@ -73,9 +91,9 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/rows/{table}", method = RequestMethod.GET)
+    @RequestMapping(value = "/rows", method = RequestMethod.GET)
     public String rows(Model model,
-                       @PathVariable(value = "table") String table,
+                       @RequestParam(value = "table",required = false) String table,
                        HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -83,9 +101,7 @@ public class MainController {
             session.setAttribute("from-page", "/rows/" + table);
             return "redirect:/connect";
         }
-
         model.addAttribute("table", service.rows(manager, table));
-
         return "rows";
     }
 

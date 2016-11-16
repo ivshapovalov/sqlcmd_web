@@ -11,8 +11,16 @@ public class Connection {
         // do nothing
     }
 
+    public Connection(String dbName, String fromPage) {
+        this.dbName = dbName;
+        this.fromPage = fromPage;
+    }
+
     public Connection(String page) {
         this.fromPage = page;
+//        this.dbName="sqlcmd";
+//        this.userName="postgres";
+//        this.password="postgres";
     }
 
     public String getUserName() {

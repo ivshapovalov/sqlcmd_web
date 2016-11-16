@@ -11,6 +11,7 @@ public abstract class ServiceImpl implements Service {
 
     public abstract DatabaseManager getManager();
 
+
     @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
         DatabaseManager manager = getManager();
@@ -47,6 +48,11 @@ public abstract class ServiceImpl implements Service {
             tablesWithSize.add(row);
         }
         return tablesWithSize;
+    }
+
+    @Override
+    public List<String> databases(DatabaseManager manager) {
+        return new LinkedList<>(manager.getDatabasesNames());
     }
 
     @Override
