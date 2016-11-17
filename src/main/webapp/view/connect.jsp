@@ -12,16 +12,16 @@
         <tr>
             <td>Database name</td>
             <td><form:input path="dbName" id="database"/>
-                    <c:choose>
-                        <c:when test="${not empty database}"> value="${database}"
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${not empty dbName}"> value="${dbName}"
-                                </c:when>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
+                    <%--<c:choose>--%>
+                        <%--<c:when test="${not empty database}"> value="${database}"--%>
+                        <%--</c:when>--%>
+                        <%--<c:otherwise>--%>
+                            <%--<c:choose>--%>
+                                <%--<c:when test="${not empty dbName}"> value="${dbName}"--%>
+                                <%--</c:when>--%>
+                            <%--</c:choose>--%>
+                        <%--</c:otherwise>--%>
+                    <%--</c:choose>--%>
             </td>
         </tr>
         <tr>

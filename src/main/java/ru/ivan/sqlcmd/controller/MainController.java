@@ -26,8 +26,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public String help(HttpSession session) {
-        session.setAttribute("commands", service.help());
+    public String help(Model model) {
+        model.addAttribute("commands", service.help());
         return "help";
     }
 
@@ -46,28 +46,21 @@ public class MainController {
             return "redirect:/connect";
         }
 
+        String currentDatabase = (String) session.getAttribute("db_name");
+        if (currentDatabase != null) {
+                model.addAttribute("currentDatabase", currentDatabase);
+         }
+
         model.addAttribute("databases", service.databases(manager));
         return "databases";
     }
 
-//    @RequestMapping(value = "/connect", method = RequestMethod.GET)
-//    public String connect(HttpSession session, Model model) {
-//        String page = (String) session.getAttribute("from-page");
-//        session.removeAttribute("from-page");
-//        model.addAttribute("connection", new Connection(page));
-//        if (getManager(session) == null) {
-//            return "connect";
-//        } else {
-//            return "menu";
-//        }
-//    }
-
     @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(Model model, @RequestParam(value = "database", required = false)
+    public String connect(Model model, @ModelAttribute("database")
             String database, HttpSession session) {
         String page = (String) session.getAttribute("from-page");
         session.removeAttribute("from-page");
-        if (database != null) {
+        if (database != null && !database.equals("")) {
             model.addAttribute("connection", new Connection(database, page));
             return "connect";
         } else {
@@ -75,7 +68,8 @@ public class MainController {
             if (getManager(session) == null) {
                 return "connect";
             } else {
-                return "menu";
+                session.setAttribute("from-page", "/menu");
+                return menu(model);
             }
         }
     }
@@ -98,22 +92,22 @@ public class MainController {
 
     @RequestMapping(value = "/rows", method = RequestMethod.GET)
     public String rows(Model model,
-                       @RequestParam(value = "table", required = false) String table,
+                       @ModelAttribute("table") String tableName,
                        HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows/" + table);
+            session.setAttribute("from-page", "/rows/" + tableName);
             return "redirect:/connect";
         }
-        model.addAttribute("table", service.rows(manager, table));
-        model.addAttribute("tableName", table);
+        model.addAttribute("table", service.rows(manager, tableName));
+        model.addAttribute("tableName", tableName);
         return "rows";
     }
 
     @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
     public String openDatabase(Model model,
-                               @RequestParam(value = "database", required = false) String database,
+                               @ModelAttribute("database") String database,
                                HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -123,7 +117,6 @@ public class MainController {
         }
         model.addAttribute("databaseName", database);
         String currentDatabase = (String) session.getAttribute("db_name");
-        ;
         if (currentDatabase != null) {
             if (currentDatabase.equals(database)) {
                 model.addAttribute("currentDatabase", true);
@@ -141,7 +134,7 @@ public class MainController {
 
     @RequestMapping(value = "/createdatabase", method = {RequestMethod.POST})
     public String createDatabase(Model model,
-                                 @RequestParam(value = "database", required = true) String database,
+                                 @ModelAttribute("database") String database,
                                  HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -164,7 +157,7 @@ public class MainController {
 
     @RequestMapping(value = "/dropdatabase", method = {RequestMethod.POST, RequestMethod.GET})
     public String dropDatabase(Model model,
-                               @RequestParam(value = "database", required = true) String database,
+                               @ModelAttribute("database") String database,
                                HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -189,8 +182,8 @@ public class MainController {
 
     @RequestMapping(value = "/truncatedatabase", method = {RequestMethod.GET})
     public String truncateDatabase(Model model,
-                               @RequestParam(value = "database", required = true) String database,
-                               HttpSession session) {
+                                   @ModelAttribute("database") String database,
+                                   HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
@@ -214,7 +207,7 @@ public class MainController {
 
     @RequestMapping(value = "/droptable", method = {RequestMethod.GET})
     public String dropTable(Model model,
-                            @RequestParam(value = "table", required = true) String table,
+                            @ModelAttribute("table") String tableName,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -223,15 +216,15 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.dropTable(table);
+                manager.dropTable(tableName);
                 model.addAttribute("message", String.format("Table '%s' dropped successfully!",
-                        table));
+                        tableName));
                 model.addAttribute("link", "tables");
                 model.addAttribute("title", "Back to tables list");
                 return "message";
             } catch (Exception e) {
                 model.addAttribute("message", String.format("Table '%s' cannot be dropped!",
-                        table));
+                        tableName));
                 return "error";
             }
         }
@@ -239,7 +232,7 @@ public class MainController {
 
     @RequestMapping(value = "/truncatetable", method = {RequestMethod.GET})
     public String truncateTable(Model model,
-                                @RequestParam(value = "table", required = true) String table,
+                                @ModelAttribute("table") String tableName,
                                 HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -248,15 +241,15 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.truncateTable(table);
+                manager.truncateTable(tableName);
                 model.addAttribute("message", String.format("Table '%s' truncated successfully!",
-                        table));
+                        tableName));
                 model.addAttribute("link", "tables");
                 model.addAttribute("title", "Back to tables list");
                 return "message";
             } catch (Exception e) {
                 model.addAttribute("message", String.format("Table '%s' cannot be truncated!",
-                        table));
+                        tableName));
                 return "error";
             }
         }
@@ -264,18 +257,18 @@ public class MainController {
 
     @RequestMapping(value = "/openrow", method = {RequestMethod.GET})
     public String openRow(Model model,
-                          @RequestParam(value = "table", required = true) String table,
-                          @RequestParam(value = "id", required = true) int id,
+                          @ModelAttribute("table") String tableName,
+                          @ModelAttribute("id") int id,
                           HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + table);
+            session.setAttribute("from-page", "/rows?table=" + tableName);
             return "redirect:/connect";
         } else {
-            model.addAttribute("tableName", table);
+            model.addAttribute("tableName", tableName);
             model.addAttribute("id", id);
-            model.addAttribute("table", getRow(manager, table, id));
+            model.addAttribute("table", getRow(manager, tableName, id));
             return "openrow";
         }
     }
@@ -302,26 +295,26 @@ public class MainController {
 
     @RequestMapping(value = "/deleterow", method = {RequestMethod.GET})
     public String deleteRow(Model model,
-                            @RequestParam(value = "table", required = true) String table,
-                            @RequestParam(value = "id", required = true) int id,
+                            @ModelAttribute("table") String tableName,
+                            @ModelAttribute("id") int id,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + table);
+            session.setAttribute("from-page", "/rows?table=" + tableName);
             return "redirect:/connect";
         } else {
             try {
-                manager.deleteRow(table, id);
+                manager.deleteRow(tableName, id);
                 model.addAttribute("message", String.format("Row with id='%s' in table='%s' " +
                                 "deleted successfully!", id,
-                        table));
-                model.addAttribute("link", "rows?table=" + table);
-                model.addAttribute("title", String.format("Back to tables '%s' rows ", table));
+                        tableName));
+                model.addAttribute("link", "rows?table=" + tableName);
+                model.addAttribute("title", String.format("Back to tables '%s' rows ", tableName));
                 return "message";
             } catch (Exception e) {
                 model.addAttribute("message", String.format("Row with id='%s' in table='%s' cannot be deleted!", id,
-                        table));
+                        tableName));
                 return "error";
             }
         }
@@ -329,8 +322,8 @@ public class MainController {
 
     @RequestMapping(value = "/updaterow", method = {RequestMethod.POST})
     public String updateRow(Model model,
-                            @RequestParam(value = "tableName", required = false) String tableName,
-                            @RequestParam(value = "id", required = false) int id,
+                            @ModelAttribute("tableName") String tableName,
+                            @ModelAttribute("id") int id,
                             @RequestParam Map<String, Object> allRequestParams,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
@@ -366,7 +359,7 @@ public class MainController {
 
     @RequestMapping(value = "/insertrow", method = {RequestMethod.GET})
     public String insertRow(Model model,
-                            @RequestParam(value = "table", required = false) String tableName,
+                            @ModelAttribute("table") String tableName,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -383,7 +376,8 @@ public class MainController {
 
     @RequestMapping(value = "/insertrow", method = {RequestMethod.POST})
     public String insertRow(Model model,
-                            @RequestParam(value = "table", required = false) String tableName,
+                            @ModelAttribute("table") String tableName,
+                            @ModelAttribute("id") int id,
                             @RequestParam Map<String, Object> allRequestParams,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
@@ -421,8 +415,8 @@ public class MainController {
 
     @RequestMapping(value = "/newtable", method = {RequestMethod.GET})
     public String newTable(Model model,
-                           @RequestParam(value = "tableName", required = false) String tableName,
-                           @RequestParam(value = "columnCount", required = true, defaultValue = "1")
+                           @ModelAttribute("tableName") String tableName,
+                           @ModelAttribute("columnCount")
                                    int columnCount,
                            HttpSession session) {
 
@@ -440,10 +434,9 @@ public class MainController {
 
     @RequestMapping(value = "/newtable", method = {RequestMethod.POST})
     public String newTable(Model model,
-                           @RequestParam(value = "tableName", required = false) String tableName,
-                           @RequestParam(value = "columnCount", required = true, defaultValue = "1")
-                                   int columnCount,
-                           @RequestParam(value = "keyName", required = false) String keyName,
+                           @ModelAttribute("tableName") String tableName,
+                           @ModelAttribute("columnCount") int columnCount,
+                           @ModelAttribute("keyName") String keyName,
                            @RequestParam Map<String, Object> allRequestParams,
                            HttpSession session) {
         DatabaseManager manager = getManager(session);
