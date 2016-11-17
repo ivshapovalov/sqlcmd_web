@@ -32,7 +32,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String QUERY_TABLE_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' " +
             "AND table_name = '%s' ORDER BY table_name;";
     private static final String QUERY_DELETE_ROW = "DELETE  FROM %s WHERE id = %s";
-    private static final String QUERY_COLUMN_TYPE = "SELECT column_name,data_type FROM information_schema.columns"
+    private static final String QUERY_COLUMN_TYPE = "SELECT data_type FROM information_schema.columns"
             + "  WHERE table_schema = 'public' AND table_name = '%s' AND column_name='%s'";
     private static final String QUERY_UPDATE_ROW = "UPDATE %s SET %s WHERE %s = ?";
 
@@ -145,9 +145,9 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void createDatabase(final String databaseName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(String.format(QUERY_DATABASE_CREATE, databaseName));
-        } catch (SQLException e) {
+        try {
+            template.execute(String.format(QUERY_DATABASE_CREATE, databaseName));
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is not possible to create a table '%s'", databaseName), e);
 
         }
@@ -155,19 +155,19 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void dropDatabase(final String databaseName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(String.format(QUERY_DATABASE_DROP, databaseName));
-        } catch (SQLException e) {
+        try {
+            template.execute(String.format(QUERY_DATABASE_DROP, databaseName));
+
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", databaseName), e);
         }
     }
 
     @Override
     public void createTable(final String query) {
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE public." + query);
-        } catch (SQLException e) {
+        try {
+            template.execute("CREATE TABLE public." + query);
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("Query cannot be completed  '%s'",
                     query),
                     e);
@@ -176,14 +176,16 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getDatabasesNames() {
-        Set<String> databases = new LinkedHashSet<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(QUERY_DATABASES_NAMES)) {
-            while (rs.next()) {
-                databases.add(rs.getString("database_name"));
-            }
-            return databases;
-        } catch (SQLException e) {
+        try {
+            return new LinkedHashSet<>(template.query(QUERY_DATABASES_NAMES,
+                    new RowMapper<String>() {
+                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            return rs.getString("database_name");
+                        }
+                    }
+            ));
+
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException("It is not possible to obtain the list of databases", e);
 
         }
@@ -191,19 +193,21 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public List<Map<String, Object>> getTableRows(final String tableName) {
-        List<Map<String, Object>> result = new LinkedList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(String.format(QUERY_SELECT_ROWS, tableName))) {
-            ResultSetMetaData rsmd = rs.getMetaData();
-            while (rs.next()) {
-                Map<String, Object> data = new LinkedHashMap<>();
-                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
-                    data.put(rsmd.getColumnName(index), rs.getObject(index));
-                }
-                result.add(data);
-            }
-            return result;
-        } catch (SQLException e) {
+        try {
+            return template.query(String.format(QUERY_SELECT_ROWS, tableName),
+                    new RowMapper<Map<String, Object>>() {
+                        public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            ResultSetMetaData rsmd = rs.getMetaData();
+                            Map<String, Object> dataSet = new LinkedHashMap<>();
+                            for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                                dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+                            }
+                            return dataSet;
+                        }
+                    }
+            );
+
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is not possible to list table '%s' rows", tableName), e);
         }
     }
@@ -227,9 +231,9 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void dropTable(final String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(String.format(QUERY_DROP_TABLE, tableName));
-        } catch (SQLException e) {
+        try {
+            template.execute(String.format(QUERY_DROP_TABLE, tableName));
+        } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", tableName), e);
         }
     }
@@ -271,20 +275,13 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Map<String, Object> getRow(final String tableName, int id) {
-        Map<String, Object> result = new LinkedHashMap<>();
         String sql = String.format(QUERY_SELECT_ROWS + " where id=%s", tableName, id);
-        try (Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            while (rs.next()) {
-                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
-                    result.put(rsmd.getColumnName(index), rs.getObject(index));
-                }
-            }
-            return result;
-        } catch (SQLException e) {
-            String message = String.format("Cannot insert a row into a table '%s'. Table or column does not exists.",
-                    tableName);
+        try {
+            return template.queryForMap(sql);
+
+        } catch (DataAccessException e) {
+            String message = String.format("Cannot get row with id='%s' from table '%s'",
+                    id, tableName);
             throw new DatabaseManagerException(message);
         }
     }
@@ -311,11 +308,11 @@ public class PostgreSQLManager implements DatabaseManager {
 
     private Object getColumnType(final String tableName, final String conditionColumnName, final String conditionColumnValue) {
         String dataType = "";
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(String.format(QUERY_COLUMN_TYPE, tableName, conditionColumnName))) {
-            while (rs.next()) {
-                dataType = rs.getString("data_type");
-            }
+
+        try {
+            dataType = template.queryForObject(String.format(QUERY_COLUMN_TYPE,
+                    tableName, conditionColumnName), String.class);
+
             if (!"".equals(dataType)) {
                 if (dataType.contains("text")) {
                     return conditionColumnValue;
@@ -323,20 +320,20 @@ public class PostgreSQLManager implements DatabaseManager {
                     return Integer.valueOf(conditionColumnValue);
                 }
             }
-        } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to get data type of '%s' column in table '%s'",
-                    conditionColumnName, tableName),
-                    e);
+        } catch (DataAccessException e) {
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a " +
+                    "columns '%s' type of table '%s'  ", conditionColumnName, tableName), e);
         }
         return null;
+
     }
 
     @Override
     public void deleteRow(final String tableName, final int id) {
         String query = String.format(QUERY_DELETE_ROW, tableName, String.valueOf(id));
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.executeUpdate();
-        } catch (SQLException e) {
+        try {
+            template.execute(query);
+        } catch (DataAccessException e) {
             String message = String.format("It is not possible to delete a record with id=%s in table '%s'." +
                             " Table or column does not exists.",
                     id, tableName);
@@ -356,28 +353,31 @@ public class PostgreSQLManager implements DatabaseManager {
                     }
             ));
         } catch (DataAccessException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s' ",
-                    tableName),
-                    e);
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a " +
+                    "columns of table '%s'  ", tableName), e);
         }
     }
 
     @Override
     public Set<String> getTableColumnsWithType(final String tableName) {
-        Set<String> tables = new LinkedHashSet<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(String.format(QUERY_TABLE_COLUMNS,
-                     tableName))) {
-            while (rs.next()) {
-                tables.add(rs.getString("column_name").concat(" (").concat(rs.getString
-                        ("data_type").concat(")")));
-            }
-            return tables;
-        } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("It is impossible to obtain a list of table '%s'",
+
+        try {
+            return new LinkedHashSet<>(template.query(String.format(QUERY_TABLE_COLUMNS, tableName),
+                    new RowMapper<String>() {
+                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            return rs.getString("column_name").concat(" (").concat(rs.getString
+                                    ("data_type").concat(")"));
+                        }
+                    }
+            ));
+        } catch (DataAccessException e) {
+            throw new DatabaseManagerException(String.format("It is impossible to obtain a " +
+                            "columns" +
+                            " of table '%s' ",
                     tableName),
                     e);
         }
+
     }
 
     @Override
