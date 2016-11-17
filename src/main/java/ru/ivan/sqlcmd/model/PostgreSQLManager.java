@@ -288,7 +288,6 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void updateRow(final String tableName, final String conditionColumnName, String conditionColumnValue, final Map<String, Object> newRow) {
-
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
         String query = createString(String.format(QUERY_UPDATE_ROW,
                 tableName, tableNames, conditionColumnName));
@@ -299,9 +298,7 @@ public class PostgreSQLManager implements DatabaseManager {
             Object row=getColumnType(tableName, entry.getKey(), entry.getValue().toString());
             objects.add(row);
         }
-        //List<Object> objects = new LinkedList<>(newRow.values());
         objects.add(id);
-
         try {
             template.update(query, objects.toArray());
         } catch (DataAccessException e) {
@@ -331,7 +328,6 @@ public class PostgreSQLManager implements DatabaseManager {
                     "columns '%s' type of table '%s'  ", conditionColumnName, tableName), e);
         }
         return null;
-
     }
 
     @Override
