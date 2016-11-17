@@ -1,7 +1,10 @@
 package ru.ivan.sqlcmd.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.UserAction;
+import ru.ivan.sqlcmd.model.UserActionsDao;
 
 import java.util.*;
 
@@ -10,11 +13,14 @@ public abstract class ServiceImpl implements Service {
 
     public abstract DatabaseManager getManager();
 
+    @Autowired
+    private UserActionsDao userActions;
 
     @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
+        userActions.log(new UserAction(userName, databaseName, "CONNECT"));
         return manager;
     }
 
@@ -34,10 +40,11 @@ public abstract class ServiceImpl implements Service {
                     row.add(ob.toString());
                 } else {
                     row.add("");
-
                 }
             }
         }
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(), "ROWS ("
+                + tableName + ")"));
         return result;
     }
 
@@ -52,6 +59,8 @@ public abstract class ServiceImpl implements Service {
             row.add(String.valueOf(manager.getTableSize(tableName)));
             tablesWithSize.add(row);
         }
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(), "TABLES"));
+
         return tablesWithSize;
     }
 
@@ -61,11 +70,17 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public List<String> getMainMenu() {
-        return Arrays.asList("help", "connect", "databases", "tables", "disconnect");
+    public List<String> getMainMenu(DatabaseManager manager) {
+        if (manager != null) {
+            userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                    "MENU"));
+        } else {
+            userActions.log(new UserAction("", "", "MENU"));
+        }
+        return Arrays.asList("help", "connect", "databases", "tables", "disconnect","actions");
     }
 
-    public List<List<String>> help() {
+    public List<List<String>> help(DatabaseManager manager) {
         List<List<String>> commands = new ArrayList<>();
 
         commands.add(Arrays.asList("connect", "connect to database"));
@@ -81,7 +96,24 @@ public abstract class ServiceImpl implements Service {
         commands.add(Arrays.asList("insert row", "insert new row in selected table"));
         commands.add(Arrays.asList("update row", "update selected row in table"));
         commands.add(Arrays.asList("delete row", "delete selected row in table"));
+
+        if (manager != null) {
+            userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                    "HELP"));
+        } else {
+            userActions.log(new UserAction("", "", "HELP"));
+        }
+
         return commands;
+    }
+
+    @Override
+    public List<UserAction> getAllActionsOfUser(String userName) {
+        if (userName == null) {
+            throw new IllegalArgumentException("User name cant be null!");
+        }
+
+        return userActions.getAllActionsOfUser(userName);
     }
 
 }

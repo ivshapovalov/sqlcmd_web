@@ -1,22 +1,16 @@
-package ru.ivan.sqlcmd.model.entity;
+package ru.ivan.sqlcmd.model;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "user_actions", schema = "public")
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class UserAction {
 
-    @Column(name = "user_name")
     private String userName;
-
-    @Column(name = "db_name")
     private String dbName;
-
-    @Column(name = "action")
     private String action;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String dateTime;
     private int id;
 
     public UserAction() {
@@ -27,6 +21,9 @@ public class UserAction {
         this.userName = userName;
         this.dbName = dbName;
         this.action = action;
+        Calendar calendar=Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.dateTime= sdf.format(calendar.getTime());
     }
 
     public String getUserName() {
@@ -55,5 +52,13 @@ public class UserAction {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

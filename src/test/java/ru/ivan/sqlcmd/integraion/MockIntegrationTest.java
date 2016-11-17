@@ -43,9 +43,10 @@ public class MockIntegrationTest {
         runner.start();
         service = runner.getBean("service");
 
-        when(service.getMainMenu()).thenReturn(Arrays.asList("listOfCommands","databases","tables","disconnect"));
-
         DatabaseManager manager = mock(DatabaseManager.class);
+        when(service.getMainMenu(manager)).thenReturn(Arrays.asList("help","databases","tables",
+                "disconnect","actions"));
+
         when(service.connect(anyString(), anyString(), anyString()))
                 .thenReturn(manager);
 

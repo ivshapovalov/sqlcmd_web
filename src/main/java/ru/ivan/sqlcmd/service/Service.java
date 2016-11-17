@@ -1,6 +1,7 @@
 package ru.ivan.sqlcmd.service;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.UserAction;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,11 +15,13 @@ public interface Service  {
 
     List<List<String>> tables(DatabaseManager manager);
 
-    List<String>  getMainMenu();
+    List<String>  getMainMenu(DatabaseManager manager);
 
     List<String>  databases(DatabaseManager manager);
 
-    List<List<String>> help();
+    List<List<String>> help(DatabaseManager manager);
+
+    List<UserAction> getAllActionsOfUser(String userName);
 
 }
 

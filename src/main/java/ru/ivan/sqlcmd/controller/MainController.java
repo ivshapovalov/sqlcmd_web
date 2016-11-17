@@ -3,11 +3,9 @@ package ru.ivan.sqlcmd.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.PostgreSQLManager;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +17,16 @@ public class MainController {
     @Autowired
     private Service service;
 
+    @RequestMapping(value = "/actions", method = RequestMethod.GET)
+    public String actions(Model model,HttpSession session) {
+        DatabaseManager manager = getManager(session);
+        if (manager!=null) {
+            model.addAttribute("actions", service.getAllActionsOfUser(manager.getUserName()));
+            return "actions";
+        }
+        return "redirect:/menu";
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(HttpSession session) {
         session.setAttribute("from-page", "/menu");
@@ -26,9 +34,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public String help(Model model) {
-        model.addAttribute("commands", service.help());
-        return "help";
+    public String help(Model model,HttpSession session) {
+        DatabaseManager manager = getManager(session);
+            model.addAttribute("commands", service.help(manager));
+            return "help";
     }
 
     @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
@@ -48,8 +57,8 @@ public class MainController {
 
         String currentDatabase = (String) session.getAttribute("db_name");
         if (currentDatabase != null) {
-                model.addAttribute("currentDatabase", currentDatabase);
-         }
+            model.addAttribute("currentDatabase", currentDatabase);
+        }
 
         model.addAttribute("databases", service.databases(manager));
         return "databases";
@@ -69,7 +78,7 @@ public class MainController {
                 return "connect";
             } else {
                 session.setAttribute("from-page", "/menu");
-                return menu(model);
+                return menu(model,session);
             }
         }
     }
@@ -125,11 +134,9 @@ public class MainController {
         return "opendatabase";
     }
 
-
     @RequestMapping(value = "/createdatabase", method = {RequestMethod.GET})
     public String createDatabase() {
         return "createdatabase";
-
     }
 
     @RequestMapping(value = "/createdatabase", method = {RequestMethod.POST})
@@ -187,11 +194,12 @@ public class MainController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/opendatabase?database="+database);
+            session.setAttribute("from-page", "/opendatabase?database=" + database);
             return "redirect:/connect";
         } else {
             try {
-                manager.truncateAllTables();;
+                manager.truncateAllTables();
+                ;
                 model.addAttribute("message", String.format("Database '%s' truncated successfully!",
                         database));
                 model.addAttribute("link", "databases");
@@ -279,9 +287,9 @@ public class MainController {
         List<String> columnsWithType = new LinkedList<>(manager.getTableColumnsWithType(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
 
-        for (int i=0;i<columns.size();i++) {
-            String column=columns.get(i);
-            String columnWithType=columnsWithType.get(i);
+        for (int i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            String columnWithType = columnsWithType.get(i);
             List<String> row = new ArrayList<>(2);
             row.add(columnWithType);
             Object ob = tableData.get(column);
@@ -480,8 +488,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu(Model model) {
-        model.addAttribute("items", service.getMainMenu());
+    public String menu(Model model, HttpSession session) {
+        DatabaseManager manager = getManager(session);
+        model.addAttribute("items", service.getMainMenu(manager));
         return "menu";
     }
 
