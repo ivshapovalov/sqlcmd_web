@@ -276,11 +276,14 @@ public class MainController {
     public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        List<String> columnsWithType = new LinkedList<>(manager.getTableColumnsWithType(tableName));
         Map<String, Object> tableData = manager.getRow(tableName, id);
 
-        for (String column : columns) {
+        for (int i=0;i<columns.size();i++) {
+            String column=columns.get(i);
+            String columnWithType=columnsWithType.get(i);
             List<String> row = new ArrayList<>(2);
-            row.add(column);
+            row.add(columnWithType);
             Object ob = tableData.get(column);
             if (ob != null) {
                 row.add(ob.toString());

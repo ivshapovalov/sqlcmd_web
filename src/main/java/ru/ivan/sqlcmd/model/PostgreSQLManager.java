@@ -320,7 +320,7 @@ public class PostgreSQLManager implements DatabaseManager {
                     tableName, conditionColumnName), String.class);
 
             if (!"".equals(dataType)) {
-                if (dataType.contains("text")) {
+                if (dataType.contains("text") ||dataType.contains("char")) {
                     return conditionColumnValue;
                 } else if (dataType.contains("numeric") || dataType.contains("integer")) {
                     return Integer.valueOf(conditionColumnValue);
