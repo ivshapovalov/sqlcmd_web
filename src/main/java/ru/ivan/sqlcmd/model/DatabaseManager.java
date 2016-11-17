@@ -47,4 +47,9 @@ public interface DatabaseManager {
     void dropAllDatabases();
 
     void deleteRow(String tableName, int id);
+
+    String getDatabaseName();
+
+    String getUserName();
+
 }

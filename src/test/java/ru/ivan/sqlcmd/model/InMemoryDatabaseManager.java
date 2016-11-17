@@ -126,4 +126,14 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     public void deleteRow(String tableName, int id) {
 
     }
+
+    @Override
+    public String getDatabaseName() {
+        return "";
+    }
+
+    @Override
+    public String getUserName() {
+        return "";
+    }
 }
