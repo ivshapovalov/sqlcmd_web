@@ -292,8 +292,14 @@ public class PostgreSQLManager implements DatabaseManager {
         String tableNames = getFormatedName(newRow, "\"%s\" = ?,");
         String query = createString(String.format(QUERY_UPDATE_ROW,
                 tableName, tableNames, conditionColumnName));
+        List<Object> objects = new LinkedList<>();
         Object id = getColumnType(tableName, conditionColumnName, conditionColumnValue);
-        List<Object> objects = new LinkedList<>(newRow.values());
+        for (Map.Entry<String,Object> entry:newRow.entrySet()
+             ) {
+            Object row=getColumnType(tableName, entry.getKey(), entry.getValue().toString());
+            objects.add(row);
+        }
+        //List<Object> objects = new LinkedList<>(newRow.values());
         objects.add(id);
 
         try {
