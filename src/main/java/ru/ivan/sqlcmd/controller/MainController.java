@@ -384,6 +384,8 @@ public class MainController {
         }
     }
 
+
+
     @RequestMapping(value = "/insertrow", method = {RequestMethod.POST})
     public String insertRow(Model model,
                             @ModelAttribute("table") String tableName,
