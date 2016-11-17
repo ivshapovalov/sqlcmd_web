@@ -23,5 +23,23 @@ public interface Service  {
 
     List<UserAction> getAllActionsOfUser(String userName);
 
+    void createDatabase(DatabaseManager manager,String database);
+
+    void dropDatabase(DatabaseManager manager, String database);
+
+    void truncateTable(DatabaseManager manager, String tableName);
+
+    void dropTable(DatabaseManager manager, String tableName);
+
+    void truncateAllTables(DatabaseManager manager, String database);
+
+    void deleteRow(DatabaseManager manager, String tableName, int id);
+
+    void updateRow(DatabaseManager manager, String tableName, String conditionColumnName,String
+            conditionColumnValue, Map<String, Object> newRow);
+
+    void insertRow(DatabaseManager manager, String tableName, Map<String, Object> newRow);
+
+    void createTable(DatabaseManager manager, String query);
 }
 

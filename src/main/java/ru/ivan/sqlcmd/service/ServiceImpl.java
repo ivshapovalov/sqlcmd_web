@@ -116,4 +116,70 @@ public abstract class ServiceImpl implements Service {
         return userActions.getAllActionsOfUser(userName);
     }
 
+    @Override
+    public void createDatabase(DatabaseManager manager, String database) {
+        manager.createDatabase(database);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "CREATE DATABASE ("+database+")"));
+
+    }
+
+    @Override
+    public void createTable(DatabaseManager manager, String query) {
+        manager.createTable(query);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "CREATE TABLE ("+query+")"));
+    }
+
+    @Override
+    public void dropDatabase(DatabaseManager manager, String database) {
+        manager.dropDatabase(database);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DROP DATABASE ("+database+")"));
+    }
+
+    @Override
+    public void truncateTable(DatabaseManager manager, String tableName) {
+        manager.truncateTable(tableName);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "TRUNCATE TABLE ("+tableName+")"));
+    }
+
+    @Override
+    public void dropTable(DatabaseManager manager, String tableName) {
+        manager.dropTable(tableName);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DROP TABLE ("+tableName+")"));
+    }
+
+    @Override
+    public void truncateAllTables(DatabaseManager manager,String database) {
+        manager.truncateAllTables();
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "TRUNCATE DATABASE ("+database+")"));
+    }
+
+    @Override
+    public void deleteRow(DatabaseManager manager, String tableName, int id) {
+        manager.deleteRow(tableName,id);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DELETE ROW ("+tableName+", id= "+id+")"));
+    }
+
+    @Override
+    public void updateRow(DatabaseManager manager, String tableName, String conditionColumnName,
+                          String conditionColumnValue, Map<String, Object> newRow) {
+        manager.updateRow(tableName, conditionColumnName,conditionColumnValue,newRow);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                String.format("UPDATE ROW ('%s', '%s'='%s')",
+                        tableName,conditionColumnName,conditionColumnValue)));
+    }
+
+    @Override
+    public void insertRow(DatabaseManager manager, String tableName, Map<String, Object> newRow) {
+        manager.insertRow(tableName, newRow);
+        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                String.format("INSERT ROW ('%s')",
+                        tableName)));
+    }
 }

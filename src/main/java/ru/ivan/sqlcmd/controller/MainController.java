@@ -150,7 +150,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.createDatabase(database);
+                service.createDatabase(manager,database);
                 model.addAttribute("message", "New database created successfully!");
                 model.addAttribute("link", "databases");
                 model.addAttribute("title", "Back to databases list");
@@ -173,7 +173,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.dropDatabase(database);
+                service.dropDatabase(manager,database);
                 model.addAttribute("message", String.format("Database '%s' dropped successfully!",
                         database));
                 model.addAttribute("link", "databases");
@@ -198,8 +198,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.truncateAllTables();
-                ;
+                service.truncateAllTables(manager,database);
                 model.addAttribute("message", String.format("Database '%s' truncated successfully!",
                         database));
                 model.addAttribute("link", "databases");
@@ -224,7 +223,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.dropTable(tableName);
+                service.dropTable(manager,tableName);
                 model.addAttribute("message", String.format("Table '%s' dropped successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
@@ -249,7 +248,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.truncateTable(tableName);
+                service.truncateTable(manager,tableName);
                 model.addAttribute("message", String.format("Table '%s' truncated successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
@@ -316,7 +315,7 @@ public class MainController {
             return "redirect:/connect";
         } else {
             try {
-                manager.deleteRow(tableName, id);
+                service.deleteRow(manager, tableName, id);
                 model.addAttribute("message", String.format("Row with id='%s' in table='%s' " +
                                 "deleted successfully!", id,
                         tableName));
@@ -353,7 +352,7 @@ public class MainController {
                 }
                 row.remove("id");
 
-                manager.updateRow(tableName, "id", String.valueOf(id), row);
+                service.updateRow(manager, tableName, "id", String.valueOf(id), row);
                 model.addAttribute("message", String.format("Row with id='%s' updated " +
                         "successfully!", id));
                 model.addAttribute("link", "rows?table=" + tableName);
@@ -405,7 +404,7 @@ public class MainController {
                     Object parameter = allRequestParams.get(columnName);
                     row.put(columnName, parameter);
                 }
-                manager.insertRow(tableName, row);
+                service.insertRow(manager,tableName, row);
                 model.addAttribute("message", "New row inserted successfully!");
                 model.addAttribute("link", "rows?table=" + tableName);
                 model.addAttribute("title", String.format("Back to table '%s' rows ",
@@ -464,7 +463,7 @@ public class MainController {
                 }
                 String query = tableName + "(" + keyName + " INT PRIMARY KEY NOT NULL"
                         + getParameters(columnParameters) + ")";
-                manager.createTable(query);
+                service.createTable(manager,query);
                 model.addAttribute("message", String.format("Table '%s' created successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
