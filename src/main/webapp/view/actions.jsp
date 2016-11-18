@@ -11,12 +11,12 @@
     </tr>
     <c:forEach items="${actions}" var="userAction">
         <tr>
-            <%--<td>--%>
-                    <%--${userAction.connection.userName}--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                    <%--${userAction.connection.dbName}--%>
-            <%--</td>--%>
+            <td>
+                    ${userAction.connection.userName}
+            </td>
+            <td>
+                    ${userAction.connection.dbName}
+            </td>
             <td>
                     ${userAction.action}
             </td>

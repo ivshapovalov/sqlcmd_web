@@ -23,6 +23,15 @@ public abstract class ServiceImpl implements Service {
     private DatabaseConnectionRepository databaseConnections;
 
     @Override
+    public List<UserAction> getAllActionsOfUser(String userName, String dbName) {
+        if (userName == null) {
+            throw new IllegalArgumentException("User name cant be null!");
+        }
+
+        return userActions.findByUserNameAndDbName(userName,dbName);
+    }
+
+    @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
@@ -113,14 +122,7 @@ public abstract class ServiceImpl implements Service {
         return commands;
     }
 
-    @Override
-    public List<UserAction> getAllActionsOfUser(String userName) {
-        if (userName == null) {
-            throw new IllegalArgumentException("User name cant be null!");
-        }
 
-        return userActions.findByUserName(userName);
-    }
 
     @Override
     public void createDatabase(DatabaseManager manager, String database) {

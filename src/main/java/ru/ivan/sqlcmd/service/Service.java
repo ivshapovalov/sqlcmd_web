@@ -19,7 +19,7 @@ public interface Service  {
 
     List<List<String>> help(DatabaseManager manager);
 
-    List<UserAction> getAllActionsOfUser(String userName);
+    List<UserAction> getAllActionsOfUser(String userName, String dbName);
 
     void createDatabase(DatabaseManager manager,String database);
 

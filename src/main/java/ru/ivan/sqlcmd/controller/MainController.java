@@ -22,7 +22,7 @@ public class MainController {
     public String actions(Model model,HttpSession session) {
         DatabaseManager manager = getManager(session);
         if (manager!=null) {
-            List<UserAction> actions=service.getAllActionsOfUser(manager.getUserName());
+            List<UserAction> actions=service.getAllActionsOfUser(manager.getUserName(),manager.getDatabaseName());
             model.addAttribute("actions",actions );
             return "actions";
         }
