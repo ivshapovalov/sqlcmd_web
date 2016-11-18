@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.PostgreSQLManager;
+import ru.ivan.sqlcmd.model.entity.UserAction;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +22,8 @@ public class MainController {
     public String actions(Model model,HttpSession session) {
         DatabaseManager manager = getManager(session);
         if (manager!=null) {
-            model.addAttribute("actions", service.getAllActionsOfUser(manager.getUserName()));
+            List<UserAction> actions=service.getAllActionsOfUser(manager.getUserName());
+            model.addAttribute("actions",actions );
             return "actions";
         }
         return "redirect:/menu";
