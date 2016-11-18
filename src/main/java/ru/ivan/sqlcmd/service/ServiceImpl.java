@@ -3,8 +3,8 @@ package ru.ivan.sqlcmd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.UserAction;
-import ru.ivan.sqlcmd.model.UserActionsDao;
+import ru.ivan.sqlcmd.model.entity.UserAction;
+import ru.ivan.sqlcmd.model.UserActionsRepository;
 
 import java.util.*;
 
@@ -14,13 +14,13 @@ public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Autowired
-    private UserActionsDao userActions;
+    private UserActionsRepository userActions;
 
     @Override
     public DatabaseManager connect(final String databaseName, final String userName, final String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
-        userActions.log(new UserAction(userName, databaseName, "CONNECT"));
+        userActions.save(new UserAction(userName, databaseName, "CONNECT"));
         return manager;
     }
 
@@ -43,8 +43,8 @@ public abstract class ServiceImpl implements Service {
                 }
             }
         }
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(), "ROWS ("
-                + tableName + ")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(), "ROWS " +
+                "(TABLE '"+ tableName + "')"));
         return result;
     }
 
@@ -59,7 +59,7 @@ public abstract class ServiceImpl implements Service {
             row.add(String.valueOf(manager.getTableSize(tableName)));
             tablesWithSize.add(row);
         }
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(), "TABLES"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(), "TABLES"));
 
         return tablesWithSize;
     }
@@ -72,10 +72,10 @@ public abstract class ServiceImpl implements Service {
     @Override
     public List<String> getMainMenu(DatabaseManager manager) {
         if (manager != null) {
-            userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+            userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
                     "MENU"));
         } else {
-            userActions.log(new UserAction("", "", "MENU"));
+            userActions.save(new UserAction("", "", "MENU"));
         }
         return Arrays.asList("help", "connect", "databases", "tables", "disconnect","actions");
     }
@@ -98,10 +98,10 @@ public abstract class ServiceImpl implements Service {
         commands.add(Arrays.asList("delete row", "delete selected row in table"));
 
         if (manager != null) {
-            userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+            userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
                     "HELP"));
         } else {
-            userActions.log(new UserAction("", "", "HELP"));
+            userActions.save(new UserAction("", "", "HELP"));
         }
 
         return commands;
@@ -113,73 +113,73 @@ public abstract class ServiceImpl implements Service {
             throw new IllegalArgumentException("User name cant be null!");
         }
 
-        return userActions.getAllActionsOfUser(userName);
+        return userActions.findByUserName(userName);
     }
 
     @Override
     public void createDatabase(DatabaseManager manager, String database) {
         manager.createDatabase(database);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "CREATE DATABASE ("+database+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "CREATE DATABASE ('"+database+"')"));
 
     }
 
     @Override
     public void createTable(DatabaseManager manager, String query) {
         manager.createTable(query);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
                 "CREATE TABLE ("+query+")"));
     }
 
     @Override
     public void dropDatabase(DatabaseManager manager, String database) {
         manager.dropDatabase(database);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "DROP DATABASE ("+database+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DROP DATABASE ('"+database+"')"));
     }
 
     @Override
     public void truncateTable(DatabaseManager manager, String tableName) {
         manager.truncateTable(tableName);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "TRUNCATE TABLE ("+tableName+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "TRUNCATE TABLE ('"+tableName+"')"));
     }
 
     @Override
     public void dropTable(DatabaseManager manager, String tableName) {
         manager.dropTable(tableName);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "DROP TABLE ("+tableName+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DROP TABLE ('"+tableName+"')"));
     }
 
     @Override
     public void truncateAllTables(DatabaseManager manager,String database) {
         manager.truncateAllTables();
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "TRUNCATE DATABASE ("+database+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "TRUNCATE DATABASE ('"+database+"')"));
     }
 
     @Override
     public void deleteRow(DatabaseManager manager, String tableName, int id) {
         manager.deleteRow(tableName,id);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                "DELETE ROW ("+tableName+", id= "+id+")"));
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "DELETE ROW (TABLE '"+tableName+"', id= '"+id+"')"));
     }
 
     @Override
     public void updateRow(DatabaseManager manager, String tableName, String conditionColumnName,
                           String conditionColumnValue, Map<String, Object> newRow) {
         manager.updateRow(tableName, conditionColumnName,conditionColumnValue,newRow);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                String.format("UPDATE ROW ('%s', '%s'='%s')",
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                String.format("UPDATE ROW (TABLE '%s', '%s'='%s')",
                         tableName,conditionColumnName,conditionColumnValue)));
     }
 
     @Override
     public void insertRow(DatabaseManager manager, String tableName, Map<String, Object> newRow) {
         manager.insertRow(tableName, newRow);
-        userActions.log(new UserAction(manager.getUserName(), manager.getDatabaseName(),
-                String.format("INSERT ROW ('%s')",
+        userActions.save(new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                String.format("INSERT ROW (TABLE '%s')",
                         tableName)));
     }
 }

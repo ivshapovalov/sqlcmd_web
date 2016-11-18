@@ -1,12 +1,10 @@
 package ru.ivan.sqlcmd.service;
 
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.UserAction;
+import ru.ivan.sqlcmd.model.entity.UserAction;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 public interface Service  {
     DatabaseManager connect(String databaseName, String userName, String password);

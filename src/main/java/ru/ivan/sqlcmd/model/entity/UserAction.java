@@ -1,17 +1,28 @@
-package ru.ivan.sqlcmd.model;
+package ru.ivan.sqlcmd.model.entity;
 
 
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+@Entity
+@Table(name = "user_actions", schema = "public")
+
 public class UserAction {
 
-    private String userName;
-    private String dbName;
-    private String action;
-    private String dateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "db_name")
+    private String dbName;
+    @Column(name = "action")
+    private String action;
+    @Column(name = "date_time")
+    private String dateTime;
 
     public UserAction() {
         // do nothing
