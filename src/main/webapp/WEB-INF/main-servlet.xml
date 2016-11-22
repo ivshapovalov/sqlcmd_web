@@ -20,4 +20,14 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <bean id="handlerMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/**">urlFilenameViewController</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+
 </beans>
