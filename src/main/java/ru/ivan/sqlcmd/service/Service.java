@@ -19,7 +19,9 @@ public interface Service  {
 
     List<List<String>> help(DatabaseManager manager);
 
-    List<UserAction> getAllActionsOfUser(String userName, String dbName);
+    List<UserAction> getAllActionsOfUser(String userName);
+
+    List<UserAction> getAllActionsOfUserAndDatabase(String userName, String dbName);
 
     void createDatabase(DatabaseManager manager,String database);
 

@@ -23,7 +23,15 @@ public abstract class ServiceImpl implements Service {
     private DatabaseConnectionRepository databaseConnections;
 
     @Override
-    public List<UserAction> getAllActionsOfUser(String userName, String dbName) {
+    public List<UserAction> getAllActionsOfUser(String userName) {
+        if (userName == null) {
+            throw new IllegalArgumentException("User name cant be null!");
+        }
+        return userActions.findByUserName(userName);
+    }
+
+    @Override
+    public List<UserAction> getAllActionsOfUserAndDatabase(String userName, String dbName) {
         if (userName == null) {
             throw new IllegalArgumentException("User name cant be null!");
         }
@@ -57,9 +65,6 @@ public abstract class ServiceImpl implements Service {
                 }
             }
         }
-
-
-
         userActions.createAction(manager.getUserName(), manager.getDatabaseName(), "ROWS " +
                 "(TABLE '"+ tableName + "')");
         return result;

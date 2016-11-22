@@ -12,4 +12,8 @@ public interface UserActionRepository extends CrudRepository<UserAction, Integer
             " ua.connection.dbName = :dbName ")
     List<UserAction> findByUserNameAndDbName(@Param("userName") String userName,@Param
             ("dbName") String dbName);
+
+
+    @Query(value = "SELECT ua FROM UserAction ua WHERE ua.connection.userName = :userName")
+    List<UserAction> findByUserName(@Param("userName") String userName);
 }
