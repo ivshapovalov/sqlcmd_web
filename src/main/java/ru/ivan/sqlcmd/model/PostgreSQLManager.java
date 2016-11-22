@@ -63,12 +63,11 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void connect(final String database, final String userName, final String password) {
 
-        closeOpenedConnection(connection);
+        this.database = database;
+        this.userName = userName;
         try {
+            closeOpenedConnection();
             connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
-
-            this.database = database;
-            this.userName = userName;
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
 
         } catch (SQLException e) {
@@ -95,10 +94,12 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private void closeOpenedConnection(final Connection connection) {
+    private void closeOpenedConnection() {
         if (connection != null) {
             try {
                 connection.close();
+                connection = null;
+                template = null;
             } catch (SQLException e) {
                 throw new DatabaseManagerException("Unable to close connection", e);
             }
@@ -157,7 +158,6 @@ public class PostgreSQLManager implements DatabaseManager {
     public void dropDatabase(final String databaseName) {
         try {
             template.execute(String.format(QUERY_DATABASE_DROP, databaseName));
-
         } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", databaseName), e);
         }
@@ -178,16 +178,12 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getDatabasesNames() {
         try {
             return new LinkedHashSet<>(template.query(QUERY_DATABASES_NAMES,
-                    new RowMapper<String>() {
-                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                            return rs.getString("database_name");
-                        }
+                    (rs, rowNum) -> {
+                        return rs.getString("database_name");
                     }
             ));
-
         } catch (DataAccessException e) {
             throw new DatabaseManagerException("It is not possible to obtain the list of databases", e);
-
         }
     }
 
@@ -195,15 +191,13 @@ public class PostgreSQLManager implements DatabaseManager {
     public List<Map<String, Object>> getTableRows(final String tableName) {
         try {
             return template.query(String.format(QUERY_SELECT_ROWS, tableName),
-                    new RowMapper<Map<String, Object>>() {
-                        public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
-                            ResultSetMetaData rsmd = rs.getMetaData();
-                            Map<String, Object> dataSet = new LinkedHashMap<>();
-                            for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                                dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
-                            }
-                            return dataSet;
+                    (rs, rowNum) -> {
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        Map<String, Object> dataSet = new LinkedHashMap<>();
+                        for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                            dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
                         }
+                        return dataSet;
                     }
             );
 
@@ -217,10 +211,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
         try {
             return new LinkedHashSet<>(template.query(QUERY_TABLE_NAMES,
-                    new RowMapper<String>() {
-                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                            return rs.getString("table_name");
-                        }
+                    (rs, rowNum) -> {
+                        return rs.getString("table_name");
                     }
             ));
         } catch (DataAccessException | NullPointerException e) {
@@ -293,9 +285,9 @@ public class PostgreSQLManager implements DatabaseManager {
                 tableName, tableNames, conditionColumnName));
         List<Object> objects = new LinkedList<>();
         Object id = getColumnType(tableName, conditionColumnName, conditionColumnValue);
-        for (Map.Entry<String,Object> entry:newRow.entrySet()
-             ) {
-            Object row=getColumnType(tableName, entry.getKey(), entry.getValue().toString());
+        for (Map.Entry<String, Object> entry : newRow.entrySet()
+                ) {
+            Object row = getColumnType(tableName, entry.getKey(), entry.getValue().toString());
             objects.add(row);
         }
         objects.add(id);
@@ -317,7 +309,7 @@ public class PostgreSQLManager implements DatabaseManager {
                     tableName, conditionColumnName), String.class);
 
             if (!"".equals(dataType)) {
-                if (dataType.contains("text") ||dataType.contains("char")) {
+                if (dataType.contains("text") || dataType.contains("char")) {
                     return conditionColumnValue;
                 } else if (dataType.contains("numeric") || dataType.contains("integer")) {
                     return Integer.valueOf(conditionColumnValue);
@@ -348,10 +340,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
         try {
             return new LinkedHashSet<>(template.query(String.format(QUERY_TABLE_COLUMNS, tableName),
-                    new RowMapper<String>() {
-                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                            return rs.getString("column_name");
-                        }
+                    (rs, rowNum) -> {
+                        return rs.getString("column_name");
                     }
             ));
         } catch (DataAccessException e) {
@@ -365,12 +355,10 @@ public class PostgreSQLManager implements DatabaseManager {
 
         try {
             return new LinkedHashSet<>(template.query(String.format(QUERY_TABLE_COLUMNS, tableName),
-                    new RowMapper<String>() {
-                        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    ( rs, rowNum) -> {
                             return rs.getString("column_name").concat(" (").concat(rs.getString
                                     ("data_type").concat(")"));
                         }
-                    }
             ));
         } catch (DataAccessException e) {
             throw new DatabaseManagerException(String.format("It is impossible to obtain a " +
