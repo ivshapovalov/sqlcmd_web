@@ -28,11 +28,9 @@ public class ServiceTest {
     private static final String DB_NAME_LOG = "sqlcmd_log";
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-
+    DatabaseManager manager = new PostgreSQLManager();
     @Autowired
     private Service service;
-
-    DatabaseManager manager = new PostgreSQLManager();
 
     @Test
     public void testCommandList() {
@@ -85,7 +83,7 @@ public class ServiceTest {
         when(mockManager.getDatabaseName()).thenReturn("sqlcmd");
         when(mockManager.getUserName()).thenReturn("postgres");
 
-        //manager = service.connect(DB_NAME_DEFAULT, DB_USER, DB_PASSWORD);
+        manager = service.connect(DB_NAME_DEFAULT, DB_USER, DB_PASSWORD);
         service.truncateTable(mockManager, "mockTable");
         service.tables(mockManager);
         service.rows(mockManager, "mockTable");
@@ -98,7 +96,7 @@ public class ServiceTest {
         service.updateRow(mockManager, "mockTable", "mockKeyName", "mockKeyValue",
                 new HashMap<>());
 
-        //manager=service.connect(DB_NAME_LOG, DB_USER, DB_PASSWORD);
+        manager = service.connect(DB_NAME_LOG, DB_USER, DB_PASSWORD);
         List<List<String>> actions = service.rows(manager, "user_actions");
         for (List<String> row : actions) {
             row.remove(0);
@@ -109,18 +107,20 @@ public class ServiceTest {
         databaseConnection.remove(0);
         String id1 = databaseConnection.get(0).get(0);
         String id2 = databaseConnection.get(1).get(0);
-                assertEquals("[[" + id1 + ", sqlcmd, postgres], " +
+        assertEquals("[[" + id1 + ", sqlcmd, postgres], " +
                 "[" + id2 + ", sqlcmd_log, postgres]]", databaseConnection.toString());
-        assertEquals("[[TRUNCATE TABLE ('mockTable'), " + id1 + "], " +
-                "[TABLES, " + id1 + "], " +
-                "[ROWS (TABLE 'mockTable'), " + id1 + "], " +
-                "[CREATE DATABASE ('mockDatabase'), " + id1 + "], " +
-                "[DROP DATABASE ('mockDatabase'), " + id1 + "], " +
-                "[DELETE ROW (TABLE 'mockTable', id= '0'), " + id1 + "], " +
-                "[DROP TABLE ('mockTable'), " + id1 + "], " +
-                "[INSERT ROW (TABLE 'mockTable'), " + id1 + "], " +
-                "[CREATE TABLE (mockTable), " + id1 + "], " +
-                "[UPDATE ROW (TABLE 'mockTable', 'mockKeyName'='mockKeyValue'), " + id1 + "]]",
+        assertEquals("[[CONNECT, " + id1 + "], " +
+                        "[TRUNCATE TABLE ('mockTable'), " + id1 + "], " +
+                        "[TABLES, " + id1 + "], " +
+                        "[ROWS (TABLE 'mockTable'), " + id1 + "], " +
+                        "[CREATE DATABASE ('mockDatabase'), " + id1 + "], " +
+                        "[DROP DATABASE ('mockDatabase'), " + id1 + "], " +
+                        "[DELETE ROW (TABLE 'mockTable', id= '0'), " + id1 + "], " +
+                        "[DROP TABLE ('mockTable'), " + id1 + "], " +
+                        "[INSERT ROW (TABLE 'mockTable'), " + id1 + "], " +
+                        "[CREATE TABLE (mockTable), " + id1 + "], " +
+                        "[UPDATE ROW (TABLE 'mockTable', 'mockKeyName'='mockKeyValue'), " + id1 + "], " +
+                        "[CONNECT, " + id2 + "]]",
                 actions.toString());
 
     }

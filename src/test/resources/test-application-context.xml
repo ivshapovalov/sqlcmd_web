@@ -13,52 +13,54 @@
                            http://www.springframework.org/schema/data/jpa
                            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="ru.ivan.sqlcmd"/>
+    <import resource="classpath:application-context.xml"/>
 
-    <bean id="InMemoryDatabaseManager" class="ru.ivan.sqlcmd.model.InMemoryDatabaseManager"/>
+    <!--<context:annotation-config/>-->
+    <!--<context:component-scan base-package="ru.ivan.sqlcmd"/>-->
 
-    <bean id="service" class="ru.ivan.sqlcmd.service.ServiceImpl">
-        <lookup-method name="getManager" bean="postgreSQLManager"/>
-    </bean>
+    <!--<bean id="InMemoryDatabaseManager" class="ru.ivan.sqlcmd.model.InMemoryDatabaseManager"/>-->
 
-    <jpa:repositories base-package="ru.ivan.sqlcmd.model"
-                      entity-manager-factory-ref="emf"/>
+    <!--<bean id="service" class="ru.ivan.sqlcmd.service.ServiceImpl">-->
+        <!--<lookup-method name="getManager" bean="postgreSQLManager"/>-->
+    <!--</bean>-->
 
-    <bean id="emf"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="packagesToScan" value="ru.ivan.sqlcmd.model.entity" />
-        <property name="dataSource" ref="logDataSource" />
+    <!--<jpa:repositories base-package="ru.ivan.sqlcmd.model"-->
+                      <!--entity-manager-factory-ref="emf"/>-->
 
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="format_sql">true</prop>
-                <prop key="use_sql_comments">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">validate</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-            </props>
-        </property>
+    <!--<bean id="emf"-->
+          <!--class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="packagesToScan" value="ru.ivan.sqlcmd.model.entity" />-->
+        <!--<property name="dataSource" ref="logDataSource" />-->
 
-        <property name="persistenceProvider">
-            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"></bean>
-        </property>
-    </bean>
+        <!--<property name="jpaProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="format_sql">true</prop>-->
+                <!--<prop key="use_sql_comments">true</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">validate</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+            <!--</props>-->
+        <!--</property>-->
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+        <!--<property name="persistenceProvider">-->
+            <!--<bean class="org.hibernate.jpa.HibernatePersistenceProvider"></bean>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="dataSource" ref="logDataSource" />
-    </bean>
+    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+        <!--<property name="dataSource" ref="logDataSource" />-->
+    <!--</bean>-->
 
 
-    <bean id="logDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${log.jdbc.driverClassName}"/>
-        <property name="url" value="${log.jdbc.url}"/>
-        <property name="username" value="${log.jdbc.username}"/>
-        <property name="password" value="${log.jdbc.password}"/>
-    </bean>
+    <!--<bean id="logDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+        <!--<property name="driverClassName" value="${log.jdbc.driverClassName}"/>-->
+        <!--<property name="url" value="${log.jdbc.url}"/>-->
+        <!--<property name="username" value="${log.jdbc.username}"/>-->
+        <!--<property name="password" value="${log.jdbc.password}"/>-->
+    <!--</bean>-->
 
-    <context:property-placeholder location="classpath:log.jdbc.properties"/>
+    <!--<context:property-placeholder location="classpath:log.jdbc.properties"/>-->
 
 </beans>
