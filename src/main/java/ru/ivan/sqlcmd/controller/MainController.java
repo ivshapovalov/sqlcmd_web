@@ -29,12 +29,7 @@ public class MainController {
         return "redirect:/menu";
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu(Model model) {
-//        DatabaseManager manager = getManager(session);
-//        model.addAttribute("items", service.getMainMenu(manager));
-        return "menu";
-    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(HttpSession session) {
         session.setAttribute("from-page", "/menu");
@@ -86,7 +81,7 @@ public class MainController {
                 return "connect";
             } else {
                 session.setAttribute("from-page", "/menu");
-                return menu(model);
+                return "redirect:menu";
             }
         }
     }
