@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivan.sqlcmd.model.DatabaseConnectionRepository;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.entity.Description;
 import ru.ivan.sqlcmd.model.entity.UserAction;
 import ru.ivan.sqlcmd.model.UserActionRepository;
 
@@ -102,22 +103,22 @@ public abstract class ServiceImpl implements Service {
         return Arrays.asList("help", "connect", "databases", "tables", "disconnect","actions");
     }
 
-    public List<List<String>> help(DatabaseManager manager) {
-        List<List<String>> commands = new ArrayList<>();
+    public List<Description> help(DatabaseManager manager) {
+        List<Description> commands = new ArrayList<>();
 
-        commands.add(Arrays.asList("connect", "connect to database"));
-        commands.add(Arrays.asList("disconnect", "disconnect from database"));
-        commands.add(Arrays.asList("tables", "list of tables"));
-        commands.add(Arrays.asList("databases", "list of databases"));
-        commands.add(Arrays.asList("create database", "create new database with specific name"));
-        commands.add(Arrays.asList("drop database", "drop selected database"));
-        commands.add(Arrays.asList("create table ", "create new table with selected number of columns"));
-        commands.add(Arrays.asList("truncate table", "truncate selected table"));
-        commands.add(Arrays.asList("drop table", "drop selected table"));
-        commands.add(Arrays.asList("rows", "rows of selected table"));
-        commands.add(Arrays.asList("insert row", "insert new row in selected table"));
-        commands.add(Arrays.asList("update row", "update selected row in table"));
-        commands.add(Arrays.asList("delete row", "delete selected row in table"));
+        commands.add(new Description("connect", "connect to database"));
+        commands.add(new Description("disconnect", "disconnect from database"));
+        commands.add(new Description("tables", "list of tables"));
+        commands.add(new Description("databases", "list of databases"));
+        commands.add(new Description("create database", "create new database with specific name"));
+        commands.add(new Description("drop database", "drop selected database"));
+        commands.add(new Description("create table ", "create new table with selected number of columns"));
+        commands.add(new Description("truncate table", "truncate selected table"));
+        commands.add(new Description("drop table", "drop selected table"));
+        commands.add(new Description("rows", "rows of selected table"));
+        commands.add(new Description("insert row", "insert new row in selected table"));
+        commands.add(new Description("update row", "update selected row in table"));
+        commands.add(new Description("delete row", "delete selected row in table"));
 
         if (manager != null) {
             userActions.createAction(manager.getUserName(), manager.getDatabaseName(),

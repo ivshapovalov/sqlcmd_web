@@ -10,7 +10,7 @@ $(window).load(function(){
             var element = elements[index];
             // add <a href="element">element</a><br> inside div
                 container.append('<tr><td> <button type="button" style="width:100%" ' +
-                    ' onclick="location.href=\'' + element + '\'">' + element + '</button></td></tr>')
+                    ' onclick="location.href=\'' + element + '\'">' + element + '</button></td></tr>');
                // container.append('<a href="' + element + '">' + element + '</a></br>');
 
         }

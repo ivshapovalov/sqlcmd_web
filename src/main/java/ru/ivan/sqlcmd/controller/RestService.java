@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.entity.Description;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -21,5 +22,13 @@ public class RestService {
         DatabaseManager manager = null;
         return service.getMainMenu(manager);
     }
+
+    @RequestMapping(value = "/help/content", method = RequestMethod.GET)
+    public List<Description> helpItems() {
+        DatabaseManager manager = null;
+        return service.help(manager);
+    }
+
+
 
 }

@@ -36,12 +36,7 @@ public class MainController {
         return "redirect:/menu";
     }
 
-    @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public String help(Model model,HttpSession session) {
-        DatabaseManager manager = getManager(session);
-            model.addAttribute("commands", service.help(manager));
-            return "help";
-    }
+
 
     @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
     public String disconnect(HttpSession session) {
