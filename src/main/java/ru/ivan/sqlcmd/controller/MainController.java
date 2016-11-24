@@ -30,13 +30,10 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main(HttpSession session) {
-        session.setAttribute("from-page", "/menu");
-        return "redirect:/menu";
+    @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
+    public String main() {
+        return "main";
     }
-
-
 
     @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
     public String disconnect(HttpSession session) {
@@ -44,7 +41,7 @@ public class MainController {
         return "redirect:/connect";
     }
 
-    @RequestMapping(value = "/databases", method = RequestMethod.GET)
+    @RequestMapping(value = "#databases", method = RequestMethod.GET)
     public String databases(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
 
@@ -60,24 +57,43 @@ public class MainController {
         return "databases";
     }
 
+//    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+//    public String connect(Model model, @ModelAttribute("database")
+//            String database, HttpSession session) {
+//        String page = (String) session.getAttribute("from-page");
+//        session.removeAttribute("from-page");
+//        if (database != null && !database.equals("")) {
+//            model.addAttribute("connection", new Connection(database, page));
+//            return "connect";
+//        } else {
+//            model.addAttribute("connection", new Connection(page));
+//            if (getManager(session) == null) {
+//                return "connect";
+//            } else {
+//                session.setAttribute("from-page", "/menu");
+//                return "redirect:menu";
+//            }
+//        }
+//    }
+
     @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(Model model, @ModelAttribute("database")
-            String database, HttpSession session) {
+    public String connect(HttpSession session, Model model,
+                          @RequestParam(required = false, value = "fromPage") String fromPage) {
         String page = (String) session.getAttribute("from-page");
         session.removeAttribute("from-page");
-        if (database != null && !database.equals("")) {
-            model.addAttribute("connection", new Connection(database, page));
+        Connection connection = new Connection(page);
+        if (fromPage != null) {
+            connection.setFromPage(fromPage);
+        }
+        model.addAttribute("connection", connection);
+
+        if (getManager(session) == null) {
             return "connect";
         } else {
-            model.addAttribute("connection", new Connection(page));
-            if (getManager(session) == null) {
-                return "connect";
-            } else {
-                session.setAttribute("from-page", "/menu");
-                return "redirect:menu";
-            }
+            return "menu";
         }
     }
+
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public String connecting(@ModelAttribute("connection") Connection connection,

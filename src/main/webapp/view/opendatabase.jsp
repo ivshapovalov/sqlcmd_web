@@ -20,7 +20,7 @@
             <c:choose>
                 <c:when test="${currentDatabase == true}">
                     <td>
-                        <button onclick="location.href='tables'" type="button">
+                        <button onclick="location.href='main#tables'" type="button">
                             tables
                         </button>
                     </td>

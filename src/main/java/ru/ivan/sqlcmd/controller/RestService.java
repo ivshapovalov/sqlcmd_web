@@ -7,6 +7,7 @@ import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.entity.Description;
 import ru.ivan.sqlcmd.service.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,25 +32,37 @@ public class RestService {
 
     @RequestMapping(value = "/tables/content", method = RequestMethod.GET)
     public List<String> tablesItems(HttpSession session) {
-        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        DatabaseManager manager = getManager(session);
         return service.tables(manager);
     }
 
     @RequestMapping(value = "/databases/content", method = RequestMethod.GET)
     public List<String> databasesItems(HttpSession session) {
-        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        DatabaseManager manager = getManager(session);
         return service.databases(manager);
     }
 
     @RequestMapping(value = "/table/{table}/content", method = RequestMethod.GET)
     public List<List<String>> rowsItems(@PathVariable(value = "table") String tableName,
                                   HttpSession session) {
-        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return new LinkedList<>();
         }
+        session.setAttribute("tableName",tableName);
         return service.rows(manager,tableName);
+    }
+
+
+    @RequestMapping(value = "/connected", method = RequestMethod.GET)
+    public boolean isConnected(HttpServletRequest request) {
+        DatabaseManager manager = getManager(request.getSession());
+        return manager != null;
+    }
+
+    private DatabaseManager getManager(HttpSession session) {
+        return (DatabaseManager) session.getAttribute("manager");
     }
 
 }
