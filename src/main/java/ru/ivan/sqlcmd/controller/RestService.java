@@ -36,5 +36,11 @@ public class RestService {
         return service.tables(manager);
     }
 
+    @RequestMapping(value = "/databases/content", method = RequestMethod.GET)
+    public List<String> databasesItems(HttpSession session) {
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        return service.databases(manager);
+    }
+
 
 }

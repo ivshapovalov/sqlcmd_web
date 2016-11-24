@@ -55,10 +55,8 @@ public class MainController {
 
         String currentDatabase = (String) session.getAttribute("db_name");
         if (currentDatabase != null) {
-            model.addAttribute("currentDatabase", currentDatabase);
+            session.setAttribute("currentDatabase", currentDatabase);
         }
-
-        model.addAttribute("databases", service.databases(manager));
         return "databases";
     }
 
