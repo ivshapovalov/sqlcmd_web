@@ -50,8 +50,8 @@ public class MockIntegrationTest {
         when(service.connect(anyString(), anyString(), anyString()))
                 .thenReturn(manager);
 
-        List<String> table1=Arrays.asList("table1", "5");
-        List<String> table2=Arrays.asList("table2", "10");
+        String table1="table1";
+        String table2="table2";
         when(service.tables(manager))
                 .thenReturn(new LinkedList<>(Arrays.asList(table1,table2)));
 

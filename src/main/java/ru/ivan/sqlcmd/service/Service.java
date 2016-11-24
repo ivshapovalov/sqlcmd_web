@@ -12,7 +12,7 @@ public interface Service  {
 
     List<List<String>> rows(DatabaseManager manager, String users);
 
-    List<List<String>> tables(DatabaseManager manager);
+    List<String> tables(DatabaseManager manager);
 
     List<String>  getMainMenu(DatabaseManager manager);
 

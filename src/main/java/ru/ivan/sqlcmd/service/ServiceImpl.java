@@ -72,19 +72,19 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> tables(DatabaseManager manager) {
+    public List<String> tables(DatabaseManager manager) {
         List<String> tableNames = new LinkedList<>(manager.getTableNames());
-        List<List<String>> tablesWithSize = new LinkedList<>();
-        for (String tableName : tableNames
-                ) {
-            List<String> row = new LinkedList<>();
-            row.add(tableName);
-            row.add(String.valueOf(manager.getTableSize(tableName)));
-            tablesWithSize.add(row);
-        }
+//        List<List<String>> tablesWithSize = new LinkedList<>();
+//        for (String tableName : tableNames
+//                ) {
+//            List<String> row = new LinkedList<>();
+//            row.add(tableName);
+//            row.add(String.valueOf(manager.getTableSize(tableName)));
+//            tablesWithSize.add(row);
+//        }
         userActions.createAction(manager.getUserName(), manager.getDatabaseName(), "TABLES");
 
-        return tablesWithSize;
+        return tableNames;
     }
 
     @Override

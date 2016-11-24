@@ -485,7 +485,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/tables", method = RequestMethod.GET)
-    public String tables(Model model, HttpSession session) {
+    public String tables(HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
@@ -493,7 +493,6 @@ public class MainController {
             return "redirect:/connect";
         }
 
-        model.addAttribute("tables", service.tables(manager));
         return "tables";
     }
 

@@ -11,10 +11,9 @@
 <body>
 <div id="help_container">
     Существующие команды:<br>
-    <div id="commands">
+    <div>
         <div id="loading">Loading...</div>
-        <div>
-            <table border="10">
+            <table border="1" id="commands">
                 <script id="descriptionRow" type="text/x-jquery-tmpl">
                             <tr>
                             <td>{{= command}}</td>
@@ -22,7 +21,6 @@
                             </tr>
                 </script>
             </table>
-        </div>
     </div>
 </div>
 <%@include file="footer.jsp" %>
