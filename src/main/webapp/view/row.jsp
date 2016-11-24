@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>SQLCmd</title>
@@ -21,7 +22,7 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${column[0] == 'id'}">
+                            <c:when test="${fn:startsWith(column[0], 'id')}" >
                                 <input type="text" name=${column[0]} value=${column[1]} readonly="readonly"> </td>
                             </c:when>
                             <c:otherwise>

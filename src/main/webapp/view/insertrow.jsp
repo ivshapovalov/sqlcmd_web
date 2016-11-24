@@ -5,7 +5,7 @@
         <title>SQLCmd</title>
     </head>
     <body>
-        <form action="insertrow?table=${tableName}" method="post">
+        <form action="insertrow" method="post">
             <table>
                 <c:forEach items="${columns}" var="column">
                     <tr>

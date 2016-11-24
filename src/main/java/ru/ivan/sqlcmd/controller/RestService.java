@@ -2,14 +2,13 @@ package ru.ivan.sqlcmd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.entity.Description;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -42,5 +41,15 @@ public class RestService {
         return service.databases(manager);
     }
 
+    @RequestMapping(value = "/table/{table}/content", method = RequestMethod.GET)
+    public List<List<String>> rowsItems(@PathVariable(value = "table") String tableName,
+                                  HttpSession session) {
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+
+        if (manager == null) {
+            return new LinkedList<>();
+        }
+        return service.rows(manager,tableName);
+    }
 
 }

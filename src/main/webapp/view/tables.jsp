@@ -19,10 +19,10 @@
         <div class="container">
             <row-template style="display:none;">
 
-                <a href="rows?table={{= $data}}" style="width:20%">{{= $data}}</a>
+                <a href="table/{{= $data}}" style="width:20%">{{= $data}}</a>
 
                 <button type="button" style="width:20%"
-                        onclick="location.href='rows?table={{= $data}}'">
+                        onclick="location.href='table/{{= $data}}'">
                     open
                 </button>
 
