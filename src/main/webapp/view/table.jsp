@@ -24,7 +24,6 @@
         <div id="loading">Loading...</div>
         <table border="1" class="container">
             <script template="row" type="text/x-jquery-tmpl">
-                    var x = ${0};
                     <tr>
                         {{each $data}}
                                     <td>{{= this}}</td>

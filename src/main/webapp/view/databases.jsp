@@ -16,34 +16,37 @@
 <form action="createdatabase" method="get">
     <div id="databases">
         <div id="loading">Loading...</div>
-        <div class="container">
-            <row-template style="display:none;">
-
-                <a href="opendatabase?database={{= $data}}" style="width:20%">{{= $data}}</a>
-
-                <button type="button" style="width:20%"
-                        onclick="location.href='connect?database={{= $data}}'">
-                    connect
-                </button>
-
-                <button type="button" style="width:20%"
-                        onclick="location.href='dropdatabase?database={{= $data}}'">
-                    drop
-                </button>
-
-                <%--<c:choose>--%>
-                    <%--<c:when test="${currentDatabase== {{$data}}}">--%>
-                        <%--ACTIVE DB--%>
-                    <%--</c:when>--%>
-                    <%--<c:otherwise>--%>
-                        <%--$data--%>
-                    <%--</c:otherwise>--%>
-                <%--</c:choose>--%>
-                <br>
-
-            </row-template>
-        </div>
-
+        <table class="container" border="1">
+            <script template="row" type="text/x-jquery-tmpl">
+                <tr>
+                    <td>
+                        <a href="opendatabase?database={{= $data}}" style="width:100%">{{= $data}}</a>
+                    </td>
+                    <td>
+                        <button type="button" style="width:100%"
+                                onclick="location.href='connect?database={{= $data}}'">
+                            connect
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" style="width:100%"
+                                onclick="location.href='dropdatabase?database={{= $data}}'">
+                            drop
+                        </button>
+                    </td>
+                    <%--<td>--%>
+                        <%--<c:choose>--%>
+                            <%--<c:when test="${currentDatabase== {{= data}}}">--%>
+                                <%--ACTIVE DB--%>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                                <%--$data--%>
+                            <%--</c:otherwise>--%>
+                        <%--</c:choose>--%>
+                    <%--</td>--%>
+                 </tr>
+            </script>
+        </table>
     </div>
     <BR>
     <input type="submit" value="create new"/>

@@ -16,30 +16,35 @@
 <form action="createtable" method="get">
     <div id="tables">
         <div id="loading">Loading...</div>
-        <div class="container">
-            <row-template style="display:none;">
+        <table border="1" class="container">
+            <script template="row" type="text/x-jquery-tmpl">
+                    <tr>
+                        <td>
+                            <a href="table/{{= $data}}">{{= $data}}</a>
+                        </td>
+                        <td>
+                            <button type="button"
+                                    onclick="location.href='table/{{= $data}}'">
+                                open
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button"
+                                    onclick="location.href='droptable?table={{= $data}}'">
+                                drop
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button"
+                                    onclick="location.href='truncatetable?table={{= $data}}'">
+                                truncate
+                            </button>
+                        </td>
+                    </tr>
 
-                <a href="table/{{= $data}}" style="width:20%">{{= $data}}</a>
+            </script>
 
-                <button type="button" style="width:20%"
-                        onclick="location.href='table/{{= $data}}'">
-                    open
-                </button>
-
-                <button type="button" style="width:20%"
-                        onclick="location.href='droptable?table={{= $data}}'">
-                    drop
-                </button>
-
-                <button type="button" style="width:20%"
-                        onclick="location.href='truncatetable?table={{= $data}}'">
-                    truncate
-                </button>
-
-                <br>
-
-            </row-template>
-        </div>
+        </table>
 
     </div>
     <br><br>

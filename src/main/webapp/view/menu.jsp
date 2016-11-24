@@ -13,12 +13,18 @@
 <body>
 <div id="menu">
     <div id="loading">Loading...</div>
-    <div class="container">
-        <row-template style="display:none;">
-            <button type="button" style="width:20%"
-                    onclick="location.href='{{= $data}}'">{{= $data}}
-            </button> <br>       </row-template>
-    </div>
+    <table class="container" border="1">
+        <script template="row" type="text/x-jquery-tmpl">
+            <tr>
+                <td>
+                    <button type="button" style="width:100%"
+                            onclick="location.href='{{= $data}}'">{{= $data}}
+                    </button>
+                </td>
+            </tr>
+
+        </script>
+    </table>
 </div>
 </body>
 </html>
