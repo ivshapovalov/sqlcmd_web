@@ -5,10 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
 import ru.ivan.sqlcmd.model.entity.Description;
+import ru.ivan.sqlcmd.model.entity.UserAction;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,6 +44,17 @@ public class RestService {
         return service.databases(manager);
     }
 
+    @RequestMapping(value = "/actions/content", method = RequestMethod.GET)
+    public List<UserAction> actionsItems(HttpSession session) {
+        DatabaseManager manager = getManager(session);
+        if (manager!=null) {
+            List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
+                    .getDatabaseName());
+            return actions;
+        }
+        return new ArrayList<UserAction>();
+    }
+
     @RequestMapping(value = "/table/{table}/content", method = RequestMethod.GET)
     public List<List<String>> rowsItems(@PathVariable(value = "table") String tableName,
                                   HttpSession session) {
@@ -59,6 +72,11 @@ public class RestService {
     public boolean isConnected(HttpServletRequest request) {
         DatabaseManager manager = getManager(request.getSession());
         return manager != null;
+    }
+
+    @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
+    public void disconnect(HttpSession session) {
+        session.removeAttribute("manager");
     }
 
     private DatabaseManager getManager(HttpSession session) {

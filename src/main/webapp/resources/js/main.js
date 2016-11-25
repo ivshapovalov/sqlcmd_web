@@ -22,6 +22,25 @@ function init(ctx) {
         component.show();
     }
 
+    var disconnect = function(fromPage) {
+        isConnected("", function() {
+            $.get(ctx + "/disconnect", function(elements) {
+                gotoConnectPage(fromPage);
+            });
+        });
+    };
+
+    var initActions = function() {
+        isConnected("actions", function() {
+            show('#actions');
+            $.get(ctx + "/actions/content", function(elements) {
+                $("#loading").hide(300, function() {
+                    $('#actions script').tmpl(elements).appendTo('#actions .container');
+                });
+            });
+        });
+    };
+
     var initTables = function() {
         isConnected("tables", function() {
             show('#tables');
@@ -74,6 +93,7 @@ function init(ctx) {
     };
 
     var hideAllScreens = function() {
+        $('#actions').hide();
         $('#tables').hide();
         $('#table').hide();
         $('#menu').hide();
@@ -96,6 +116,12 @@ function init(ctx) {
            initHelp();
         } else if (page == 'databases') {
             initDatabases();
+        } else if (page == 'disconnect') {
+            disconnect("");
+        } else if (page == 'connect') {
+            gotoConnectPage("");
+        } else if (page == 'actions') {
+            initActions();
         } else {
            window.location.hash = "menu";
         }

@@ -13,9 +13,9 @@ public class DatabaseConnection {
     @Column(name = "db_name")
     private String dbName;
 
-    @JoinColumn(name = "database_connection_id")
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<UserAction> userActions;
+//    @JoinColumn(name = "database_connection_id")
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private List<UserAction> userActions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,11 +54,4 @@ public class DatabaseConnection {
         return id;
     }
 
-    public List<UserAction> getUserActions() {
-        return userActions;
-    }
-
-    public void setUserActions(List<UserAction> userActions) {
-        this.userActions = userActions;
-    }
 }

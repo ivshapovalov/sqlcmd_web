@@ -17,17 +17,17 @@ public class MainController {
     @Autowired
     private Service service;
 
-    @RequestMapping(value = "/actions", method = RequestMethod.GET)
-    public String actions(Model model,HttpSession session) {
-        DatabaseManager manager = getManager(session);
-        if (manager!=null) {
-            List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
-                    .getDatabaseName());
-            model.addAttribute("actions",actions );
-            return "actions";
-        }
-        return "redirect:/menu";
-    }
+//    @RequestMapping(value = "/actions", method = RequestMethod.GET)
+//    public String actions(Model model,HttpSession session) {
+//        DatabaseManager manager = getManager(session);
+//        if (manager!=null) {
+//            List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
+//                    .getDatabaseName());
+//            model.addAttribute("actions",actions );
+//            return "actions";
+//        }
+//        return "redirect:/menu";
+//    }
 
 
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
@@ -35,11 +35,11 @@ public class MainController {
         return "main";
     }
 
-    @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
-    public String disconnect(HttpSession session) {
-        session.removeAttribute("manager");
-        return "redirect:/connect";
-    }
+//    @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
+//    public String disconnect(HttpSession session) {
+//        session.removeAttribute("manager");
+//        return "redirect:/connect";
+//    }
 
     @RequestMapping(value = "#databases", method = RequestMethod.GET)
     public String databases(Model model, HttpSession session) {
