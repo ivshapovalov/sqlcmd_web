@@ -2,7 +2,7 @@ package ru.ivan.sqlcmd.controller;
 
 public class Connection {
 
-    private String database;
+    private String databaseName;
     private String userName;
     private String password;
 
@@ -26,12 +26,12 @@ public class Connection {
         this.password = password;
     }
 
-    public String getDatabase() {
-        return database;
+    public String getDatabaseName() {
+        return databaseName;
     }
 
-    public void setDatabase(String database) {
-        this.database = database;
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 
 }

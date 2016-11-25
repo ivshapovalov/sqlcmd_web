@@ -2,13 +2,13 @@ function init(ctx) {
 
     var fromPage = null;
 
-    var showFromPage = function() {
+    var showFromPage = function () {
         window.location.hash = fromPage;
         fromPage = null;
     }
 
-    var isConnected = function(url, onConnected) {
-        $.get(ctx + "/connected", function(userName) {
+    var isConnected = function (url, onConnected) {
+        $.get(ctx + "/connected", function (userName) {
             if (userName == "") {
                 fromPage = url;
                 window.location.hash = '/connect';
@@ -20,27 +20,48 @@ function init(ctx) {
         });
     }
 
-    var show = function(selector) {
+    var show = function (selector) {
         var component = $(selector);
         component.find('.container').children().not(':first').remove();
         component.show();
     }
 
-    var initConnect = function() {
-        $("#database").val("");
-        $("#username").val("");
-        $("#password").val("");
+    var initConnect = function (databaseName) {
+        if (databaseName == null) {
+            $("#databaseName").val("sqlcmd");
+        } else {
+            $("#databaseName").val(databaseName);
+        }
+        $("#userName").val("postgres");
+        $("#password").val("postgres");
         $('#error').hide();
         $('#error').html("");
-        $("#loading").hide(300, function() {
+        $("#loading").hide(300, function () {
             $('#connecting-form').show();
         });
     };
 
-    var disconnect = function (fromPage) {
+    var disconnect = function () {
         isConnected("", function () {
             $.get(ctx + "/disconnect", function (elements) {
                 showFromPage();
+            });
+        });
+    };
+
+    var dropDatabase = function (databaseName) {
+        isConnected("databases", function () {
+            $.ajax({
+                url: ctx + "/dropdatabase/"+databaseName,
+                type: 'GET',
+                success: function (message) {
+                    if (message == "" || message == null) {
+                        showFromPage();
+                    } else {
+                        $('#error').html(message);
+                        $('#error').show();
+                    }
+                }
             });
         });
     };
@@ -89,10 +110,21 @@ function init(ctx) {
         });
     };
 
+    var initDatabase = function (databaseName) {
+        isConnected("database/" + databaseName, function () {
+            show('#database');
+            $.get(ctx + '/database/' + databaseName + '/content', function (elements) {
+                $('#loading').hide(300, function () {
+                    $('#database script').tmpl(elements).appendTo('#database .container');
+                });
+            });
+        });
+    };
+
     var initRow = function (tableName, id) {
         isConnected("row/" + tableName + "/" + id, function () {
             show('#row');
-            $.get(ctx + '/row/' + tableName + '/' + id+'/content', function (elements) {
+            $.get(ctx + '/row/' + tableName + '/' + id + '/content', function (elements) {
                 $('#loading').hide(300, function () {
                     $('#row script').tmpl(elements).appendTo('#row .container');
                 });
@@ -118,7 +150,7 @@ function init(ctx) {
         });
     };
 
-    var hideAllScreens = function() {
+    var hideAllScreens = function () {
         $('#list').hide();
         $('#tables').hide();
         $('#menu').hide();
@@ -128,6 +160,8 @@ function init(ctx) {
         $('#table').hide();
         $('#row').hide();
         $('#databases').hide();
+        $('#database').hide();
+
     }
 
     var loadPage = function (data) {
@@ -135,10 +169,13 @@ function init(ctx) {
         $("#loading").show();
 
         var page = data[0];
+
         if (page == 'table') {
             initTable(data[1]);
+        } else if (page == 'database') {
+            initDatabase(data[1]);
         } else if (page == 'row') {
-            initRow(data[1],data[2]);
+            initRow(data[1], data[2]);
         } else if (page == 'tables') {
             initTables();
         } else if (page == 'menu') {
@@ -148,9 +185,15 @@ function init(ctx) {
         } else if (page == 'databases') {
             initDatabases();
         } else if (page == 'disconnect') {
-            disconnect("");
+            disconnect();
+        } else if (page == 'dropdatabase') {
+            dropDatabase(data[1]);
         } else if (page == 'connect') {
-            initConnect();
+            if (data.length > 1) {
+                initConnect(data[1]);
+            } else {
+                initConnect(null);
+            }
         } else if (page == 'actions') {
             initActions();
         } else {
@@ -158,7 +201,7 @@ function init(ctx) {
         }
     }
 
-    var load = function() {
+    var load = function () {
         var hash = window.location.hash.substring(1);
         var parts = hash.split('/');
         if (parts[0] == '') {
@@ -167,21 +210,21 @@ function init(ctx) {
         loadPage(parts);
     }
 
-    $(window).bind('hashchange', function(event) {
+    $(window).bind('hashchange', function (event) {
         load();
     });
 
-    $('#connect').click(function() {
+    $('#connect').click(function () {
         var connection = {};
-        connection.database = $("#database").val();
-        connection.userName = $("#username").val();
+        connection.databaseName = $("#databaseName").val();
+        connection.userName = $("#userName").val();
         connection.password = $("#password").val();
 
         $.ajax({
             url: ctx + "/connect",
             data: connection,
             type: 'PUT',
-            success: function(message) {
+            success: function (message) {
                 if (message == "" || message == null) {
                     showFromPage();
                 } else {

@@ -6,9 +6,8 @@
         <script template type="text/x-jquery-tmpl">
             <tr>
                 <td>
-                    <button type="button" style="width:100%"
-                            onclick="location.href='\#{{= $data}}'">{{= $data}}
-                    </button>
+                    <a href="\#{{= $data}}">{{= $data}}
+                    </a>
                 </td>
             </tr>
         </script>

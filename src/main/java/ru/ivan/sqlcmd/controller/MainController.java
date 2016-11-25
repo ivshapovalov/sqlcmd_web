@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
-import ru.ivan.sqlcmd.model.entity.UserAction;
 import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -99,10 +98,10 @@ public class MainController {
 //    public String connecting(@ModelAttribute("connection") Connection connection,
 //                             HttpSession session, Model model) {
 //        try {
-//            DatabaseManager manager = service.connect(connection.getDatabase(),
+//            DatabaseManager manager = service.connect(connection.getDatabaseName(),
 //                    connection.getUserName(), connection.getPassword());
 //            session.setAttribute("manager", manager);
-//            session.setAttribute("db_name", connection.getDatabase());
+//            session.setAttribute("db_name", connection.getDatabaseName());
 //            return "redirect:" + connection.getFromPage();
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -124,25 +123,25 @@ public class MainController {
 //        return "table";
 //    }
 
-    @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
-    public String openDatabase(Model model,
-                               @ModelAttribute("database") String database,
-                               HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        }
-        model.addAttribute("databaseName", database);
-        String currentDatabase = (String) session.getAttribute("db_name");
-        if (currentDatabase != null) {
-            if (currentDatabase.equals(database)) {
-                model.addAttribute("currentDatabase", true);
-            }
-        }
-        return "opendatabase";
-    }
+//    @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
+//    public String openDatabase(Model model,
+//                               @ModelAttribute("database") String database,
+//                               HttpSession session) {
+//        DatabaseManager manager = getManager(session);
+//
+//        if (manager == null) {
+//            session.setAttribute("from-page", "/databases");
+//            return "redirect:/connect";
+//        }
+//        model.addAttribute("databaseName", database);
+//        String currentDatabase = (String) session.getAttribute("db_name");
+//        if (currentDatabase != null) {
+//            if (currentDatabase.equals(database)) {
+//                model.addAttribute("currentDatabase", true);
+//            }
+//        }
+//        return "database";
+//    }
 
     @RequestMapping(value = "/createdatabase", method = {RequestMethod.GET})
     public String createDatabase() {
@@ -172,30 +171,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/dropdatabase", method = {RequestMethod.POST, RequestMethod.GET})
-    public String dropDatabase(Model model,
-                               @ModelAttribute("database") String database,
-                               HttpSession session) {
-        DatabaseManager manager = getManager(session);
 
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        } else {
-            try {
-                service.dropDatabase(manager,database);
-                model.addAttribute("message", String.format("Database '%s' dropped successfully!",
-                        database));
-                model.addAttribute("link", "databases");
-                model.addAttribute("title", "Back to databases list");
-                return "message";
-            } catch (Exception e) {
-                model.addAttribute("message", String.format("Database '%s' cannot be dropped!",
-                        database));
-                return "error";
-            }
-        }
-    }
 
     @RequestMapping(value = "/truncatedatabase", method = {RequestMethod.GET})
     public String truncateDatabase(Model model,

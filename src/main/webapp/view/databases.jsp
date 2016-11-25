@@ -7,32 +7,17 @@
             <script template type="text/x-jquery-tmpl">
                 <tr>
                     <td>
-                        <a href="opendatabase?database={{= $data}}" style="width:100%">{{= $data}}</a>
+                        <a href="#database/{{= $data}}" >{{= $data}}</a>
                     </td>
                     <td>
-                        <button type="button" style="width:100%"
-                                onclick="location.href='connect?database={{= $data}}'">
-                            connect
-                        </button>
+                        <a href="#connect/{{= $data}}">connect</a>
                     </td>
                     <td>
-                        <button type="button" style="width:100%"
-                                onclick="location.href='dropdatabase?database={{= $data}}'">
+                        <a href="#dropdatabase/{{= $data}}">
                             drop
-                        </button>
+                        </a>
                     </td>
-                    <%--<td>--%>
-                        <%--<c:choose>--%>
-                            <%--<c:when test="${currentDatabase== {{= data}}}">--%>
-                                <%--ACTIVE DB--%>
-                            <%--</c:when>--%>
-                            <%--<c:otherwise>--%>
-                                <%--$data--%>
-                            <%--</c:otherwise>--%>
-                        <%--</c:choose>--%>
-                    <%--</td>--%>
                  </tr>
-
             </script>
         </table>
         <BR>

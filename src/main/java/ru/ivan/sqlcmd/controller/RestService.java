@@ -10,7 +10,6 @@ import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -87,6 +86,23 @@ public class RestService {
         return service.rows(manager, tableName);
     }
 
+    @RequestMapping(value = "/database/{database}/content", method = RequestMethod.GET)
+    public String database(@PathVariable(value = "database") String databaseName,
+                         HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager != null) {
+            String currentDatabase = (String) session.getAttribute("db_name");
+            if (currentDatabase != null) {
+                if (currentDatabase.equals(databaseName)) {
+                    session.setAttribute("currentDatabase", true);
+                }
+            }
+        }
+        session.setAttribute("databaseName", databaseName);
+        return databaseName;
+    }
+
 
     public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
         List<List<String>> result = new LinkedList<>();
@@ -128,15 +144,28 @@ public class RestService {
 
     @RequestMapping(value = "/connect", method = RequestMethod.PUT)
     public String connecting(Model model, @ModelAttribute("connection") Connection
-            connection,HttpSession session ) {
+            connection, HttpSession session) {
         try {
-            DatabaseManager manager = service.connect(connection.getDatabase(),
+            DatabaseManager manager = service.connect(connection.getDatabaseName(),
                     connection.getUserName(), connection.getPassword());
             session.setAttribute("manager", manager);
+            session.setAttribute("db_name", connection.getDatabaseName());
+
             return null;
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
+    @RequestMapping(value = "/dropdatabase/{database}", method = {RequestMethod.POST, RequestMethod
+            .GET})
+    public void dropDatabase(Model model,
+                             @PathVariable("database") String database,
+                             HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager != null) {
+            service.dropDatabase(manager, database);
+        }
+    }
 }

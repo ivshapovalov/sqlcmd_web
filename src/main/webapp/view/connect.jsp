@@ -5,11 +5,11 @@
     <table>
         <tr>
             <td>Database name</td>
-            <td><input type="text" name="database" id="database"/></td>
+            <td><input type="text" name="databaseName" id="databaseName"/></td>
         </tr>
         <tr>
             <td>User name</td>
-            <td><input type="text" name="userName" id="username"/></td>
+            <td><input type="text" name="userName" id="userName"/></td>
         </tr>
         <tr>
             <td>Password</td>

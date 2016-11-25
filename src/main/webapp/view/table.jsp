@@ -5,7 +5,7 @@
     <form action="${tableName}/insertrow" method="get">
         <input type="hidden" name="tableName" value=${tableName}>
         <table border="1" class="container">
-            <script template="row" type="text/x-jquery-tmpl">
+            <script template type="text/x-jquery-tmpl">
                     <tr>
                         {{each $data}}
                                     <td>{{= this}}</td>
@@ -34,8 +34,6 @@
 
             </script>
         </table>
-
-
         <br>
         <table>
             <tr>
@@ -43,7 +41,7 @@
                     <input type="submit" value="insert row"/>
                 </td>
                 <td>
-                    <button onclick="location.href='../tables'" type="button">
+                    <button onclick="location.href='./#tables'" type="button">
                         Back to Tables
                     </button>
                 </td>
