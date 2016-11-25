@@ -41,21 +41,21 @@ public class MainController {
 //        return "redirect:/connect";
 //    }
 
-    @RequestMapping(value = "#databases", method = RequestMethod.GET)
-    public String databases(Model model, HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        }
-
-        String currentDatabase = (String) session.getAttribute("db_name");
-        if (currentDatabase != null) {
-            session.setAttribute("currentDatabase", currentDatabase);
-        }
-        return "databases";
-    }
+//    @RequestMapping(value = "#databases", method = RequestMethod.GET)
+//    public String databases(Model model, HttpSession session) {
+//        DatabaseManager manager = getManager(session);
+//
+//        if (manager == null) {
+//            session.setAttribute("from-page", "/databases");
+//            return "redirect:/connect";
+//        }
+//
+//        String currentDatabase = (String) session.getAttribute("db_name");
+//        if (currentDatabase != null) {
+//            session.setAttribute("currentDatabase", currentDatabase);
+//        }
+//        return "databases";
+//    }
 
 //    @RequestMapping(value = "/connect", method = RequestMethod.GET)
 //    public String connect(Model model, @ModelAttribute("database")
@@ -75,41 +75,41 @@ public class MainController {
 //            }
 //        }
 //    }
+//
+//    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+//    public String connect(HttpSession session, Model model,
+//                          @RequestParam(required = false, value = "fromPage") String fromPage) {
+//        String page = (String) session.getAttribute("from-page");
+//        session.removeAttribute("from-page");
+//        Connection connection = new Connection(page);
+//        if (fromPage != null) {
+//            connection.setFromPage(fromPage);
+//        }
+//        model.addAttribute("connection", connection);
+//
+//        if (getManager(session) == null) {
+//            return "connect";
+//        } else {
+//            return "menu";
+//        }
+//    }
 
-    @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(HttpSession session, Model model,
-                          @RequestParam(required = false, value = "fromPage") String fromPage) {
-        String page = (String) session.getAttribute("from-page");
-        session.removeAttribute("from-page");
-        Connection connection = new Connection(page);
-        if (fromPage != null) {
-            connection.setFromPage(fromPage);
-        }
-        model.addAttribute("connection", connection);
-
-        if (getManager(session) == null) {
-            return "connect";
-        } else {
-            return "menu";
-        }
-    }
-
-
-    @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public String connecting(@ModelAttribute("connection") Connection connection,
-                             HttpSession session, Model model) {
-        try {
-            DatabaseManager manager = service.connect(connection.getDbName(),
-                    connection.getUserName(), connection.getPassword());
-            session.setAttribute("manager", manager);
-            session.setAttribute("db_name", connection.getDbName());
-            return "redirect:" + connection.getFromPage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("message", e.getMessage());
-            return "error";
-        }
-    }
+//
+//    @RequestMapping(value = "/connect", method = RequestMethod.POST)
+//    public String connecting(@ModelAttribute("connection") Connection connection,
+//                             HttpSession session, Model model) {
+//        try {
+//            DatabaseManager manager = service.connect(connection.getDatabase(),
+//                    connection.getUserName(), connection.getPassword());
+//            session.setAttribute("manager", manager);
+//            session.setAttribute("db_name", connection.getDatabase());
+//            return "redirect:" + connection.getFromPage();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            model.addAttribute("message", e.getMessage());
+//            return "error";
+//        }
+//    }
 
 //    @RequestMapping(value = "/table/{table}", method = RequestMethod.GET)
 //    public String rows(@PathVariable(value = "table") String tableName,
@@ -456,18 +456,18 @@ public class MainController {
         }
         return result;
     }
-
-    @RequestMapping(value = "/tables", method = RequestMethod.GET)
-    public String tables(HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/tables");
-            return "redirect:/connect";
-        }
-
-        return "tables";
-    }
+//
+//    @RequestMapping(value = "/tables", method = RequestMethod.GET)
+//    public String tables(HttpSession session) {
+//        DatabaseManager manager = getManager(session);
+//
+//        if (manager == null) {
+//            session.setAttribute("from-page", "/tables");
+//            return "redirect:/connect";
+//        }
+//
+//        return "tables";
+//    }
 
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("manager");

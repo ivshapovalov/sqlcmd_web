@@ -2,25 +2,12 @@ package ru.ivan.sqlcmd.controller;
 
 public class Connection {
 
+    private String database;
     private String userName;
     private String password;
-    private String dbName;
-    private String fromPage;
 
     public Connection() {
         // do nothing
-    }
-
-    public Connection(String dbName, String fromPage) {
-        this.dbName = dbName;
-        this.fromPage = fromPage;
-    }
-
-    public Connection(String page) {
-        this.fromPage = page;
-        this.dbName="sqlcmd";
-        this.userName="postgres";
-        this.password="postgres";
     }
 
     public String getUserName() {
@@ -39,19 +26,12 @@ public class Connection {
         this.password = password;
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getDatabase() {
+        return database;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setDatabase(String database) {
+        this.database = database;
     }
 
-    public String getFromPage() {
-        return fromPage;
-    }
-
-    public void setFromPage(String fromPage) {
-        this.fromPage = fromPage;
-    }
 }

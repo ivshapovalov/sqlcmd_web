@@ -15,7 +15,7 @@
                             ${'${'}connection.userName}
                     </td>
                     <td>
-                            ${'${'}connection.dbName}
+                            ${'${'}connection.database}
                     </td>
                     <td>
                          ${'${'}action}

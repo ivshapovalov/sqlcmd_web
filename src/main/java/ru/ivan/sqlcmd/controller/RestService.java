@@ -10,6 +10,7 @@ import ru.ivan.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,8 +49,8 @@ public class RestService {
     @RequestMapping(value = "/actions/content", method = RequestMethod.GET)
     public List<UserAction> actionsItems(HttpSession session) {
         DatabaseManager manager = getManager(session);
-        if (manager!=null) {
-            List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
+        if (manager != null) {
+            List<UserAction> actions = service.getAllActionsOfUserAndDatabase(manager.getUserName(), manager
                     .getDatabaseName());
             return actions;
         }
@@ -57,18 +58,17 @@ public class RestService {
     }
 
     @RequestMapping(value = "row/{table}/{id}/content", method = {RequestMethod.GET})
-    public List<List<String>>  openRow(Model model,
-                                       @PathVariable("table") String tableName,
-                                       @PathVariable("id") int id,
-                                       HttpSession session) {
+    public List<List<String>> openRow(Model model,
+                                      @PathVariable("table") String tableName,
+                                      @PathVariable("id") int id,
+                                      HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return new LinkedList<>();
-        }
-        else {
-            session.setAttribute("tableName",tableName);
-            session.setAttribute("id",id);
+        } else {
+            session.setAttribute("tableName", tableName);
+            session.setAttribute("id", id);
 
             List<List<String>> row = getRow(manager, tableName, id);
             return row;
@@ -77,16 +77,15 @@ public class RestService {
 
     @RequestMapping(value = "/table/{table}/content", method = RequestMethod.GET)
     public List<List<String>> rowsItems(@PathVariable(value = "table") String tableName,
-                                  HttpSession session) {
+                                        HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return new LinkedList<>();
         }
-        session.setAttribute("tableName",tableName);
-        return service.rows(manager,tableName);
+        session.setAttribute("tableName", tableName);
+        return service.rows(manager, tableName);
     }
-
 
 
     public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
@@ -125,6 +124,19 @@ public class RestService {
 
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("manager");
+    }
+
+    @RequestMapping(value = "/connect", method = RequestMethod.PUT)
+    public String connecting(Model model, @ModelAttribute("connection") Connection
+            connection,HttpSession session ) {
+        try {
+            DatabaseManager manager = service.connect(connection.getDatabase(),
+                    connection.getUserName(), connection.getPassword());
+            session.setAttribute("manager", manager);
+            return null;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
 }
