@@ -20,6 +20,7 @@
         <%@include file="actions.jsp" %>
         <%@include file="tables.jsp" %>
         <%@include file="table.jsp" %>
+        <%@include file="row.jsp" %>
         <%@include file="help.jsp" %>
         <%@include file="footer.jsp" %>
     </body>

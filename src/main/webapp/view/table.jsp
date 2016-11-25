@@ -17,7 +17,7 @@
                 </c:when>
                 <c:otherwise>
                     <td>
-                    <a href='main#table/${tableName}/row?id={{= $data[0]}}'">
+                    <a href='main#row/${tableName}/{{= $data[0]}}'">
                     edit
                     </a>
                     </td>

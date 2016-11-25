@@ -111,18 +111,18 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/table/{table}", method = RequestMethod.GET)
-    public String rows(@PathVariable(value = "table") String tableName,
-                       HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/table/" + tableName);
-            return "redirect:/connect";
-        }
-        session.setAttribute("tableName",tableName);
-        return "table";
-    }
+//    @RequestMapping(value = "/table/{table}", method = RequestMethod.GET)
+//    public String rows(@PathVariable(value = "table") String tableName,
+//                       HttpSession session) {
+//        DatabaseManager manager = getManager(session);
+//
+//        if (manager == null) {
+//            session.setAttribute("from-page", "/table/" + tableName);
+//            return "redirect:/connect";
+//        }
+//        session.setAttribute("tableName",tableName);
+//        return "table";
+//    }
 
     @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
     public String openDatabase(Model model,
@@ -272,46 +272,6 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "table/{table}/row", method = {RequestMethod.GET})
-    public String openRow(Model model,
-                          @PathVariable("table") String tableName,
-                          @ModelAttribute("id") int id,
-                          HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + tableName);
-            return "redirect:/connect";
-        } else {
-            model.addAttribute("tableName", tableName);
-            model.addAttribute("id", id);
-            model.addAttribute("table", getRow(manager, tableName, id));
-            return "row";
-        }
-    }
-
-    public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
-        List<List<String>> result = new LinkedList<>();
-        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
-        List<String> columnsWithType = new LinkedList<>(manager.getTableColumnsWithType(tableName));
-        Map<String, Object> tableData = manager.getRow(tableName, id);
-
-        for (int i = 0; i < columns.size(); i++) {
-            String column = columns.get(i);
-            String columnWithType = columnsWithType.get(i);
-            List<String> row = new ArrayList<>(2);
-            row.add(columnWithType);
-            Object ob = tableData.get(column);
-            if (ob != null) {
-                row.add(ob.toString());
-            } else {
-                row.add("");
-
-            }
-            result.add(row);
-        }
-        return result;
-    }
 
     @RequestMapping(value = "/deleterow", method = {RequestMethod.GET})
     public String deleteRow(Model model,

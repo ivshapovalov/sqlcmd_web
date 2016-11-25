@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RestService {
@@ -55,6 +56,25 @@ public class RestService {
         return new ArrayList<UserAction>();
     }
 
+    @RequestMapping(value = "row/{table}/{id}/content", method = {RequestMethod.GET})
+    public List<List<String>>  openRow(Model model,
+                                       @PathVariable("table") String tableName,
+                                       @PathVariable("id") int id,
+                                       HttpSession session) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            return new LinkedList<>();
+        }
+        else {
+            session.setAttribute("tableName",tableName);
+            session.setAttribute("id",id);
+
+            List<List<String>> row = getRow(manager, tableName, id);
+            return row;
+        }
+    }
+
     @RequestMapping(value = "/table/{table}/content", method = RequestMethod.GET)
     public List<List<String>> rowsItems(@PathVariable(value = "table") String tableName,
                                   HttpSession session) {
@@ -67,6 +87,30 @@ public class RestService {
         return service.rows(manager,tableName);
     }
 
+
+
+    public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
+        List<List<String>> result = new LinkedList<>();
+        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        List<String> columnsWithType = new LinkedList<>(manager.getTableColumnsWithType(tableName));
+        Map<String, Object> tableData = manager.getRow(tableName, id);
+
+        for (int i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            String columnWithType = columnsWithType.get(i);
+            List<String> row = new ArrayList<>(2);
+            row.add(columnWithType);
+            Object ob = tableData.get(column);
+            if (ob != null) {
+                row.add(ob.toString());
+            } else {
+                row.add("");
+
+            }
+            result.add(row);
+        }
+        return result;
+    }
 
     @RequestMapping(value = "/connected", method = RequestMethod.GET)
     public boolean isConnected(HttpServletRequest request) {

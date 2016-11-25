@@ -1,7 +1,7 @@
 function init(ctx) {
 
-    var isConnected = function(fromPage, onConnected) {
-        $.get(ctx + "/connected", function(isConnected) {
+    var isConnected = function (fromPage, onConnected) {
+        $.get(ctx + "/connected", function (isConnected) {
             if (isConnected) {
                 if (!!onConnected) {
                     onConnected();
@@ -12,108 +12,122 @@ function init(ctx) {
         });
     }
 
-    var gotoConnectPage = function(fromPage) {
+    var gotoConnectPage = function (fromPage) {
         window.location = ctx + '/connect' + '?fromPage=' + escape('/main#' + fromPage);
     }
 
-    var show = function(selector) {
+    var show = function (selector) {
         var component = $(selector);
         component.find('.container').children().not(':first').remove();
         component.show();
     }
 
-    var disconnect = function(fromPage) {
-        isConnected("", function() {
-            $.get(ctx + "/disconnect", function(elements) {
+    var disconnect = function (fromPage) {
+        isConnected("", function () {
+            $.get(ctx + "/disconnect", function (elements) {
                 gotoConnectPage(fromPage);
             });
         });
     };
 
-    var initActions = function() {
-        isConnected("actions", function() {
+    var initActions = function () {
+        isConnected("actions", function () {
             show('#actions');
-            $.get(ctx + "/actions/content", function(elements) {
-                $("#loading").hide(300, function() {
+            $.get(ctx + "/actions/content", function (elements) {
+                $("#loading").hide(300, function () {
                     $('#actions script').tmpl(elements).appendTo('#actions .container');
                 });
             });
         });
     };
 
-    var initTables = function() {
-        isConnected("tables", function() {
+    var initTables = function () {
+        isConnected("tables", function () {
             show('#tables');
-            $.get(ctx + "/tables/content", function(elements) {
-                $("#loading").hide(300, function() {
+            $.get(ctx + "/tables/content", function (elements) {
+                $("#loading").hide(300, function () {
                     $('#tables script').tmpl(elements).appendTo('#tables .container');
                 });
             });
         });
     };
 
-    var initDatabases = function() {
-        isConnected("databases", function() {
+    var initDatabases = function () {
+        isConnected("databases", function () {
             show('#databases');
-            $.get(ctx + "/databases/content", function(elements) {
-                $("#loading").hide(300, function() {
+            $.get(ctx + "/databases/content", function (elements) {
+                $("#loading").hide(300, function () {
                     $('#databases script').tmpl(elements).appendTo('#databases .container');
                 });
             });
         });
     };
 
-    var initTable = function(tableName) {
-        isConnected("table/" + tableName, function() {
+    var initTable = function (tableName) {
+        isConnected("table/" + tableName, function () {
             show('#table');
-            $.get(ctx + '/table/' + tableName + '/content', function(elements) {
-                $('#loading').hide(300, function() {
+            $.get(ctx + '/table/' + tableName + '/content', function (elements) {
+                $('#loading').hide(300, function () {
                     $('#table script').tmpl(elements).appendTo('#table .container');
                 });
             });
         });
     };
 
-    var initMenu = function() {
+    var initRow = function (tableName, id) {
+        isConnected("row/" + tableName + "/" + id, function () {
+            show('#row');
+            $.get(ctx + '/row/' + tableName + '/' + id+'/content', function (elements) {
+                $('#loading').hide(300, function () {
+                    $('#row script').tmpl(elements).appendTo('#row .container');
+                });
+            });
+        });
+    };
+
+    var initMenu = function () {
         show('#menu');
-        $.get(ctx + "/menu/content", function(elements) {
-            $("#loading").hide(300, function() {
+        $.get(ctx + "/menu/content", function (elements) {
+            $("#loading").hide(300, function () {
                 $('#menu script').tmpl(elements).appendTo('#menu .container');
             });
         });
     };
 
-    var initHelp = function() {
+    var initHelp = function () {
         show('#help');
-        $.get(ctx + "/help/content", function(elements) {
-            $("#loading").hide(300, function() {
+        $.get(ctx + "/help/content", function (elements) {
+            $("#loading").hide(300, function () {
                 $('#help script').tmpl(elements).appendTo('#help .container');
             });
         });
     };
 
-    var hideAllScreens = function() {
+    var hideAllScreens = function () {
         $('#actions').hide();
         $('#tables').hide();
         $('#table').hide();
+        $('#row').hide();
         $('#menu').hide();
         $('#help').hide();
         $('#databases').hide();
     }
 
-    var loadPage = function(data) {
+    var loadPage = function (data) {
         hideAllScreens();
         $("#loading").show();
 
         var page = data[0];
         if (page == 'table') {
-           initTable(data[1]);
+            initTable(data[1]);
+        } else if (page == 'row') {
+            initRow(data[1],data[2]);
         } else if (page == 'tables') {
-           initTables();
+            initTables();
         } else if (page == 'menu') {
-           initMenu();
+            initMenu();
         } else if (page == 'help') {
-           initHelp();
+            initHelp();
         } else if (page == 'databases') {
             initDatabases();
         } else if (page == 'disconnect') {
@@ -123,11 +137,11 @@ function init(ctx) {
         } else if (page == 'actions') {
             initActions();
         } else {
-           window.location.hash = "menu";
+            window.location.hash = "menu";
         }
     }
 
-    var load = function() {
+    var load = function () {
         var hash = window.location.hash.substring(1);
         var parts = hash.split('/');
         if (parts[0] == '') {
@@ -136,7 +150,7 @@ function init(ctx) {
         loadPage(parts);
     }
 
-    $(window).bind('hashchange', function(event) {
+    $(window).bind('hashchange', function (event) {
         load();
     });
 
