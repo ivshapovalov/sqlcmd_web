@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface UserActionRepository extends CrudRepository<UserAction, Integer>, UserActionRepositoryCustom {
     @Query(value = "SELECT ua FROM UserAction ua WHERE ua.connection.userName = :userName AND" +
-            " ua.connection.dbName = :dbName ")
-    List<UserAction> findByUserNameAndDbName(@Param("userName") String userName,@Param
-            ("dbName") String dbName);
+            " ua.connection.databaseName = :databaseName ")
+    List<UserAction> findByUserNameAndDatabaseName(@Param("userName") String userName,@Param
+            ("databaseName") String databaseName);
 
 
     @Query(value = "SELECT ua FROM UserAction ua WHERE ua.connection.userName = :userName")

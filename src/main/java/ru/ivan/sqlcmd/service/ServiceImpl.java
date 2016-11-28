@@ -32,11 +32,11 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public List<UserAction> getAllActionsOfUserAndDatabase(String userName, String dbName) {
+    public List<UserAction> getAllActionsOfUserAndDatabase(String userName, String databaseName) {
         if (userName == null) {
             throw new IllegalArgumentException("User name cant be null!");
         }
-        return userActions.findByUserNameAndDbName(userName,dbName);
+        return userActions.findByUserNameAndDatabaseName(userName,databaseName);
     }
 
     @Override

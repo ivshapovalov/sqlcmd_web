@@ -10,6 +10,12 @@ public class Connection {
         // do nothing
     }
 
+    public Connection(String databaseName, String userName,String password ) {
+        this.databaseName = databaseName;
+        this.password = password;
+        this.userName = userName;
+    }
+
     public String getUserName() {
         return userName;
     }

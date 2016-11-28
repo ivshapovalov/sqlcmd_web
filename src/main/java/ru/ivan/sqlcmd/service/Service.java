@@ -22,7 +22,7 @@ public interface Service  {
 
     List<UserAction> getAllActionsOfUser(String userName);
 
-    List<UserAction> getAllActionsOfUserAndDatabase(String userName, String dbName);
+    List<UserAction> getAllActionsOfUserAndDatabase(String userName, String databaseName);
 
     void createDatabase(DatabaseManager manager,String database);
 

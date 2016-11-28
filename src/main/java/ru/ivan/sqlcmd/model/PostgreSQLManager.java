@@ -16,7 +16,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     private Connection connection;
     private JdbcTemplate template;
-    private String database;
+    private String databaseName;
     private String userName;
 
     private static final String QUERY_TABLE_SIZE = "SELECT COUNT(*) AS COUNT FROM %s";
@@ -61,20 +61,20 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(final String database, final String userName, final String password) {
+    public void connect(final String databaseName, final String userName, final String password) {
 
-        this.database = database;
+        this.databaseName = databaseName;
         this.userName = userName;
         try {
             closeOpenedConnection();
-            connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
+            connection = DriverManager.getConnection(DATABASE_URL + databaseName, userName, password);
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
 
         } catch (SQLException e) {
             connection = null;
             template = null;
             throw new DatabaseManagerException(String.format("Unable to connect to database '%s', user '%s', password '%s'",
-                    database, userName, password),
+                    databaseName, userName, password),
                     e);
         }
     }
@@ -403,7 +403,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public String getDatabaseName() {
-        return database;
+        return databaseName;
     }
 
     @Override

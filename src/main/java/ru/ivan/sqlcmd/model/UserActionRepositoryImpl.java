@@ -19,8 +19,9 @@ public class UserActionRepositoryImpl implements UserActionRepositoryCustom {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void createAction(String userName,String databaseName,  String action) {
-        DatabaseConnection databaseConnection = databaseConnections.findByUserNameAndDbName(userName, databaseName);
+    public void createAction(String userName,String databaseName, String action) {
+        DatabaseConnection databaseConnection = databaseConnections.findByUserNameAndDatabaseName
+                (userName, databaseName);
         if (databaseConnection == null) {
             databaseConnection = databaseConnections.save(new DatabaseConnection(userName, databaseName));
         }
