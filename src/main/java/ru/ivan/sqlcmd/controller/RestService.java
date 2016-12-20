@@ -103,7 +103,6 @@ public class RestService {
         return databaseName;
     }
 
-
     public List<List<String>> getRow(final DatabaseManager manager, final String tableName, final int id) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
