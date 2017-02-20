@@ -13,49 +13,70 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
-public class MainController {
+@RequestMapping(value = "/web/")
+public class WebController {
 
     @Autowired
     private Service service;
 
-    @RequestMapping(value = "/actions", method = RequestMethod.GET)
+    private String mapping;
+
+    {
+        try {
+            String[] path = this.getClass().getAnnotation(RequestMapping.class).value();
+            if (path != null && path.length == 1) {
+                mapping= path[0];
+            }
+        } catch (Exception e) {
+            mapping="";
+        }
+    }
+
+    private static final String PAGE_MENU = "menu";
+    private static final String PAGE_CONNECT = "connect";
+    private static final String PAGE_DATABASES = "databases";
+    private static final String PAGE_TABLES = "tables";
+    private static final String PAGE_ACTIONS = "actions";
+
+
+    @RequestMapping(value = PAGE_ACTIONS, method = RequestMethod.GET)
     public String actions(Model model,HttpSession session) {
         DatabaseManager manager = getManager(session);
         if (manager!=null) {
             List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
                     .getDatabaseName());
             model.addAttribute("actions",actions );
-            return "actions";
+            return PAGE_ACTIONS;
         }
-        return "redirect:/menu";
+        return "redirect:"+mapping+PAGE_MENU;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String main(HttpSession session) {
-        session.setAttribute("from-page", "/menu");
-        return "redirect:/menu";
+        session.setAttribute("from-page", mapping+PAGE_MENU);
+        return "redirect:"+mapping+PAGE_MENU;
     }
 
-    @RequestMapping(value = "/help", method = RequestMethod.GET)
+    @RequestMapping(value = "help", method = RequestMethod.GET)
     public String help(Model model,HttpSession session) {
         DatabaseManager manager = getManager(session);
             model.addAttribute("commands", service.help(manager));
             return "help";
     }
 
-    @RequestMapping(value = "/disconnect", method = RequestMethod.GET)
+    @RequestMapping(value = "disconnect", method = RequestMethod.GET)
     public String disconnect(HttpSession session) {
         session.removeAttribute("manager");
         return "redirect:/connect";
     }
 
-    @RequestMapping(value = "/databases", method = RequestMethod.GET)
+    @RequestMapping(value = PAGE_DATABASES, method = RequestMethod.GET)
     public String databases(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
+            session.setAttribute("from-page", mapping+PAGE_DATABASES);
+            return "redirect:"+mapping+PAGE_CONNECT;
         }
 
         String currentDatabase = (String) session.getAttribute("db_name");
@@ -64,29 +85,29 @@ public class MainController {
         }
 
         model.addAttribute("databases", service.databases(manager));
-        return "databases";
+        return PAGE_DATABASES;
     }
 
-    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+    @RequestMapping(value = PAGE_CONNECT, method = RequestMethod.GET)
     public String connect(Model model, @ModelAttribute("database")
             String database, HttpSession session) {
         String page = (String) session.getAttribute("from-page");
         session.removeAttribute("from-page");
         if (database != null && !database.equals("")) {
             model.addAttribute("connection", new Connection(database, page));
-            return "connect";
+            return PAGE_CONNECT;
         } else {
             model.addAttribute("connection", new Connection(page));
             if (getManager(session) == null) {
-                return "connect";
+                return PAGE_CONNECT;
             } else {
-                session.setAttribute("from-page", "/menu");
+                session.setAttribute("from-page", mapping+PAGE_MENU);
                 return menu(model,session);
             }
         }
     }
 
-    @RequestMapping(value = "/connect", method = RequestMethod.POST)
+    @RequestMapping(value = PAGE_CONNECT, method = RequestMethod.POST)
     public String connecting(@ModelAttribute("connection") Connection connection,
                              HttpSession session, Model model) {
         try {
@@ -102,7 +123,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/rows", method = RequestMethod.GET)
+    @RequestMapping(value = "rows", method = RequestMethod.GET)
     public String rows(Model model,
                        @ModelAttribute("table") String tableName,
                        HttpSession session) {
@@ -117,7 +138,7 @@ public class MainController {
         return "rows";
     }
 
-    @RequestMapping(value = "/opendatabase", method = RequestMethod.GET)
+    @RequestMapping(value = "opendatabase", method = RequestMethod.GET)
     public String openDatabase(Model model,
                                @ModelAttribute("database") String database,
                                HttpSession session) {
@@ -137,12 +158,12 @@ public class MainController {
         return "opendatabase";
     }
 
-    @RequestMapping(value = "/createdatabase", method = {RequestMethod.GET})
+    @RequestMapping(value = "createdatabase", method = {RequestMethod.GET})
     public String createDatabase() {
         return "createdatabase";
     }
 
-    @RequestMapping(value = "/createdatabase", method = {RequestMethod.POST})
+    @RequestMapping(value = "createdatabase", method = {RequestMethod.POST})
     public String createDatabase(Model model,
                                  @ModelAttribute("database") String database,
                                  HttpSession session) {
@@ -165,7 +186,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/dropdatabase", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "dropdatabase", method = {RequestMethod.POST, RequestMethod.GET})
     public String dropDatabase(Model model,
                                @ModelAttribute("database") String database,
                                HttpSession session) {
@@ -190,7 +211,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/truncatedatabase", method = {RequestMethod.GET})
+    @RequestMapping(value = "truncatedatabase", method = {RequestMethod.GET})
     public String truncateDatabase(Model model,
                                    @ModelAttribute("database") String database,
                                    HttpSession session) {
@@ -215,7 +236,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/droptable", method = {RequestMethod.GET})
+    @RequestMapping(value = "droptable", method = {RequestMethod.GET})
     public String dropTable(Model model,
                             @ModelAttribute("table") String tableName,
                             HttpSession session) {
@@ -240,7 +261,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/truncatetable", method = {RequestMethod.GET})
+    @RequestMapping(value = "truncatetable", method = {RequestMethod.GET})
     public String truncateTable(Model model,
                                 @ModelAttribute("table") String tableName,
                                 HttpSession session) {
@@ -265,7 +286,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/openrow", method = {RequestMethod.GET})
+    @RequestMapping(value = "openrow", method = {RequestMethod.GET})
     public String openRow(Model model,
                           @ModelAttribute("table") String tableName,
                           @ModelAttribute("id") int id,
@@ -306,7 +327,7 @@ public class MainController {
         return result;
     }
 
-    @RequestMapping(value = "/deleterow", method = {RequestMethod.GET})
+    @RequestMapping(value = "deleterow", method = {RequestMethod.GET})
     public String deleteRow(Model model,
                             @ModelAttribute("table") String tableName,
                             @ModelAttribute("id") int id,
@@ -333,7 +354,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/updaterow", method = {RequestMethod.POST})
+    @RequestMapping(value = "updaterow", method = {RequestMethod.POST})
     public String updateRow(Model model,
                             @ModelAttribute("tableName") String tableName,
                             @ModelAttribute("id") int id,
@@ -370,7 +391,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/insertrow", method = {RequestMethod.GET})
+    @RequestMapping(value = "insertrow", method = {RequestMethod.GET})
     public String insertRow(Model model,
                             @ModelAttribute("table") String tableName,
                             HttpSession session) {
@@ -389,7 +410,7 @@ public class MainController {
 
 
 
-    @RequestMapping(value = "/insertrow", method = {RequestMethod.POST})
+    @RequestMapping(value = "insertrow", method = {RequestMethod.POST})
     public String insertRow(Model model,
                             @ModelAttribute("table") String tableName,
                             @ModelAttribute("id") int id,
@@ -423,7 +444,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/createtable", method = {RequestMethod.GET})
+    @RequestMapping(value = "createtable", method = {RequestMethod.GET})
     public String createTable() {
         return "createtable";
     }
@@ -447,7 +468,7 @@ public class MainController {
         return "newtable";
     }
 
-    @RequestMapping(value = "/newtable", method = {RequestMethod.POST})
+    @RequestMapping(value = "newtable", method = {RequestMethod.POST})
     public String newTable(Model model,
                            @ModelAttribute("tableName") String tableName,
                            @ModelAttribute("columnCount") int columnCount,
@@ -491,24 +512,24 @@ public class MainController {
         return result;
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    @RequestMapping(value = PAGE_MENU, method = RequestMethod.GET)
     public String menu(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
         model.addAttribute("items", service.getMainMenu(manager));
-        return "menu";
+        return PAGE_MENU;
     }
 
-    @RequestMapping(value = "/tables", method = RequestMethod.GET)
+    @RequestMapping(value = PAGE_TABLES, method = RequestMethod.GET)
     public String tables(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/tables");
-            return "redirect:/connect";
+            session.setAttribute("from-page", mapping+PAGE_TABLES);
+            return "redirect:"+mapping+PAGE_CONNECT;
         }
 
         model.addAttribute("tables", service.tables(manager));
-        return "tables";
+        return PAGE_TABLES;
     }
 
     private DatabaseManager getManager(HttpSession session) {

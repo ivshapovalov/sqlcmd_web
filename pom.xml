@@ -25,6 +25,24 @@
 
     <dependencies>
 
+        <!--UI -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>1.12.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!--Spring-->
 
         <dependency>
@@ -149,7 +167,7 @@
                 <version>2.2</version>
                 <configuration>
                     <port>8080</port>
-                    <path>/sqlcmd</path>
+                    <path>/</path>
                 </configuration>
             </plugin>
             <plugin>
@@ -158,7 +176,7 @@
                 <version>${jetty-maven-plugin.version}</version>
                 <configuration>
                     <webApp>
-                        <contextPath>/sqlcmd</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                     <stopPort>9999</stopPort>
                     <stopKey>foo</stopKey>
