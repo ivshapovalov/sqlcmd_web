@@ -51,9 +51,10 @@ public class WebController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String main(HttpSession session) {
-        session.setAttribute("from-page", mapping+PAGE_MENU);
-        return "redirect:"+mapping+PAGE_MENU;
+    public String main(Model model,HttpSession session) {
+        DatabaseManager manager = getManager(session);
+        model.addAttribute("items", service.getMainMenu(manager));
+        return PAGE_MENU;
     }
 
     @RequestMapping(value = "help", method = RequestMethod.GET)
@@ -66,7 +67,7 @@ public class WebController {
     @RequestMapping(value = "disconnect", method = RequestMethod.GET)
     public String disconnect(HttpSession session) {
         session.removeAttribute("manager");
-        return "redirect:/connect";
+        return "redirect:"+mapping+PAGE_CONNECT;
     }
 
     @RequestMapping(value = PAGE_DATABASES, method = RequestMethod.GET)
@@ -513,9 +514,8 @@ public class WebController {
 
     @RequestMapping(value = PAGE_MENU, method = RequestMethod.GET)
     public String menu(Model model, HttpSession session) {
-        DatabaseManager manager = getManager(session);
-        model.addAttribute("items", service.getMainMenu(manager));
-        return PAGE_MENU;
+        session.setAttribute("from-page", mapping+PAGE_MENU);
+        return "redirect:"+mapping;
     }
 
     @RequestMapping(value = PAGE_TABLES, method = RequestMethod.GET)

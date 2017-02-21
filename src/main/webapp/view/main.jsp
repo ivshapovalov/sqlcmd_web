@@ -5,14 +5,163 @@
 
 <html>
 <%@include file="header.jsp" %>
+<style type="text/css">
+    /* Some custom styles to beautify this example */
+    .demo-content {
+        padding: 15px;
+        font-size: 18px;
+        min-height: 300px;
+        background: #dbdfe5;
+        margin-bottom: 10px;
+    }
 
+    .demo-header {
+        padding: 15px;
+        text-align: center;
+        color: white;
+        font-size: 40px;
+        min-height: 100px;
+        background: #dbdfe5;
+        margin-bottom: 10px;
+
+        background: red;
+        background: -webkit-linear-gradient(blue, gray);
+        background: -ms-linear-gradient(darkgray, yellow);
+        background: linear-gradient(blue, gray);
+    }
+
+    .gradient {
+        width: 400px;
+        height: 300px;
+        background: red;
+        background: -webkit-linear-gradient(red, yellow);
+        background: -ms-linear-gradient(red, yellow);
+        background: linear-gradient(red, yellow);
+    }
+
+    .demo-content.bg-alt {
+        background: #abb1b8;
+    }
+</style>
 <head>
     <title>SQLCmd</title>
 </head>
 <body>
-<b> MENU </b>
-<a href="/console/">Console commander</a>
-<a href="/web/">Web commander</a>
+
+<div class="container">
+    <!--Row with two equal columns-->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="demo-header">SQL Commander</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="demo-content"><a href="/console/">Console commander</a>
+                <div class="bs-example">
+                    <div class="panel-group" id="accordionLeft">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionLeft"
+                                       href="#collapseOneLeft">1. What is it?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseOneLeft" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <p>It is a small project to study JDBC operations on SQL DB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionLeft"
+                                       href="#collapseTwoLeft">2. What capabilities?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwoLeft" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>Connect to DB</p>
+                                    <p>Databases, tables operations - add, delete ,truncate</p>
+                                    <p>Rows operations - CRUD</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionLeft"
+                                       href="#collapseThreeLeft">3. What technologies?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseThreeLeft" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>DB: PostgresQL, JDBC </p>
+                                    <p>Lang: Java </p>
+                                    <p>UI: Javascript, Bootstrap, CSS</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="demo-content bg-alt"><a href="/web/">Web commander</a>
+                <div class="bs-example">
+                    <div class="panel-group" id="accordionRight">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionRight"
+                                       href="#collapseOneRight">1. What is it?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseOneRight" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <p>It is a small project to study WEB tech on SQL DB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionRight"
+                                       href="#collapseTwoRight">2. What capabilities?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwoRight" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>Connect to DB</p>
+                                    <p>Databases, tables operations - add, delete ,truncate</p>
+                                    <p>Rows operations - CRUD</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordionRight"
+                                       href="#collapseThreeRight">3. What technologies?</a>
+                                </h4>
+                            </div>
+                            <div id="collapseThreeRight" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>DB: PostgresQL</p>
+                                    <p>Lang: Java </p>
+                                    <p>Spring MVC, Hibernate </p>
+                                    <p>UI: Javascript, Bootstrap, CSS</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

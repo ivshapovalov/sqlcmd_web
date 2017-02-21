@@ -19,7 +19,7 @@ import java.util.TreeMap;
 
 @Controller
 @RequestMapping(value = "/*")
-public class RootController {
+public class MainController {
 
     private static final String PAGE_MAIN = "main";
 
