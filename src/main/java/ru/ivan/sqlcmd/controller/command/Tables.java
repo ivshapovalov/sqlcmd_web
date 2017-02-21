@@ -33,7 +33,7 @@ public class Tables extends AbstractCommand {
     @Override
     public void process(final String command) {
 
-        view.write("***Existing databases***");
+        view.write("***Existing tables***");
         Set<String> tableNames = manager.getTableNames();
         String message = tableNames.toString();
         view.write(message);

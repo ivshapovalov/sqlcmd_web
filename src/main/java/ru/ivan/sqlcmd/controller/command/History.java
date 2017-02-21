@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 public class History extends AbstractCommand {
     private TreeMap<Integer, String> history;
-    private static Integer historyCapacity = 5;
+    public static Integer historyCapacity = 5;
     private final static Integer INDEX_NEW_CAPACITY = 1;
 
     History() {

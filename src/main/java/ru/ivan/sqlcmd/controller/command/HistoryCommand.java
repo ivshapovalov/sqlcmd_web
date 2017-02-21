@@ -27,8 +27,7 @@ class HistoryCommand extends AbstractCommand {
 
     @Override
     public void process(final String command) {
-        manager.disconnect();
-        view.write("Disconnect successful");
+
     }
 
 }

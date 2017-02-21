@@ -12,8 +12,7 @@ import ru.ivan.sqlcmd.view.WebConsole;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/console/")
@@ -38,9 +37,12 @@ public class ConsoleController {
     }
 
 
-    private static final String PAGE_MAIN = "main";
+    private static final String PAGE_CONSOLE = "console";
     private static final String PAGE_ERROR = "error";
     public static final String LINE_SEPARATOR = System.lineSeparator();
+    public static final String COMMAND_SEPARATOR = "====================================================================";
+    public static final String COMMAND_SELECTOR =
+            ">>> ";
 
 
     public ConsoleController() {
@@ -58,7 +60,7 @@ public class ConsoleController {
         }
     }
 
-    @RequestMapping(value = PAGE_MAIN, method = RequestMethod.GET)
+    @RequestMapping(value = PAGE_CONSOLE, method = RequestMethod.GET)
     public String redirect(HttpSession session) {
         return "redirect:" + mapping;
     }
@@ -69,7 +71,7 @@ public class ConsoleController {
                           @ModelAttribute("commands") String commands,
                           @ModelAttribute("output") String output,
                           HttpSession session, HttpServletRequest request) {
-        view.write(input);
+        view.write(COMMAND_SELECTOR +input);
         String historyInput = checkHistoryInput(input);
         if (historyInput == null) {
         } else {
@@ -91,15 +93,15 @@ public class ConsoleController {
                 break;
             }
         }
-        view.write("====================================================================");
+        view.write(COMMAND_SEPARATOR);
         String[] commandList = new String[0];
         commands = commands.concat(input).concat(LINE_SEPARATOR);
-        commandList = commands.split(LINE_SEPARATOR);
+        commandList = getHistory();
         model.addAttribute("commandList", commandList);
         model.addAttribute("commands", commands);
         model.addAttribute("input", "");
         model.addAttribute("output", view.getOutput());
-        return PAGE_MAIN;
+        return PAGE_CONSOLE;
     }
 
     @RequestMapping(value = "", method = {RequestMethod.GET})
@@ -114,12 +116,11 @@ public class ConsoleController {
         history.clear();
         String[] commandList = new String[0];
         commands = commands.concat(input).concat(LINE_SEPARATOR);
-        commandList = commands.split(LINE_SEPARATOR);
+        commandList = getHistory();
         model.addAttribute("commandList", commandList);
-        model.addAttribute("commands", commands);
         model.addAttribute("input", view.getInput().toString());
         model.addAttribute("output", view.getOutput().toString());
-        return PAGE_MAIN;
+        return PAGE_CONSOLE;
 
     }
 
@@ -154,5 +155,21 @@ public class ConsoleController {
         }
         view.write("Failure cause: " + message);
         view.write("Try again");
+    }
+
+    private String[] getHistory() {
+
+        SortedMap<Integer, String> tailMap = (SortedMap<Integer, String>) history.clone();
+        if (history.size() >= History.historyCapacity) {
+            tailMap = history.tailMap(history.size() - History.historyCapacity + 1);
+        }
+
+        String[] commands=new String[History.historyCapacity];
+        int i=0;
+        for (Map.Entry<Integer, String> entry : tailMap.entrySet()
+                ) {
+            commands[i++]=entry.getKey() + ". " + entry.getValue();
+        }
+        return commands;
     }
 }
