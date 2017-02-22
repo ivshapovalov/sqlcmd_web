@@ -51,7 +51,7 @@ public class WebController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String main(Model model,HttpSession session) {
+    public String root(Model model,HttpSession session) {
         DatabaseManager manager = getManager(session);
         model.addAttribute("items", service.getMainMenu(manager));
         return PAGE_MENU;
@@ -62,6 +62,10 @@ public class WebController {
         DatabaseManager manager = getManager(session);
             model.addAttribute("commands", service.help(manager));
             return "help";
+    }
+    @RequestMapping(value = "main", method = RequestMethod.GET)
+    public String main(Model model,HttpSession session) {
+        return "redirect:/main";
     }
 
     @RequestMapping(value = "disconnect", method = RequestMethod.GET)

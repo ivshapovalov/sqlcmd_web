@@ -7,7 +7,7 @@
 <%@include file="header.jsp" %>
 <style type="text/css">
     /* Some custom styles to beautify this example */
-    .demo-content {
+    .content {
         padding: 15px;
         font-size: 18px;
         min-height: 300px;
@@ -15,7 +15,7 @@
         margin-bottom: 10px;
     }
 
-    .demo-header {
+    .header {
         padding: 15px;
         text-align: center;
         color: white;
@@ -25,21 +25,12 @@
         margin-bottom: 10px;
 
         background: red;
-        background: -webkit-linear-gradient(blue, gray);
+        background: -webkit-linear-gradient(steelblue, gray);
         background: -ms-linear-gradient(darkgray, yellow);
-        background: linear-gradient(blue, gray);
+        background: linear-gradient(steelblue, gray);
     }
 
-    .gradient {
-        width: 400px;
-        height: 300px;
-        background: red;
-        background: -webkit-linear-gradient(red, yellow);
-        background: -ms-linear-gradient(red, yellow);
-        background: linear-gradient(red, yellow);
-    }
-
-    .demo-content.bg-alt {
+    .content.bg-alt {
         background: #abb1b8;
     }
 </style>
@@ -52,12 +43,12 @@
     <!--Row with two equal columns-->
     <div class="row">
         <div class="col-xs-12">
-            <div class="demo-header">SQL Commander</div>
+            <div class="header">SQL Commander</div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-6">
-            <div class="demo-content"><a href="/console/">Console commander</a>
+            <div class="content"><a href="/console/">Console commander</a>
                 <div class="bs-example">
                     <div class="panel-group" id="accordionLeft">
                         <div class="panel panel-default">
@@ -67,7 +58,7 @@
                                        href="#collapseOneLeft">1. What is it?</a>
                                 </h4>
                             </div>
-                            <div id="collapseOneLeft" class="panel-collapse collapse in">
+                            <div id="collapseOneLeft" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <p>It is a small project to study JDBC operations on SQL DB</p>
                                 </div>
@@ -108,7 +99,7 @@
             </div>
         </div>
         <div class="col-xs-6">
-            <div class="demo-content bg-alt"><a href="/web/">Web commander</a>
+            <div class="content bg-alt"><a href="/web/">Web commander</a>
                 <div class="bs-example">
                     <div class="panel-group" id="accordionRight">
                         <div class="panel panel-default">
@@ -118,7 +109,7 @@
                                        href="#collapseOneRight">1. What is it?</a>
                                 </h4>
                             </div>
-                            <div id="collapseOneRight" class="panel-collapse collapse in">
+                            <div id="collapseOneRight" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <p>It is a small project to study WEB tech on SQL DB</p>
                                 </div>

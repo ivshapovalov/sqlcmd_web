@@ -41,13 +41,14 @@ public class ConsoleController {
     private static final String PAGE_ERROR = "error";
     public static final String LINE_SEPARATOR = System.lineSeparator();
     public static final String COMMAND_SEPARATOR = "====================================================================";
+    public static final String COMMAND_GREETINGS = "Input command or 'help' for assistance" + LINE_SEPARATOR;
     public static final String COMMAND_SELECTOR =
             ">>> ";
 
 
     public ConsoleController() {
 
-        view = new WebConsole("Input command or 'help' for assistance" + LINE_SEPARATOR);
+        view = new WebConsole(COMMAND_GREETINGS);
         DatabaseManager manager = new PostgreSQLManager();
         for (Command command : consoleCommands
                 ) {
@@ -73,6 +74,7 @@ public class ConsoleController {
                           HttpSession session, HttpServletRequest request) {
         view.write(COMMAND_SELECTOR +input);
         String historyInput = checkHistoryInput(input);
+        input=input.trim();
         if (historyInput == null) {
         } else {
             input = historyInput;
@@ -94,6 +96,7 @@ public class ConsoleController {
             }
         }
         view.write(COMMAND_SEPARATOR);
+        view.write(COMMAND_GREETINGS);
         String[] commandList = new String[0];
         commands = commands.concat(input).concat(LINE_SEPARATOR);
         commandList = getHistory();
@@ -168,7 +171,7 @@ public class ConsoleController {
         int i=0;
         for (Map.Entry<Integer, String> entry : tailMap.entrySet()
                 ) {
-            commands[i++]=entry.getKey() + ". " + entry.getValue();
+            commands[i++]="["+entry.getKey()+"] " + entry.getValue();
         }
         return commands;
     }

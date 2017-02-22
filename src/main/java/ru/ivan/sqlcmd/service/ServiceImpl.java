@@ -99,7 +99,8 @@ public abstract class ServiceImpl implements Service {
         } else {
             userActions.createAction("", "", "MENU");
         }
-        return Arrays.asList("help", "connect", "databases", "tables", "disconnect","actions");
+        return Arrays.asList("help", "connect", "databases", "tables", "disconnect",
+                "actions");
     }
 
     public List<List<String>> help(DatabaseManager manager) {
