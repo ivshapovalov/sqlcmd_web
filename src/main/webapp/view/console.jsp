@@ -89,6 +89,11 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-xs-1">
+                            <button type="button" class="btn btn-success"
+                                    onclick="location.href='/'"> Home
+                            </button>
+                        </div>
+                        <div class="col-xs-1">
                             <button type="submit" class="btn btn-success">Execute
                             </button>
                         </div>
