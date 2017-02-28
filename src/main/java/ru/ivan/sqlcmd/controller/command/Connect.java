@@ -9,12 +9,13 @@ class Connect extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return "connect to database (databaseName may be blank)";
+        return "connect to database (all fields may be blank)";
+        //return "connect to database (databaseName may be blank)";
     }
 
     @Override
     public String getCommandFormat() {
-        return "connect|databaseName|userName|userPassword";
+        return "connect";
     }
 
     @Override
