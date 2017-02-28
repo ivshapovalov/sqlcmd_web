@@ -66,29 +66,29 @@
     </div>
     <ul class="nav nav-pills">
         <li class="active"><a href="/">Home</a></li>
-        <li class="active"><a href="help">Help</a></li>
+        <li class="active"><a href="/web/help">Help</a></li>
         <c:choose>
             <c:when test="${manager==null}">
-                <li class="active"><a href="/connect">Connect</a>
+                <li class="active"><a href="/web/connect">Connect</a>
                 </li>
             </c:when>
         </c:choose>
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="/tables">Tables</a>
+                <li class="active"><a href="/web/tables">Tables</a>
                 </li>
             </c:when>
         </c:choose>
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="/actions">Actions</a>
+                <li class="active"><a href="/web/actions">Actions</a>
                 </li>
             </c:when>
         </c:choose>
 
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="/disconnect">Disconnect<span
+                <li class="active"><a href="/web/disconnect">Disconnect<span
                         class="badge">${user}</span></a>
                 </li>
             </c:when>
