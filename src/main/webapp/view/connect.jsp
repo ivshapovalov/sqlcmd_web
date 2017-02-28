@@ -3,35 +3,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>SQLCmd</title>
+    <title>SQL Web commander</title>
 </head>
-<%@include file="header.jsp" %>
 <body>
+<div class="container">
+    <%@include file="header.jsp" %>
+    <h2>Press 'Connect' button</h2>
+    <form:form action="connect" method="post" modelAttribute="connection">
+        <form:input type="hidden" path="fromPage" id="from-page"/>
 
-<h2>Press 'Connect' button</h2>
+        <table class="table" width="50%">
+            <tr>
+                <td width="10%">Database name</td>
+                <td><form:input path="dbName" id="database"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="10%">User name</td>
+                <td><form:input path="userName" id="username" value="${userName}"/></td>
+            </tr>
+            <tr>
+                <td width="10%">Password</td>
+                <td><form:input path="password" id="password" value="${password}"/></td>
+            </tr>
+            <tr>
+                <td width="10%"></td>
+                <td><input class="btn btn-primary" type="submit" value="connect" id="connect"/></td>
+            </tr>
+        </table>
 
-<form:form action="connect" method="post" modelAttribute="connection">
-    <form:input type="hidden" path="fromPage" id="from-page"/>
-    <table class="table" width="50%" >
-        <tr>
-            <td width="10%">Database name</td>
-            <td ><form:input path="dbName" id="database"/>
-            </td>
-        </tr>
-        <tr>
-            <td width="10%">User name</td>
-            <td ><form:input path="userName" id="username" value="${userName}"/></td>
-        </tr>
-        <tr>
-            <td width="10%">Password</td>
-            <td><form:input path="password" id="password" value="${password}"/></td>
-        </tr>
-        <tr>
-            <td width="10%"></td>
-            <td><input class="btn btn-primary" type="submit" value="connect" id="connect"/></td>
-        </tr>
-    </table>
-</form:form>
+    </form:form>
+</div>
+
 <%@include file="footer.jsp" %>
 </body>
 </html>

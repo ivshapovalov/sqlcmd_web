@@ -2,12 +2,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-
+<head>
+    <title>SQL Console commander</title>
+</head>
 <html>
-<%@include file="header.jsp" %>
 
 <body>
 
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         var $output = $('#output');
@@ -38,12 +53,13 @@
         background: -ms-linear-gradient(darkgray, yellow);
         background: linear-gradient(steelblue, gray);
     }
+
     .text {
         color: white;
         font-size: 40px;
         background: black;
         height: 100%;
-      }
+    }
 </style>
 <div class="container">
 
@@ -59,7 +75,7 @@
                 <br>
                 <div class="row" style="height: 50%">
                     <div class="form-group">
-                        <%--<label for="output" class="control-label col-xs-1">Output</label>--%>
+                            <%--<label for="output" class="control-label col-xs-1">Output</label>--%>
                         <div class="col-xs-12" style="height: 100%; font-family: monospace">
                             <textarea path="output" style="height: 100% ;
                         background-color: black; color: white" class="form-control"
@@ -72,7 +88,7 @@
                 <br>
                 <div class="row">
                     <div class="form-group">
-                        <%--<label for="input" class="control-label col-xs-1">Input</label>--%>
+                            <%--<label for="input" class="control-label col-xs-1">Input</label>--%>
                         <div class="col-xs-12">
                             <textarea style="font-family:monospace;
                         background-color: black; color: white" path="input"

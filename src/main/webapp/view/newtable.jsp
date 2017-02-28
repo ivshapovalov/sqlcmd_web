@@ -2,11 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-  <title>sqlcmd</title>
+  <title>SQL Web commander</title>
 </head>
   <body>
+  <div class="container">
+    <%@include file="header.jsp" %>
+    <br>
     <form action="newtable" method="post">
-      <table>
+      <table class="table">
           <input type="hidden" name="tableName" value=${tableName}>
           <input type="hidden" name="columnCount" value=${columnCount}>
 
@@ -27,9 +30,10 @@
 
         <tr>
           <td></td>
-          <td><input type="submit" value="create table ${tableName} "/></td>
+          <td><input class="btn btn-primary" type="submit" value="create table ${tableName} "/></td>
         </tr>
       </table>
     </form>
+  </div>
   </body>
 </html>

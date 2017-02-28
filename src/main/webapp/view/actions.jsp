@@ -2,11 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>SQLCmd</title>
+    <title>SQL Web commander</title>
 </head>
 <body>
+
+<div class="container">
+
 <%@include file="header.jsp" %>
 
+    <br>
 <table border="1" class="table">
     <tr>
         <td><b>USER</b></td><td><b>DATABASE</b></td><td><b>ACTION</b></td><TD><b>DATE</b></TD>
@@ -28,6 +32,7 @@
         </tr>
     </c:forEach>
 </table>
+</div>
 <%@include file="footer.jsp" %>
 </body>
 </html>

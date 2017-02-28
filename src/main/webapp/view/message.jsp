@@ -2,14 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>SQLCmd</title>
+    <title>SQL Web commander</title>
 </head>
 <body>
-${message}<br><br>
-<a href="${link}">
-    ${title}
-</a>
-<br>
+<div class="container">
+    <%@include file="header.jsp" %>
+    <br>
+    ${message}<br><br>
+    <a href="${link}">
+        ${title}
+    </a>
+    <br>
+</div>
 <%@include file="footer.jsp" %>
 </body>
 </html>
