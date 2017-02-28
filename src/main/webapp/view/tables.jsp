@@ -5,30 +5,34 @@
     <title>sqlcmd Tables</title>
 </head>
 <body>
+<%@include file="header.jsp" %>
+
 <B>TABLES</B>
 <br><br>
 <form action="createtable" method="get">
-    <table border="1">
+    <table border="1" class="table">
         <c:forEach items="${tables}" var="table">
             <tr>
                 <td>
-                    <a href="rows?table=${table[0]}">${table[0]}</a>
+                    <a href="table/${table[0]}/rows">${table[0]}</a>
                 </td>
                 <td>
                         ${table[1]} rows
                 </td>
                 <td>
-                    <button onclick="location.href='rows?table=${table[0]}'" type="button">
+                    <button class="btn btn-primary"
+                            onclick="location.href='table/${table[0]}/rows'" type="button">
                         open
                     </button>
                 </td>
                 <td>
-                    <button onclick="location.href='droptable?table=${table[0]}'" type="button">
+                    <button class="btn btn-primary" onclick="location.href='droptable?table=${table[0]}'" type="button">
                         drop
                     </button>
                 </td>
                 <td>
-                    <button onclick="location.href='truncatetable?table=${table[0]}'" type="button">
+                    <button class="btn btn-primary"
+                            onclick="location.href='truncatetable?table=${table[0]}'" type="button">
                         truncate
                     </button>
                 </td>
@@ -39,7 +43,7 @@
         </c:forEach>
     </table>
     <br><br>
-    <input type="submit" value="create new table"/>
+    <input class="btn btn-primary" type="submit" value="create new table"/>
     <br>
 
 

@@ -1,5 +1,6 @@
 package ru.ivan.sqlcmd.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,7 +50,7 @@ public class ConsoleController {
     public ConsoleController() {
 
         view = new WebConsole(COMMAND_GREETINGS);
-        DatabaseManager manager = new PostgreSQLManager();
+        DatabaseManager manager=new PostgreSQLManager();
         for (Command command : consoleCommands
                 ) {
             AbstractCommand abstractCommand = (AbstractCommand) command;

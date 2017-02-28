@@ -5,36 +5,28 @@
 <head>
     <title>SQLCmd</title>
 </head>
+<%@include file="header.jsp" %>
 <body>
+
 <form:form action="connect" method="post" modelAttribute="connection">
     <form:input type="hidden" path="fromPage" id="from-page"/>
-    <table>
+    <table class="table" width="50%" >
         <tr>
-            <td>Database name</td>
-            <td><form:input path="dbName" id="database"/>
-                    <%--<c:choose>--%>
-                        <%--<c:when test="${not empty database}"> value="${database}"--%>
-                        <%--</c:when>--%>
-                        <%--<c:otherwise>--%>
-                            <%--<c:choose>--%>
-                                <%--<c:when test="${not empty dbName}"> value="${dbName}"--%>
-                                <%--</c:when>--%>
-                            <%--</c:choose>--%>
-                        <%--</c:otherwise>--%>
-                    <%--</c:choose>--%>
+            <td width="10%">Database name</td>
+            <td ><form:input path="dbName" id="database"/>
             </td>
         </tr>
         <tr>
-            <td>User name</td>
-            <td><form:input path="userName" id="username" value="${userName}"/></td>
+            <td width="10%">User name</td>
+            <td ><form:input path="userName" id="username" value="${userName}"/></td>
         </tr>
         <tr>
-            <td>Password</td>
+            <td width="10%">Password</td>
             <td><form:input path="password" id="password" value="${password}"/></td>
         </tr>
         <tr>
-            <td></td>
-            <td><input type="submit" value="connect" id="connect"/></td>
+            <td width="10%"></td>
+            <td><input class="btn btn-primary" type="submit" value="connect" id="connect"/></td>
         </tr>
     </table>
 </form:form>

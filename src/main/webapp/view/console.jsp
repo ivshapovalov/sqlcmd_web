@@ -59,8 +59,8 @@
                 <br>
                 <div class="row" style="height: 50%">
                     <div class="form-group">
-                        <label for="output" class="control-label col-xs-1">Output</label>
-                        <div class="col-xs-10" style="height: 100%; font-family: monospace">
+                        <%--<label for="output" class="control-label col-xs-1">Output</label>--%>
+                        <div class="col-xs-12" style="height: 100%; font-family: monospace">
                             <textarea path="output" style="height: 100% ;
                         background-color: black; color: white" class="form-control"
                                       id="output"
@@ -72,8 +72,8 @@
                 <br>
                 <div class="row">
                     <div class="form-group">
-                        <label for="input" class="control-label col-xs-1">Input</label>
-                        <div class="col-xs-10">
+                        <%--<label for="input" class="control-label col-xs-1">Input</label>--%>
+                        <div class="col-xs-12">
                             <textarea style="font-family:monospace;
                         background-color: black; color: white" path="input"
                                       class="form-control"
@@ -85,6 +85,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="row">
                     <div class="form-group">
                         <div class="col-xs-1">

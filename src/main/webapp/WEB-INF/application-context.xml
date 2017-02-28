@@ -15,6 +15,8 @@
                            http://www.springframework.org/schema/data/jpa
                            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+    <context:property-placeholder location="classpath:log.jdbc.properties"/>
+
     <context:annotation-config/>
     <context:component-scan base-package="ru.ivan.sqlcmd"/>
 
@@ -22,9 +24,10 @@
                       entity-manager-factory-ref="emf"/>
 
     <!--<jdbc:initialize-database data-source="logDataSource" enabled="${database.init}">-->
-        <!--<jdbc:script location="classpath:db/${jdbc.initLocation}"/>-->
-        <!--&lt;!&ndash;<jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>&ndash;&gt;-->
+        <!--<jdbc:script location="classpath:${jdbc.initLocation}"/>-->
+        <!--<jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>-->
     <!--</jdbc:initialize-database>-->
+
 
     <bean id="emf"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -61,5 +64,4 @@
         <property name="password" value="${log.jdbc.password}"/>
     </bean>
 
-    <context:property-placeholder location="classpath:log.jdbc.properties"/>
 </beans>

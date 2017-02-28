@@ -6,7 +6,6 @@
 <html>
 <%@include file="header.jsp" %>
 <style type="text/css">
-    /* Some custom styles to beautify this example */
     .content {
         padding: 15px;
         font-size: 18px;
@@ -149,6 +148,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row" align="center">
+        <div class="col-xs-12">
+            <img src="/resources/construction.gif" alt="under construction"  height="50"
+                 width="200">
         </div>
     </div>
 </div>

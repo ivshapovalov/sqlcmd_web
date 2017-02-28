@@ -5,22 +5,25 @@
     <title>sqlcmd databases</title>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <b>DATABASES</b>
 <br><br>
 <form action="createdatabase" method="get">
-    <table border="1">
+    <table border="1" class="table">
         <c:forEach items="${databases}" var="database">
             <tr>
                 <td>
                     <a href="opendatabase?database=${database}">${database}</a><br>
                 </td>
                 <td>
-                    <button onclick="location.href='connect?database=${database}'" type="button">
+                    <button class="btn btn-primary"
+                            onclick="location.href='connect?database=${database}'" type="button">
                         connect
                     </button>
                 </td>
                 <td>
-                    <button onclick="location.href='dropdatabase?database=${database}'" type="button">
+                    <button class="btn btn-primary"
+                            onclick="location.href='dropdatabase?database=${database}'" type="button">
                         drop
                     </button>
                 </td>
@@ -42,7 +45,7 @@
 
     </table>
     <BR>
-    <input type="submit" value="create new"/>
+    <input class="btn btn-primary" type="submit" value="create new"/>
 </form>
 <%@include file="footer.jsp" %>
 </body>

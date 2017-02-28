@@ -24,10 +24,10 @@ public class WebController {
         try {
             String[] path = this.getClass().getAnnotation(RequestMapping.class).value();
             if (path != null && path.length == 1) {
-                mapping= path[0];
+                mapping = path[0];
             }
         } catch (Exception e) {
-            mapping="";
+            mapping = "";
         }
     }
 
@@ -39,39 +39,40 @@ public class WebController {
 
 
     @RequestMapping(value = PAGE_ACTIONS, method = RequestMethod.GET)
-    public String actions(Model model,HttpSession session) {
+    public String actions(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
-        if (manager!=null) {
-            List<UserAction> actions=service.getAllActionsOfUserAndDatabase(manager.getUserName(),manager
+        if (manager != null) {
+            List<UserAction> actions = service.getAllActionsOfUserAndDatabase(manager.getUserName(), manager
                     .getDatabaseName());
-            model.addAttribute("actions",actions );
+            model.addAttribute("actions", actions);
             return PAGE_ACTIONS;
         }
-        return "redirect:"+mapping+PAGE_MENU;
+        return "redirect:" + mapping + PAGE_MENU;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String root(Model model,HttpSession session) {
+    public String root(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
         model.addAttribute("items", service.getMainMenu(manager));
         return PAGE_MENU;
     }
 
     @RequestMapping(value = "help", method = RequestMethod.GET)
-    public String help(Model model,HttpSession session) {
+    public String help(Model model, HttpSession session) {
         DatabaseManager manager = getManager(session);
-            model.addAttribute("commands", service.help(manager));
-            return "help";
+        model.addAttribute("commands", service.help(manager));
+        return "help";
     }
+
     @RequestMapping(value = "main", method = RequestMethod.GET)
-    public String main(Model model,HttpSession session) {
+    public String main(Model model, HttpSession session) {
         return "redirect:/main";
     }
 
     @RequestMapping(value = "disconnect", method = RequestMethod.GET)
     public String disconnect(HttpSession session) {
         session.removeAttribute("manager");
-        return "redirect:"+mapping+PAGE_CONNECT;
+        return "redirect:" + mapping + PAGE_MENU;
     }
 
     @RequestMapping(value = PAGE_DATABASES, method = RequestMethod.GET)
@@ -79,8 +80,8 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", mapping+PAGE_DATABASES);
-            return "redirect:"+mapping+PAGE_CONNECT;
+            session.setAttribute("from-page", mapping + PAGE_DATABASES);
+            return "redirect:" + mapping + PAGE_CONNECT;
         }
 
         String currentDatabase = (String) session.getAttribute("db_name");
@@ -105,8 +106,8 @@ public class WebController {
             if (getManager(session) == null) {
                 return PAGE_CONNECT;
             } else {
-                session.setAttribute("from-page", mapping+PAGE_MENU);
-                return menu(model,session);
+                session.setAttribute("from-page", mapping + PAGE_MENU);
+                return menu(model, session);
             }
         }
     }
@@ -119,6 +120,7 @@ public class WebController {
                     connection.getUserName(), connection.getPassword());
             session.setAttribute("manager", manager);
             session.setAttribute("db_name", connection.getDbName());
+            session.setAttribute("user", connection.getUserName());
             return "redirect:" + connection.getFromPage();
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,14 +129,14 @@ public class WebController {
         }
     }
 
-    @RequestMapping(value = "rows", method = RequestMethod.GET)
+    @RequestMapping(value = "table/{table}/rows", method = RequestMethod.GET)
     public String rows(Model model,
                        @ModelAttribute("table") String tableName,
                        HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows/" + tableName);
+            session.setAttribute("from-page", mapping+"table/"+ tableName+"/rows");
             return "redirect:/connect";
         }
         model.addAttribute("table", service.rows(manager, tableName));
@@ -178,7 +180,7 @@ public class WebController {
             return "redirect:/connect";
         } else {
             try {
-                service.createDatabase(manager,database);
+                service.createDatabase(manager, database);
                 model.addAttribute("message", "New database created successfully!");
                 model.addAttribute("link", "databases");
                 model.addAttribute("title", "Back to databases list");
@@ -201,7 +203,7 @@ public class WebController {
             return "redirect:/connect";
         } else {
             try {
-                service.dropDatabase(manager,database);
+                service.dropDatabase(manager, database);
                 model.addAttribute("message", String.format("Database '%s' dropped successfully!",
                         database));
                 model.addAttribute("link", "databases");
@@ -226,7 +228,7 @@ public class WebController {
             return "redirect:/connect";
         } else {
             try {
-                service.truncateAllTables(manager,database);
+                service.truncateAllTables(manager, database);
                 model.addAttribute("message", String.format("Database '%s' truncated successfully!",
                         database));
                 model.addAttribute("link", "databases");
@@ -251,7 +253,7 @@ public class WebController {
             return "redirect:/connect";
         } else {
             try {
-                service.dropTable(manager,tableName);
+                service.dropTable(manager, tableName);
                 model.addAttribute("message", String.format("Table '%s' dropped successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
@@ -276,7 +278,7 @@ public class WebController {
             return "redirect:/connect";
         } else {
             try {
-                service.truncateTable(manager,tableName);
+                service.truncateTable(manager, tableName);
                 model.addAttribute("message", String.format("Table '%s' truncated successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
@@ -290,7 +292,7 @@ public class WebController {
         }
     }
 
-    @RequestMapping(value = "openrow", method = {RequestMethod.GET})
+    @RequestMapping(value = "table/{table}/row/{id}/edit", method = {RequestMethod.GET})
     public String openRow(Model model,
                           @ModelAttribute("table") String tableName,
                           @ModelAttribute("id") int id,
@@ -298,13 +300,13 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + tableName);
+            session.setAttribute("from-page", "/table/" + tableName+"/rows");
             return "redirect:/connect";
         } else {
             model.addAttribute("tableName", tableName);
             model.addAttribute("id", id);
             model.addAttribute("table", getRow(manager, tableName, id));
-            return "openrow";
+            return "row";
         }
     }
 
@@ -331,7 +333,7 @@ public class WebController {
         return result;
     }
 
-    @RequestMapping(value = "deleterow", method = {RequestMethod.GET})
+    @RequestMapping(value = "table/{table}/row/{id}/delete", method = {RequestMethod.GET})
     public String deleteRow(Model model,
                             @ModelAttribute("table") String tableName,
                             @ModelAttribute("id") int id,
@@ -339,7 +341,7 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + tableName);
+            session.setAttribute("from-page", mapping+"/table/" + tableName+"/rows");
             return "redirect:/connect";
         } else {
             try {
@@ -347,7 +349,7 @@ public class WebController {
                 model.addAttribute("message", String.format("Row with id='%s' in table='%s' " +
                                 "deleted successfully!", id,
                         tableName));
-                model.addAttribute("link", "rows?table=" + tableName);
+                model.addAttribute("link", mapping+"table/" + tableName+"/rows");
                 model.addAttribute("title", String.format("Back to tables '%s' rows ", tableName));
                 return "message";
             } catch (Exception e) {
@@ -358,7 +360,7 @@ public class WebController {
         }
     }
 
-    @RequestMapping(value = "updaterow", method = {RequestMethod.POST})
+    @RequestMapping(value = "table/{table}/row/{id}/update", method = {RequestMethod.POST})
     public String updateRow(Model model,
                             @ModelAttribute("tableName") String tableName,
                             @ModelAttribute("id") int id,
@@ -367,7 +369,7 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/openrow?table=" + tableName + "&id=" + id);
+            session.setAttribute("from-page", "/table/" + tableName + "/row/" + id+"/edit");
             return "redirect:/connect";
         } else {
             try {
@@ -383,7 +385,7 @@ public class WebController {
                 service.updateRow(manager, tableName, "id", String.valueOf(id), row);
                 model.addAttribute("message", String.format("Row with id='%s' updated " +
                         "successfully!", id));
-                model.addAttribute("link", "rows?table=" + tableName);
+                model.addAttribute("link", mapping+"table/" + tableName+"/rows");
                 model.addAttribute("title", String.format("Back to table '%s' rows ",
                         tableName));
                 return "message";
@@ -395,14 +397,14 @@ public class WebController {
         }
     }
 
-    @RequestMapping(value = "insertrow", method = {RequestMethod.GET})
+    @RequestMapping(value = "table/{table}/row/new", method = {RequestMethod.GET})
     public String insertRow(Model model,
                             @ModelAttribute("table") String tableName,
                             HttpSession session) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + tableName);
+            session.setAttribute("from-page", mapping+"table/" + tableName+"/rows");
             return "redirect:/connect";
         } else {
             model.addAttribute("tableName", tableName);
@@ -413,8 +415,7 @@ public class WebController {
     }
 
 
-
-    @RequestMapping(value = "insertrow", method = {RequestMethod.POST})
+    @RequestMapping(value = "table/{table}/row/new", method = {RequestMethod.POST})
     public String insertRow(Model model,
                             @ModelAttribute("table") String tableName,
                             @ModelAttribute("id") int id,
@@ -423,7 +424,7 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", "/rows?table=" + tableName);
+            session.setAttribute("from-page", mapping+"table/" + tableName+"/rows");
             return "redirect:/connect";
         } else {
             try {
@@ -434,9 +435,9 @@ public class WebController {
                     Object parameter = allRequestParams.get(columnName);
                     row.put(columnName, parameter);
                 }
-                service.insertRow(manager,tableName, row);
+                service.insertRow(manager, tableName, row);
                 model.addAttribute("message", "New row inserted successfully!");
-                model.addAttribute("link", "rows?table=" + tableName);
+                model.addAttribute("link", mapping+"table/" + tableName+"/rows");
                 model.addAttribute("title", String.format("Back to table '%s' rows ",
                         tableName));
                 return "message";
@@ -493,7 +494,7 @@ public class WebController {
                 }
                 String query = tableName + "(" + keyName + " INT PRIMARY KEY NOT NULL"
                         + getParameters(columnParameters) + ")";
-                service.createTable(manager,query);
+                service.createTable(manager, query);
                 model.addAttribute("message", String.format("Table '%s' created successfully!",
                         tableName));
                 model.addAttribute("link", "tables");
@@ -518,8 +519,8 @@ public class WebController {
 
     @RequestMapping(value = PAGE_MENU, method = RequestMethod.GET)
     public String menu(Model model, HttpSession session) {
-        session.setAttribute("from-page", mapping+PAGE_MENU);
-        return "redirect:"+mapping;
+        session.setAttribute("from-page", mapping + PAGE_MENU);
+        return "redirect:" + mapping;
     }
 
     @RequestMapping(value = PAGE_TABLES, method = RequestMethod.GET)
@@ -527,8 +528,8 @@ public class WebController {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
-            session.setAttribute("from-page", mapping+PAGE_TABLES);
-            return "redirect:"+mapping+PAGE_CONNECT;
+            session.setAttribute("from-page", mapping + PAGE_TABLES);
+            return "redirect:" + mapping + PAGE_CONNECT;
         }
 
         model.addAttribute("tables", service.tables(manager));

@@ -5,15 +5,17 @@
     <title>SQLCmd</title>
 </head>
 <body>
+<%@include file="header.jsp" %>
+
 <B>
     ROW OF TABLE ${tableName}
 </B>
 <br><br>
 
-<form action="updaterow" method="post">
+<form action="update" method="post">
     <input type="hidden" name="tableName" value=${tableName}>
     <input type="hidden" name="id" value=${id}>
-    <table border="1">
+    <table border="1" class="table">
             <c:forEach items="${table}" var="column">
                 <tr>
                     <td>
@@ -33,7 +35,7 @@
             </c:forEach>
     </table>
     <br>
-        <input type="submit" value="update row"/>
+        <input class="btn btn-primary" type="submit" value="update row"/>
 
 </form>
 <%@include file="footer.jsp" %>

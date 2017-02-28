@@ -5,13 +5,15 @@
     <title>SQLCmd</title>
 </head>
 <body>
+<%@include file="header.jsp" %>
+
 <B>
     ROWS OF TABLE ${tableName}
 </B>
 <br><br>
-<form action="insertrow" method="get">
+<form action="row/new" method="get">
     <input type="hidden" name="table" value=${tableName}>
-    <table border="1">
+    <table border="1" class="table">
         <c:set var="x" value="${0}"></c:set>
         <c:forEach items="${table}" var="row">
             <tr>
@@ -33,13 +35,15 @@
                     </c:when>
                     <c:otherwise>
                         <td>
-                            <button
-                                    onclick="location.href='openrow?table=${tableName}&id=${row[0]}'" type="button">
+                            <button  class="btn btn-primary"
+                                    onclick="location.href='row/${row[0]}/edit'" type="button">
                                 edit
                             </button>
                         </td>
                         <td>
-                            <button onclick="location.href='deleterow?table=${tableName}&id=${row[0]}'" type="button">
+                            <button class="btn btn-primary"
+                                    onclick="location.href='row/${row[0]}/delete'"
+                                    type="button">
                                 delete
                             </button>
                         </td>
@@ -53,10 +57,11 @@
     <table>
         <tr>
             <td>
-                <input type="submit" value="insert row"/>
+                <input class="btn btn-primary" type="submit" value="insert row"/>
             </td>
             <td>
-                <button onclick="location.href='tables'" type="button">
+                <button class="btn btn-primary" onclick="location.href='../../tables'"
+                        type="button">
                     Back to Tables
                 </button>
             </td>
