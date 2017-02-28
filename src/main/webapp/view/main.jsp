@@ -152,7 +152,7 @@
     </div>
     <div class="row" align="center">
         <div class="col-xs-12">
-            <img src="/construction.gif" alt="under construction"  height="50"
+            <img src="/images/construction.gif" alt="under construction"  height="50"
                  width="200">
         </div>
     </div>
