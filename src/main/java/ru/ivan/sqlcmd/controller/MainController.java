@@ -26,7 +26,7 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/images/*", method =
+    @RequestMapping(value = "/*", method =
             RequestMethod
                     .GET)
     public void openImage(HttpServletRequest request, HttpServletResponse response)
