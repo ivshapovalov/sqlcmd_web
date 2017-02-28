@@ -5,7 +5,9 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<table border="1">
+<%@include file="header.jsp" %>
+
+<table border="1" class="table">
     <tr>
         <td><b>USER</b></td><td><b>DATABASE</b></td><td><b>ACTION</b></td><TD><b>DATE</b></TD>
     </tr>

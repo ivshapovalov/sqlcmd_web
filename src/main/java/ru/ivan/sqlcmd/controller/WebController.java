@@ -107,9 +107,11 @@ public class WebController {
                     user,password);
 //            DatabaseManager manager = service.connect(connection.getDbName(),
 //                    connection.getUserName(), connection.getPassword());
+//            session.setAttribute("db_name", connection.getDbName());
+//            session.setAttribute("user", connection.getUserName());
             session.setAttribute("manager", manager);
-            session.setAttribute("db_name", connection.getDbName());
-            session.setAttribute("user", connection.getUserName());
+            session.setAttribute("db_name", database);
+            session.setAttribute("user", user);
             return "redirect:" + connection.getFromPage();
         } catch (Exception e) {
             e.printStackTrace();
