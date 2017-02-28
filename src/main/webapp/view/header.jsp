@@ -69,26 +69,26 @@
         <li class="active"><a href="help">Help</a></li>
         <c:choose>
             <c:when test="${manager==null}">
-                <li class="active"><a href="connect">Connect</a>
+                <li class="active"><a href="/connect">Connect</a>
                 </li>
             </c:when>
         </c:choose>
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="tables">Tables</a>
+                <li class="active"><a href="/tables">Tables</a>
                 </li>
             </c:when>
         </c:choose>
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="actions">Actions</a>
+                <li class="active"><a href="/actions">Actions</a>
                 </li>
             </c:when>
         </c:choose>
 
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="disconnect">Disconnect<span
+                <li class="active"><a href="/disconnect">Disconnect<span
                         class="badge">${user}</span></a>
                 </li>
             </c:when>

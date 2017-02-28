@@ -57,13 +57,13 @@
         <table>
             <tr>
                 <td>
-                    <input class="btn btn-primary" type="submit" value="insert row"/>
-                </td>
-                <td>
                     <button class="btn btn-primary" onclick="location.href='../../tables'"
                             type="button">
                         Back to Tables
                     </button>
+                </td>
+                <td>
+                    <input class="btn btn-primary" type="submit" value="Insert row"/>
                 </td>
             </tr>
         </table>
