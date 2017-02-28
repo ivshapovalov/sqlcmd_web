@@ -61,6 +61,6 @@
         <!--<property name="password" value="${log.jdbc.password}"/>-->
     <!--</bean>-->
 
-    <!--<context:property-placeholder location="classpath:log.jdbc.properties"/>-->
+    <!--<context:property-placeholder location="classpath:sqlcmd_log.properties"/>-->
 
 </beans>

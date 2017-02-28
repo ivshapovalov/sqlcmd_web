@@ -1,6 +1,6 @@
 -- Database: sqlcmd_log
 
-DROP DATABASE IF EXISTS sqlcmd_log;
+-- DROP DATABASE IF EXISTS sqlcmd_log;
 
 CREATE DATABASE sqlcmd_log
   WITH OWNER = postgres

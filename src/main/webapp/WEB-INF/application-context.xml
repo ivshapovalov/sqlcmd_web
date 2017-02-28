@@ -15,7 +15,7 @@
                            http://www.springframework.org/schema/data/jpa
                            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:property-placeholder location="classpath:log.jdbc.properties"/>
+    <context:property-placeholder location="classpath:sqlcmd_log.properties"/>
 
     <context:annotation-config/>
     <context:component-scan base-package="ru.ivan.sqlcmd"/>

@@ -67,7 +67,9 @@ public class PostgreSQLManager implements DatabaseManager {
         this.userName = userName;
         try {
             closeOpenedConnection();
-            connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
+            connection = DriverManager.getConnection(DATABASE_URL +
+                    database+"?sslmode=require",
+                    userName, password);
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
 
         } catch (SQLException e) {
@@ -119,17 +121,6 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void dropAllDatabases() {
-        Set<String> databases = getDatabasesNames();
-        for (String databaseName : databases) {
-            if ("postgres".equals(databaseName.trim())) {
-                continue;
-            }
-            dropDatabase(databaseName);
-        }
-    }
-
-    @Override
     public void dropAllTables() {
         Set<String> tables = getTableNames();
         for (String tableName : tables
@@ -145,25 +136,6 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void createDatabase(final String databaseName) {
-        try {
-            template.execute(String.format(QUERY_DATABASE_CREATE, databaseName));
-        } catch (DataAccessException e) {
-            throw new DatabaseManagerException(String.format("It is not possible to create a table '%s'", databaseName), e);
-
-        }
-    }
-
-    @Override
-    public void dropDatabase(final String databaseName) {
-        try {
-            template.execute(String.format(QUERY_DATABASE_DROP, databaseName));
-        } catch (DataAccessException e) {
-            throw new DatabaseManagerException(String.format("It is not possible to delete a table '%s'", databaseName), e);
-        }
-    }
-
-    @Override
     public void createTable(final String query) {
         try {
             template.execute("CREATE TABLE public." + query);
@@ -171,19 +143,6 @@ public class PostgreSQLManager implements DatabaseManager {
             throw new DatabaseManagerException(String.format("Query cannot be completed  '%s'",
                     query),
                     e);
-        }
-    }
-
-    @Override
-    public Set<String> getDatabasesNames() {
-        try {
-            return new LinkedHashSet<>(template.query(QUERY_DATABASES_NAMES,
-                    (rs, rowNum) -> {
-                        return rs.getString("database_name");
-                    }
-            ));
-        } catch (DataAccessException e) {
-            throw new DatabaseManagerException("It is not possible to obtain the list of databases", e);
         }
     }
 

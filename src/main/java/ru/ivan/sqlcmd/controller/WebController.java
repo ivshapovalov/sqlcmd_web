@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivan.sqlcmd.model.DatabaseManager;
+import ru.ivan.sqlcmd.model.PropertiesLoader;
 import ru.ivan.sqlcmd.model.entity.UserAction;
 import ru.ivan.sqlcmd.service.Service;
 
@@ -75,24 +76,6 @@ public class WebController {
         return "redirect:" + mapping + PAGE_MENU;
     }
 
-    @RequestMapping(value = PAGE_DATABASES, method = RequestMethod.GET)
-    public String databases(Model model, HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", mapping + PAGE_DATABASES);
-            return "redirect:" + mapping + PAGE_CONNECT;
-        }
-
-        String currentDatabase = (String) session.getAttribute("db_name");
-        if (currentDatabase != null) {
-            model.addAttribute("currentDatabase", currentDatabase);
-        }
-
-        model.addAttribute("databases", service.databases(manager));
-        return PAGE_DATABASES;
-    }
-
     @RequestMapping(value = PAGE_CONNECT, method = RequestMethod.GET)
     public String connect(Model model, @ModelAttribute("database")
             String database, HttpSession session) {
@@ -116,8 +99,14 @@ public class WebController {
     public String connecting(@ModelAttribute("connection") Connection connection,
                              HttpSession session, Model model) {
         try {
-            DatabaseManager manager = service.connect(connection.getDbName(),
-                    connection.getUserName(), connection.getPassword());
+            PropertiesLoader propertiesLoader = new PropertiesLoader();
+            String database = propertiesLoader.getDatabaseName();
+            String user = propertiesLoader.getUserName();
+            String password = propertiesLoader.getPassword();
+            DatabaseManager manager = service.connect(database,
+                    user,password);
+//            DatabaseManager manager = service.connect(connection.getDbName(),
+//                    connection.getUserName(), connection.getPassword());
             session.setAttribute("manager", manager);
             session.setAttribute("db_name", connection.getDbName());
             session.setAttribute("user", connection.getUserName());
@@ -142,104 +131,6 @@ public class WebController {
         model.addAttribute("table", service.rows(manager, tableName));
         model.addAttribute("tableName", tableName);
         return "rows";
-    }
-
-    @RequestMapping(value = "opendatabase", method = RequestMethod.GET)
-    public String openDatabase(Model model,
-                               @ModelAttribute("database") String database,
-                               HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        }
-        model.addAttribute("databaseName", database);
-        String currentDatabase = (String) session.getAttribute("db_name");
-        if (currentDatabase != null) {
-            if (currentDatabase.equals(database)) {
-                model.addAttribute("currentDatabase", true);
-            }
-        }
-        return "opendatabase";
-    }
-
-    @RequestMapping(value = "createdatabase", method = {RequestMethod.GET})
-    public String createDatabase() {
-        return "createdatabase";
-    }
-
-    @RequestMapping(value = "createdatabase", method = {RequestMethod.POST})
-    public String createDatabase(Model model,
-                                 @ModelAttribute("database") String database,
-                                 HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        } else {
-            try {
-                service.createDatabase(manager, database);
-                model.addAttribute("message", "New database created successfully!");
-                model.addAttribute("link", "databases");
-                model.addAttribute("title", "Back to databases list");
-                return "message";
-            } catch (Exception e) {
-                model.addAttribute("message", "Incorrect database name. Try again!");
-                return "error";
-            }
-        }
-    }
-
-    @RequestMapping(value = "dropdatabase", method = {RequestMethod.POST, RequestMethod.GET})
-    public String dropDatabase(Model model,
-                               @ModelAttribute("database") String database,
-                               HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/databases");
-            return "redirect:/connect";
-        } else {
-            try {
-                service.dropDatabase(manager, database);
-                model.addAttribute("message", String.format("Database '%s' dropped successfully!",
-                        database));
-                model.addAttribute("link", "databases");
-                model.addAttribute("title", "Back to databases list");
-                return "message";
-            } catch (Exception e) {
-                model.addAttribute("message", String.format("Database '%s' cannot be dropped!",
-                        database));
-                return "error";
-            }
-        }
-    }
-
-    @RequestMapping(value = "truncatedatabase", method = {RequestMethod.GET})
-    public String truncateDatabase(Model model,
-                                   @ModelAttribute("database") String database,
-                                   HttpSession session) {
-        DatabaseManager manager = getManager(session);
-
-        if (manager == null) {
-            session.setAttribute("from-page", "/opendatabase?database=" + database);
-            return "redirect:/connect";
-        } else {
-            try {
-                service.truncateAllTables(manager, database);
-                model.addAttribute("message", String.format("Database '%s' truncated successfully!",
-                        database));
-                model.addAttribute("link", "databases");
-                model.addAttribute("title", "Back to databases list");
-                return "message";
-            } catch (Exception e) {
-                model.addAttribute("message", String.format("Database '%s' cannot be truncated!",
-                        database));
-                return "error";
-            }
-        }
     }
 
     @RequestMapping(value = "droptable", method = {RequestMethod.GET})

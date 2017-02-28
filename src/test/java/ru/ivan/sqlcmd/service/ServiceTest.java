@@ -56,8 +56,6 @@ public class ServiceTest {
         DatabaseManager mockManager = mock(DatabaseManager.class);
         when(mockManager.getUserName()).thenReturn("postgres");
 
-        service.createDatabase(mockManager, "mockDatabase");
-        service.dropDatabase(mockManager, "mockDatabase");
         when(mockManager.getUserName()).thenReturn("other");
         service.dropTable(mockManager, "mockTableName");
         List<UserAction> userActions = service.getAllActionsOfUser(DB_USER);
@@ -87,8 +85,6 @@ public class ServiceTest {
         service.truncateTable(mockManager, "mockTable");
         service.tables(mockManager);
         service.rows(mockManager, "mockTable");
-        service.createDatabase(mockManager, "mockDatabase");
-        service.dropDatabase(mockManager, "mockDatabase");
         service.deleteRow(mockManager, "mockTable", 0);
         service.dropTable(mockManager, "mockTable");
         service.insertRow(mockManager, "mockTable", new HashMap<>());

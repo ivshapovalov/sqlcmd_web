@@ -40,12 +40,6 @@
         </c:choose>
         <c:choose>
             <c:when test="${manager!=null}">
-                <li class="active"><a href="databases">Databases</a>
-                </li>
-            </c:when>
-        </c:choose>
-        <c:choose>
-            <c:when test="${manager!=null}">
                 <li class="active"><a href="tables">Tables</a>
                 </li>
             </c:when>

@@ -8,8 +8,6 @@ public interface DatabaseManager {
 
     void connect(String databaseName, String user, String password);
 
-    void createDatabase(String databaseName);
-
     Set<String> getTableColumns(String tableName);
 
     Set<String> getTableColumnsWithType(String tableName);
@@ -32,19 +30,13 @@ public interface DatabaseManager {
 
     void disconnect();
 
-    Set<String> getDatabasesNames();
-
     void truncateTable(String... tableName);
 
     void dropTable(String tableName);
 
-    void dropDatabase(String databaseName);
-
     void truncateAllTables();
 
     void dropAllTables();
-
-    void dropAllDatabases();
 
     void deleteRow(String tableName, int id);
 

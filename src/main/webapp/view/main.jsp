@@ -73,7 +73,7 @@
                             <div id="collapseTwoLeft" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <p>Connect to DB</p>
-                                    <p>Databases, tables operations - add, delete ,truncate</p>
+                                    <p>Tables operations - add, delete ,truncate</p>
                                     <p>Rows operations - CRUD</p>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                             <div id="collapseTwoRight" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <p>Connect to DB</p>
-                                    <p>Databases, tables operations - add, delete ,truncate</p>
+                                    <p>Tables operations - add, delete ,truncate</p>
                                     <p>Rows operations - CRUD</p>
                                 </div>
                             </div>

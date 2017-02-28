@@ -87,11 +87,6 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public List<String> databases(DatabaseManager manager) {
-        return new LinkedList<>(manager.getDatabasesNames());
-    }
-
-    @Override
     public List<String> getMainMenu(DatabaseManager manager) {
         if (manager != null) {
             userActions.createAction(manager.getUserName(), manager.getDatabaseName(),
@@ -130,28 +125,11 @@ public abstract class ServiceImpl implements Service {
         return commands;
     }
 
-
-
-    @Override
-    public void createDatabase(DatabaseManager manager, String database) {
-        manager.createDatabase(database);
-        userActions.createAction(manager.getUserName(), manager.getDatabaseName(),
-                "CREATE DATABASE ('"+database+"')");
-
-    }
-
     @Override
     public void createTable(DatabaseManager manager, String query) {
         manager.createTable(query);
         userActions.createAction(manager.getUserName(), manager.getDatabaseName(),
                 "CREATE TABLE ("+query+")");
-    }
-
-    @Override
-    public void dropDatabase(DatabaseManager manager, String database) {
-        manager.dropDatabase(database);
-        userActions.createAction(manager.getUserName(), manager.getDatabaseName(),
-                "DROP DATABASE ('"+database+"')");
     }
 
     @Override

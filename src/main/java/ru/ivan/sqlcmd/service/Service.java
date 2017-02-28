@@ -15,17 +15,11 @@ public interface Service  {
 
     List<String>  getMainMenu(DatabaseManager manager);
 
-    List<String>  databases(DatabaseManager manager);
-
     List<List<String>> help(DatabaseManager manager);
 
     List<UserAction> getAllActionsOfUser(String userName);
 
     List<UserAction> getAllActionsOfUserAndDatabase(String userName, String dbName);
-
-    void createDatabase(DatabaseManager manager,String database);
-
-    void dropDatabase(DatabaseManager manager, String database);
 
     void truncateTable(DatabaseManager manager, String tableName);
 
