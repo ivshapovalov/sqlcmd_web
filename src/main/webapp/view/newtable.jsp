@@ -7,7 +7,7 @@
   <body>
   <div class="container">
     <%@include file="header.jsp" %>
-    <br>
+    <h2> NEW TABLE </h2>
     <form action="newtable" method="post">
       <table class="table">
           <input type="hidden" name="tableName" value=${tableName}>

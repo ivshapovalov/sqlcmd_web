@@ -7,8 +7,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-
-    <br>
+    <h2> NEW TABLE </h2>
     <form action="newtable" method="get">
         <table class="table">
             <tr>

@@ -8,11 +8,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-
-    <B>
-        ROW OF TABLE ${tableName}
-    </B>
-    <br><br>
+    <h2> ROW OF TABLE ${tableName} </h2>
     <form action="new" method="post">
         <table class="table">
             <c:forEach items="${columns}" var="column">

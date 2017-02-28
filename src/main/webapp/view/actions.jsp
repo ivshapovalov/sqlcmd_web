@@ -9,8 +9,7 @@
 <div class="container">
 
 <%@include file="header.jsp" %>
-
-    <br>
+<h2> ACTIONS </h2>
 <table border="1" class="table">
     <tr>
         <td><b>USER</b></td><td><b>DATABASE</b></td><td><b>ACTION</b></td><TD><b>DATE</b></TD>

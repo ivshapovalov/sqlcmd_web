@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-    <h2>Press 'Connect' button</h2>
+    <h2>Press 'Connect' without entering data</h2>
     <form:form action="connect" method="post" modelAttribute="connection">
         <form:input type="hidden" path="fromPage" id="from-page"/>
 

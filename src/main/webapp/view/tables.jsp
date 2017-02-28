@@ -7,8 +7,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-    <B>TABLES</B>
-    <br><br>
+    <h2> TABLES </h2>
     <form action="createtable" method="get">
         <table border="1" class="table">
             <c:forEach items="${tables}" var="table">
@@ -45,7 +44,7 @@
             </c:forEach>
         </table>
         <br><br>
-        <input class="btn btn-primary" type="submit" value="create new table"/>
+        <input class="btn btn-primary" type="submit" value="New table"/>
         <br>
     </form>
     <%@include file="footer.jsp" %>

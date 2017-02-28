@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-    <br>
+    <h2> HELP </h2>
     <table border="1" class="table">
         <tr>
             <td>

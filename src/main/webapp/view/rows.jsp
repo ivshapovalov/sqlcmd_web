@@ -7,10 +7,7 @@
 <body>
 <div class="container">
     <%@include file="header.jsp" %>
-    <B>
-        ROWS OF TABLE ${tableName}
-    </B>
-    <br><br>
+    <h2> ROWS OF TABLE ${tableName} </h2>
     <form action="row/new" method="get">
         <input type="hidden" name="table" value=${tableName}>
         <table border="1" class="table">
