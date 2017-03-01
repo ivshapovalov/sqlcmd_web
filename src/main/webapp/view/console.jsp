@@ -81,7 +81,7 @@
                         background-color: black; color: white" class="form-control"
                                       id="output"
                                       name="output" readonly
-                                      placeholder="output" value="${output}">${output} </textarea>
+                                      placeholder="Output" value="${output}">${output} </textarea>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                                       class="form-control"
                                       id="input"
                                       name="input" typeof="submit"
-                                      placeholder="input" value="${input}"
+                                      placeholder="Input command and press Enter key or Execute button " value="${input}"
                                       onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"
                             >${input}</textarea>
                         </div>

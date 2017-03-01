@@ -55,15 +55,35 @@
             background: -ms-linear-gradient(darkgray, yellow);
             background: linear-gradient(steelblue, gray);
         }
+
+        .main_menu {
+            margin: 0 auto; /* центрирование обертки! меню */
+            overflow: hidden; /* прячем пункты, выходящие за область обертки */
+            position: relative; /* относительное позиционирование */
+        }
+
+        .main_menu ul {
+            float: left; /* прижимаем меню к левому краю обертки */
+            position: relative; /* относительное позиционирование */
+            left: 50%; /* сдвигаем меню вправо */
+        }
+
+        .main_menu ul li {
+            float: left; /* выстраиваем пункты меню по горизонтали */
+            position: relative; /* относительное позиционирование */
+            right: 50%; /* сдвигаем каждый пункт влево */
+        }
     </style>
 
 </head>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="header">SQL WEB commander</div>
-        </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="header">SQL WEB commander</div>
     </div>
+</div>
+<div class="main_menu">
+
     <ul class="nav nav-pills">
         <li class="active"><a href="/">Home</a></li>
         <li class="active"><a href="/web/help">Help</a></li>
@@ -95,23 +115,7 @@
         </c:choose>
 
     </ul>
-    <%--<section>--%>
-    <%--<form class="form-vertical">--%>
-    <%--<c:forEach items="${items}" var="item">--%>
-    <%--<div class="row" align="left">--%>
-    <%--<div class="col-lg-6">--%>
-    <%--&lt;%&ndash;<label class="control-label col-xs-1"></label>&ndash;%&gt;--%>
-    <%--<div class="col-xs-6" style="padding-bottom: 1%">--%>
-    <%--<button class="btn btn-success" style="width: 50%"--%>
-    <%--onclick="location.href='${item}'" type="button">--%>
-    <%--${item}--%>
-    <%--</button>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</c:forEach>--%>
-    <%--</form>--%>
-    <%--</section>--%>
+</div>
 
 
 

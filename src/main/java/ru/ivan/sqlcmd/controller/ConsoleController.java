@@ -39,6 +39,7 @@ public class ConsoleController {
 
 
     private static final String PAGE_CONSOLE = "console";
+    private static final String PAGE_MAIN = "/";
     private static final String PAGE_ERROR = "error";
     public static final String LINE_SEPARATOR = System.lineSeparator();
     public static final String COMMAND_SEPARATOR = "====================================================================";
@@ -90,7 +91,7 @@ public class ConsoleController {
                     break;
                 }
             } catch (ExitException e) {
-                throw e;
+                return "redirect:"+PAGE_MAIN;
             } catch (Exception e) {
                 printError(e);
                 break;
